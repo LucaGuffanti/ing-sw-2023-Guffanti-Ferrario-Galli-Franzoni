@@ -1,0 +1,8 @@
+GoalCard objects implements their pattern matching algorithm in the checkPattern method, which widly differs from PersonalGoaldcard to CommonGoalCard. The checker will evaluate the rules described in PatternRules and calculate the points. 
+
+For CommonGoalCards, a repetion of the same subpattern will be searched through the player shelf, and should optionally share some props (ExternalSubPatternsProps).
+Internally, a subpattern is limited to n BoardCell types.
+
+For PersonalGoalCards, the referenced subpattern will be a submatrix with the same height and lenght of the shelf. Its covered cells to match will be evaluated based on their Boardcell type.
+
+A Json file containing the GoalCards will be parsed at runtime using initFromFile method from GoalCardsDeck, which will be populated.
