@@ -237,7 +237,7 @@
 											"top": 3472,
 											"width": 538.9794921875,
 											"height": 13,
-											"text": "-deck: GoalCardsDeck",
+											"text": "-deck: GoalCardsDeckSingleton",
 											"horizontalAlignment": 0
 										}
 									],
@@ -10679,7 +10679,7 @@
 											"top": 3831,
 											"width": 375.3115234375,
 											"height": 13,
-											"text": "GoalCardsDeck"
+											"text": "GoalCardsDeckSingleton"
 										},
 										{
 											"_type": "LabelView",
@@ -10770,13 +10770,31 @@
 											"height": 13,
 											"text": "-allCommonGoalCards: Set<CommonGoalCard>",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAGHA9mgsfnsaB8=",
+											"_parent": {
+												"$ref": "AAAAAAGG6sjeIAV2JoU="
+											},
+											"model": {
+												"$ref": "AAAAAAGHA9mgdfm2JZg="
+											},
+											"font": "Arial;13;0",
+											"left": 2725,
+											"top": 3884,
+											"width": 375.3115234375,
+											"height": 13,
+											"underline": true,
+											"text": "-instance: GoalCardsDeckSingleton",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 2720,
 									"top": 3849,
 									"width": 385.3115234375,
-									"height": 38
+									"height": 53
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -10799,7 +10817,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2725,
-											"top": 3892,
+											"top": 3907,
 											"width": 375.3115234375,
 											"height": 13,
 											"text": "+initFromFile(commonGoalFile: File, personalGoalFile: File): void",
@@ -10816,7 +10834,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2725,
-											"top": 3907,
+											"top": 3922,
 											"width": 375.3115234375,
 											"height": 13,
 											"text": "+pickCommonGoals(): List<CommonGoalCard>",
@@ -10833,18 +10851,53 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2725,
-											"top": 3922,
+											"top": 3937,
 											"width": 375.3115234375,
 											"height": 13,
 											"text": "+pickPersonalGoals(nPlayers: int): List<PersonalGoalCard>",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGHA9oYSAD1oa0=",
+											"_parent": {
+												"$ref": "AAAAAAGG6sjeIAV3WpY="
+											},
+											"model": {
+												"$ref": "AAAAAAGHA9oYGwC/1+M="
+											},
+											"font": "Arial;13;0",
+											"left": 2725,
+											"top": 3952,
+											"width": 375.3115234375,
+											"height": 13,
+											"text": "-GoalCardsDeckSingleton()",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGHA9qalAf+QFc=",
+											"_parent": {
+												"$ref": "AAAAAAGG6sjeIAV3WpY="
+											},
+											"model": {
+												"$ref": "AAAAAAGHA9qabAfI+4c="
+											},
+											"font": "Arial;13;0",
+											"left": 2725,
+											"top": 3967,
+											"width": 375.3115234375,
+											"height": 13,
+											"underline": true,
+											"text": "+getInstance(): GoalCardsDeckSingleton",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 2720,
-									"top": 3887,
+									"top": 3902,
 									"width": 385.3115234375,
-									"height": 53
+									"height": 83
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -11759,23 +11812,6 @@
 										},
 										{
 											"_type": "UMLAttributeView",
-											"_id": "AAAAAAGG6u8SmpsXps4=",
-											"_parent": {
-												"$ref": "AAAAAAGG6uhAtU7JjhI="
-											},
-											"model": {
-												"$ref": "AAAAAAGG6u8SeprboxA="
-											},
-											"font": "Arial;13;0",
-											"left": 3589,
-											"top": 4029,
-											"width": 316.50048828125,
-											"height": 13,
-											"text": "-canOverlay: boolean",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLAttributeView",
 											"_id": "AAAAAAGG6u8gZJ1XZe0=",
 											"_parent": {
 												"$ref": "AAAAAAGG6uhAtU7JjhI="
@@ -11785,7 +11821,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 3589,
-											"top": 4044,
+											"top": 4029,
 											"width": 316.50048828125,
 											"height": 13,
 											"text": "-externalSubPatternsProps: ExternalSubPatternsProps",
@@ -11796,7 +11832,7 @@
 									"left": 3584,
 									"top": 4009,
 									"width": 326.50048828125,
-									"height": 53
+									"height": 38
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -11809,7 +11845,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 3584,
-									"top": 4062,
+									"top": 4047,
 									"width": 326.50048828125,
 									"height": 10
 								},
@@ -14347,7 +14383,7 @@
 											"top": 4335,
 											"width": 266.271484375,
 											"height": 13,
-											"text": "BoardGoalChecker"
+											"text": "EndGameAdjacencyGoalChecker"
 										},
 										{
 											"_type": "LabelView",
@@ -14894,6 +14930,332 @@
 							"width": 69.2490234375,
 							"height": 25,
 							"text": "completes"
+						},
+						{
+							"_type": "UMLAssociationView",
+							"_id": "AAAAAAGHA9vNTzsHXgk=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGHA9vNTzsDE8E="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsIOnk=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsDE8E="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 3148,
+									"top": 3785,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsJLfY=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsDE8E="
+									},
+									"visible": null,
+									"font": "Arial;13;0",
+									"left": 3163,
+									"top": 3785,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsKqHw=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsDE8E="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 3119,
+									"top": 3786,
+									"height": 13,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsLLkw=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsEpJM="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 2961,
+									"top": 3792,
+									"height": 13,
+									"alpha": 0.5235987755982988,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"edgePosition": 2
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsMtY8=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsEpJM="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 2947,
+									"top": 3789,
+									"height": 13,
+									"alpha": 0.7853981633974483,
+									"distance": 40,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"edgePosition": 2
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsNZUY=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsEpJM="
+									},
+									"font": "Arial;13;0",
+									"left": 2985,
+									"top": 3796,
+									"width": 7.22998046875,
+									"height": 13,
+									"alpha": -0.5235987755982988,
+									"distance": 25,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"edgePosition": 2,
+									"text": "1"
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsOr/c=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsFAPU="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 3129,
+									"top": 3864,
+									"height": 13,
+									"alpha": -0.5235987755982988,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									}
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsPNJM=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsFAPU="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 3132,
+									"top": 3878,
+									"height": 13,
+									"alpha": -0.7853981633974483,
+									"distance": 40,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									}
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGHA9vNUDsQkME=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsFAPU="
+									},
+									"font": "Arial;13;0",
+									"left": 3122,
+									"top": 3837,
+									"width": 7.22998046875,
+									"height": 13,
+									"alpha": 0.5235987755982988,
+									"distance": 25,
+									"hostEdge": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"text": "1"
+								},
+								{
+									"_type": "UMLQualifierCompartmentView",
+									"_id": "AAAAAAGHA9vNUDsRjvc=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsEpJM="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLQualifierCompartmentView",
+									"_id": "AAAAAAGHA9vNUDsSuqI=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9vNTzsHXgk="
+									},
+									"model": {
+										"$ref": "AAAAAAGHA9vNTzsFAPU="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAGG6sjeIAVwWpo="
+							},
+							"tail": {
+								"$ref": "AAAAAAGG6sjeIAVwWpo="
+							},
+							"points": "2976:3824;2976:3792;3134:3792;3134:3856;3104:3856",
+							"showVisibility": true,
+							"nameLabel": {
+								"$ref": "AAAAAAGHA9vNUDsIOnk="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAGHA9vNUDsJLfY="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAGHA9vNUDsKqHw="
+							},
+							"showEndOrder": "hide",
+							"tailRoleNameLabel": {
+								"$ref": "AAAAAAGHA9vNUDsLLkw="
+							},
+							"tailPropertyLabel": {
+								"$ref": "AAAAAAGHA9vNUDsMtY8="
+							},
+							"tailMultiplicityLabel": {
+								"$ref": "AAAAAAGHA9vNUDsNZUY="
+							},
+							"headRoleNameLabel": {
+								"$ref": "AAAAAAGHA9vNUDsOr/c="
+							},
+							"headPropertyLabel": {
+								"$ref": "AAAAAAGHA9vNUDsPNJM="
+							},
+							"headMultiplicityLabel": {
+								"$ref": "AAAAAAGHA9vNUDsQkME="
+							},
+							"tailQualifiersCompartment": {
+								"$ref": "AAAAAAGHA9vNUDsRjvc="
+							},
+							"headQualifiersCompartment": {
+								"$ref": "AAAAAAGHA9vNUDsSuqI="
+							}
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAGHA94Vgc4Shx4=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 3272,
+							"top": 3960,
+							"width": 256,
+							"height": 136,
+							"text": "GoalCard objects implements their pattern matching algorithm in the checkPattern method, which widely differs from PersonalGoaldcard to CommonGoalCard. The checker method will evaluate the rules described in PatternRules and calculate the points. "
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAGHA95kMvDknEU=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"fillColor": "#a3ffa3",
+							"font": "Arial;13;0",
+							"left": 3616,
+							"top": 4688,
+							"width": 240,
+							"height": 136,
+							"text": "For CommonGoalCards, a repetition of the same subpattern will be searched through the player shelf, and can optionally share some props (ExternalSubPatternsProps).\nInternally, a subpattern is limited to n BoardCell types."
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAGHA96ymxfWUvs=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"fillColor": "#a3ffa3",
+							"font": "Arial;13;0",
+							"left": 3616,
+							"top": 4512,
+							"width": 240,
+							"height": 137,
+							"text": "For PersonalGoalCards, the referenced subpattern will be a submatrix with the same height and lenght of the shelf. Its covered cells to match will be evaluated based on their Boardcell type."
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAGHA+UTuHB6K4A=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"fillColor": "#a3ffa3",
+							"font": "Arial;13;0",
+							"left": 3320,
+							"top": 4512,
+							"width": 256,
+							"height": 144,
+							"text": "This class implements the static method to calculate the points based on the adjacency rules described in the game specification."
 						}
 					]
 				},
@@ -17502,7 +17864,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "GoalCardsDeck",
+					"name": "GoalCardsDeckSingleton",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -17596,6 +17958,35 @@
 								"navigable": "navigable",
 								"multiplicity": "12"
 							}
+						},
+						{
+							"_type": "UMLAssociation",
+							"_id": "AAAAAAGHA9vNTzsDE8E=",
+							"_parent": {
+								"$ref": "AAAAAAGG6sjeHwVuqSE="
+							},
+							"end1": {
+								"_type": "UMLAssociationEnd",
+								"_id": "AAAAAAGHA9vNTzsEpJM=",
+								"_parent": {
+									"$ref": "AAAAAAGHA9vNTzsDE8E="
+								},
+								"reference": {
+									"$ref": "AAAAAAGG6sjeHwVuqSE="
+								},
+								"multiplicity": "1"
+							},
+							"end2": {
+								"_type": "UMLAssociationEnd",
+								"_id": "AAAAAAGHA9vNTzsFAPU=",
+								"_parent": {
+									"$ref": "AAAAAAGHA9vNTzsDE8E="
+								},
+								"reference": {
+									"$ref": "AAAAAAGG6sjeHwVuqSE="
+								},
+								"multiplicity": "1"
+							}
 						}
 					],
 					"attributes": [
@@ -17618,6 +18009,19 @@
 							"name": "allCommonGoalCards",
 							"visibility": "private",
 							"type": "Set<CommonGoalCard>"
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAGHA9mgdfm2JZg=",
+							"_parent": {
+								"$ref": "AAAAAAGG6sjeHwVuqSE="
+							},
+							"name": "instance",
+							"visibility": "private",
+							"isStatic": true,
+							"type": {
+								"$ref": "AAAAAAGG6sjeHwVuqSE="
+							}
 						}
 					],
 					"operations": [
@@ -17701,6 +18105,37 @@
 										"$ref": "AAAAAAGG6s9DqsnGlsA="
 									},
 									"type": "List<PersonalGoalCard>",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGHA9oYGwC/1+M=",
+							"_parent": {
+								"$ref": "AAAAAAGG6sjeHwVuqSE="
+							},
+							"name": "GoalCardsDeckSingleton",
+							"visibility": "private"
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGHA9qabAfI+4c=",
+							"_parent": {
+								"$ref": "AAAAAAGG6sjeHwVuqSE="
+							},
+							"name": "getInstance",
+							"isStatic": true,
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHA9sLHRIrXoI=",
+									"_parent": {
+										"$ref": "AAAAAAGHA9qabAfI+4c="
+									},
+									"type": {
+										"$ref": "AAAAAAGG6sjeHwVuqSE="
+									},
 									"direction": "return"
 								}
 							]
@@ -17789,16 +18224,6 @@
 							"name": "minNumberOfOccorrunces",
 							"visibility": "private",
 							"type": "int"
-						},
-						{
-							"_type": "UMLAttribute",
-							"_id": "AAAAAAGG6u8SeprboxA=",
-							"_parent": {
-								"$ref": "AAAAAAGG6uhAtU7B5tE="
-							},
-							"name": "canOverlay",
-							"visibility": "private",
-							"type": "boolean"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -18072,7 +18497,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "BoardGoalChecker",
+					"name": "EndGameAdjacencyGoalChecker",
 					"operations": [
 						{
 							"_type": "UMLOperation",
