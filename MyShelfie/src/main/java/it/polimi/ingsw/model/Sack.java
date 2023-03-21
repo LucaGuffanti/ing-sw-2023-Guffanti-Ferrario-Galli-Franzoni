@@ -53,6 +53,7 @@ public class Sack {
      */
     private ArrayList<ObjectCard> randomShuffle(ArrayList<ObjectCard> cards) {
         // TODO
+        return null;
     }
 
     public void pickFromSack() {
