@@ -9461,13 +9461,30 @@
 											"height": 13,
 											"text": "-patternRules: PatternRules",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAGHA0Vml5qWWLw=",
+											"_parent": {
+												"$ref": "AAAAAAGG6f4EqzpdXG4="
+											},
+											"model": {
+												"$ref": "AAAAAAGHA0VmRppjdho="
+											},
+											"font": "Arial;13;0",
+											"left": 3333,
+											"top": 4213,
+											"width": 192.55615234375,
+											"height": 13,
+											"text": "-id: String",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 3328,
 									"top": 4193,
 									"width": 202.55615234375,
-									"height": 23
+									"height": 38
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -9490,7 +9507,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 3333,
-											"top": 4221,
+											"top": 4236,
 											"width": 192.55615234375,
 											"height": 13,
 											"text": "#checkPattern(player: Player): int",
@@ -9499,7 +9516,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 3328,
-									"top": 4216,
+									"top": 4231,
 									"width": 202.55615234375,
 									"height": 23
 								},
@@ -17203,6 +17220,16 @@
 							"name": "patternRules",
 							"visibility": "private",
 							"type": "PatternRules"
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAGHA0VmRppjdho=",
+							"_parent": {
+								"$ref": "AAAAAAGG6f4EqjpVrVc="
+							},
+							"name": "id",
+							"visibility": "private",
+							"type": "String"
 						}
 					],
 					"operations": [
