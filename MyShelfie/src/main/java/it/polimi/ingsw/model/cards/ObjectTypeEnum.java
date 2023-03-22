@@ -2,6 +2,11 @@ package it.polimi.ingsw.model.cards;
 
 import java.awt.*;
 
+/**
+ * Possible types of Object Cards.
+ * @author Luca Guffanti
+ * @see ObjectCard
+ */
 public enum ObjectTypeEnum {
 
     CAT(Color.GREEN),
