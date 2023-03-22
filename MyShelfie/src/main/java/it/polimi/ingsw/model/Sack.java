@@ -53,7 +53,7 @@ public class Sack {
 
     /**
      * This method randomly shuffles the cards. It's important as cards shouldn't be shuffled every time they're
-     * requested. By pre-shuffling cards it's possible to simply access them sequentially. In order to shuffle the list
+     * requested. By pre-shuffling cards it is possible to simply access them sequentially. In order to shuffle the list
      * the method <b>Collections.shuffle()</b> is called.
      * @param cards the arraylist of cards to be shuffled
      * @return an arrayList containing the shuffled cards picked from the parameter
