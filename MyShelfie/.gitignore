@@ -81,3 +81,6 @@ assets/
 
 # target folder
 target/
+
+# misc.xml in .idea folder
+.idea/misc.xml
