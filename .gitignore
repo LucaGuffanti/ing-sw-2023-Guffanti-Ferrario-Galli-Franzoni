@@ -87,3 +87,6 @@ MyShelfie/.idea/misc.xml
 
 # .idea outside MyShelfie folder
 .idea
+
+# iml of the project
+MyShelfie/PSP17.iml
