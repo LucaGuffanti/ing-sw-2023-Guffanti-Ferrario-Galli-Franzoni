@@ -2,9 +2,26 @@ package it.polimi.ingsw.model.cards;
 
 import java.util.Optional;
 
+/**
+ * A subPatternCell represents a covered cell in a SubPattern.
+ *
+ * @author Daniele Ferrario
+ */
 public class SubPatternCell {
+    /**
+     * X coordinate relative to the subPattern frame.
+     */
     private int x;
+
+    /**
+     * Y coordinate relative to the subPattern frame.
+     */
     private int y;
+
+    /**
+     * The optional constraint which indicates
+     * a unique admitted type of ObjectTypeEnum
+     */
     private Optional<ObjectTypeEnum> admittedType;
 
     public SubPatternCell(int x, int y, Optional<ObjectTypeEnum> admittedType){

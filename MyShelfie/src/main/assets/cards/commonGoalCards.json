@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "patternRules": {
+      "subPattern": {
+        "height": 2,
+        "length": 1,
+        "coveredCells": [
+          [0,0], [0,1]
+        ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 6,
+      "subPatternsSameColor": false
+    }
+  }
+]

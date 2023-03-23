@@ -1,17 +1,28 @@
 package it.polimi.ingsw.model.cards;
 
+
+/**
+ * A PatternRules class indicates the rules that should
+ * be followed when searching for a pattern in the
+ * player shelf.
+ *
+ * @author Daniele Ferrario
+ */
 public class PatternRules {
-    private SubPattern positionalPattern;
+    /**
+     * The subPattern to detect
+     */
+    private SubPattern subPattern;
 
-    public PatternRules( SubPattern positionalPattern){
-        this.positionalPattern = positionalPattern;
+    public PatternRules( SubPattern subPattern){
+        this.subPattern = subPattern;
     }
 
-    public SubPattern getPositionalPattern() {
-        return positionalPattern;
+    public SubPattern getSubPattern() {
+        return subPattern;
     }
 
-    public void setPositionalPattern(SubPattern positionalPattern) {
-        this.positionalPattern = positionalPattern;
+    public void setSubPattern(SubPattern subPattern) {
+        this.subPattern = subPattern;
     }
 }

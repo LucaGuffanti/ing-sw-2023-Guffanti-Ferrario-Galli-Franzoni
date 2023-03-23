@@ -2,13 +2,55 @@ package it.polimi.ingsw.model.cards;
 
 import java.util.Set;
 
+/**
+ * A subPattern is a "subMatrix"-like object of the shelf which is used as
+ * a mask during the pattern matching. For optimization purposes
+ * only coveredCells are saved, while the empty cells are not considered.
+ *
+ * @author Daniele Ferrario
+ */
 public class SubPattern {
+
+    /**
+     *
+     *  @public invariant
+     *  \forall SubPatternCell cell; cell.getX() < height && cell.getY < length;
+     *
+     */
+
+    /**
+     * The minimum height of the frame for containing the covered cells.
+     */
     private int height;
+
+    /**
+     * The minimum length of the frame for containing the covered cells.
+     */
     private int length;
+
+    /**
+     * A set of SubPatternCells which identifies the subPattern
+     * in the mask frame is used instead of a matrix.
+     */
     private Set<SubPatternCell> coveredCells;
+
+    /**
+     * The max number of different types that a subPattern
+     * should contain.
+     */
     private int maxDifferentTypes;
+
+    /**
+     * The min number of different types that a subPattern
+     * should contain.
+     */
     private int minDifferentTypes;
 
+    /**
+     * The property which indicates if the subPattern is
+     * symmetric relatively to a rotation of 90° counterclockwise
+     * relative to the frame origin (x=0; y=0);
+     */
     private boolean isRadiallySymmetric;
 
     public SubPattern(int height, int length, Set<SubPatternCell> coveredCells, int minDifferentTypes, int maxDifferentTypes, boolean isRadiallySymmetric) {

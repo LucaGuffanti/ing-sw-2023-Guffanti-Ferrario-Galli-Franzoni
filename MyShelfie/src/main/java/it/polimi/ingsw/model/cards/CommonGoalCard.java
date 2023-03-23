@@ -13,13 +13,13 @@ import static it.polimi.ingsw.model.utils.Constants.SHELF_LENGTH;
  * CommonGoalCards represents a goal for all players. When the goal is reached,
  * the user will get a PointCard relatively to how many player have previously completed the same goal.
  *
- * The pattern matching algorithm is implemented directly in this class.
+ * The pattern matching algorithm is implemented directly in this class through checkPattern
  *
  * @author Daniele Ferrario
  *
  */
 public class CommonGoalCard extends GoalCard{
-    private List<PointCard> pointsCards = new ArrayList<>();
+    private List<PointCard> pointsCards;
 
     public CommonGoalCard(String id, List<PointCard> pointsCard, PatternRules patternRules) {
         super(id, patternRules);
@@ -33,14 +33,14 @@ public class CommonGoalCard extends GoalCard{
      * pointsCard list) will be returned to the player and popped
      * out of pointsCards.
      *
-     * @param player        The current player which shelf has to be analyzed.
+     * @param player        The current player whom shelf has to be analyzed.
      * @return PointCard    A card representing game points.
      */
     public PointCard calculatePoints(Player player){
 
         checkPattern(player);
 
-        return null; // @todo: add point calculation
+        return null; // @TODO: ADDING POINTSCARDS ASSIGMENT MECHANISM
     }
 
     /**
@@ -51,6 +51,14 @@ public class CommonGoalCard extends GoalCard{
     public GoalCard returnEqualCard(){
         return new CommonGoalCard(id, pointsCards, patternRules);
     }
+
+    /**
+     *
+     * This method finds the number of subPatterns in the player shelf
+     *
+     * @param player        The current player whom shelf has to be analyzed
+     * @return int          The number of subPatterns found in the player shelf.
+     */
     @Override
     protected int checkPattern(Player player){
 
@@ -70,7 +78,7 @@ public class CommonGoalCard extends GoalCard{
 
 
         // Iterate the subPattern through every cell of the shelf
-        boolean radiallySymmetric = patternRules.getPositionalPattern().isRadiallySymmetric();
+        boolean radiallySymmetric = patternRules.getSubPattern().isRadiallySymmetric();
 
         // @todo: ADDING ANALYSIS ON ROTATED SUBPATTERN
 
@@ -85,8 +93,8 @@ public class CommonGoalCard extends GoalCard{
                 if (result.isValid()) {
 
                     // Marking the shelf cells we found
-                    // @todo: should doing this directly in checkShelfPortion
-                    previouslyFoundFlags = markFoundCells(previouslyFoundFlags, rules.getPositionalPattern(), x, y);
+                    // @TODO should doing this directly in checkShelfPortion
+                    previouslyFoundFlags = markFoundCells(previouslyFoundFlags, rules.getSubPattern().getCoveredCells(), x, y);
 
 
                     totalSubPatternsFound += 1;
@@ -105,24 +113,22 @@ public class CommonGoalCard extends GoalCard{
         return totalSubPatternsFound;
     }
 
-    static private int[][] markFoundCells(int[][] previouslyFoundFlags, SubPattern subPattern, int shelfX, int shelfY){
 
-        int[][] newMatrix = previouslyFoundFlags;
-
-        for (SubPatternCell coveredCell: subPattern.getCoveredCells()) {
-            int x = coveredCell.getX();
-            int y = coveredCell.getY();
-
-            newMatrix[shelfX+x][shelfY+y] = 1;
-        }
-
-        return newMatrix;
-    }
-    private CheckShelfPortionResult checkShelfPortion(CommonPatternRules rules, Shelf shelf, int[][] foundedShelf, int shelfX, int shelfY){
+    /**
+     *
+     * This method checks for the subpattern in a portion of the shelf, based on the patternRules.
+     * @param rules                 The rules for the pattern matching.
+     * @param shelf                 The player shelf.
+     * @param previouslyFoundCells  A matrix representing the cells which has been found being part of a subPattern in previous iteration.
+     * @param shelfX                X coordinate of the shelf portion
+     * @param shelfY                Y coordinate of the shelf portion
+     * @return An object containing a "subPattern found" flag and an optional ObjectType which every ShelfCell in the subPattern share.
+     */
+    private CheckShelfPortionResult checkShelfPortion(CommonPatternRules rules, Shelf shelf, int[][] previouslyFoundCells, int shelfX, int shelfY){
 
         Optional<ObjectTypeEnum> commonColor = Optional.empty();
 
-        SubPattern subPattern = rules.getPositionalPattern();
+        SubPattern subPattern = rules.getSubPattern();
 
         int sHeight = subPattern.getHeight();
         int sLength = subPattern.getLength();
@@ -138,7 +144,7 @@ public class CommonGoalCard extends GoalCard{
 
             if(!shelf.getCell(shelfX + x, shelfY + y).isFull())
                 return new CheckShelfPortionResult(false, commonColor);
-            if(foundedShelf[shelfX+x][shelfY+y] == 1)
+            if(previouslyFoundCells[shelfX+x][shelfY+y] == 1)
                 return new CheckShelfPortionResult(false, commonColor);
 
             diffColors.add(shelf.getCell(shelfX+x, shelfY+y).getCellCard().getType());
@@ -155,6 +161,38 @@ public class CommonGoalCard extends GoalCard{
         return new CheckShelfPortionResult(true, commonColor);
 
     }
+
+    /**
+     * @TODO: MOVING MARKING PROCESS DIRECTLY IN checkShelfPortion()
+     * When a cell in the shelf has been found in a subPattern, it is marked
+     * in this matrix.
+     *
+     * @param previouslyFoundFlags
+     * @param subPatternCells           SubPattern cells to mark
+     * @param shelfX                    X coordinate of the player shelf
+     * @param shelfY                    Y coordinate of the player shelf
+     * @return  an updated version of the matrix.
+     */
+    static private int[][] markFoundCells(int[][] previouslyFoundFlags, Set<SubPatternCell> subPatternCells, int shelfX, int shelfY){
+
+        int[][] newMatrix = previouslyFoundFlags;
+
+        for (SubPatternCell coveredCell: subPatternCells) {
+            int x = coveredCell.getX();
+            int y = coveredCell.getY();
+
+            newMatrix[shelfX+x][shelfY+y] = 1;
+        }
+
+        return newMatrix;
+    }
+
+    /**
+     * This method create an empty matrix
+     * @param l
+     * @param h
+     * @return A matrix l x h filled with zeros.
+     */
     private int[][] createEmptyMatrix(int l, int h){
         int[][] cells = new int[l][h];
 

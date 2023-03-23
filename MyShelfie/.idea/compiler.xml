@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="PSP17" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -13,5 +14,10 @@
       <module name="PSP000" target="19" />
       <module name="PSP17" target="18" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="PSP17" options="--add-modules java.datatransfer" />
+    </option>
   </component>
 </project>
