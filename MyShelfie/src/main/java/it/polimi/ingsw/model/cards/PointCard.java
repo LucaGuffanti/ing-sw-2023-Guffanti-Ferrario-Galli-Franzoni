@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.player.Player;
+
 public class PointCard {
     private PointEnumeration type;
     private int pointsGiven;
@@ -24,4 +26,7 @@ public class PointCard {
     public void setPointsGiven(int pointsGiven) {
         this.pointsGiven = pointsGiven;
     }
+
+
+
 }

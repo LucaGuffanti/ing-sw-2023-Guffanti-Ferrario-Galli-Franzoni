@@ -7,12 +7,33 @@ public class SubPattern {
     private int length;
     private Set<SubPatternCell> coveredCells;
     private int maxDifferentTypes;
+    private int minDifferentTypes;
 
-    public SubPattern(int height, int length, Set<SubPatternCell> coveredCells , int maxDifferentTypes){
+    private boolean isRadiallySymmetric;
+
+    public SubPattern(int height, int length, Set<SubPatternCell> coveredCells, int minDifferentTypes, int maxDifferentTypes, boolean isRadiallySymmetric) {
         this.height = height;
         this.length = length;
-        this.maxDifferentTypes = maxDifferentTypes;
         this.coveredCells = coveredCells;
+        this.maxDifferentTypes = maxDifferentTypes;
+        this.minDifferentTypes = minDifferentTypes;
+        this.isRadiallySymmetric = isRadiallySymmetric;
+    }
+
+    public int getMinDifferentTypes() {
+        return minDifferentTypes;
+    }
+
+    public void setMinDifferentTypes(int minDifferentTypes) {
+        this.minDifferentTypes = minDifferentTypes;
+    }
+
+    public boolean isRadiallySymmetric() {
+        return isRadiallySymmetric;
+    }
+
+    public void setRadiallySymmetric(boolean radiallySymmetric) {
+        isRadiallySymmetric = radiallySymmetric;
     }
 
     public int getHeight() {

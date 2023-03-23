@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model.cards;
 
-public class CommonPatternRules {
+public class CommonPatternRules extends PatternRules{
     private int minNumberOfOccurrences;
     private boolean subPatternsSameColor;
 
-    public CommonPatternRules(int minNumberOfOccurrences, boolean subPatternsSameColor) {
+    public CommonPatternRules(SubPattern subPattern, int minNumberOfOccurrences, boolean subPatternsSameColor) {
+        super(subPattern);
         this.minNumberOfOccurrences = minNumberOfOccurrences;
         this.subPatternsSameColor = subPatternsSameColor;
-
     }
 
     public int getMinNumberOfOccurrences() {

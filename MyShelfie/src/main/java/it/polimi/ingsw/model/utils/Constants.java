@@ -13,4 +13,12 @@ public class Constants {
      * Dimension of matrix which represents the board
      */
     public static final int BOARD_DIMENSION = 9;
+
+    /**
+     * Dimension of the shelf
+     */
+    public static final int SHELF_HEIGHT = 6;
+
+    public static final int SHELF_LENGTH = 6;
+
 }
