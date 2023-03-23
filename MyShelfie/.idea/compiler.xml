@@ -10,7 +10,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="MyShelfie" target="19" />
       <module name="PSP000" target="19" />
+      <module name="PSP17" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>

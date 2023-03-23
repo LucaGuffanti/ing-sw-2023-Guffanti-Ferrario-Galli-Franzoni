@@ -4,13 +4,13 @@ import java.util.Set;
 
 public class SubPattern {
     private int height;
-    private int lenght;
+    private int length;
     private Set<SubPatternCell> coveredCells;
     private int maxDifferentTypes;
 
-    public SubPattern(int height, int lenght, Set<SubPatternCell> coveredCells , int maxDifferentTypes){
+    public SubPattern(int height, int length, Set<SubPatternCell> coveredCells , int maxDifferentTypes){
         this.height = height;
-        this.lenght = lenght;
+        this.length = length;
         this.maxDifferentTypes = maxDifferentTypes;
         this.coveredCells = coveredCells;
     }
@@ -23,12 +23,12 @@ public class SubPattern {
         this.height = height;
     }
 
-    public int getLenght() {
-        return lenght;
+    public int getLength() {
+        return length;
     }
 
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public Set<SubPatternCell> getCoveredCells() {

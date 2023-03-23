@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommonGoalCard {
-    private List<PointCard>  pointsCard = new ArrayList<>();
+    private List<PointCard> pointsCard = new ArrayList<>();
 
     public CommonGoalCard(List<PointCard> pointsCard) {
         this.pointsCard = pointsCard;
