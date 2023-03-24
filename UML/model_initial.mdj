@@ -191,23 +191,6 @@
 										},
 										{
 											"_type": "UMLAttributeView",
-											"_id": "AAAAAAGG5TNqLXuqm2Y=",
-											"_parent": {
-												"$ref": "AAAAAAGG5TEngnqQP1I="
-											},
-											"model": {
-												"$ref": "AAAAAAGG5TNqJXunCP8="
-											},
-											"font": "Arial;13;0",
-											"left": 1845,
-											"top": 3442,
-											"width": 538.9794921875,
-											"height": 13,
-											"text": "-turnManager: TurnManager",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLAttributeView",
 											"_id": "AAAAAAGG5TOPK3uxQiM=",
 											"_parent": {
 												"$ref": "AAAAAAGG5TEngnqQP1I="
@@ -217,7 +200,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3457,
+											"top": 3442,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "-info: GameInfo",
@@ -234,7 +217,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3472,
+											"top": 3457,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "-deck: GoalCardsDeckSingleton",
@@ -245,7 +228,7 @@
 									"left": 1840,
 									"top": 3377,
 									"width": 548.9794921875,
-									"height": 113
+									"height": 98
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -268,7 +251,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3495,
+											"top": 3480,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+initGame(): void",
@@ -285,7 +268,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3510,
+											"top": 3495,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+welcomePlayer(): void",
@@ -302,7 +285,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3525,
+											"top": 3510,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+awardTurnwisePoints(Player): void",
@@ -319,7 +302,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3540,
+											"top": 3525,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+awardEndOfGamePoints(Player): void",
@@ -336,7 +319,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3555,
+											"top": 3540,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+awardEndOfGameCard(Player): void",
@@ -353,7 +336,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3570,
+											"top": 3555,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+declareWinner(): void",
@@ -370,7 +353,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3585,
+											"top": 3570,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+moveCardsToPlayerShelf(player: Player, cards : List<ObjectCard>): void",
@@ -387,7 +370,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3600,
+											"top": 3585,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+pickCardsFromBoard(cards: List<ObjectCard>, board: Board): void",
@@ -404,7 +387,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3615,
+											"top": 3600,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "-checkCardPicking(cards: List<ObjectCard>, board: Board): boolean",
@@ -421,7 +404,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3630,
+											"top": 3615,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "-awardPointCard(currPlayer: Player, pointCard: PointCard, fromWhichCommonGoal: int): void",
@@ -438,18 +421,52 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1845,
-											"top": 3645,
+											"top": 3630,
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "-assignEndOfGameCard(winner: Player, eogCard: EndOfGameCard): void",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGHEu5ZRgkmTPs=",
+											"_parent": {
+												"$ref": "AAAAAAGG5TEngnqRIN4="
+											},
+											"model": {
+												"$ref": "AAAAAAGHEu5ZPAkjalg="
+											},
+											"font": "Arial;13;0",
+											"left": 1845,
+											"top": 3645,
+											"width": 538.9794921875,
+											"height": 13,
+											"text": "+Game(admin: Player)",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGHEwjXy0daTmA=",
+											"_parent": {
+												"$ref": "AAAAAAGG5TEngnqRIN4="
+											},
+											"model": {
+												"$ref": "AAAAAAGHEwjXv0dXQGw="
+											},
+											"font": "Arial;13;0",
+											"left": 1845,
+											"top": 3660,
+											"width": 538.9794921875,
+											"height": 13,
+											"text": "+givePersonalGoalCardToPlayer(player: Player, personalGoal: PersonalGoalCard)",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 1840,
-									"top": 3490,
+									"top": 3475,
 									"width": 548.9794921875,
-									"height": 173
+									"height": 203
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -14823,16 +14840,6 @@
 						},
 						{
 							"_type": "UMLAttribute",
-							"_id": "AAAAAAGG5TNqJXunCP8=",
-							"_parent": {
-								"$ref": "AAAAAAGG5TEngHqIeFI="
-							},
-							"name": "turnManager",
-							"visibility": "private",
-							"type": "TurnManager"
-						},
-						{
-							"_type": "UMLAttribute",
 							"_id": "AAAAAAGG5TOPInuuCkE=",
 							"_parent": {
 								"$ref": "AAAAAAGG5TEngHqIeFI="
@@ -15204,6 +15211,59 @@
 									},
 									"type": "void",
 									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGHEu5ZPAkjalg=",
+							"_parent": {
+								"$ref": "AAAAAAGG5TEngHqIeFI="
+							},
+							"name": "Game",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHEu6Logvottc=",
+									"_parent": {
+										"$ref": "AAAAAAGHEu5ZPAkjalg="
+									},
+									"name": "admin",
+									"type": {
+										"$ref": "AAAAAAGG5TiRCXxoNtQ="
+									}
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGHEwjXv0dXQGw=",
+							"_parent": {
+								"$ref": "AAAAAAGG5TEngHqIeFI="
+							},
+							"name": "givePersonalGoalCardToPlayer",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHEwlVx1IISqI=",
+									"_parent": {
+										"$ref": "AAAAAAGHEwjXv0dXQGw="
+									},
+									"name": "player",
+									"type": {
+										"$ref": "AAAAAAGG5TiRCXxoNtQ="
+									}
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHEwlVyFIJpKs=",
+									"_parent": {
+										"$ref": "AAAAAAGHEwjXv0dXQGw="
+									},
+									"name": "personalGoal",
+									"type": {
+										"$ref": "AAAAAAGG5ZDhGO8bqvs="
+									}
 								}
 							]
 						}

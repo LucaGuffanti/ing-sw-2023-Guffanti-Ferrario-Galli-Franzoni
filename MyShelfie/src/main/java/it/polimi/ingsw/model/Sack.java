@@ -85,4 +85,7 @@ public class Sack {
         return cards.remove(0);
     }
 
+    public ArrayList<ObjectCard> getCards() {
+        return cards;
+    }
 }
