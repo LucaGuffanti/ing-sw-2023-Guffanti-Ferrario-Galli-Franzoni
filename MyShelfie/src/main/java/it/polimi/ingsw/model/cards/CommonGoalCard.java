@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 import it.polimi.ingsw.model.utils.complexMethodsResponses.CheckShelfPortionResult;
@@ -13,7 +14,8 @@ import static it.polimi.ingsw.model.utils.Constants.SHELF_LENGTH;
  * CommonGoalCards represents a goal for all players. When the goal is reached,
  * the user will get a PointCard relatively to how many player have previously completed the same goal.
  *
- * The pattern matching algorithm is implemented directly in this class through checkPattern
+ * The pattern matching algorithm is implemented directly in this class through checkPattern, which is
+ * an interpreter of the patternRules associated to the card.
  *
  * @author Daniele Ferrario
  *
@@ -38,9 +40,35 @@ public class CommonGoalCard extends GoalCard{
      */
     public PointCard calculatePoints(Player player){
 
-        checkPattern(player);
+        // If there are no more pointsCards, don't compute the pattern matching algorithm
+        // @TODO: Maybe rise an exception
 
-        return null; // @TODO: ADDING POINTSCARDS ASSIGMENT MECHANISM
+        PointCard result;
+        if(pointsCards.size() == 0){
+            try {
+                result = CardBuilder.generatePointCardFromPointsGiven(0);
+                return result;
+            }catch (Exception ex){System.out.println(ex.getMessage());}
+        }
+
+        // Start pattern matching algorithm
+        int subPatternsFound = checkPattern(player);
+
+        // If less patterns than requested are found, the goal has not been reached
+        if(subPatternsFound <  ((CommonPatternRules) patternRules).getMinNumberOfOccurrences()) {
+            try {
+                result = CardBuilder.generatePointCardFromPointsGiven(0);
+                return result;
+            } catch (Exception ex) {System.out.println(ex.getMessage());}
+        }
+
+        // Get the highest pointCard and remove it from the pile
+        PointCard highestPointCard = this.pointsCards.get(pointsCards.size()-1);
+        this.pointsCards.remove(pointsCards.size()-1);
+
+
+        return highestPointCard;
+
     }
 
     /**
@@ -142,20 +170,28 @@ public class CommonGoalCard extends GoalCard{
             int y = coveredCell.getY();
 
 
-            if(!shelf.getCell(shelfX + x, shelfY + y).isFull())
+            // If the shelf cell is empty
+            if(shelf.getCell(shelfX + x, shelfY + y).getCellCard().isEmpty())
                 return new CheckShelfPortionResult(false, commonColor);
+
+            // If the cell has been previously found in a subpattern or adjacent to it if requested
             if(previouslyFoundCells[shelfX+x][shelfY+y] == 1)
                 return new CheckShelfPortionResult(false, commonColor);
 
-            diffColors.add(shelf.getCell(shelfX+x, shelfY+y).getCellCard().getType());
+            // Saving the current color associated to the card
+
+            ShelfCell sc = shelf.getCell(shelfX+x, shelfY+y);
+            ObjectCard oc = sc.getCellCard().get();
+            diffColors.add(oc.getType());
 
         }
 
-
+        // If the subpattern cells contains more different colors than requested
         if(diffColors.size() > subPattern.getMaxDifferentTypes() || diffColors.size() < subPattern.getMinDifferentTypes())
             return new CheckShelfPortionResult(false, commonColor);
+        // If the subPattern share only one color
         else if(diffColors.size() == 1){
-            commonColor = Optional.of(shelf.getCell(shelfX, shelfY).getCellCard().getType());
+            commonColor = Optional.of(shelf.getCell(shelfX, shelfY).getCellCard().get().getType());
         }
 
         return new CheckShelfPortionResult(true, commonColor);
