@@ -22,7 +22,6 @@ public class SubPattern {
      * The minimum height of the frame for containing the covered cells.
      */
     private int height;
-
     /**
      * The minimum length of the frame for containing the covered cells.
      */
@@ -60,6 +59,7 @@ public class SubPattern {
         this.maxDifferentTypes = maxDifferentTypes;
         this.minDifferentTypes = minDifferentTypes;
         this.isRadiallySymmetric = isRadiallySymmetric;
+
     }
 
     public int getMinDifferentTypes() {

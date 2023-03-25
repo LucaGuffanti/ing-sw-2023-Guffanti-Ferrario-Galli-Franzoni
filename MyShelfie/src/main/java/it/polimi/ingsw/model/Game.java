@@ -121,4 +121,5 @@ public class Game {
     private void givePersonalGoalCardToPlayer(Player player, PersonalGoalCard goalCard) {
         // TODO implement method
     }
+
 }
