@@ -9,10 +9,206 @@
           [0,0], [0,1]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": false
+        "isRadiallySymmetric": true
       },
       "minNumberOfOccurrences": 6,
       "subPatternsSameColor": false
     }
+  },
+  {
+    "id": 1,
+    "patternRules": {
+      "subPattern": {
+        "height": 5,
+        "length": 5,
+        "coveredCells": [
+          [0,0],[1, 1], [2, 2], [3, 3], [4, 4]
+        ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": true
+      },
+      "minNumberOfOccurrences": 1,
+      "subPatternsSameColor": false
+    }
+  },
+  {
+    "id": 2,
+    "patternRules": {
+      "subPattern": {
+        "height": 6,
+        "length": 5,
+        "coveredCells":[
+        [0,0],[4,0],[5,0],[5,4]
+          ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 1,
+      "subPatternsSameColor": false
+    }
+  },
+  {
+    "id": 3,
+    "patternRules": {
+      "subPattern": {
+        "height": 1,
+        "length": 5,
+        "coveredCells":[
+          [0,0],[0,1],[0,2],[0,3],[0,4]
+        ],
+        "maxDifferentTypes": 3,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 4,
+      "subPatternsSameColor": false
+    }
   }
+,
+  {
+    "id": 4,
+    "patternRules": {
+      "subPattern": {
+        "height": 4,
+        "length": 1,
+        "coveredCells":[
+          [0,0],[1,0],[2,0],[3,0]
+        ],
+        "maxDifferentTypes": 3,
+        "isRadiallySymmetric": true
+      },
+      "minNumberOfOccurrences": 4,
+      "subPatternsSameColor": false
+    }
+  }
+,
+  {
+    "id": 5,
+    "patternRules": {
+      "subPattern": {
+        "height": 6,
+        "length": 1,
+        "coveredCells":[
+          [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
+        ],
+        "maxDifferentTypes": 6,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 2,
+      "subPatternsSameColor": false
+    }
+  }
+
+,
+  {
+    "id": 6,
+    "patternRules": {
+      "subPattern": {
+        "height": 2,
+        "length": 2,
+        "coveredCells":[
+          [0,0],[0,1],[1,0],[1,1]
+        ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 2,
+      "subPatternsSameColor": true
+    }
+  }
+
+,
+  {
+    "id": 7,
+    "patternRules": {
+      "subPattern": {
+        "height": 1,
+        "length": 5,
+        "coveredCells":[
+          [0,0],[1,0],[2,0],[3,0],[4,0]
+        ],
+        "maxDifferentTypes": 5,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 2,
+      "subPatternsSameColor": false
+    }
+  }
+
+,
+  {
+    "id": 8,
+    "patternRules": {
+      "subPattern": {
+        "height": 6,
+        "length": 1,
+        "coveredCells":[
+          [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
+        ],
+        "maxDifferentTypes": 3,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 3,
+      "subPatternsSameColor": false
+    }
+  }
+
+,
+  {
+    "id": 9,
+    "patternRules": {
+      "subPattern": {
+        "height": 3,
+        "length": 3,
+        "coveredCells":[
+          [0,0],[0,2],[1,1],[2,0],[2,2]
+        ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 1,
+      "subPatternsSameColor": false
+    }
+  }
+
+,
+  {
+    "id": 10,
+    "patternRules": {
+      "subPattern": {
+        "height": 1,
+        "length": 1,
+        "coveredCells":[
+          [0,0]
+        ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 8,
+      "subPatternsSameColor": false
+    }
+  }
+
+,
+  {
+    "id": 11,
+    "patternRules": {
+      "subPattern": {
+        "height": 5,
+        "length": 5,
+        "coveredCells":[
+          [0,0],[0,1],[1,1],[0,2],[1,2],[2,2],[0,3],[1,3],[2,3],[3,3],[0,4],[1,4],[2,4],[3,4],[4,4]
+        ],
+        "maxDifferentTypes": 1,
+        "isRadiallySymmetric": false
+      },
+      "minNumberOfOccurrences": 1,
+      "subPatternsSameColor": true
+    }
+  }
+
+
+
+
+
+
 ]
