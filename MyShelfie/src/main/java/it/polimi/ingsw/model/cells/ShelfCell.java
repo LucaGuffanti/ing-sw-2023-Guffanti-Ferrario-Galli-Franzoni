@@ -10,4 +10,5 @@ public class ShelfCell extends Cell{
     public ShelfCell(Optional<ObjectCard> cellCard) {
         super(cellCard);
     }
+
 }

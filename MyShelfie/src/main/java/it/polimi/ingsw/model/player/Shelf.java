@@ -51,14 +51,14 @@ public class Shelf {
         this.highestOccupiedCell = highestOccupiedCell;
     }
 
-    public Shelf(int heightInCells, int lengthInCells, ShelfCell[][] cells) {
+    public Shelf(int lengthInCells, int heightInCells,  ShelfCell[][] cells) {
         this.heightInCells = heightInCells;
         this.lengthInCells = lengthInCells;
         this.cells = cells;
     }
 
     public ShelfCell getCell(int x, int y){
-        return cells[x][y];
+        return cells[y][x];
     }
 
 }

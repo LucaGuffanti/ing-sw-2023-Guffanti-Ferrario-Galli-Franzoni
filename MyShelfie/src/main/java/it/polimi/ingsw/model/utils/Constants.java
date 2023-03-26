@@ -19,6 +19,6 @@ public class Constants {
      */
     public static final int SHELF_HEIGHT = 6;
 
-    public static final int SHELF_LENGTH = 6;
+    public static final int SHELF_LENGTH = 5;
 
 }

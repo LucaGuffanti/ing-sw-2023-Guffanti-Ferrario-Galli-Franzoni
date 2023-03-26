@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
+import it.polimi.ingsw.model.utils.MatrixUtils;
 import it.polimi.ingsw.model.utils.complexMethodsResponses.CheckShelfPortionResult;
 
 import java.util.*;
@@ -93,7 +94,7 @@ public class CommonGoalCard extends GoalCard{
         Shelf shelf = player.getShelf();
         CommonPatternRules rules = (CommonPatternRules) super.patternRules;
 
-        int[][] previouslyFoundFlags = createEmptyMatrix(SHELF_LENGTH, SHELF_HEIGHT);
+        boolean[][] previouslyFoundFlags = MatrixUtils.createEmptyMatrix(SHELF_LENGTH, SHELF_HEIGHT);
 
         // Counter of every subPattern we find
         int totalSubPatternsFound = 0;
@@ -105,33 +106,31 @@ public class CommonGoalCard extends GoalCard{
         }
 
 
-        // Iterate the subPattern through every cell of the shelf
+        // Checking if radially symmetric.
         boolean radiallySymmetric = patternRules.getSubPattern().isRadiallySymmetric();
         SubPattern subPattern = rules.getSubPattern();
         SubPattern rotatedSubPattern = rules.getRotatedSubPattern();
 
         int cycles = 0;
+        SubPattern s = subPattern;
+
+        // Repeat the process with the rotated subPattern (if necessary).
         while(cycles < (radiallySymmetric ? 1 : 2)) {
 
-            SubPattern s = radiallySymmetric ? subPattern : rotatedSubPattern;
-
+            // Iterate the subPattern through every cell of the shelf.
             for (int y = 0; y < SHELF_HEIGHT; y++) {
                 for (int x = 0; x < SHELF_LENGTH; x++) {
 
-                    // Check if the shelf portion contains a valid subpattern
+                    // Check if the shelf portion contains a valid subpattern.
                     CheckShelfPortionResult result = checkShelfPortion(s, shelf, previouslyFoundFlags, x, y);
+                    previouslyFoundFlags = result.getUpdatedFoundCellsMatrix();
 
                     // Checking if found
                     if (result.isValid()) {
 
-                        // Marking the shelf cells we found
-                        // @TODO should doing this directly in checkShelfPortion
-                        previouslyFoundFlags = markFoundCells(previouslyFoundFlags, rules.getSubPattern().getCoveredCells(), x, y);
-
-
                         totalSubPatternsFound += 1;
 
-                        // If the subPattern we found contains only one type, we count it in the hashMap
+                        // If the subPattern we found contains only one type, we count it in the hashMap.
                         if (result.getCommonType().isPresent()) {
                             ObjectTypeEnum key = result.getCommonType().get();
                             numSubPatternsByType.put(key, numSubPatternsByType.get(key) + 1);
@@ -142,8 +141,12 @@ public class CommonGoalCard extends GoalCard{
                 }
             }
 
+
             cycles+=1;
+            s = rotatedSubPattern;
+
         }
+
         return totalSubPatternsFound;
     }
 
@@ -151,98 +154,74 @@ public class CommonGoalCard extends GoalCard{
     /**
      *
      * This method checks for the subpattern in a portion of the shelf, based on the patternRules.
-     * @param rules                 The rules for the pattern matching.
+     * @param subPattern            The subPattern to match
      * @param shelf                 The player shelf.
-     * @param previouslyFoundCells  A matrix representing the cells which has been found being part of a subPattern in previous iteration.
+     * @param oldFoundCellsMatrix   A matrix representing the cells which has been found being part of a subPattern in previous iteration.
      * @param shelfX                X coordinate of the shelf portion
      * @param shelfY                Y coordinate of the shelf portion
      * @return An object containing a "subPattern found" flag and an optional ObjectType which every ShelfCell in the subPattern share.
      */
-    private CheckShelfPortionResult checkShelfPortion(SubPattern subPattern, Shelf shelf, int[][] previouslyFoundCells, int shelfX, int shelfY){
+    private CheckShelfPortionResult checkShelfPortion(SubPattern subPattern, Shelf shelf, boolean[][] oldFoundCellsMatrix, int shelfX, int shelfY){
 
         Optional<ObjectTypeEnum> commonColor = Optional.empty();
+        boolean[][] foundCellsMatrix = MatrixUtils.clone(oldFoundCellsMatrix);
 
         int sHeight = subPattern.getHeight();
         int sLength = subPattern.getLength();
         Set<ObjectTypeEnum> diffColors = new HashSet<>();
 
+        // Check is SubPattern exceed the shelf frame in this position.
         if(shelfX+sLength > shelf.getLengthInCells() || shelfY+sHeight > shelf.getHeightInCells())
-            return new CheckShelfPortionResult(false, commonColor);
+            return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
 
+        // Iterate through the subPattern covberedCells.
         for (SubPatternCell coveredCell: subPattern.getCoveredCells()) {
-            int x = coveredCell.getX();
-            int y = coveredCell.getY();
 
+            // Absolute coordinates.
+            int absX = shelfX + coveredCell.getX();
+            int absY = shelfY + coveredCell.getY();
 
-            // If the shelf cell is empty
-            if(shelf.getCell(shelfX + x, shelfY + y).getCellCard().isEmpty())
-                return new CheckShelfPortionResult(false, commonColor);
+            // If the shelf cell is empty.
+            if(shelf.getCell(absX, absY).getCellCard().isEmpty())
+                return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
 
-            // If the cell has been previously found in a subpattern or adjacent to it if requested
-            if(previouslyFoundCells[shelfX+x][shelfY+y] == 1)
-                return new CheckShelfPortionResult(false, commonColor);
+            // @TODO: Case with subPatterns that can be adjacent not covered yet.
+
+            // If the cell has been previously found in a subpattern (or adjacent to it when requested)
+            if(oldFoundCellsMatrix[absY][absX])
+                return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
 
             // Saving the current color associated to the card
-
-            ShelfCell sc = shelf.getCell(shelfX+x, shelfY+y);
+            ShelfCell sc = shelf.getCell(absX, absY);
             ObjectCard oc = sc.getCellCard().get();
             diffColors.add(oc.getType());
 
+            // @TODO: Case with subPatterns that can be adjacent not covered yet.
+            //Marking the shelf cell and its adjacent
+            foundCellsMatrix[absY][absX] = true;
+            if(absX+1 < SHELF_LENGTH)
+                foundCellsMatrix[absY][absX+1] = true;
+            if(absY+1 < SHELF_HEIGHT)
+                foundCellsMatrix[absY+1][absX] = true;
+            if(absX-1 >= 0)
+                foundCellsMatrix[absY][absX-1] = true;
+            if(absY-1 >= 0)
+                foundCellsMatrix[absY-1][absX] = true;
+
         }
+
 
         // If the subpattern cells contains more different colors than requested
         if(diffColors.size() > subPattern.getMaxDifferentTypes() || diffColors.size() < subPattern.getMinDifferentTypes())
-            return new CheckShelfPortionResult(false, commonColor);
+            return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
         // If the subPattern share only one color
         else if(diffColors.size() == 1){
             commonColor = Optional.of(shelf.getCell(shelfX, shelfY).getCellCard().get().getType());
         }
 
-        return new CheckShelfPortionResult(true, commonColor);
+        // If each criterion is met, also return the updated matrix with the new cells found
+        return new CheckShelfPortionResult(true, commonColor, foundCellsMatrix);
 
     }
 
-    /**
-     * @TODO: MOVING MARKING PROCESS DIRECTLY IN checkShelfPortion()
-     * When a cell in the shelf has been found in a subPattern, it is marked
-     * in this matrix.
-     *
-     * @param previouslyFoundFlags
-     * @param subPatternCells           SubPattern cells to mark
-     * @param shelfX                    X coordinate of the player shelf
-     * @param shelfY                    Y coordinate of the player shelf
-     * @return  an updated version of the matrix.
-     */
-    static private int[][] markFoundCells(int[][] previouslyFoundFlags, Set<SubPatternCell> subPatternCells, int shelfX, int shelfY){
-
-        int[][] newMatrix = previouslyFoundFlags;
-
-        for (SubPatternCell coveredCell: subPatternCells) {
-            int x = coveredCell.getX();
-            int y = coveredCell.getY();
-
-            newMatrix[shelfX+x][shelfY+y] = 1;
-        }
-
-        return newMatrix;
-    }
-
-    /**
-     * This method create an empty matrix
-     * @param l
-     * @param h
-     * @return A matrix l x h filled with zeros.
-     */
-    private int[][] createEmptyMatrix(int l, int h){
-        int[][] cells = new int[l][h];
-
-        for (int i = 0; i < l; i++) {
-            for (int j = 0; j < h; j++) {
-                cells[i][j] = 0;
-
-            }
-        }
-
-        return cells;
-    }
 }

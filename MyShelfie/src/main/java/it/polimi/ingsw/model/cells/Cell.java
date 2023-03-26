@@ -25,4 +25,12 @@ public abstract class Cell {
     public void setCellCard(Optional<ObjectCard> cellCard) {
         this.cellCard = cellCard;
     }
+
+    @Override
+    public String toString() {
+        if(cellCard.isPresent())
+            return cellCard.get().getType().toString();
+        else
+            return "X";
+    }
 }
