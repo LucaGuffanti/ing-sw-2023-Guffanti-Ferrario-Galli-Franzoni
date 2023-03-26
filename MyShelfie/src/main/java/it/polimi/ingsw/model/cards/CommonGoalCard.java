@@ -107,37 +107,43 @@ public class CommonGoalCard extends GoalCard{
 
         // Iterate the subPattern through every cell of the shelf
         boolean radiallySymmetric = patternRules.getSubPattern().isRadiallySymmetric();
+        SubPattern subPattern = rules.getSubPattern();
+        SubPattern rotatedSubPattern = rules.getRotatedSubPattern();
 
-        // @todo: ADDING ANALYSIS ON ROTATED SUBPATTERN
+        int cycles = 0;
+        while(cycles < (radiallySymmetric ? 1 : 2)) {
+
+            SubPattern s = radiallySymmetric ? subPattern : rotatedSubPattern;
+
+            for (int y = 0; y < SHELF_HEIGHT; y++) {
+                for (int x = 0; x < SHELF_LENGTH; x++) {
+
+                    // Check if the shelf portion contains a valid subpattern
+                    CheckShelfPortionResult result = checkShelfPortion(s, shelf, previouslyFoundFlags, x, y);
+
+                    // Checking if found
+                    if (result.isValid()) {
+
+                        // Marking the shelf cells we found
+                        // @TODO should doing this directly in checkShelfPortion
+                        previouslyFoundFlags = markFoundCells(previouslyFoundFlags, rules.getSubPattern().getCoveredCells(), x, y);
 
 
-        for (int y = 0; y < SHELF_HEIGHT; y++) {
-            for (int x = 0; x < SHELF_LENGTH; x++) {
+                        totalSubPatternsFound += 1;
 
-                // Check if the shelf portion contains a valid subpattern
-                CheckShelfPortionResult result = checkShelfPortion(rules, shelf, previouslyFoundFlags, x, y);
+                        // If the subPattern we found contains only one type, we count it in the hashMap
+                        if (result.getCommonType().isPresent()) {
+                            ObjectTypeEnum key = result.getCommonType().get();
+                            numSubPatternsByType.put(key, numSubPatternsByType.get(key) + 1);
+                        }
 
-                // Checking if found
-                if (result.isValid()) {
-
-                    // Marking the shelf cells we found
-                    // @TODO should doing this directly in checkShelfPortion
-                    previouslyFoundFlags = markFoundCells(previouslyFoundFlags, rules.getSubPattern().getCoveredCells(), x, y);
-
-
-                    totalSubPatternsFound += 1;
-
-                    // If the subPattern we found contains only one type, we count it in the hashMap
-                    if (result.getCommonType().isPresent()) {
-                        ObjectTypeEnum key = result.getCommonType().get();
-                        numSubPatternsByType.put(key, numSubPatternsByType.get(key) + 1);
                     }
 
                 }
-
             }
-        }
 
+            cycles+=1;
+        }
         return totalSubPatternsFound;
     }
 
@@ -152,11 +158,9 @@ public class CommonGoalCard extends GoalCard{
      * @param shelfY                Y coordinate of the shelf portion
      * @return An object containing a "subPattern found" flag and an optional ObjectType which every ShelfCell in the subPattern share.
      */
-    private CheckShelfPortionResult checkShelfPortion(CommonPatternRules rules, Shelf shelf, int[][] previouslyFoundCells, int shelfX, int shelfY){
+    private CheckShelfPortionResult checkShelfPortion(SubPattern subPattern, Shelf shelf, int[][] previouslyFoundCells, int shelfX, int shelfY){
 
         Optional<ObjectTypeEnum> commonColor = Optional.empty();
-
-        SubPattern subPattern = rules.getSubPattern();
 
         int sHeight = subPattern.getHeight();
         int sLength = subPattern.getLength();

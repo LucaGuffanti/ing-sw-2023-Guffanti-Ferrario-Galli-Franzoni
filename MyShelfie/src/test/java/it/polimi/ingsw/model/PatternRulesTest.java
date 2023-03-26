@@ -142,4 +142,30 @@ public class PatternRulesTest {
 
         assertEquals(rotatedCoveredCells, pr.getRotatedSubPattern().getCoveredCells());
     }
+
+    @Test
+    public void rotate1x2Test() {
+        Set<SubPatternCell> coveredCells = new HashSet<>();
+        coveredCells.add(new SubPatternCell(0,0, Optional.empty()));
+        coveredCells.add(new SubPatternCell(0,1, Optional.empty()));
+
+        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1, false);
+
+        assertNotNull(subPattern);
+
+        PatternRules pr = new PatternRules(subPattern);
+
+        Set<SubPatternCell> rotatedCoveredCells = new HashSet<>();
+        rotatedCoveredCells.add(new SubPatternCell(0,0, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(0,1, Optional.empty()));
+
+
+        assertEquals(pr.getSubPattern().getLength(), pr.getRotatedSubPattern().getHeight());
+        assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getLength());
+        assertEquals(pr.getSubPattern().getMaxDifferentTypes(), pr.getRotatedSubPattern().getMaxDifferentTypes());
+        assertEquals(pr.getSubPattern().getMinDifferentTypes(), pr.getRotatedSubPattern().getMinDifferentTypes());
+        assertEquals(pr.getSubPattern().isRadiallySymmetric(), pr.getRotatedSubPattern().isRadiallySymmetric());
+
+        assertEquals(rotatedCoveredCells, pr.getRotatedSubPattern().getCoveredCells());
+    }
 }
