@@ -74,9 +74,9 @@ public class PatternRules {
             for (SubPatternCell cell : subPattern.getCoveredCells()) {
                 rotatedCells.add(
                         new SubPatternCell(
-                        originalLength - 1 - cell.getY(),
-                        cell.getX(),
-                        cell.getAdmittedType()
+                                cell.getY(),
+                                originalLength - 1 - cell.getX(),
+                                cell.getAdmittedType()
                         )
                 );
             }

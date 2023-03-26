@@ -76,16 +76,16 @@ public class PatternRulesTest {
         // the height of one is the length of the other and vice-versa
         // the number if max and min different types must be equal
         // the covered cells of the rotated sub pattern should be as follows
-        //  cell1: (0,0) -> (3,0)
-        //  cell2: (1,1) -> (2,1)
-        //  cell3: (2,2) -> (1,2)
-        //  cell4: (3,3) -> (0,3)
+        //  cell1: (0,0) -> (0,3)
+        //  cell2: (1,1) -> (1,2)
+        //  cell3: (2,2) -> (2,1)
+        //  cell4: (3,3) -> (3,0)
 
         Set<SubPatternCell> rotatedCoveredCells = new HashSet<>();
-        rotatedCoveredCells.add(new SubPatternCell(3,0, Optional.empty()));
-        rotatedCoveredCells.add(new SubPatternCell(2,1, Optional.empty()));
-        rotatedCoveredCells.add(new SubPatternCell(1,2, Optional.empty()));
         rotatedCoveredCells.add(new SubPatternCell(0,3, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(1,2, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(2,1, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(3,0, Optional.empty()));
 
         assertEquals(pr.getSubPattern().getLength(), pr.getRotatedSubPattern().getHeight());
         assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getLength());
@@ -104,7 +104,7 @@ public class PatternRulesTest {
     @Test
     public void rotateSubPatternTest_whenNotRadiallySymmetric_differentLengthAndHeight() {
         Set<SubPatternCell> coveredCells = new HashSet<>();
-        coveredCells.add(new SubPatternCell(0,5, Optional.empty()));
+        coveredCells.add(new SubPatternCell(5,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(4,3, Optional.empty()));
         coveredCells.add(new SubPatternCell(2,4, Optional.empty()));
         coveredCells.add(new SubPatternCell(1,2, Optional.empty()));
@@ -120,18 +120,18 @@ public class PatternRulesTest {
         // the height of one is the length of the other and vice-versa
         // the number if max and min different types must be equal
         // the covered cells of the rotated sub pattern should be as follows
-        //  cell1: (0,5) -> (0,0)
-        //  cell2: (4,3) -> (2,4)
-        //  cell3: (2,4) -> (1,2)
-        //  cell4: (1,2) -> (3,1)
-        //  cell5: (3,3) -> (2,3)
+        //  cell1: (5,0) -> (0,0)
+        //  cell2: (4,3) -> (3,1)
+        //  cell3: (2,4) -> (4,3)
+        //  cell4: (1,2) -> (2,4)
+        //  cell5: (3,3) -> (3,2)
 
         Set<SubPatternCell> rotatedCoveredCells = new HashSet<>();
         rotatedCoveredCells.add(new SubPatternCell(0,0, Optional.empty()));
-        rotatedCoveredCells.add(new SubPatternCell(2,4, Optional.empty()));
-        rotatedCoveredCells.add(new SubPatternCell(1,2, Optional.empty()));
         rotatedCoveredCells.add(new SubPatternCell(3,1, Optional.empty()));
-        rotatedCoveredCells.add(new SubPatternCell(2,3, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(4,3, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(2,4, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(3,2, Optional.empty()));
 
 
         assertEquals(pr.getSubPattern().getLength(), pr.getRotatedSubPattern().getHeight());
@@ -157,7 +157,7 @@ public class PatternRulesTest {
 
         Set<SubPatternCell> rotatedCoveredCells = new HashSet<>();
         rotatedCoveredCells.add(new SubPatternCell(0,0, Optional.empty()));
-        rotatedCoveredCells.add(new SubPatternCell(0,1, Optional.empty()));
+        rotatedCoveredCells.add(new SubPatternCell(1,0, Optional.empty()));
 
 
         assertEquals(pr.getSubPattern().getLength(), pr.getRotatedSubPattern().getHeight());
