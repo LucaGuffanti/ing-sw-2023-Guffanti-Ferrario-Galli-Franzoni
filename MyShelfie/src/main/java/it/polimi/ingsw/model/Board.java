@@ -10,18 +10,24 @@ import it.polimi.ingsw.model.utils.Constants;
  */
 public class Board {
     private int heightInCells;
-    private int lenghtInCells;
+    private int lengthInCells;
     private BoardCell[][] cells;
     private boolean toBeRefilled;
 
     public Board(int nPlayer) {
         heightInCells = Constants.BOARD_DIMENSION;
-        lenghtInCells = Constants.BOARD_DIMENSION;
+        lengthInCells = Constants.BOARD_DIMENSION;
         initBoard(nPlayer);
         toBeRefilled = false;
     }
 
-    public void refillBoard(Sack sack) {}
+    /**
+     * This method refills board cells that have no more cards, checking if isFull == 0
+     * @param sack the game sack
+     */
+    public void refillBoard(Sack sack) {
+
+    }
 
     public void initBoard(int nPlayer) {}
 
