@@ -72,11 +72,7 @@ public class CommonGoalCard extends GoalCard{
 
     }
 
-    /**
-     * This methods will return an exact copy of this card
-     *
-     * @return GoalCard
-     */
+    @Override
     public GoalCard returnEqualCard(){
         return new CommonGoalCard(id, pointsCards, patternRules);
     }

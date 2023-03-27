@@ -13,4 +13,9 @@ public abstract class GoalCard {
 
     protected abstract int checkPattern(Player player);
 
+    /**
+     *
+     * @return a copy of the goalCard which is "this"
+     */
+    public abstract GoalCard returnEqualCard();
 }
