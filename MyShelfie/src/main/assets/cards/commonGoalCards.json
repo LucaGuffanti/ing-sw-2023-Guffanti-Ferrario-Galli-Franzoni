@@ -9,8 +9,9 @@
           [0,0], [0,1]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": true
+        "shouldBeRotated": true
       },
+      "admitsAdjacency": false,
       "minNumberOfOccurrences": 6,
       "subPatternsSameColor": false
     }
@@ -25,8 +26,10 @@
           [0,0],[1, 1], [2, 2], [3, 3], [4, 4]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": true
+        "isRadiallySymmetric": true,
+        "shouldBeRotated": true
       },
+      "admitsAdjacency": false,
       "minNumberOfOccurrences": 1,
       "subPatternsSameColor": false
     }
@@ -41,8 +44,10 @@
         [0,0],[4,0],[5,0],[5,4]
           ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": false
+        "isRadiallySymmetric": false,
+        "shouldBeRotated": false
       },
+      "admitsAdjacency": false,
       "minNumberOfOccurrences": 1,
       "subPatternsSameColor": false
     }
@@ -57,10 +62,12 @@
           [0,0],[0,1],[0,2],[0,3],[0,4]
         ],
         "maxDifferentTypes": 3,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitsAdjacency": false,
       "minNumberOfOccurrences": 4,
       "subPatternsSameColor": false
+
     }
   }
 ,
@@ -74,8 +81,10 @@
           [0,0],[1,0],[2,0],[3,0]
         ],
         "maxDifferentTypes": 3,
-        "isRadiallySymmetric": true
+        "shouldBeRotated": true
+
       },
+      "admitAdjacency": false,
       "minNumberOfOccurrences": 4,
       "subPatternsSameColor": false
     }
@@ -91,8 +100,9 @@
           [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
         ],
         "maxDifferentTypes": 6,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitAdjacency": true,
       "minNumberOfOccurrences": 2,
       "subPatternsSameColor": false
     }
@@ -109,8 +119,9 @@
           [0,0],[0,1],[1,0],[1,1]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitAdjacency": false,
       "minNumberOfOccurrences": 2,
       "subPatternsSameColor": true
     }
@@ -127,8 +138,9 @@
           [0,0],[1,0],[2,0],[3,0],[4,0]
         ],
         "maxDifferentTypes": 5,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitAdjacency": true,
       "minNumberOfOccurrences": 2,
       "subPatternsSameColor": false
     }
@@ -145,8 +157,9 @@
           [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
         ],
         "maxDifferentTypes": 3,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitAdjacency": true,
       "minNumberOfOccurrences": 3,
       "subPatternsSameColor": false
     }
@@ -163,8 +176,9 @@
           [0,0],[0,2],[1,1],[2,0],[2,2]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitAdjacency": false,
       "minNumberOfOccurrences": 1,
       "subPatternsSameColor": false
     }
@@ -181,8 +195,9 @@
           [0,0]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": false
       },
+      "admitAdjacency": true,
       "minNumberOfOccurrences": 8,
       "subPatternsSameColor": false
     }
@@ -199,8 +214,9 @@
           [0,0],[0,1],[1,1],[0,2],[1,2],[2,2],[0,3],[1,3],[2,3],[3,3],[0,4],[1,4],[2,4],[3,4],[4,4]
         ],
         "maxDifferentTypes": 1,
-        "isRadiallySymmetric": false
+        "shouldBeRotated": true
       },
+      "admitAdjacency": true,
       "minNumberOfOccurrences": 1,
       "subPatternsSameColor": true
     }
