@@ -12,13 +12,14 @@ public class PlayerAchievements {
     private boolean completedFirstCommonGoal;
     private boolean completedSecondCommonGoal;
     private Set<PointCard> pointCardsEarned;
-    private boolean completedShelf;
+    private boolean firstToFinish;
+
 
     public PlayerAchievements(Set<PointCard> pointCardsEarned) {
         completedFirstCommonGoal = false;
         completedSecondCommonGoal = false;
         this.pointCardsEarned = pointCardsEarned;
-        completedShelf = false;
+        firstToFinish = false;
     }
 
     public boolean isCompletedFirstCommonGoal() {
@@ -45,11 +46,11 @@ public class PlayerAchievements {
         this.pointCardsEarned = pointCardsEarned;
     }
 
-    public boolean isCompletedShelf() {
-        return completedShelf;
+    public boolean isFirstToFinish() {
+        return firstToFinish;
     }
 
-    public void setCompletedShelf(boolean completedShelf) {
-        this.completedShelf = completedShelf;
+    public void setFirstToFinish(boolean firstToFinish) {
+        this.firstToFinish = firstToFinish;
     }
 }

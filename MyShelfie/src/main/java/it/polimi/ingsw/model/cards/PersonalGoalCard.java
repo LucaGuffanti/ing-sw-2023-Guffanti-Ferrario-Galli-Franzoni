@@ -71,7 +71,7 @@ public class PersonalGoalCard extends GoalCard{
      * @param player the player whose shelf will be checked
      * @return the points obtained by (partially or completely) accomplishing the personal goal
      */
-    public int calculatedPoints(Player player){
+    public int calculatePoints(Player player){
 
         int points;
         int matches = checkPattern(player);

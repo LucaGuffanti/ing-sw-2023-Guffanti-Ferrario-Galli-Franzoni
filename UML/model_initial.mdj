@@ -288,7 +288,7 @@
 											"top": 3510,
 											"width": 538.9794921875,
 											"height": 13,
-											"text": "+awardTurnwisePoints(Player): void",
+											"text": "+awardTurnwisePoints(currentPlayer: Player): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -305,7 +305,7 @@
 											"top": 3525,
 											"width": 538.9794921875,
 											"height": 13,
-											"text": "+awardEndOfGamePoints(Player): void",
+											"text": "+awardEndOfGamePoints(currentPlayer: Player): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -322,7 +322,7 @@
 											"top": 3540,
 											"width": 538.9794921875,
 											"height": 13,
-											"text": "+awardEndOfGameCard(Player): void",
+											"text": "+awardEndOfGameCard(currentPlayer: Player): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -339,7 +339,7 @@
 											"top": 3555,
 											"width": 538.9794921875,
 											"height": 13,
-											"text": "+declareWinner(): void",
+											"text": "+gameCheckout(orderedPlayers: List<Players>): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -459,6 +459,24 @@
 											"width": 538.9794921875,
 											"height": 13,
 											"text": "+givePersonalGoalCardToPlayer(player: Player, personalGoal: PersonalGoalCard)",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGHIu4IPpSfP8k=",
+											"_parent": {
+												"$ref": "AAAAAAGG5TEngnqRIN4="
+											},
+											"model": {
+												"$ref": "AAAAAAGHIu4IJJSc+Co="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 1845,
+											"top": 3675,
+											"width": 538.9794921875,
+											"height": 13,
+											"text": "+Operation1()",
 											"horizontalAlignment": 0
 										}
 									],
@@ -14918,8 +14936,10 @@
 									"_parent": {
 										"$ref": "AAAAAAGG5TbP5nv9IwE="
 									},
-									"name": "Player",
-									"type": ""
+									"name": "currentPlayer",
+									"type": {
+										"$ref": "AAAAAAGG5TiRCXxoNtQ="
+									}
 								},
 								{
 									"_type": "UMLParameter",
@@ -14946,8 +14966,10 @@
 									"_parent": {
 										"$ref": "AAAAAAGG5Tb+6nwILmI="
 									},
-									"name": "Player",
-									"type": ""
+									"name": "currentPlayer",
+									"type": {
+										"$ref": "AAAAAAGG5TiRCXxoNtQ="
+									}
 								},
 								{
 									"_type": "UMLParameter",
@@ -14974,8 +14996,10 @@
 									"_parent": {
 										"$ref": "AAAAAAGG5TdeQ3wT0Yw="
 									},
-									"name": "Player",
-									"type": ""
+									"name": "currentPlayer",
+									"type": {
+										"$ref": "AAAAAAGG5TiRCXxoNtQ="
+									}
 								},
 								{
 									"_type": "UMLParameter",
@@ -14994,7 +15018,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGG5TEngHqIeFI="
 							},
-							"name": "declareWinner",
+							"name": "gameCheckout",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -15004,6 +15028,15 @@
 									},
 									"type": "void",
 									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHI0l5MAsnwDU=",
+									"_parent": {
+										"$ref": "AAAAAAGG5TeQ2XweJ+g="
+									},
+									"name": "orderedPlayers",
+									"type": "List<Players>"
 								}
 							]
 						},
@@ -15270,6 +15303,14 @@
 									}
 								}
 							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGHIu4IJJSc+Co=",
+							"_parent": {
+								"$ref": "AAAAAAGG5TEngHqIeFI="
+							},
+							"name": "Operation1"
 						}
 					]
 				},
