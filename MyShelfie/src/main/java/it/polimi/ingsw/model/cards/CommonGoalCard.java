@@ -103,7 +103,7 @@ public class CommonGoalCard extends GoalCard{
 
 
         // Checking if radially symmetric.
-        boolean radiallySymmetric = patternRules.getSubPattern().isRadiallySymmetric();
+        boolean shouldRotate = ((CommonPatternRules)patternRules).getShouldRotate();
         SubPattern subPattern = rules.getSubPattern();
         SubPattern rotatedSubPattern = rules.getRotatedSubPattern();
 
@@ -111,7 +111,7 @@ public class CommonGoalCard extends GoalCard{
         SubPattern s = subPattern;
 
         // Repeat the process with the rotated subPattern (if necessary).
-        while(cycles < (radiallySymmetric ? 1 : 2)) {
+        while(cycles < (shouldRotate ? 2 : 1)) {
 
             // Iterate the subPattern through every cell of the shelf.
             for (int y = 0; y < SHELF_HEIGHT; y++) {

@@ -45,20 +45,12 @@ public class SubPattern {
      */
     private int minDifferentTypes;
 
-    /**
-     * The property which indicates if the subPattern is
-     * symmetric relatively to a rotation of 90° counterclockwise
-     * relative to the frame origin (x=0; y=0);
-     */
-    private boolean isRadiallySymmetric;
-
-    public SubPattern(int height, int length, Set<SubPatternCell> coveredCells, int minDifferentTypes, int maxDifferentTypes, boolean isRadiallySymmetric) {
+    public SubPattern(int height, int length, Set<SubPatternCell> coveredCells, int minDifferentTypes, int maxDifferentTypes) {
         this.height = height;
         this.length = length;
         this.coveredCells = coveredCells;
         this.maxDifferentTypes = maxDifferentTypes;
         this.minDifferentTypes = minDifferentTypes;
-        this.isRadiallySymmetric = isRadiallySymmetric;
 
     }
 
@@ -70,13 +62,6 @@ public class SubPattern {
         this.minDifferentTypes = minDifferentTypes;
     }
 
-    public boolean isRadiallySymmetric() {
-        return isRadiallySymmetric;
-    }
-
-    public void setRadiallySymmetric(boolean radiallySymmetric) {
-        isRadiallySymmetric = radiallySymmetric;
-    }
 
     public int getHeight() {
         return height;

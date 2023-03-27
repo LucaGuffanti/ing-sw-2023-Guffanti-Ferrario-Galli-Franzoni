@@ -56,8 +56,8 @@ public class CommonGoalCardTest {
         coveredCells.add(new SubPatternCell(1,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(1,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1, true);
-        CommonPatternRules rules = new CommonPatternRules(subPattern, 2, false);
+        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1);
+        CommonPatternRules rules = new CommonPatternRules(subPattern, 2, false, false, true);
 
         CommonGoalCard exampleCard;
 
@@ -108,8 +108,8 @@ public class CommonGoalCardTest {
         coveredCells.add(new SubPatternCell(1,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(1,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1, true);
-        CommonPatternRules rules = new CommonPatternRules(subPattern, 2, false);
+        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1);
+        CommonPatternRules rules = new CommonPatternRules(subPattern, 2, true, false, true);
 
         CommonGoalCard exampleCard;
 
@@ -160,8 +160,8 @@ public class CommonGoalCardTest {
         coveredCells.add(new SubPatternCell(0,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(0,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1, false);
-        CommonPatternRules rules = new CommonPatternRules(subPattern, 6, false);
+        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1);
+        CommonPatternRules rules = new CommonPatternRules(subPattern, 6, true, false, false);
 
         CommonGoalCard exampleCard;
 
@@ -231,8 +231,8 @@ public class CommonGoalCardTest {
         coveredCells.add(new SubPatternCell(0,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(0,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1, false);
-        CommonPatternRules rules = new CommonPatternRules(subPattern, 6, false);
+        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1);
+        CommonPatternRules rules = new CommonPatternRules(subPattern, 6, true, false, false);
 
         CommonGoalCard exampleCard;
 

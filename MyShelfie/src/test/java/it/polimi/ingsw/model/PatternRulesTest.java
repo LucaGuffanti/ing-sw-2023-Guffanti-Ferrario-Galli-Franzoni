@@ -35,11 +35,11 @@ public class PatternRulesTest {
         coveredCells.add(new SubPatternCell(1,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(1,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1, true);
+        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1);
 
         assertNotNull(subPattern);
 
-        PatternRules pr = new PatternRules(subPattern);
+        CommonPatternRules pr = new CommonPatternRules(subPattern, 2,false,false,true);
 
         assertNotNull(pr);
 
@@ -48,7 +48,6 @@ public class PatternRulesTest {
         assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getHeight());
         assertEquals(pr.getSubPattern().getMaxDifferentTypes(), pr.getRotatedSubPattern().getMaxDifferentTypes());
         assertEquals(pr.getSubPattern().getMinDifferentTypes(), pr.getRotatedSubPattern().getMinDifferentTypes());
-        assertEquals(pr.getSubPattern().isRadiallySymmetric(), pr.getRotatedSubPattern().isRadiallySymmetric());
         assertEquals(pr.getSubPattern().getCoveredCells(), pr.getRotatedSubPattern().getCoveredCells());
     }
 
@@ -66,11 +65,11 @@ public class PatternRulesTest {
         coveredCells.add(new SubPatternCell(3,3, Optional.empty()));
 
 
-        SubPattern subPattern = new SubPattern(4,4, coveredCells, 1, 1, false);
+        SubPattern subPattern = new SubPattern(4,4, coveredCells, 1, 1);
 
         assertNotNull(subPattern);
 
-        PatternRules pr = new PatternRules(subPattern);
+        CommonPatternRules pr = new CommonPatternRules(subPattern, 1,true,false,false);
 
         // the two patterns must not be equal. the following code will check that
         // the height of one is the length of the other and vice-versa
@@ -91,7 +90,6 @@ public class PatternRulesTest {
         assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getLength());
         assertEquals(pr.getSubPattern().getMaxDifferentTypes(), pr.getRotatedSubPattern().getMaxDifferentTypes());
         assertEquals(pr.getSubPattern().getMinDifferentTypes(), pr.getRotatedSubPattern().getMinDifferentTypes());
-        assertEquals(pr.getSubPattern().isRadiallySymmetric(), pr.getRotatedSubPattern().isRadiallySymmetric());
 
         assertEquals(rotatedCoveredCells, pr.getRotatedSubPattern().getCoveredCells());
     }
@@ -110,11 +108,11 @@ public class PatternRulesTest {
         coveredCells.add(new SubPatternCell(1,2, Optional.empty()));
         coveredCells.add(new SubPatternCell(3,3, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(5,6, coveredCells, 1, 1, false);
+        SubPattern subPattern = new SubPattern(5,6, coveredCells, 1, 1);
 
         assertNotNull(subPattern);
 
-        PatternRules pr = new PatternRules(subPattern);
+        CommonPatternRules pr = new CommonPatternRules(subPattern, 1,true,false,false);
 
         // the two patterns must not be equal. the following code will check that
         // the height of one is the length of the other and vice-versa
@@ -138,7 +136,6 @@ public class PatternRulesTest {
         assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getLength());
         assertEquals(pr.getSubPattern().getMaxDifferentTypes(), pr.getRotatedSubPattern().getMaxDifferentTypes());
         assertEquals(pr.getSubPattern().getMinDifferentTypes(), pr.getRotatedSubPattern().getMinDifferentTypes());
-        assertEquals(pr.getSubPattern().isRadiallySymmetric(), pr.getRotatedSubPattern().isRadiallySymmetric());
 
         assertEquals(rotatedCoveredCells, pr.getRotatedSubPattern().getCoveredCells());
     }
@@ -149,11 +146,11 @@ public class PatternRulesTest {
         coveredCells.add(new SubPatternCell(0,0, Optional.empty()));
         coveredCells.add(new SubPatternCell(0,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1, false);
+        SubPattern subPattern = new SubPattern(2,1, coveredCells, 1, 1);
 
         assertNotNull(subPattern);
 
-        PatternRules pr = new PatternRules(subPattern);
+        CommonPatternRules pr = new CommonPatternRules(subPattern, 1,true,false,false);
 
         Set<SubPatternCell> rotatedCoveredCells = new HashSet<>();
         rotatedCoveredCells.add(new SubPatternCell(0,0, Optional.empty()));
@@ -164,7 +161,6 @@ public class PatternRulesTest {
         assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getLength());
         assertEquals(pr.getSubPattern().getMaxDifferentTypes(), pr.getRotatedSubPattern().getMaxDifferentTypes());
         assertEquals(pr.getSubPattern().getMinDifferentTypes(), pr.getRotatedSubPattern().getMinDifferentTypes());
-        assertEquals(pr.getSubPattern().isRadiallySymmetric(), pr.getRotatedSubPattern().isRadiallySymmetric());
 
         assertEquals(rotatedCoveredCells, pr.getRotatedSubPattern().getCoveredCells());
     }
