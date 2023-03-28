@@ -101,9 +101,9 @@ public class CommonGoalCard extends GoalCard{
             numSubPatternsByType.put(objectType, 0);
         }
 
-
+        CommonPatternRules castedPatternRules = (CommonPatternRules) patternRules;
         // Checking if radially symmetric.
-        boolean shouldRotate = ((CommonPatternRules)patternRules).getShouldRotate();
+        boolean shouldRotate = castedPatternRules.getShouldRotate();
         SubPattern subPattern = rules.getSubPattern();
         SubPattern rotatedSubPattern = rules.getRotatedSubPattern();
 
@@ -118,7 +118,7 @@ public class CommonGoalCard extends GoalCard{
                 for (int x = 0; x < SHELF_LENGTH; x++) {
 
                     // Check if the shelf portion contains a valid subpattern.
-                    CheckShelfPortionResult result = checkShelfPortion(s, shelf, previouslyFoundFlags, x, y);
+                    CheckShelfPortionResult result = checkShelfPortion(s, shelf,  previouslyFoundFlags, x, y, castedPatternRules.getAdmitsAdjacency());
                     previouslyFoundFlags = result.getUpdatedFoundCellsMatrix();
 
                     // Checking if found
@@ -157,7 +157,7 @@ public class CommonGoalCard extends GoalCard{
      * @param shelfY                Y coordinate of the shelf portion
      * @return An object containing a "subPattern found" flag and an optional ObjectType which every ShelfCell in the subPattern share.
      */
-    private CheckShelfPortionResult checkShelfPortion(SubPattern subPattern, Shelf shelf, boolean[][] oldFoundCellsMatrix, int shelfX, int shelfY){
+    private CheckShelfPortionResult checkShelfPortion(SubPattern subPattern, Shelf shelf, boolean[][] oldFoundCellsMatrix, int shelfX, int shelfY, boolean admitsAdjacency){
 
         Optional<ObjectTypeEnum> commonColor = Optional.empty();
         boolean[][] foundCellsMatrix = MatrixUtils.clone(oldFoundCellsMatrix);
@@ -181,9 +181,8 @@ public class CommonGoalCard extends GoalCard{
             if(shelf.getCell(absX, absY).getCellCard().isEmpty())
                 return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
 
-            // @TODO: Case with subPatterns that can be adjacent not covered yet.
 
-            // If the cell has been previously found in a subpattern (or adjacent to it when requested)
+            // If the cell has been previously found in a subpattern (or adjacent to it when requested).
             if(oldFoundCellsMatrix[absY][absX])
                 return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
 
@@ -192,18 +191,22 @@ public class CommonGoalCard extends GoalCard{
             ObjectCard oc = sc.getCellCard().get();
             diffColors.add(oc.getType());
 
-            // @TODO: Case with subPatterns that can be adjacent not covered yet.
             //Marking the shelf cell and its adjacent
             foundCellsMatrix[absY][absX] = true;
-            if(absX+1 < SHELF_LENGTH)
-                foundCellsMatrix[absY][absX+1] = true;
-            if(absY+1 < SHELF_HEIGHT)
-                foundCellsMatrix[absY+1][absX] = true;
-            if(absX-1 >= 0)
-                foundCellsMatrix[absY][absX-1] = true;
-            if(absY-1 >= 0)
-                foundCellsMatrix[absY-1][absX] = true;
-
+            if(!admitsAdjacency) {
+                if (absX + 1 < SHELF_LENGTH)
+                    foundCellsMatrix[absY][absX + 1] = true;
+                if (absY + 1 < SHELF_HEIGHT)
+                    foundCellsMatrix[absY + 1][absX] = true;
+                if (absX - 1 >= 0)
+                    foundCellsMatrix[absY][absX - 1] = true;
+                if (absY - 1 >= 0)
+                    foundCellsMatrix[absY - 1][absX] = true;
+            }
+            /*
+            System.out.println("x: "+absY+", y: "+ absY);
+            MatrixUtils.printMatrix(foundCellsMatrix);
+            */
         }
 
 
