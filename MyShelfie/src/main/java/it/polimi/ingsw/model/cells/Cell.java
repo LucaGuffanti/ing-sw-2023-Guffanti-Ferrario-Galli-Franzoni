@@ -31,6 +31,6 @@ public abstract class Cell {
         if(cellCard.isPresent())
             return cellCard.get().getType().toString();
         else
-            return "X";
+            return "X ";
     }
 }

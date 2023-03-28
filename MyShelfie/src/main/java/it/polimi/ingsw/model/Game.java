@@ -3,10 +3,14 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.EndOfGameCard;
 import it.polimi.ingsw.model.cards.PersonalGoalCard;
+import it.polimi.ingsw.model.cards.PointCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The main game class. <br>
@@ -118,8 +122,135 @@ public class Game {
         }
     }
 
+    /**
+     * This method picks a personalGoalCard from the sack and gives it to the player
+     * @param player the player who should receive the personalGoalCard
+     * @param goalCard the card that should be given to the player
+     */
     private void givePersonalGoalCardToPlayer(Player player, PersonalGoalCard goalCard) {
-        // TODO implement method
+        player.setGoal(goalCard);
     }
 
+    /**
+     * At the end of a turn, the current player should receive points based on the
+     * completion of the commonGoalCard. If the player is the first one completing the shelf, the
+     * game should enter the last stage, and the player should be awarded the EndOfGameCard.
+     * @param currentPlayer the currentPlayer
+     */
+    public void awardTurnWisePoints(Player currentPlayer) {
+        boolean completedFirst = currentPlayer.getAchievements().isCompletedFirstCommonGoal();
+        boolean completedSecond = currentPlayer.getAchievements().isCompletedSecondCommonGoal();
+        CommonGoalCard toBeChecked;
+        PointCard pointsToBeAwarded;
+
+        // the player can complete the common goal card only if it hasn't been completed yet by the same player.
+        if (!completedFirst) {
+            toBeChecked = gameInfo.getSelectedCommonGoals().get(0);
+            pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
+            awardPointCard(currentPlayer, pointsToBeAwarded, 1);
+        }
+        if(!completedSecond) {
+            toBeChecked = gameInfo.getSelectedCommonGoals().get(1);
+            pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
+            awardPointCard(currentPlayer, pointsToBeAwarded, 2);
+        }
+
+        // if the player has completed the shelf, award the end of game card
+        if (currentPlayer.getShelf().isFull()) {
+            gameInfo.setGameStatus(GameStatusEnum.LAST_TURN);
+            awardEndOfGameCard(currentPlayer);
+        }
+    }
+
+    /**
+     * @param currPlayer the player who will be awarded the pointCard
+     * @param pointCard the pointCard that will be awarded to the player
+     * @param fromWhichCommonGoal the id of the common goal card (either 1 or 2) the points are coming from
+     */
+    private void awardPointCard(Player currPlayer, PointCard pointCard, int fromWhichCommonGoal) {
+        // the point card should be awarded only if its points are not 0
+        if (pointCard.getPointsGiven() != 0) {
+            // if the point card is meaningful the player gets it, and the common goal is marked as completed.
+            currPlayer.getAchievements().getPointCardsEarned().add(pointCard);
+            if (fromWhichCommonGoal == 1) {
+                currPlayer.getAchievements().setCompletedFirstCommonGoal(true);
+            } else {
+                currPlayer.getAchievements().setCompletedSecondCommonGoal(true);
+            }
+        }
+    }
+
+    /**
+     * This method simply awards the end of game card to the first player completing the shelf.
+     * @param firstToComplete the first player who completes the shelf
+     */
+    private void awardEndOfGameCard(Player firstToComplete) {
+        firstToComplete.getAchievements().setFirstToFinish(true);
+        endOfGameCard.setAssigned(true);
+    }
+
+    /**
+     * This method is called when the game ends. It commands
+     * the award of the final points and declares the winner
+     */
+    public void endGame(List<Player> playersOrderedInTurns) {
+        gameInfo.setGameStatus(GameStatusEnum.ENDED);
+        gameCheckout(playersOrderedInTurns);
+
+    }
+
+    /**
+     * This method calculates the points of each player in the game.
+     * @return The nickname of the winner of the game
+     * @param playersOrderedInTurns the list containing the players ordered in terms of turns, where the first
+     *                              element of the list is the first player to play and the last element is the last
+     *                              player to play
+     */
+    private String gameCheckout(List<Player> playersOrderedInTurns) {
+
+        String winnerNickName;
+        int winnerPoints;
+
+        winnerNickName = players.get(0).getNickname();
+        winnerPoints = calculateFinalPoints(players.get(0));
+
+        // the player who has more points wins the game. if more players
+        // have the same amount of points, the player that's the furthest (moving clockwise) from the starting
+        // player wins the game, hence the <= in the check.
+
+        for(int i = 1; i < players.size(); i++) {
+            int currentPoints = calculateFinalPoints(players.get(i));
+            if(winnerPoints <= currentPoints) {
+                winnerPoints = currentPoints;
+                winnerNickName = players.get(i).getNickname();
+            }
+        }
+        return winnerNickName;
+    }
+
+    /**
+     * This method calculates the total points of a given player, and is called when the game ends
+     * @param player the player whose points will be calculated
+     * @return the final points of the player
+     */
+    private int calculateFinalPoints(Player player) {
+        int finalPoints = 0;
+
+        // first calculate the total points given by completing common goal cards
+        finalPoints += player.getAchievements().getPointCardsEarned().stream()
+                .map(PointCard::getPointsGiven)
+                .reduce(0, Integer::sum);
+        // then calculate the total points given by completing the personal goal card
+        PersonalGoalCard playerGoal = player.getGoal();
+        finalPoints += playerGoal.calculatePoints(player);
+        // then calculate the total points given by having adjacent cards in the shelf
+        finalPoints += EndGameAdjacencyGoalChecker.calculateAdjacencyPoints(player);
+        // then, if the player is the first to complete the shelf, add 1 point
+        if (player.getAchievements().isFirstToFinish()) {
+            finalPoints += 1;
+        }
+
+        // the verification of points is completed: return the total points.
+        return finalPoints;
+    }
 }

@@ -6,5 +6,6 @@ package it.polimi.ingsw.model;
 public enum GameStatusEnum {
     ACCEPTING_PLAYERS,
     STARTED,
+    LAST_TURN,
     ENDED;
 }
