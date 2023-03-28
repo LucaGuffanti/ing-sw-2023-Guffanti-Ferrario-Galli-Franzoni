@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
+import it.polimi.ingsw.model.utils.CsvToShelfParser;
 import it.polimi.ingsw.model.utils.MatrixUtils;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
@@ -32,20 +33,13 @@ public class CommonGoalCardTest {
         final int NUMBER_OF_PLAYERS = 4;
         final int EXPECTED_POINT_CARD_VALUE = 8;
 
-        // @TODO: ADDING THE CSV PARSER
-        //Shelf shelf = new Shelf(SHELF_LENGTH, SHELF_HEIGHT, MatrixParser.parse("assets/shelf1.csv", SHELF_LENGTH, SHELF_HEIGHT));
-        ShelfCell[][] cells = MatrixUtils.emptyShelfCellMatrixInit(SHELF_LENGTH, SHELF_HEIGHT);
-        cells[1][1] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[2][1] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[1][2] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[2][2] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
 
-        cells[3][3] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[3][4] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[4][3] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[4][4] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-
-        Shelf shelf = new Shelf(SHELF_LENGTH, SHELF_HEIGHT, cells);
+        Shelf shelf = null;
+        try {
+            shelf = CsvToShelfParser.readLineByLine("src/main/assets/shelfConfigurations/twoSquaresSameColorNotAdjacent.csv");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         Player player = new Player(shelf, "testUser");
 

@@ -47,7 +47,7 @@ public class MatrixUtils {
         // Printing the founded cells
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
-                tmp = m[i][j].toString()+" ";
+                tmp = m[i][j].toString()+"  ";
                 s = s.concat(tmp);
                 System.out.print(tmp);
 
