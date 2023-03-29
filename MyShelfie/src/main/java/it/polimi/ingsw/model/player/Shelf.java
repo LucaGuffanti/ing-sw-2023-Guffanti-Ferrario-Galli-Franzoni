@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class contains a player's shelf status and manipulates it with some methods
+ * This class contains a player's shelf status and manipulates it with some methods.
  * @author Marco Galli
  * @see ShelfCell
  * @see ObjectCard
@@ -16,28 +16,9 @@ import java.util.Optional;
 
 
 public class Shelf {
-    private int heightInCells;
-    private int lengthInCells;
     private ShelfCell[][] cells;
-    // cells[0][0] means bottom left
     private boolean isFull;
     private int[] highestOccupiedCell;
-
-    public int getHeightInCells() {
-        return heightInCells;
-    }
-
-    public void setHeightInCells(int heightInCells) {
-        this.heightInCells = heightInCells;
-    }
-
-    public int getLengthInCells() {
-        return lengthInCells;
-    }
-
-    public void setLengthInCells(int lengthInCells) {
-        this.lengthInCells = lengthInCells;
-    }
 
     public ShelfCell[][] getCells() {
         return cells;
@@ -63,12 +44,11 @@ public class Shelf {
         this.highestOccupiedCell = highestOccupiedCell;
     }
 
-    public Shelf(int lengthInCells, int heightInCells, ShelfCell[][] cells) {
-        this.heightInCells = heightInCells;
-        this.lengthInCells = lengthInCells;
-        this.cells = cells;
+    public Shelf() {
+        cells = new ShelfCell[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
         isFull = false;
-        highestOccupiedCell = new int[]{0, 0, 0, 0, 0};
+        highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
+                Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
     }
 
     public ShelfCell getCell(int x, int y){
@@ -77,13 +57,13 @@ public class Shelf {
 
     /**
      * This method checks if a list of object cards, taken by a player from the board, can be added to a shelf.
-     * @param col column where a player wants to insert object cards
+     * @param column column where a player wants to insert his object cards into the shelf
      * @param cards list of object card that a player has taken from the board
      * @return outcome of this check
      */
-    private boolean checkCardsAddability(int col, List<ObjectCard> cards) {
+    private boolean checkCardsAddability(int column, List<ObjectCard> cards) {
         boolean canInsert;
-        if (highestOccupiedCell[col] + cards.size() <= heightInCells) {
+        if (highestOccupiedCell[column] - cards.size() >= 0) {
             canInsert = true;
         } else {
             canInsert = false;
@@ -92,17 +72,17 @@ public class Shelf {
     }
 
     /**
-     * This method adds to a shelf a list of object card taken from the board by a player
-     * @param col column where a player wants to insert object cards
+     * This method adds to a shelf a list of object card taken from the board by a player.
+     * @param column column where a player wants to insert his object cards into the shelf
      * @param cards list of object card that a player has taken from the board
      * @return outcome of the addition
      */
-    public boolean addCardsToColumn(int col, List<ObjectCard> cards) {
+    public boolean addCardsToColumn(int column, List<ObjectCard> cards) {
         boolean success;
-        if (checkCardsAddability(col, cards)) {
+        if (checkCardsAddability(column, cards)) {
             for (ObjectCard card : cards) {
-                cells[highestOccupiedCell[col]][col].setCellCard(Optional.of(card));
-                highestOccupiedCell[col]++;
+                highestOccupiedCell[column]--;
+                cells[highestOccupiedCell[column]][column].setCellCard(Optional.of(card));
             }
             success = true;
         } else {

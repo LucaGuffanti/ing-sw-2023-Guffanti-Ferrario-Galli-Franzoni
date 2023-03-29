@@ -59,10 +59,10 @@ public class Player {
         this.goal = goal;
     }
 
-    public Player(Shelf shelf, String nickname) {
+    public Player(String nickname) {
         this.nickname = nickname;
         isActive = verifyActive();
-        this.shelf = shelf;
+        shelf = new Shelf();
     }
 
     /**
@@ -75,26 +75,12 @@ public class Player {
     }
 
     /**
-     * This method adds points to the Set of a player's PointCard.
-     * @param pointCard the point card earned
-     */
-    public void addPoints(PointCard pointCard) {
-        achievements.getPointCardsEarned().add(pointCard);
-    }
-
-    /**
-     * This method updates achievements of the player.
-     */
-    public void updateAchievements() {
-        // after a pattern discovered that you have achieved something, this turn to true that goal
-    }
-
-    /**
      * This method adds cards which a player picks on his turn to the player's shelf.
-     * @param shelf the player's shelf
+     * @param column column where a player wants to insert his object cards into the shelf
      * @param cards the cards you pick in your turn
      */
-    public void addCardsToShelf(Shelf shelf, List<ObjectCard> cards) {
-        // check where you can put the list of cards on your shelf and put them there
+    public boolean addCardsToShelf(int column, List<ObjectCard> cards) {
+        boolean success = shelf.addCardsToColumn(column, cards);
+        return success;
     }
 }
