@@ -58,6 +58,6 @@ public class CsvToShelfParser {
             e.printStackTrace();
         }
 
-        return new Shelf(SHELF_HEIGHT, SHELF_LENGTH, cells);
+        return new Shelf(SHELF_LENGTH, SHELF_HEIGHT, cells);
     }
 }

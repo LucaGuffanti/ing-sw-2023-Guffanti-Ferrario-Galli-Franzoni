@@ -19,12 +19,44 @@ public class Player {
     private PlayerAchievements achievements;
     private PersonalGoalCard goal;
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public Shelf getShelf() {
         return shelf;
     }
 
     public void setShelf(Shelf shelf) {
         this.shelf = shelf;
+    }
+
+    public PlayerAchievements getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(PlayerAchievements achievements) {
+        this.achievements = achievements;
+    }
+
+    public PersonalGoalCard getGoal() {
+        return goal;
+    }
+
+    public void setGoal(PersonalGoalCard goal) {
+        this.goal = goal;
     }
 
     public Player(Shelf shelf, String nickname) {
@@ -64,37 +96,5 @@ public class Player {
      */
     public void addCardsToShelf(Shelf shelf, List<ObjectCard> cards) {
         // check where you can put the list of cards on your shelf and put them there
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public void setAchievements(PlayerAchievements achievements) {
-        this.achievements = achievements;
-    }
-
-    public void setGoal(PersonalGoalCard goal) {
-        this.goal = goal;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public PlayerAchievements getAchievements() {
-        return achievements;
-    }
-
-    public PersonalGoalCard getGoal() {
-        return goal;
     }
 }
