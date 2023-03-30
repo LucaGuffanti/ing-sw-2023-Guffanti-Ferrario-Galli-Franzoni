@@ -65,6 +65,12 @@ public class Player {
         shelf = new Shelf();
     }
 
+    public Player(Shelf shelf, String nickname) {
+        this.nickname = nickname;
+        isActive = verifyActive();
+        this.shelf = shelf;
+    }
+
     /**
      * This method verifies if a player is connected to the game.
      * @return the player status
@@ -76,11 +82,12 @@ public class Player {
 
     /**
      * This method adds cards which a player picks on his turn to the player's shelf.
-     * @param column column where a player wants to insert his object cards into the shelf
      * @param cards the cards you pick in your turn
+     * @param column column where a player wants to insert his object cards into the shelf
+     * @return whether a card has been successfully added
      */
-    public boolean addCardsToShelf(int column, List<ObjectCard> cards) {
-        boolean success = shelf.addCardsToColumn(column, cards);
+    public boolean addCardsToShelf(List<ObjectCard> cards, int column) {
+        boolean success = shelf.addCardsToColumn(cards, column);
         return success;
     }
 }

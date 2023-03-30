@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.ObjectCard;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.utils.Constants;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,17 @@ public class Shelf {
     private ShelfCell[][] cells;
     private boolean isFull;
     private int[] highestOccupiedCell;
+
+    private int lengthInCells = Constants.SHELF_LENGTH;
+    private int heightInCells = Constants.SHELF_HEIGHT;
+
+    public int getLengthInCells() {
+        return lengthInCells;
+    }
+
+    public int getHeightInCells() {
+        return heightInCells;
+    }
 
     public ShelfCell[][] getCells() {
         return cells;
@@ -51,6 +63,16 @@ public class Shelf {
                 Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
     }
 
+    public Shelf(int length, int height, ShelfCell[][] cells) {
+        this.cells = cells;
+        isFull = false;
+        this.lengthInCells = length;
+        this.heightInCells = height;
+        highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
+                Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
+    }
+
+
     public ShelfCell getCell(int x, int y){
         return cells[y][x];
     }
@@ -61,7 +83,7 @@ public class Shelf {
      * @param cards list of object card that a player has taken from the board
      * @return outcome of this check
      */
-    private boolean checkCardsAddability(int column, List<ObjectCard> cards) {
+    private boolean checkCardsAddability(List<ObjectCard> cards, int column) {
         boolean canInsert;
         if (highestOccupiedCell[column] - cards.size() >= 0) {
             canInsert = true;
@@ -73,13 +95,13 @@ public class Shelf {
 
     /**
      * This method adds to a shelf a list of object card taken from the board by a player.
-     * @param column column where a player wants to insert his object cards into the shelf
      * @param cards list of object card that a player has taken from the board
+     * @param column column where a player wants to insert his object cards into the shelf
      * @return outcome of the addition
      */
-    public boolean addCardsToColumn(int column, List<ObjectCard> cards) {
+    public boolean addCardsToColumn(List<ObjectCard> cards, int column) {
         boolean success;
-        if (checkCardsAddability(column, cards)) {
+        if (checkCardsAddability(cards, column)) {
             for (ObjectCard card : cards) {
                 highestOccupiedCell[column]--;
                 cells[highestOccupiedCell[column]][column].setCellCard(Optional.of(card));
