@@ -34,7 +34,7 @@ public class CsvToShelfParser {
 
 
 
-    public static Shelf readLineByLine(String path) throws Exception {
+    public static Shelf convert(String path) throws Exception {
         ShelfCell[][] cells = new ShelfCell[SHELF_HEIGHT][SHELF_LENGTH];
 
         try(CSVReader reader = new CSVReader(new FileReader(path)))

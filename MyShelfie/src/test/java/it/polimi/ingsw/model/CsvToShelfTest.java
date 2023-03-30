@@ -10,7 +10,7 @@ public class CsvToShelfTest {
     @Test
     public void test(){
         try {
-            Shelf result =  CsvToShelfParser.readLineByLine("src/main/assets/shelfConfigurations/twoSquaresSameColorNotAdjacent.csv");
+            Shelf result =  CsvToShelfParser.convert("src/main/assets/shelfConfigurations/twoSquaresSameColorNotAdjacent.csv");
             MatrixUtils.printMatrix(result.getCells());
         }catch(Exception ex){
             ex.printStackTrace();

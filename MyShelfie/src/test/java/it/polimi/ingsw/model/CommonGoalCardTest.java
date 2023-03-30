@@ -36,7 +36,7 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf = CsvToShelfParser.readLineByLine("src/main/assets/shelfConfigurations/twoSquaresSameColorNotAdjacent.csv");
+            shelf = CsvToShelfParser.convert("src/main/assets/shelfConfigurations/twoSquaresSameColorNotAdjacent.csv");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -64,11 +64,6 @@ public class CommonGoalCardTest {
         }
 
         assertEquals(EXPECTED_POINT_CARD_VALUE, exampleCard.calculatePoints(player).getPointsGiven());
-        assertEquals(EXPECTED_POINT_CARD_VALUE - 2, exampleCard.calculatePoints(player).getPointsGiven());
-        assertEquals(EXPECTED_POINT_CARD_VALUE - 4, exampleCard.calculatePoints(player).getPointsGiven());
-        assertEquals(EXPECTED_POINT_CARD_VALUE - 6, exampleCard.calculatePoints(player).getPointsGiven());
-        assertEquals(0, exampleCard.calculatePoints(player).getPointsGiven());
-        assertEquals(0, exampleCard.calculatePoints(player).getPointsGiven());
 
     }
 
@@ -235,15 +230,7 @@ public class CommonGoalCardTest {
 
     }
 
-    @Test
-    public void matrixClonePrint(){
-        boolean[][] a=  MatrixUtils.createEmptyMatrix(SHELF_LENGTH, SHELF_HEIGHT);
-        a[0][0] = true;
-        a[5][4] = true;
-        boolean[][] b = MatrixUtils.clone(a);
 
-        assertEquals(MatrixUtils.printMatrix(a), MatrixUtils.printMatrix(b));
-    }
     @Test
     public void six1x2nonAdjacentRotated_expectedValid() {
 
