@@ -18,7 +18,6 @@ public class Board {
         heightInCells = Constants.BOARD_DIMENSION;
         lengthInCells = Constants.BOARD_DIMENSION;
         initBoard(nPlayer);
-        toBeRefilled = false;
     }
 
     /**
@@ -26,12 +25,46 @@ public class Board {
      * @param sack the game sack
      */
     public void refillBoard(Sack sack) {
-
+        //algorithm
+        toBeRefilled = false;
     }
 
-    public void initBoard(int nPlayer) {}
+    public void initBoard(int nPlayer) {
+        // algorithm
+        toBeRefilled = false;
+    }
 
     public boolean shouldBeRefilled() {
+        boolean found = false;
+        for (int i = 0; i < Constants.SHELF_HEIGHT && !found; i++) {
+            for (int j = 0; j < Constants.SHELF_LENGTH && !found; j++) {
+                if (i == 0 && j == 0) {
+                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent()
+                            || cells[i+1][j].getCellCard().isPresent())) {
+                        found = true;
+                    }
+                } else if (i == 0 && j != 0) {
+                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
+                            cells[i][j-1].getCellCard().isPresent() || cells[i+1][j].getCellCard().isPresent())) {
+                        found = true;
+                    }
+                } else if (i != 0 && j == 0) {
+                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
+                            cells[i+1][j].getCellCard().isPresent() || cells[i-1][j].getCellCard().isPresent())) {
+                        found = true;
+                    }
+                } else if (i != 0 && j != 0) {
+                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
+                            cells[i][j-1].getCellCard().isPresent() || cells[i+1][j].getCellCard().isPresent()
+                            || cells[i-1][j].getCellCard().isPresent())) {
+                        found = true;
+                    }
+                }
+            }
+        }
+        if (!found) {
+            toBeRefilled = true;
+        }
         return toBeRefilled;
     }
 }
