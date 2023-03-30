@@ -42,7 +42,7 @@ public class CsvToShelfParser {
             String [] nextLine;
             int x = 0, y = 0;
 
-            // Legge una riga per volta dal file csv ( nextLine è array di stringhe )
+            // Reads one line at a time from the csv file (nextLine is an array of strings)
             while ((nextLine = reader.readNext()) != null)
             {
                for (String word: nextLine) {
@@ -50,14 +50,16 @@ public class CsvToShelfParser {
                    x++;
                }
                System.out.println();
-                y++;
-                x = 0;
+               y++;
+               x = 0;
             }
         }
         catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
 
-        return new Shelf(SHELF_HEIGHT, SHELF_LENGTH, cells);
+        Shelf shelf = new Shelf();
+        shelf.setCells(cells);
+        return shelf;
     }
 }
