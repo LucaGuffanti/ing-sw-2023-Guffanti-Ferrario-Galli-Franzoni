@@ -29,6 +29,8 @@ public class CommonGoalCard extends GoalCard{
         this.pointsCards = pointsCard;
     }
 
+    
+
     /**
      * This method calculates the points the user will receive
      * based on how many players have already reached the goal.

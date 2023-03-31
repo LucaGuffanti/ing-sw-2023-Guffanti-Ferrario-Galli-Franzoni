@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.CardBuilder;
 import it.polimi.ingsw.model.cards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.GoalCard;
 import it.polimi.ingsw.model.cards.PersonalGoalCard;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class is effectively a deck of cards. It's instantiated once in the entire program
@@ -28,16 +28,19 @@ import java.util.Random;
  */
 public class GoalCardsDeckSingleton {
     public static GoalCardsDeckSingleton instance = null;
-    private ArrayList<PersonalGoalCard> personalGoals;
-    private ArrayList<CommonGoalCard> commonGoals;
+    private Set<PersonalGoalCard> personalGoals;
+    private Map<String, CommonGoalCard> commonGoals;
 
     private GoalCardsDeckSingleton() {
         // TODO load resources from the json file
-        personalGoals = new ArrayList<>();
-        commonGoals = new ArrayList<>();
+        personalGoals = new HashSet<>();
 
         // call CardBuilder.loadPersonalGoalCardsFromJson(path_to_file);
-        // call CardBuilder.loadCommonGoalCardsFromJson(path_to_file);
+        try {
+            commonGoals = CardBuilder.loadPersonalGoalCardsFromJson("src/main/assets/cards/commonGoalCards.json", 4);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public static synchronized GoalCardsDeckSingleton getInstance() {
@@ -47,6 +50,9 @@ public class GoalCardsDeckSingleton {
         return instance;
     }
 
+    public CommonGoalCard getCommonGoalCardById(String id){
+        return commonGoals.get(id);
+    }
     /**
      * This method shuffles the personalGoals list and returns the first nPlayers elements as an arrayList
      * @param nPlayers the number of players

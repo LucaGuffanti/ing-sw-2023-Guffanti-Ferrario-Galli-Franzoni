@@ -1,9 +1,13 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.utils.JsonGoalCardsParser;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains static methods that can be used to mass
@@ -74,7 +78,9 @@ public class CardBuilder {
                 throw new WrongPointCardsValueGivenException(pointsGiven);
         }
 
+    }
 
-
+    public static Map<String, CommonGoalCard> loadPersonalGoalCardsFromJson(String path, int playersNumber) throws WrongPointCardsValueGivenException, WrongNumberOfPlayersException, IOException {
+        return JsonGoalCardsParser.parseCommonGoals(path, playersNumber);
     }
 }

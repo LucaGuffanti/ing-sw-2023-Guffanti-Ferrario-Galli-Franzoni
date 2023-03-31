@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 import it.polimi.ingsw.model.utils.CsvToShelfParser;
+import it.polimi.ingsw.model.utils.JsonGoalCardsParser;
 import it.polimi.ingsw.model.utils.MatrixUtils;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
@@ -45,21 +46,16 @@ public class CommonGoalCardTest {
 
         // Card Data 1--------------
         Set<SubPatternCell> coveredCells = new HashSet<>();
-        coveredCells.add(new SubPatternCell(0,0, Optional.empty()));
-        coveredCells.add(new SubPatternCell(0,1, Optional.empty()));
-        coveredCells.add(new SubPatternCell(1,0, Optional.empty()));
-        coveredCells.add(new SubPatternCell(1,1, Optional.empty()));
 
-        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1);
-        CommonPatternRules rules = new CommonPatternRules(subPattern, 2, false, false, true);
+
 
         CommonGoalCard exampleCard;
+        GoalCardsDeckSingleton gs = GoalCardsDeckSingleton.getInstance();
 
         try {
-            exampleCard = new CommonGoalCard("0", CardBuilder.generatePointsCards(NUMBER_OF_PLAYERS), rules);
-
+            exampleCard = gs.getCommonGoalCardById("6");
         }catch(Exception ex){
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
             return;
         }
 
@@ -73,40 +69,22 @@ public class CommonGoalCardTest {
         final int NUMBER_OF_PLAYERS = 4;
         final int EXPECTED_POINT_CARD_VALUE = 8;
 
-        // @TODO: ADDING THE CSV PARSER
-        //Shelf shelf = new Shelf(SHELF_LENGTH, SHELF_HEIGHT, MatrixParser.parse("assets/shelf1.csv", SHELF_LENGTH, SHELF_HEIGHT));
-        ShelfCell[][] cells = MatrixUtils.emptyShelfCellMatrixInit(SHELF_LENGTH, SHELF_HEIGHT);
-        cells[1][1] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[1][2] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[2][1] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[2][2] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-
-        cells[3][2] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[4][2] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[3][3] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-        cells[4][3] = new ShelfCell(Optional.of(new ObjectCard(ObjectTypeEnum.CAT)));
-
-        Shelf shelf = new Shelf(SHELF_LENGTH, SHELF_HEIGHT, cells);
+        Shelf shelf = null;
+        try {
+            shelf = CsvToShelfParser.convert("src/main/assets/shelfConfigurations/twoSquaresSameColorAdjacent.csv");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         Player player = new Player(shelf, "testUser");
 
-        // Card Data 1--------------
-        Set<SubPatternCell> coveredCells = new HashSet<>();
-        coveredCells.add(new SubPatternCell(0,0, Optional.empty()));
-        coveredCells.add(new SubPatternCell(0,1, Optional.empty()));
-        coveredCells.add(new SubPatternCell(1,0, Optional.empty()));
-        coveredCells.add(new SubPatternCell(1,1, Optional.empty()));
-
-        SubPattern subPattern = new SubPattern(2,2, coveredCells, 1, 1);
-        CommonPatternRules rules = new CommonPatternRules(subPattern, 2, false, false, true);
-
         CommonGoalCard exampleCard;
+        GoalCardsDeckSingleton gs = GoalCardsDeckSingleton.getInstance();
 
         try {
-            exampleCard = new CommonGoalCard("0", CardBuilder.generatePointsCards(NUMBER_OF_PLAYERS), rules);
-
+            exampleCard = gs.getCommonGoalCardById("6");
         }catch(Exception ex){
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
             return;
         }
 
