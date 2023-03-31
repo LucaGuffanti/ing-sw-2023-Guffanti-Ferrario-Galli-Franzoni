@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.cards.ObjectCard;
+import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.utils.Constants;
 
@@ -38,15 +39,14 @@ public class Shelf {
 
     public void setCells(ShelfCell[][] cells) {
         this.cells = cells;
+        fixHighestOccupiedCell();
     }
 
     public boolean isFull() {
+        isFull = checkFullness();
         return isFull;
     }
 
-    public void setFull(boolean full) {
-        isFull = full;
-    }
 
     public int[] getHighestOccupiedCell() {
         return highestOccupiedCell;
@@ -58,6 +58,12 @@ public class Shelf {
 
     public Shelf() {
         cells = new ShelfCell[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
+
+        for (int y = 0; y < heightInCells; y++) {
+            for (int x = 0; x < lengthInCells; x++) {
+                cells[y][x] = new ShelfCell(Optional.empty());
+            }
+        }
         isFull = false;
         highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
                 Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
@@ -70,6 +76,20 @@ public class Shelf {
         this.heightInCells = height;
         highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
                 Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
+        fixHighestOccupiedCell();
+    }
+
+    private void fixHighestOccupiedCell() {
+        for (int i = 0; i < 5; i++) {
+            highestOccupiedCell[i] = 6;
+        }
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 6; y++) {
+                if (!cells[y][x].getCellCard().isEmpty()) {
+                    highestOccupiedCell[x]--;
+                }
+            }
+        }
     }
 
 
@@ -110,6 +130,18 @@ public class Shelf {
         } else {
             success = false;
         }
+
+        isFull = checkFullness();
+
         return success;
+    }
+
+    public boolean checkFullness() {
+        for (int i = 0; i < lengthInCells; i++) {
+            if (highestOccupiedCell[i] != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

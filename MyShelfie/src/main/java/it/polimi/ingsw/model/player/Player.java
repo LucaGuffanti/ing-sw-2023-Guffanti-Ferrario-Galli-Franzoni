@@ -23,10 +23,6 @@ public class Player {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public boolean isActive() {
         return isActive;
     }
@@ -47,10 +43,6 @@ public class Player {
         return achievements;
     }
 
-    public void setAchievements(PlayerAchievements achievements) {
-        this.achievements = achievements;
-    }
-
     public PersonalGoalCard getGoal() {
         return goal;
     }
@@ -63,12 +55,14 @@ public class Player {
         this.nickname = nickname;
         isActive = verifyActive();
         shelf = new Shelf();
+        achievements = new PlayerAchievements();
     }
 
     public Player(Shelf shelf, String nickname) {
         this.nickname = nickname;
         isActive = verifyActive();
         this.shelf = shelf;
+        achievements = new PlayerAchievements();
     }
 
     /**
@@ -88,6 +82,9 @@ public class Player {
      */
     public boolean addCardsToShelf(List<ObjectCard> cards, int column) {
         boolean success = shelf.addCardsToColumn(cards, column);
+        if (shelf.isFull()) {
+            achievements.setCompletedShelf(true);
+        }
         return success;
     }
 }

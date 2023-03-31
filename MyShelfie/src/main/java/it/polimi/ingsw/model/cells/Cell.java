@@ -12,10 +12,8 @@ import java.util.Optional;
 public abstract class Cell {
     private Optional<ObjectCard> cellCard;
 
-
     public Cell(Optional cellCard) {
         this.cellCard = cellCard;
-
     }
 
     public Optional<ObjectCard> getCellCard() {
