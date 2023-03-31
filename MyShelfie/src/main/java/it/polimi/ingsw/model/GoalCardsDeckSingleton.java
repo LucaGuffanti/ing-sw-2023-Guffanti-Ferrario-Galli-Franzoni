@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.CardBuilder;
-import it.polimi.ingsw.model.cards.CommonGoalCard;
-import it.polimi.ingsw.model.cards.GoalCard;
-import it.polimi.ingsw.model.cards.PersonalGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -22,8 +20,8 @@ import java.util.*;
  * throughout the program, and the json file in which the definition of the goal cards is found has to be parsed only once.
  *
  * @author Luca Guffanti
- * @see it.polimi.ingsw.model.cards.CommonGoalCard
- * @see it.polimi.ingsw.model.cards.PersonalGoalCard
+ * @see CommonGoalCard
+ * @see PersonalGoalCard
  * @see Game
  */
 public class GoalCardsDeckSingleton {

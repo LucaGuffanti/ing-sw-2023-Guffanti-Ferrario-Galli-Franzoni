@@ -25,6 +25,7 @@ public class CsvToShelfParser {
 
     private static final Map<String, Optional<ObjectCard> > map = Map.of(
             "G", Optional.of(new ObjectCard(ObjectTypeEnum.CAT)),
+            "B", Optional.of(new ObjectCard(ObjectTypeEnum.FRAME)),
             "W", Optional.of(new ObjectCard(ObjectTypeEnum.BOOK)),
             "Y", Optional.of(new ObjectCard(ObjectTypeEnum.TOY)),
             "C", Optional.of(new ObjectCard(ObjectTypeEnum.FRAME)),

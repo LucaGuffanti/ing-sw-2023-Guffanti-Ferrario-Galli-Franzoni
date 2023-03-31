@@ -3,18 +3,18 @@ package it.polimi.ingsw.model.cards;
 import java.util.Set;
 
 /**
- * A subPattern is a "subMatrix"-like object of the shelf which is used as
+ * A pattern is a "subMatrix"-like object of the shelf which is used as
  * a mask during the pattern matching. For optimization purposes
  * only coveredCells are saved, while the empty cells are not considered.
  *
  * @author Daniele Ferrario
  */
-public class SubPattern {
+public class Pattern {
 
     /**
      *
      *  @public invariant
-     *  \forall SubPatternCell cell; cell.getX() < height && cell.getY < length;
+     *  \forall PatternCell cell; cell.getX() < height && cell.getY < length;
      *
      */
 
@@ -28,24 +28,24 @@ public class SubPattern {
     private int length;
 
     /**
-     * A set of SubPatternCells which identifies the subPattern
+     * A set of SubPatternCells which identifies the pattern
      * in the mask frame is used instead of a matrix.
      */
-    private Set<SubPatternCell> coveredCells;
+    private Set<PatternCell> coveredCells;
 
     /**
-     * The max number of different types that a subPattern
+     * The max number of different types that a pattern
      * should contain.
      */
     private int maxDifferentTypes;
 
     /**
-     * The min number of different types that a subPattern
+     * The min number of different types that a pattern
      * should contain.
      */
     private int minDifferentTypes;
 
-    public SubPattern(int height, int length, Set<SubPatternCell> coveredCells, int minDifferentTypes, int maxDifferentTypes) {
+    public Pattern(int height, int length, Set<PatternCell> coveredCells, int minDifferentTypes, int maxDifferentTypes) {
         this.height = height;
         this.length = length;
         this.coveredCells = coveredCells;
@@ -79,11 +79,11 @@ public class SubPattern {
         this.length = length;
     }
 
-    public Set<SubPatternCell> getCoveredCells() {
+    public Set<PatternCell> getCoveredCells() {
         return coveredCells;
     }
 
-    public void setCoveredCells(Set<SubPatternCell> coveredCells) {
+    public void setCoveredCells(Set<PatternCell> coveredCells) {
         this.coveredCells = coveredCells;
     }
 

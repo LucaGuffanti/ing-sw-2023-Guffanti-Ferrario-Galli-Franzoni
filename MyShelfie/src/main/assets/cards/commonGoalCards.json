@@ -1,234 +1,211 @@
 { "test": [
   {
     "id": 0,
-    "patternRules": {
-      "subPattern": {
-        "height": 2,
-        "length": 1,
-        "coveredCells": [
-          [0,0], [0,1]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": true,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 6,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 2,
+      "length": 1,
+      "coveredCells": [
+        [0,0], [0,1]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 1
+    },
+    "shouldRotate": true,
+    "admitsAdjacency": false,
+    "minNumberOfOccurrences": 6,
+    "patternsShareSameColor": false
+
   },
   {
     "id": 1,
-    "patternRules": {
-      "subPattern": {
-        "height": 5,
-        "length": 5,
-        "coveredCells": [
-          [0,0],[1, 1], [2, 2], [3, 3], [4, 4]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": true,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 1,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 5,
+      "length": 5,
+      "coveredCells": [
+        [0,0],[1, 1], [2, 2], [3, 3], [4, 4]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 1
+    },
+    "shouldRotate": true,
+    "admitsAdjacency": false,
+    "minNumberOfOccurrences": 1,
+    "patternsShareSameColor": false
+
   },
   {
     "id": 2,
-    "patternRules": {
-      "subPattern": {
-        "height": 6,
-        "length": 5,
-        "coveredCells":[
-        [0,0],[4,0],[5,0],[5,4]
-          ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 1,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 6,
+      "length": 5,
+      "coveredCells":[
+      [0,0],[4,0],[5,0],[5,4]
+        ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 6
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": false,
+    "minNumberOfOccurrences": 1,
+    "patternsShareSameColor": false
+
   },
   {
     "id": 3,
-    "patternRules": {
-      "subPattern": {
-        "height": 1,
-        "length": 5,
-        "coveredCells":[
-          [0,0],[0,1],[0,2],[0,3],[0,4]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 3
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 4,
-      "subPatternsSameColor": false
+    
+    "pattern": {
+      "height": 1,
+      "length": 5,
+      "coveredCells":[
+        [0,0],[1,0],[2,0],[3,0],[4,0]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 3
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": true,
+    "minNumberOfOccurrences": 4,
+    "patternsShareSameColor": false
 
-    }
-  }
-,
-  {
-    "id": 4,
-    "patternRules": {
-      "subPattern": {
-        "height": 4,
-        "length": 1,
-        "coveredCells":[
-          [0,0],[1,0],[2,0],[3,0]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 3
-      },
-      "shouldRotate": true,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 4,
-      "subPatternsSameColor": false
-    }
+
   }
 ,
   {
     "id": 5,
-    "patternRules": {
-      "subPattern": {
-        "height": 6,
-        "length": 1,
-        "coveredCells":[
-          [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 6
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": true,
-      "minNumberOfOccurrences": 2,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 6,
+      "length": 1,
+      "coveredCells":[
+        [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
+      ],
+      "minDifferentTypes": 6,
+      "maxDifferentTypes": 6
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": true,
+    "minNumberOfOccurrences": 2,
+    "patternsShareSameColor": false
+
   }
 
 ,
   {
     "id": 6,
-    "patternRules": {
-      "subPattern": {
-        "height": 2,
-        "length": 2,
-        "coveredCells":[
-          [0,0],[0,1],[1,0],[1,1]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 2,
-      "subPatternsSameColor": true
-    }
+    
+    "pattern": {
+      "height": 2,
+      "length": 2,
+      "coveredCells":[
+        [0,0],[0,1],[1,0],[1,1]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 1
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": false,
+    "minNumberOfOccurrences": 2,
+    "patternsShareSameColor": false
+
   }
 
 ,
   {
     "id": 7,
-    "patternRules": {
-      "subPattern": {
-        "height": 1,
-        "length": 5,
-        "coveredCells":[
-          [0,0],[1,0],[2,0],[3,0],[4,0]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 5
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": true,
-      "minNumberOfOccurrences": 2,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 1,
+      "length": 5,
+      "coveredCells":[
+        [0,0],[1,0],[2,0],[3,0],[4,0]
+      ],
+      "minDifferentTypes": 5,
+      "maxDifferentTypes": 6
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": true,
+    "minNumberOfOccurrences": 2,
+    "patternsShareSameColor": false
+
   }
 
 ,
   {
     "id": 8,
-    "patternRules": {
-      "subPattern": {
-        "height": 6,
-        "length": 1,
-        "coveredCells":[
-          [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 3
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": true,
-      "minNumberOfOccurrences": 3,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 6,
+      "length": 1,
+      "coveredCells":[
+        [0,0],[0,1],[0,2],[0,3],[0,4],[0,5]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 3
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": true,
+    "minNumberOfOccurrences": 3,
+    "patternsShareSameColor": false
+
   }
 
 ,
   {
     "id": 9,
-    "patternRules": {
-      "subPattern": {
-        "height": 3,
-        "length": 3,
-        "coveredCells":[
-          [0,0],[0,2],[1,1],[2,0],[2,2]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": false,
-      "minNumberOfOccurrences": 1,
-      "subPatternsSameColor": false
-    }
+    
+    "pattern": {
+      "height": 3,
+      "length": 3,
+      "coveredCells":[
+        [0,0],[0,2],[1,1],[2,0],[2,2]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 1
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": false,
+    "minNumberOfOccurrences": 1,
+    "patternsShareSameColor": false
+
   }
 
 ,
   {
     "id": 10,
-    "patternRules": {
-      "subPattern": {
-        "height": 1,
-        "length": 1,
-        "coveredCells":[
-          [0,0]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": false,
-      "admitsAdjacency": true,
-      "minNumberOfOccurrences": 8,
-      "subPatternsSameColor": false
-    }
+    "pattern": {
+      "height": 1,
+      "length": 1,
+      "coveredCells":[
+        [0,0]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 1
+    },
+    "shouldRotate": false,
+    "admitsAdjacency": true,
+    "minNumberOfOccurrences": 8,
+    "patternsShareSameColor": true
   }
 
 ,
   {
     "id": 11,
-    "patternRules": {
-      "subPattern": {
-        "height": 5,
-        "length": 5,
-        "coveredCells":[
-          [0,0],[0,1],[1,1],[0,2],[1,2],[2,2],[0,3],[1,3],[2,3],[3,3],[0,4],[1,4],[2,4],[3,4],[4,4]
-        ],
-        "minDifferentTypes": 1,
-        "maxDifferentTypes": 1
-      },
-      "shouldRotate": true,
-      "admitsAdjacency": true,
-      "minNumberOfOccurrences": 1,
-      "subPatternsSameColor": true
-    }
+    "pattern": {
+      "height": 5,
+      "length": 5,
+      "coveredCells":[
+        [0,0],[0,1],[1,1],[0,2],[1,2],[2,2],[0,3],[1,3],[2,3],[3,3],[0,4],[1,4],[2,4],[3,4],[4,4]
+      ],
+      "minDifferentTypes": 1,
+      "maxDifferentTypes": 6
+    },
+    "shouldRotate": true,
+    "admitsAdjacency": true,
+    "minNumberOfOccurrences": 1,
+    "patternsShareSameColor": false
   }
 
 ]}

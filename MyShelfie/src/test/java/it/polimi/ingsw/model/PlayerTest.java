@@ -26,7 +26,7 @@ class PlayerTest {
      */
     @Test
     void addCardsToShelfTest_GivenFullShelf() throws Exception {
-        Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/fullShelf.csv");
+        Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/fullShelf.csv");
         Player player = new Player(shelf, "Luca");
 
         List<ObjectCard> list;
@@ -45,7 +45,7 @@ class PlayerTest {
      */
     @Test
     void addCardsToShelfTest_GivenEmptyShelf() throws Exception {
-        Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/emptyShelf.csv");
+        Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/emptyShelf.csv");
         Player player = new Player(shelf, "Luca");
 
         List<ObjectCard> list;

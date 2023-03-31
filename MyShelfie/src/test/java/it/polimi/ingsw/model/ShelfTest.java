@@ -26,7 +26,7 @@ class ShelfTest {
     @Test
     void isFullOrNotTest() {
         try {
-            Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/fullShelf.csv");
+            Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/fullShelf.csv");
             boolean full = shelf.checkFullness();
             int[] expectedHighestCell = {0,0,0,0,0,0};
 
@@ -35,7 +35,7 @@ class ShelfTest {
             }
             assertTrue(full);
 
-            shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/emptyShelf.csv");
+            shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/emptyShelf.csv");
 
             for (int i = 0; i < shelf.getLengthInCells(); i++) {
                 assertEquals(6, shelf.getHighestOccupiedCell()[i]);
@@ -55,7 +55,7 @@ class ShelfTest {
     @Test
     void getHighestOccupiedCellTest() {
         try {
-            Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/halfShelf.csv");
+            Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/halfShelf.csv");
             int[] expectedHighestOccupied = {5,4,3,2,1};
 
             int[] actualHighest = shelf.getHighestOccupiedCell();
@@ -76,7 +76,7 @@ class ShelfTest {
      */
     @Test
     void getCell_ShouldAlwaysGetEmpty() throws Exception{
-        Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/emptyShelf.csv");
+        Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/emptyShelf.csv");
         for (int y = 0; y < shelf.getHeightInCells(); y++) {
             for (int x = 0; x < shelf.getLengthInCells(); x++) {
                 int finalX = x;
@@ -96,7 +96,7 @@ class ShelfTest {
      */
     @Test
     void getCell_ShouldAlwaysGetSomething() throws Exception {
-        Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/fullShelf.csv");
+        Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/fullShelf.csv");
         for (int y = 0; y < shelf.getHeightInCells(); y++) {
             for (int x = 0; x < shelf.getLengthInCells(); x++) {
                 int finalX = x;
@@ -142,7 +142,7 @@ class ShelfTest {
      */
     @Test
     void addCardsToColumn_ShouldBeImpossible() throws Exception {
-        Shelf shelf = CsvToShelfParser.readLineByLine("src/test/resources/shelfTEST/fullShelf.csv");
+        Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/fullShelf.csv");
 
         assertTrue(shelf.isFull());
         ArrayList<ObjectCard> list = new ArrayList<>();

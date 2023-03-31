@@ -1,14 +1,15 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.utils.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The main game class. <br>
@@ -139,18 +140,33 @@ public class Game {
         boolean completedFirst = currentPlayer.getAchievements().isCompletedFirstCommonGoal();
         boolean completedSecond = currentPlayer.getAchievements().isCompletedSecondCommonGoal();
         CommonGoalCard toBeChecked;
-        PointCard pointsToBeAwarded;
+        int pointsToBeAwarded;
+        PointCard pointCardToBeAwarded;
 
         // the player can complete the common goal card only if it hasn't been completed yet by the same player.
         if (!completedFirst) {
             toBeChecked = gameInfo.getSelectedCommonGoals().get(0);
-            pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
-            awardPointCard(currentPlayer, pointsToBeAwarded, 1);
+
+            try {
+                pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
+                pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
+                awardPointCard(currentPlayer, pointCardToBeAwarded, 1);
+            }
+            catch(WrongPointCardsValueGivenException ex){
+                ex.printStackTrace();
+            }
         }
         if(!completedSecond) {
             toBeChecked = gameInfo.getSelectedCommonGoals().get(1);
-            pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
-            awardPointCard(currentPlayer, pointsToBeAwarded, 2);
+
+            try {
+                pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
+                pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
+                awardPointCard(currentPlayer, pointCardToBeAwarded, 2);
+            }
+            catch(WrongPointCardsValueGivenException ex){
+                ex.printStackTrace();
+            }
         }
 
         // if the player has completed the shelf, award the end of game card

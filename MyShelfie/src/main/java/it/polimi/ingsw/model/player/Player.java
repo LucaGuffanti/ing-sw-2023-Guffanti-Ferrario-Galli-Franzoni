@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.cards.ObjectCard;
-import it.polimi.ingsw.model.cards.PersonalGoalCard;
-import it.polimi.ingsw.model.cards.PointCard;
+import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 
 import java.util.List;
 

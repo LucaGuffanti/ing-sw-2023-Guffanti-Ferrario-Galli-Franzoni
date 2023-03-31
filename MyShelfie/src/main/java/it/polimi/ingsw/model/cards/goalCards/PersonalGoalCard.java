@@ -1,13 +1,23 @@
-package it.polimi.ingsw.model.cards;
+package it.polimi.ingsw.model.cards.goalCards;
 
+import it.polimi.ingsw.model.cards.Pattern;
+import it.polimi.ingsw.model.cards.PatternCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class PersonalGoalCard extends GoalCard{
+/**
+ * A PersonalGoalCard represents a shelf configuration to match by the
+ * card owner. The Pattern height and length match the shelf's frame dimensions.
+ *
+ * @author Luca Guffanti, Daniele Ferrario
+ */
+public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard {
+
+    // The fixed pattern to detect
+    private Pattern pattern;
 
     /**
      * Contains the mapping between correct matches of the subpattern and the
@@ -34,9 +44,11 @@ public class PersonalGoalCard extends GoalCard{
             6, 12
     );
 
-    public PersonalGoalCard(String id, PatternRules personalPatternRules) {
-         super(id, personalPatternRules);
+    public PersonalGoalCard(String id, Pattern pattern) {
+         super(id);
+         this.pattern = pattern;
     }
+
 
     /**
      * @author Luca Guffanti
@@ -44,15 +56,17 @@ public class PersonalGoalCard extends GoalCard{
      * @return the number of matches found between the shelf cells and the pattern that characterizes the personalGoal
      * card
      * */
+
+
     @Override
     protected int checkPattern(Player player) {
         int numOfMatches = 0;
         Shelf playerShelf = player.getShelf();
-        SubPattern patternToMatch = patternRules.getSubPattern();
+        Pattern patternToMatch = this.pattern;
 
-        Set<SubPatternCell> cells = patternToMatch.getCoveredCells();
+        Set<PatternCell> cells = patternToMatch.getCoveredCells();
 
-        for (SubPatternCell cell : cells) {
+        for (PatternCell cell : cells) {
             int x = cell.getX();
             int y = cell.getY();
 
@@ -64,7 +78,7 @@ public class PersonalGoalCard extends GoalCard{
         return numOfMatches;
     }
 
-    //TODO RETURN EQUAL CARD SHOULD BE DEFINED AS ABSTRACT IN THE SUPERCLASS
+
 
     /**
      * @author Luca Guffanti
@@ -81,6 +95,6 @@ public class PersonalGoalCard extends GoalCard{
 
     @Override
     public GoalCard returnEqualCard(){
-        return new PersonalGoalCard(this.id, this.patternRules);
+        return new PersonalGoalCard(this.id, this.pattern);
     }
 }
