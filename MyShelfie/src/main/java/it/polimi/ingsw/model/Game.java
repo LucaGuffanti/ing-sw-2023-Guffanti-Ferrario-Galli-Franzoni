@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.CommonGoalCard;
-import it.polimi.ingsw.model.cards.EndOfGameCard;
-import it.polimi.ingsw.model.cards.PersonalGoalCard;
-import it.polimi.ingsw.model.cards.PointCard;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.utils.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
 import java.util.ArrayList;
@@ -252,5 +250,28 @@ public class Game {
 
         // the verification of points is completed: return the total points.
         return finalPoints;
+    }
+
+    /**
+     * This method adds a player to the game, given the nickname of the player. If the game is full,
+     * so the number of maximum players is reached, an exception is thrown.
+     * @param nickname the nickname of the player to be added
+     * @throws MaxPlayersException when the number of players decided by the host is reached
+     */
+    public void addPlayer(String nickname) throws MaxPlayersException {
+        if (players.size() == gameInfo.getNPlayers()) throw new MaxPlayersException("The game is full");
+
+        Player player = new Player(nickname);
+        players.add(player);
+    }
+
+    /**
+     * This method moves cards to a player's shelf. More specifically, it commands the execution of the equivalent
+     * method in the player class.
+     * @return true or false if the addition is completed or not.
+     */
+    public boolean moveCardsToPlayerShelf(Player currentPlayer, List<ObjectCard> objectCards, int wantedColumn) {
+        boolean success =  currentPlayer.addCardsToShelf(objectCards, wantedColumn);
+        return success;
     }
 }

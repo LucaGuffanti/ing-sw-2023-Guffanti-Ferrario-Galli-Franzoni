@@ -14,12 +14,22 @@ public class PlayerAchievements {
     private Set<PointCard> pointCardsEarned;
     private boolean firstToFinish;
 
+    private boolean completedShelf;
 
-    public PlayerAchievements(Set<PointCard> pointCardsEarned) {
+    public PlayerAchievements() {
         completedFirstCommonGoal = false;
         completedSecondCommonGoal = false;
         this.pointCardsEarned = pointCardsEarned;
         firstToFinish = false;
+        completedShelf = false;
+    }
+
+    public boolean isCompletedShelf() {
+        return completedShelf;
+    }
+
+    public void setCompletedShelf(boolean completedShelf) {
+        this.completedShelf = completedShelf;
     }
 
     public boolean isCompletedFirstCommonGoal() {
