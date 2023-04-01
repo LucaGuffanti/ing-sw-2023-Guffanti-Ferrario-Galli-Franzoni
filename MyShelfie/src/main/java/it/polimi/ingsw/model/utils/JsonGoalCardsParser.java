@@ -17,12 +17,12 @@ import java.util.*;
 
 public class JsonGoalCardsParser {
 
-    public static Map<String, CommonGoalCard> parseCommonGoals(String path, int playersNumber) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException{
+    public static ArrayList<CommonGoalCard> parseCommonGoals(String path, int playersNumber) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException{
 
         // change serialization for specific types
-        JsonDeserializer<Map<String, CommonGoalCard>> deserializer = (json, typeOfT, context) -> {
+        JsonDeserializer<ArrayList<CommonGoalCard>> deserializer = (json, typeOfT, context) -> {
             JsonArray jsonArray= json.getAsJsonObject().get("test").getAsJsonArray();
-            Map<String, CommonGoalCard> result = new HashMap<>();
+            ArrayList<CommonGoalCard> result = new ArrayList<>();
 
             for (JsonElement ob: jsonArray) {
 
@@ -60,7 +60,7 @@ public class JsonGoalCardsParser {
                             goalCardObject.get("patternsShareSameColor").getAsBoolean()
                     );
 
-                    result.put(id, goalCard);
+                    result.add(goalCard);
 
                 } catch (WrongNumberOfPlayersException | WrongPointCardsValueGivenException e) {
                     throw new RuntimeException(e);

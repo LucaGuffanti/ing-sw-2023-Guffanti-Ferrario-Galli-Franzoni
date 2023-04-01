@@ -65,7 +65,7 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         return patternsShareSameColor;
     }
 
-    public FixedPatternCommonGoalCard(String id, List<PointCard> pointsCard, Pattern pattern, int minNumberOfOccurrences, boolean shouldRotate, boolean admitsAdjacency, boolean patternsShareSameColor) {
+    public FixedPatternCommonGoalCard(String id, ArrayList<PointCard> pointsCard, Pattern pattern, int minNumberOfOccurrences, boolean shouldRotate, boolean admitsAdjacency, boolean patternsShareSameColor) {
         super(id, pointsCard);
         this.pattern = pattern;
         this.minNumberOfOccurrences = minNumberOfOccurrences;
@@ -75,6 +75,16 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         this.rotatedPattern = rotatePattern(pattern);
     }
 
+    public FixedPatternCommonGoalCard(FixedPatternCommonGoalCard f) {
+        super(f.getId(), f.getPointsCards());
+        this.pattern = new Pattern(f.getPattern());
+        this.minNumberOfOccurrences = f.getMinNumberOfOccurrences();
+        this.shouldRotate = f.isShouldRotate();
+        this.admitsAdjacency = f.isAdmitsAdjacency();
+        this.patternsShareSameColor = isPatternsShareSameColor();
+        this.rotatedPattern = rotatePattern(this.pattern);
+
+    }
 
     /**
      * This method calculates the points the user will receive
@@ -308,7 +318,7 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
 
     @Override
     public GoalCard returnEqualCard(){
-        return new FixedPatternCommonGoalCard(id, super.pointsCards, pattern, minNumberOfOccurrences, shouldRotate, admitsAdjacency, patternsShareSameColor);
+        return new FixedPatternCommonGoalCard(this);
     }
 
 }

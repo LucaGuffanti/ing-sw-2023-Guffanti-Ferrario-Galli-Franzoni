@@ -1,10 +1,16 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.PointCard;
+import it.polimi.ingsw.model.cards.PointEnumeration;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.GoalCard;
+import it.polimi.ingsw.model.cards.goalCards.PyramidCommonGoalCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 import it.polimi.ingsw.model.utils.CsvToShelfParser;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -37,7 +43,7 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
 
@@ -62,7 +68,7 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
     }
@@ -86,7 +92,7 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
     }
@@ -110,9 +116,99 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
+    }
+
+    /**
+     * This method verifies that both the configurations of the pyramid with the highest column being the first
+     * work correctly.
+     */
+    @Test
+    public void pyramid_expectedValid() {
+        String pathToFilePrefix = "pyramid";
+        String fileType = ".csv";
+        Shelf shelf;
+        CommonGoalCard pyramid = new PyramidCommonGoalCard("0");
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        pyramid.setPointsCards(points);
+
+        Player player = new Player("test");
+
+        for (int i = 1; i < 2; i++) {
+            String path = ROOT_SHELF_CSV_PATH+pathToFilePrefix+i+fileType;
+            try {
+                shelf = CsvToShelfParser.convert(path);
+                player.setShelf(shelf);
+                assertEquals(8, pyramid.calculatePoints(player));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    /**
+     * This method verifies that both the configurations of the pyramid with the highest column being the last
+     * work correctly.
+     */
+    @Test
+    public void mirroredPyramid_expectedValid(){
+        String pathToFilePrefix = "pyramid";
+        String fileType = ".csv";
+        Shelf shelf;
+        CommonGoalCard pyramid = new PyramidCommonGoalCard("0");
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        pyramid.setPointsCards(points);
+
+        Player player = new Player("test");
+
+        for (int i = 1; i < 2; i++) {
+            String path = ROOT_SHELF_CSV_PATH+pathToFilePrefix+i+fileType;
+            try {
+                shelf = CsvToShelfParser.convert(path);
+                player.setShelf(shelf);
+                assertEquals(8, pyramid.calculatePoints(player));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * This method verifies that the pyramid implementation of check pattern correctly refuses
+     * patterns that do not match the pyramid.
+     *
+     * This test utilises the completed shelf as an example.
+     */
+    @Test
+    public void pyramid_expectedInvalid() {
+        final String exampleFile = "fullShelf.csv";
+        try {
+            Shelf shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH+exampleFile);
+            CommonGoalCard pyramid = new PyramidCommonGoalCard("0");
+            ArrayList<PointCard> points = new ArrayList<>();
+            points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+            points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+            points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+            points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+            pyramid.setPointsCards(points);
+
+            Player player = new Player(shelf, "luca");
+
+            assertEquals(0, pyramid.calculatePoints(player));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

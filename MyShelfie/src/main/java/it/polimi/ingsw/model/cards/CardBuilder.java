@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.utils.JsonGoalCardsParser;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
@@ -80,7 +81,7 @@ public class CardBuilder {
 
     }
 
-    public static Map<String, CommonGoalCard> loadPersonalGoalCardsFromJson(String path, int playersNumber) throws WrongPointCardsValueGivenException, WrongNumberOfPlayersException, IOException {
+    public static ArrayList<CommonGoalCard> loadCommonGoalCardsFromJson(String path, int playersNumber) throws WrongPointCardsValueGivenException, WrongNumberOfPlayersException, IOException {
         return JsonGoalCardsParser.parseCommonGoals(path, playersNumber);
     }
 }

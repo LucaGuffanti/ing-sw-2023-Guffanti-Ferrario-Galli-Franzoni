@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.goalCards;
 
+import it.polimi.ingsw.model.cards.CardBuilder;
 import it.polimi.ingsw.model.cards.PointCard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -14,14 +15,22 @@ import java.util.*;
  */
 public abstract class CommonGoalCard extends GoalCard {
 
-    protected List<PointCard> pointsCards;
+    protected ArrayList<PointCard> pointsCards;
 
 
-    public CommonGoalCard(String id, List<PointCard> pointsCard) {
+    public CommonGoalCard(String id, ArrayList<PointCard> pointsCard) {
         super(id);
         this.pointsCards = pointsCard;
     }
 
+    public CommonGoalCard(CommonGoalCard card) {
+        super(card.getId());
+        this.pointsCards = new ArrayList<>(card.getPointsCards());
+    }
+
+    public CommonGoalCard(String id) {
+        super(id);
+    }
 
 
     /**
@@ -34,6 +43,7 @@ public abstract class CommonGoalCard extends GoalCard {
      * @param player        The current player whom shelf has to be analyzed.
      * @return PointCard    A card representing game points.
      */
+    @Override
     public int calculatePoints(Player player){
 
         // If there are no more pointsCards, don't compute the pattern matching algorithm
@@ -59,8 +69,11 @@ public abstract class CommonGoalCard extends GoalCard {
 
     }
 
+    public void setPointsCards(ArrayList<PointCard> pointsCards) {
+        this.pointsCards = pointsCards;
+    }
 
-
-
-
+    public ArrayList<PointCard> getPointsCards() {
+        return pointsCards;
+    }
 }

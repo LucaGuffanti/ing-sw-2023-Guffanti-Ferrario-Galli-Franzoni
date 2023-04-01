@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -52,6 +53,14 @@ public class Pattern {
         this.maxDifferentTypes = maxDifferentTypes;
         this.minDifferentTypes = minDifferentTypes;
 
+    }
+
+    public Pattern (Pattern p) {
+        this.height = p.getHeight();
+        this.length = p.getLength();
+        this.coveredCells = new HashSet<>(p.getCoveredCells());
+        this.maxDifferentTypes = p.getMaxDifferentTypes();
+        this.minDifferentTypes = p.getMinDifferentTypes();
     }
 
     public int getMinDifferentTypes() {

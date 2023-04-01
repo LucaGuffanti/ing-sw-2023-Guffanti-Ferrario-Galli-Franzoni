@@ -2,9 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.CardBuilder;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.GoalCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -26,16 +28,16 @@ import java.util.*;
  */
 public class GoalCardsDeckSingleton {
     public static GoalCardsDeckSingleton instance = null;
-    private Set<PersonalGoalCard> personalGoals;
-    private Map<String, CommonGoalCard> commonGoals;
+    private ArrayList<PersonalGoalCard> personalGoals;
+    private ArrayList<CommonGoalCard> commonGoals;
 
     private GoalCardsDeckSingleton() {
         // TODO load resources from the json file
-        personalGoals = new HashSet<>();
+        personalGoals = new ArrayList<>();
 
         // call CardBuilder.loadPersonalGoalCardsFromJson(path_to_file);
         try {
-            commonGoals = CardBuilder.loadPersonalGoalCardsFromJson("src/main/assets/cards/commonGoalCards.json", 4);
+            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/commonGoalCards.json", 4);
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -48,8 +50,14 @@ public class GoalCardsDeckSingleton {
         return instance;
     }
 
-    public CommonGoalCard getCommonGoalCardById(String id){
-        return commonGoals.get(id);
+    public GoalCard getCommonGoalCardById(String id) {
+        GoalCard toBeReturned = null;
+        for (CommonGoalCard card : commonGoals) {
+            if (card.getId().equals(id)) {
+                toBeReturned = card.returnEqualCard();
+            }
+        }
+        return toBeReturned;
     }
     /**
      * This method shuffles the personalGoals list and returns the first nPlayers elements as an arrayList

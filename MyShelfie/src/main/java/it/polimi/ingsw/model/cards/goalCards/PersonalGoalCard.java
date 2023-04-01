@@ -49,6 +49,11 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
          this.pattern = pattern;
     }
 
+    public PersonalGoalCard(PersonalGoalCard p) {
+        super(p.getId());
+        this.pattern = p.getPattern();
+    }
+
 
     /**
      * @author Luca Guffanti
@@ -85,6 +90,7 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
      * @param player the player whose shelf will be checked
      * @return the points obtained by (partially or completely) accomplishing the personal goal
      */
+    @Override
     public int calculatePoints(Player player){
 
         int points;
@@ -95,6 +101,10 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
 
     @Override
     public GoalCard returnEqualCard(){
-        return new PersonalGoalCard(this.id, this.pattern);
+        return new PersonalGoalCard(this);
+    }
+
+    public Pattern getPattern() {
+        return pattern;
     }
 }

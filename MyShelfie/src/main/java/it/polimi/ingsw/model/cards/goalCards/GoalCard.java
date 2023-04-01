@@ -25,8 +25,20 @@ public abstract class GoalCard {
     protected abstract int checkPattern(Player player);
 
     /**
+     * This method calculates the points that should be given to a player
+     * when a goalCard is completed.
+     * @param player the player who should be awarded the points
+     * @return the points to be awarded to the player
+     */
+    public abstract int calculatePoints(Player player);
+
+    /**
      *
      * @return a copy of the goalCard which is "this"
      */
     public abstract GoalCard returnEqualCard();
+
+    public String getId() {
+        return id;
+    }
 }
