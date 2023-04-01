@@ -17,7 +17,7 @@ import java.util.*;
 
 public class JsonGoalCardsParser {
 
-    public static ArrayList<CommonGoalCard> parseCommonGoals(String path, int playersNumber) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException{
+    public static ArrayList<CommonGoalCard> parseCommonGoals(String path) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException{
 
         // change serialization for specific types
         JsonDeserializer<ArrayList<CommonGoalCard>> deserializer = (json, typeOfT, context) -> {
@@ -47,24 +47,16 @@ public class JsonGoalCardsParser {
                         subPatternObject.get("minDifferentTypes").getAsInt(),
                         subPatternObject.get("maxDifferentTypes").getAsInt());
 
+                FixedPatternCommonGoalCard goalCard = new FixedPatternCommonGoalCard(
+                        id,
+                        pattern,
+                        goalCardObject.get("minNumberOfOccurrences").getAsInt(),
+                        goalCardObject.get("shouldRotate").getAsBoolean(),
+                        goalCardObject.get("admitsAdjacency").getAsBoolean(),
+                        goalCardObject.get("patternsShareSameColor").getAsBoolean()
+                );
 
-                try {
-
-                    FixedPatternCommonGoalCard goalCard = new FixedPatternCommonGoalCard(
-                            id,
-                            CardBuilder.generatePointsCards(playersNumber),
-                            pattern,
-                            goalCardObject.get("minNumberOfOccurrences").getAsInt(),
-                            goalCardObject.get("shouldRotate").getAsBoolean(),
-                            goalCardObject.get("admitsAdjacency").getAsBoolean(),
-                            goalCardObject.get("patternsShareSameColor").getAsBoolean()
-                    );
-
-                    result.add(goalCard);
-
-                } catch (WrongNumberOfPlayersException | WrongPointCardsValueGivenException e) {
-                    throw new RuntimeException(e);
-                }
+                result.add(goalCard);
 
 
             }

@@ -81,7 +81,7 @@ public class CardBuilder {
 
     }
 
-    public static ArrayList<CommonGoalCard> loadCommonGoalCardsFromJson(String path, int playersNumber) throws WrongPointCardsValueGivenException, WrongNumberOfPlayersException, IOException {
-        return JsonGoalCardsParser.parseCommonGoals(path, playersNumber);
+    public static ArrayList<CommonGoalCard> loadCommonGoalCardsFromJson(String path) throws WrongPointCardsValueGivenException, WrongNumberOfPlayersException, IOException {
+        return JsonGoalCardsParser.parseCommonGoals(path);
     }
 }

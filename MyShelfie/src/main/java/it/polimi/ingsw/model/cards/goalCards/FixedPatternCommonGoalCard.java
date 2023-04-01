@@ -75,6 +75,16 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         this.rotatedPattern = rotatePattern(pattern);
     }
 
+    public FixedPatternCommonGoalCard(String id, Pattern pattern, int minNumberOfOccurrences, boolean shouldRotate, boolean admitsAdjacency, boolean patternsShareSameColor) {
+        super(id);
+        this.pattern = pattern;
+        this.minNumberOfOccurrences = minNumberOfOccurrences;
+        this.shouldRotate = shouldRotate;
+        this.admitsAdjacency = admitsAdjacency;
+        this.patternsShareSameColor = patternsShareSameColor;
+        this.rotatedPattern = rotatePattern(pattern);
+    }
+
     public FixedPatternCommonGoalCard(FixedPatternCommonGoalCard f) {
         super(f.getId(), f.getPointsCards());
         this.pattern = new Pattern(f.getPattern());

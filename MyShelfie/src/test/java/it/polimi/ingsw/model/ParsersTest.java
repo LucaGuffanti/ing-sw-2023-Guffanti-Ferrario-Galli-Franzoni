@@ -8,13 +8,16 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class ParsersTest {
 
     @Test
     public void test(){
         try {
-            Shelf result =  CsvToShelfParser.convert("src/main/assets/shelfConfigurations/twoSquaresSameColorNotAdjacent.csv");
+            Shelf result =  CsvToShelfParser.convert("src/test/resources/shelfTEST/allAngles.csv");
             MatrixUtils.printMatrix(result.getCells());
+            assertNotNull(result);
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -23,7 +26,7 @@ public class ParsersTest {
     @Test
     public void jsonParserPrint(){
         try {
-            JsonGoalCardsParser.parseCommonGoals("src/main/assets/cards/commonGoalCards.json", 4);
+            assertNotNull(JsonGoalCardsParser.parseCommonGoals("src/main/assets/cards/commonGoalCards.json"));
         }catch (Exception ex){
             ex.printStackTrace();
         }

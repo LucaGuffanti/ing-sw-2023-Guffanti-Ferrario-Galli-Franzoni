@@ -37,7 +37,7 @@ public class GoalCardsDeckSingleton {
 
         // call CardBuilder.loadPersonalGoalCardsFromJson(path_to_file);
         try {
-            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/commonGoalCards.json", 4);
+            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/commonGoalCards.json");
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -50,11 +50,11 @@ public class GoalCardsDeckSingleton {
         return instance;
     }
 
-    public GoalCard getCommonGoalCardById(String id) {
-        GoalCard toBeReturned = null;
+    public CommonGoalCard getCommonGoalCardById(String id) {
+        CommonGoalCard toBeReturned = null;
         for (CommonGoalCard card : commonGoals) {
             if (card.getId().equals(id)) {
-                toBeReturned = card.returnEqualCard();
+                toBeReturned = (CommonGoalCard) card.returnEqualCard();
             }
         }
         return toBeReturned;

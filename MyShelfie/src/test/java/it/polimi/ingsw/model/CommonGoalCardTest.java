@@ -43,7 +43,14 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        exampleCard.setPointsCards(points);
+
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
 
@@ -68,7 +75,13 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        exampleCard.setPointsCards(points);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
     }
@@ -92,7 +105,13 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        exampleCard.setPointsCards(points);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
     }
@@ -116,7 +135,13 @@ public class CommonGoalCardTest {
 
         Player player = new Player(shelf, PLAYER_NICKNAME);
 
-        GoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        CommonGoalCard exampleCard = goalCardsDeckSingleton.getCommonGoalCardById(GOAL_CARD_ID);
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS,  4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        exampleCard.setPointsCards(points);
 
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
     }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Shelf;
 import it.polimi.ingsw.model.utils.MatrixUtils;
 
 import java.util.Map;
@@ -45,20 +44,10 @@ public class EndGameAdjacencyGoalChecker {
         boolean[][] referenceMatrix = MatrixUtils.createEmptyMatrix(shelfLength, shelfHeight);
 
         for (ObjectTypeEnum type : ObjectTypeEnum.values()) {
-            totalPoints += checkAdjacencies(player.getShelf(), referenceMatrix, type);
+            //totalPoints += checkAdjacencies(player.getShelf(), referenceMatrix, type);
         }
 
         return 0;
     }
 
-    /**
-     *
-     * @param shelf the shelf to be checked
-     * @param referenceMatrix the matrix in which already visited cells are marked
-     * @param typeToMatch the type of card that will be matched
-     * @return
-     */
-    private static int checkAdjacencies(Shelf shelf, boolean[][] referenceMatrix, ObjectTypeEnum typeToMatch) {
-        return 0;
-    }
 }

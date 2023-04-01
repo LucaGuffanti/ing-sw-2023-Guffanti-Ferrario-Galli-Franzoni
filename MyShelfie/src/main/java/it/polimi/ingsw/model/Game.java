@@ -104,6 +104,21 @@ public class Game {
 
         // then the commonGoalCards are taken from the deck and safely stored in GameInfo
         ArrayList<CommonGoalCard> commonGoalCards = goalCardsDeck.pickCommonGoals();
+
+        // create the stack of pointCards based on the number of players
+        ArrayList<PointCard> pointCards;
+        try {
+            pointCards = CardBuilder.generatePointsCards(gameInfo.getNPlayers());
+            for (CommonGoalCard card : commonGoalCards) {
+                card.setPointsCards(pointCards);
+            }
+        } catch (WrongNumberOfPlayersException e) {
+            e.printStackTrace();
+        } catch (WrongPointCardsValueGivenException e) {
+            e.printStackTrace();
+        }
+
+
         gameInfo.setSelectedCommonGoals(commonGoalCards);
 
         // then the personalGoalCards are taken from the deck and given to every player
