@@ -28,7 +28,7 @@ public class CsvToShelfParser {
             "B", Optional.of(new ObjectCard(ObjectTypeEnum.FRAME)),
             "W", Optional.of(new ObjectCard(ObjectTypeEnum.BOOK)),
             "Y", Optional.of(new ObjectCard(ObjectTypeEnum.TOY)),
-            "C", Optional.of(new ObjectCard(ObjectTypeEnum.FRAME)),
+            "C", Optional.of(new ObjectCard(ObjectTypeEnum.TROPHY)),
             "M", Optional.of(new ObjectCard(ObjectTypeEnum.PLANT)),
             "X", Optional.empty()
             );
