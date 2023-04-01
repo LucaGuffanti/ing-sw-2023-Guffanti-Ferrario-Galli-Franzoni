@@ -15,13 +15,20 @@ import java.nio.file.Path;
 import java.util.*;
 
 
-public class JsonGoalCardsParser {
+/**
+ * A class to load FixedPatternShapedCards in memory from a json file (so every PersonalGoalCard and most of CommonGoalCards)
+ *
+ * @see it.polimi.ingsw.model.cards.goalCards.FixedPatternShapedCard
+ * @see Gson
+ * @author Daniele Ferrario
+ */
+public class JsonFixedPatternGoalCardsParser {
 
-    public static ArrayList<CommonGoalCard> parseCommonGoals(String path) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException{
+    public static ArrayList<CommonGoalCard> parseFixedPatternCommonGoals(String path) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException{
 
-        // change serialization for specific types
+        // Writing a GSON deserializer ad hoc
         JsonDeserializer<ArrayList<CommonGoalCard>> deserializer = (json, typeOfT, context) -> {
-            JsonArray jsonArray= json.getAsJsonObject().get("test").getAsJsonArray();
+            JsonArray jsonArray= json.getAsJsonArray();
             ArrayList<CommonGoalCard> result = new ArrayList<>();
 
             for (JsonElement ob: jsonArray) {

@@ -37,7 +37,7 @@ public class GoalCardsDeckSingleton {
 
         // call CardBuilder.loadPersonalGoalCardsFromJson(path_to_file);
         try {
-            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/commonGoalCards.json");
+            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/fixedPatternShapedCommonGoalCards.json");
         }catch(Exception ex){
             ex.printStackTrace();
         }

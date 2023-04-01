@@ -56,7 +56,9 @@ import java.util.List;
  * Where O is an ObjectCard and X is an empty space
  * @author Luca Guffanti
  */
-public class PyramidCommonGoalCard extends CommonGoalCard{
+
+//@todo: This is actually a FixedPatternShapedCard
+public class PyramidCommonGoalCard extends CommonGoalCard implements FreePatternShapedCard{
     public PyramidCommonGoalCard(String id, ArrayList<PointCard> pointCards) {
         super (id, pointCards);
     }

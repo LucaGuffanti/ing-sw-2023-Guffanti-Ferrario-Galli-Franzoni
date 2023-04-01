@@ -1,4 +1,4 @@
-{ "test": [
+[
   {
     "id": 0,
     
@@ -208,4 +208,4 @@
     "patternsShareSameColor": false
   }
 
-]}
+]

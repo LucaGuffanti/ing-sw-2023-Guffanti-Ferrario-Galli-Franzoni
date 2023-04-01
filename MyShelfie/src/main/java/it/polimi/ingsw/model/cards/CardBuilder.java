@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
-import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
-import it.polimi.ingsw.model.utils.JsonGoalCardsParser;
+import it.polimi.ingsw.model.utils.JsonFixedPatternGoalCardsParser;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * This class contains static methods that can be used to mass
@@ -82,6 +80,6 @@ public class CardBuilder {
     }
 
     public static ArrayList<CommonGoalCard> loadCommonGoalCardsFromJson(String path) throws WrongPointCardsValueGivenException, WrongNumberOfPlayersException, IOException {
-        return JsonGoalCardsParser.parseCommonGoals(path);
+        return JsonFixedPatternGoalCardsParser.parseFixedPatternCommonGoals(path);
     }
 }

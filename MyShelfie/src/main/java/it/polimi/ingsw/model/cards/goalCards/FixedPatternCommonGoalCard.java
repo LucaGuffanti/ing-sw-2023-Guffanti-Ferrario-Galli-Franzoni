@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
+import it.polimi.ingsw.model.utils.JsonFixedPatternGoalCardsParser;
 import it.polimi.ingsw.model.utils.MatrixUtils;
 import it.polimi.ingsw.model.utils.complexMethodsResponses.CheckShelfPortionResult;
 
@@ -13,13 +14,14 @@ import static it.polimi.ingsw.model.utils.Constants.SHELF_HEIGHT;
 import static it.polimi.ingsw.model.utils.Constants.SHELF_LENGTH;
 
 /**
- * Since most of the CommonGoalCards share the same logic to detect a pattern, because of the same
+ * Since most of the CommonGoalCards share the same logic to detect a pattern because of the same
  * rules applied to a repeated (or not) <b>fixed shaped Pattern</b>, this class contains all the implementation
- * to the pattern matching algorithm.
- * @see Pattern
+ * to the pattern matching algorithm.<br>
+ * Cards of this type are loaded during runtime from a json file.
  *
- * This type of cards are loaded during runtime from a json File
- * @see it.polimi.ingsw.model.utils.JsonGoalCardsParser
+ * @see FixedPatternShapedCard
+ * @see Pattern
+ * @see JsonFixedPatternGoalCardsParser
  *
  *
  * @author Daniele Ferrario
