@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.PointCard;
 import it.polimi.ingsw.model.cards.PointEnumeration;
-import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
-import it.polimi.ingsw.model.cards.goalCards.FixedPatternCommonGoalCard;
-import it.polimi.ingsw.model.cards.goalCards.GoalCard;
-import it.polimi.ingsw.model.cards.goalCards.PyramidCommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 import it.polimi.ingsw.model.utils.CsvToShelfParser;
@@ -327,8 +324,63 @@ public class CommonGoalCardTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * This method verifies that different configurations of the 4 adjacent
+     * object cards are correctly identified and that the implementation of
+     * check pattern correctly refuses wrong configurations.
+     */
+    @Test
+    public void fourGroupsFourAdjacent_expectedValid() {
+        final String SHELF_CSV_NAME = "fourGroupsFourAdjacent.csv";
+        final int EXPECTED_VALUE = 8;
+
+        try {
+            Shelf shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_CSV_NAME);
+            CommonGoalCard snakes = new SnakesCommonGoalCard("0");
+            ArrayList<PointCard> points = new ArrayList<>();
+            points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+            points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
+            points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+            points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+            snakes.setPointsCards(points);
+
+            Player player = new Player(shelf, "test");
+
+            assertEquals(8, snakes.calculatePoints(player));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method verifies that
+     */
+    @Test
+    public void fourGroupsFourAdjacent_expectedInvalid() {
+        final String SHELF_CSV_NAME = "fourGroupsFourAdjacent_Invalid";
+        final int NUM_OF_TESTS = 2;
+        final int EXPECTED_VALUE = 0;
+
+        try {
+            for (int i = 1; i <= NUM_OF_TESTS; i++) {
+                Shelf shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_CSV_NAME + i + ".csv");
+                CommonGoalCard snakes = new SnakesCommonGoalCard("0");
+                ArrayList<PointCard> points = new ArrayList<>();
+                points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+                points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
+                points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+                points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+                snakes.setPointsCards(points);
+
+                Player player = new Player(shelf, "test");
+
+                assertEquals(EXPECTED_VALUE, snakes.calculatePoints(player));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

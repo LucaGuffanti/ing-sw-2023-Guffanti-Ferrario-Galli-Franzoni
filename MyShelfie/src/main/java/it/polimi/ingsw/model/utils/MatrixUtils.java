@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.utils;
 
+import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Shelf;
 
@@ -81,4 +82,27 @@ public class MatrixUtils {
         return cells;
     }
 
+
+    public static int calculateAdjacentShelfCardsGroupDimension(ShelfCell[][] matrix, int length, int height, boolean[][] referenceMatrix, ObjectTypeEnum type, int x, int y, int[] highestOccupiedCell){
+        int count = 0;
+        int row = y;
+        int col = x;
+        if (matrix[row][col].getCellCard().isPresent() && matrix[row][col].getCellCard().get().getType().equals(type) && !referenceMatrix[row][col]) {
+            referenceMatrix[row][col] = true;
+            count++;
+            if (row + 1 < height && matrix[row+1][col].getCellCard().isPresent() && matrix[row+1][col].getCellCard().get().getType().equals(type) && highestOccupiedCell[col] <= row+1) {
+                count = count + calculateAdjacentShelfCardsGroupDimension(matrix, length, height, referenceMatrix, type, col, row+1, highestOccupiedCell);
+            }
+            if (row - 1 >= 0  && matrix[row-1][col].getCellCard().isPresent() && matrix[row-1][col].getCellCard().get().getType().equals(type)) {
+                count = count + calculateAdjacentShelfCardsGroupDimension(matrix, length, height, referenceMatrix, type, col, row-1, highestOccupiedCell);
+            }
+            if (col + 1 < length && matrix[row][col+1].getCellCard().isPresent() && matrix[row][col+1].getCellCard().get().getType().equals(type) && highestOccupiedCell[col+1] <= row) {
+                count = count + calculateAdjacentShelfCardsGroupDimension(matrix, length, height, referenceMatrix, type, col+1, row, highestOccupiedCell);
+            }
+            if (col - 1 >= 0 && matrix[row][col-1].getCellCard().isPresent() && matrix[row][col-1].getCellCard().get().getType().equals(type) && highestOccupiedCell[col-1] <= row) {
+                count = count + calculateAdjacentShelfCardsGroupDimension(matrix, length, height, referenceMatrix, type, col-1, row, highestOccupiedCell);
+            }
+        }
+        return count;
+    }
 }

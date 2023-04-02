@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model.cards.goalCards;
 
+import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cards.PointCard;
+import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.utils.MatrixUtils;
 
 import java.util.ArrayList;
 /**
@@ -36,10 +39,46 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
         super (p.getId(), new ArrayList<PointCard>(p.getPointsCards()));
     }
 
+    public SnakesCommonGoalCard(String id) {
+        super(id);
+    }
+
     // @todo: to complete with adjacency algorithm
     @Override
     protected int checkPattern(Player player) {
-        return 1;
+        ShelfCell[][] shelfMatrix = player.getShelf().getCells();
+        int shelfLength = player.getShelf().getLengthInCells();
+        int shelfHeight = player.getShelf().getHeightInCells();
+        int totalPoints = 0;
+        int[] highestOccupiedCell = player.getShelf().getHighestOccupiedCell();
+
+        boolean[][] referenceMatrix = MatrixUtils.createEmptyMatrix(shelfLength, shelfHeight);
+
+        int count;
+        for (ObjectTypeEnum type : ObjectTypeEnum.values()) {
+            for (int y = 0; y < shelfHeight; y++) {
+                count = 0;
+                for (int x = 0; x < shelfLength; x++) {
+                    if (referenceMatrix[y][x] == false && shelfMatrix[y][x].getCellCard().isPresent() && shelfMatrix[y][x].getCellCard().get().getType().equals(type)) {
+                        count = MatrixUtils.calculateAdjacentShelfCardsGroupDimension(
+                                shelfMatrix,
+                                shelfLength,
+                                shelfHeight,
+                                referenceMatrix,
+                                type,
+                                x,
+                                y,
+                                highestOccupiedCell
+                        );
+
+                        if (count == 4) {
+                            totalPoints++;
+                        }
+                    }
+                }
+            }
+        }
+        return totalPoints == 4 ? 1 : 0;
     }
 
     @Override
