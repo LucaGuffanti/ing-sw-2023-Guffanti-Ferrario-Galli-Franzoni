@@ -82,7 +82,19 @@ public class MatrixUtils {
         return cells;
     }
 
-
+    /**
+     * Given a matrix representing a shelf and a type of object card, this method calculates the dimension
+     * of a group of adjacent object cards starting from the x and y coordinates passed as parameters.
+     * @param matrix the matrix representing the shelf
+     * @param length the length of the shelf
+     * @param height the height of the shelf
+     * @param referenceMatrix boolean matrix containing already visited cells
+     * @param type the type to match
+     * @param x x coordinate of the cell from which the algorithm starts
+     * @param y y coordinate of the cell from which the algorithm starts
+     * @param highestOccupiedCell
+     * @return the dimension of a group of adjacent object cards of type "type", starting from the point (x,y).
+     */
     public static int calculateAdjacentShelfCardsGroupDimension(ShelfCell[][] matrix, int length, int height, boolean[][] referenceMatrix, ObjectTypeEnum type, int x, int y, int[] highestOccupiedCell){
         int count = 0;
         int row = y;

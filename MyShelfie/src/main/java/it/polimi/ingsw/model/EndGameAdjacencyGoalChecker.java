@@ -45,6 +45,7 @@ public class EndGameAdjacencyGoalChecker {
 
         for (ObjectTypeEnum type : ObjectTypeEnum.values()) {
             //totalPoints += checkAdjacencies(player.getShelf(), referenceMatrix, type);
+            // TODO
         }
 
         return 0;

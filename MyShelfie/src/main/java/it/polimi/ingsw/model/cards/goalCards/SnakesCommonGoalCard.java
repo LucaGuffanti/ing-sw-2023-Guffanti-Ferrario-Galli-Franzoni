@@ -43,7 +43,6 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
         super(id);
     }
 
-    // @todo: to complete with adjacency algorithm
     @Override
     protected int checkPattern(Player player) {
         ShelfCell[][] shelfMatrix = player.getShelf().getCells();
