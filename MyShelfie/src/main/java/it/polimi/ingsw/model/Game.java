@@ -3,13 +3,22 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
+import it.polimi.ingsw.model.cells.Cell;
+import it.polimi.ingsw.model.cells.Coordinates;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.Shelf;
+import it.polimi.ingsw.model.utils.MatrixUtils;
 import it.polimi.ingsw.model.utils.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.model.utils.Constants.BOARD_DIMENSION;
 
 /**
  * The main game class. <br>
@@ -103,7 +112,7 @@ public class Game {
         goalCardsDeck = GoalCardsDeckSingleton.getInstance();
 
         // then the commonGoalCards are taken from the deck and safely stored in GameInfo
-        ArrayList<CommonGoalCard> commonGoalCards = goalCardsDeck.pickCommonGoals();
+        ArrayList<CommonGoalCard> commonGoalCards = goalCardsDeck.pickTwoCommonGoals();
 
         // create the stack of pointCards based on the number of players
         ArrayList<PointCard> pointCards;
@@ -305,4 +314,58 @@ public class Game {
         boolean success =  currentPlayer.addCardsToShelf(objectCards, wantedColumn);
         return success;
     }
+
+    /**
+     * Check if player can pick a BoardCell from the board given its coordinates
+     * @param x
+     * @param y
+     */
+    private boolean playerCanPickSingleCellFromBoard(int x, int y){
+
+
+        // If target cell is covered
+        if(this.board.getCell(x,y).isCovered()){
+
+            // Check if exists an adjacent cell which is not covered
+            boolean expr = (
+                    ((x-1 >= 0) && !this.board.getCell(x-1, y).isCovered()) ||
+                    ((y-1 >= 0) && !this.board.getCell(x, y-1).isCovered()) ||
+                    ((x+1 < BOARD_DIMENSION) && !this.board.getCell(x+1, y).isCovered()) ||
+                    ((y+1 < BOARD_DIMENSION) && !this.board.getCell(x, y+1).isCovered())
+
+            );
+
+
+
+            if (expr)
+                return true;
+        }
+
+        return false;
+
+    }
+
+    /**
+     * Check if player can pick a set of BoardCells given their coordinates from the board
+     * @param cellsCoordinates the cells to pick
+     * @author Daniele Ferrario
+     */
+    public boolean playerCanPickFromCellsBoard(Set<Coordinates> cellsCoordinates){
+
+
+        // Check if coordinates belong to the same row or to the same column
+        if(cellsCoordinates.stream().map(Coordinates::getX).distinct().count() > 1 &&
+                cellsCoordinates.stream().map(Coordinates::getY).distinct().count() > 1)
+            return false;
+
+
+        // Checking adjacent ones
+        for (Coordinates cell: cellsCoordinates) {
+            if(!playerCanPickSingleCellFromBoard(cell.getX(), cell.getY()))
+                return false;
+        }
+
+        return true;
+    }
+
 }
