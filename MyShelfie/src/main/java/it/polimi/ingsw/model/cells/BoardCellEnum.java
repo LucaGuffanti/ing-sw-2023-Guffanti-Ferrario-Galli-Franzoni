@@ -8,5 +8,10 @@ package it.polimi.ingsw.model.cells;
  */
 public enum BoardCellEnum {
     INACTIVE,
-    ACTIVE
+    ACTIVE;
+
+    @Override
+    public String toString() {
+        return this.name().substring(0,1);
+    }
 }

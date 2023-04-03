@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cells.BoardCell;
 import it.polimi.ingsw.model.cells.BoardCellEnum;
 import it.polimi.ingsw.model.utils.Constants;
 import it.polimi.ingsw.model.utils.CsvToBoardParser;
+import it.polimi.ingsw.model.utils.MatrixUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class CsvToBoardParserTest {
         for (int numPlayers = 2; numPlayers <= 4; numPlayers++) {
             System.out.println("Checking csv parsing with "+numPlayers+" players");
             BoardCell[][] boardCell = CsvToBoardParser.parseBoardCellTypeConfiguration(pathToFile, numPlayers);
+            MatrixUtils.printBoardCellTypesConfigurationMatrix(boardCell);
             assertNotNull(boardCell);
             String pathToResult = "src/test/resources/boardTEST/expectedCellType_"+numPlayers+"players.csv";
             try {
