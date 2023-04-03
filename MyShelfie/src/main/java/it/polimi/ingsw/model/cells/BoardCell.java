@@ -7,7 +7,7 @@ import java.util.Optional;
  * @author Marco Galli
  * @see Cell
  */
-public class BoardCell extends Cell{
+public class BoardCell extends Cell {
     BoardCellEnum type;
 
     public BoardCell(Optional cellCard, BoardCellEnum type) {

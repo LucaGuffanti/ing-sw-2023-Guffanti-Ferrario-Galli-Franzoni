@@ -52,7 +52,7 @@ public class CsvToBoardParser {
      * M -> PLANT<br>
      * X -> EMPTY<br>
      */
-    private static final Map<String, Optional<ObjectCard>> map = Map.of(
+    private static final Map<String, Optional<ObjectCard>> strToCellObjectCardMap = Map.of(
             "G", Optional.of(new ObjectCard(ObjectTypeEnum.CAT)),
             "B", Optional.of(new ObjectCard(ObjectTypeEnum.FRAME)),
             "W", Optional.of(new ObjectCard(ObjectTypeEnum.BOOK)),
@@ -69,15 +69,15 @@ public class CsvToBoardParser {
      * @return the matrix where cells are initialized with their correct type
      */
     public static BoardCell[][] parseBoardCellTypeConfiguration(String path) {
-        BoardCell[][] boardMatrix = new BoardCell[9][9];
+        BoardCell[][] boardMatrix = new BoardCell[Constants.BOARD_DIMENSION][Constants.BOARD_DIMENSION];
 
         try {
             Reader r = Files.newBufferedReader(Path.of(path));
             CSVReader csvReader = new CSVReader(r);
 
-            for (int y = 0; y < 9; y++) {
+            for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
                 String[] read = csvReader.readNext();
-                for (int x = 0; x < 9; x++) {
+                for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
                     boardMatrix[y][x] = new BoardCell(Optional.empty(), strToCellTypeMap.get(read[x]));
                 }
             }
@@ -91,11 +91,27 @@ public class CsvToBoardParser {
     /**
      * This method builds a board matrix starting from a configuration where each cell is
      * associated to an objectCard
+     * @see ObjectCard
      * @param path the path of the csv file
      * @return the matrix representing the board containing object cards
      */
     public static BoardCell[][] parseBoardObjectCardConfiguration(String path) {
-        // TODO IMPLEMENT METHOD
-        return null;
+        BoardCell[][] boardMatrix = parseBoardCellTypeConfiguration(path);
+
+        try {
+            Reader r = Files.newBufferedReader(Path.of(path));
+            CSVReader csvReader = new CSVReader(r);
+
+            for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
+                String[] read = csvReader.readNext();
+                for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
+                    boardMatrix[y][x].setCellCard(strToCellObjectCardMap.get(read[x]));
+                }
+            }
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+
+        return boardMatrix;
     }
 }
