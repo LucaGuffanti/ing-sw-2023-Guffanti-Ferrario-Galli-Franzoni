@@ -14,4 +14,8 @@ public class BoardCell extends Cell {
         super(cellCard);
         this.type = type;
     }
+
+    public BoardCellEnum getType() {
+        return type;
+    }
 }

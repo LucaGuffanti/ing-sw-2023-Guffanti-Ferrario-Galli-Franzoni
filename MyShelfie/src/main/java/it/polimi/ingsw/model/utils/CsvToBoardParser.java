@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.utils;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.cards.ObjectCard;
 import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cells.BoardCell;
@@ -26,18 +27,19 @@ import java.util.Optional;
 public class CsvToBoardParser {
 
     /**
-     * Map between the characters found in the csv and the type of the boardCell. Specifically
+     * Map between the characters found in the csv and the number of players for which a given cell can
+     * be considered active. Specifically
      * <br>
-     * X -> INACTIVE<br>
-     * A -> ALWAYS_ACTIVE<br>
-     * T -> THREE_PLAYERS<br>
-     * F -> FOUR PLAYERS<br>
+     * X -> Never Active<br>
+     * A -> Always Active<br>
+     * T -> Active when there are 3 players<br>
+     * F -> Active when there are 4 players<br>
      */
-    private static final Map<String, BoardCellEnum> strToCellTypeMap = Map.of(
-            "X", BoardCellEnum.INACTIVE,
-            "A", BoardCellEnum.ALWAYS_ACTIVE,
-            "T", BoardCellEnum.THREE_PLAYERS,
-            "F", BoardCellEnum.FOUR_PLAYERS
+    private static final Map<String, Integer> strToNPlayersMap = Map.of(
+            "X", 0,
+            "A", 2,
+            "T", 3,
+            "F", 4
     );
 
     /**
@@ -68,7 +70,7 @@ public class CsvToBoardParser {
      * @param path the path of the csv file
      * @return the matrix where cells are initialized with their correct type
      */
-    public static BoardCell[][] parseBoardCellTypeConfiguration(String path) {
+    public static BoardCell[][] parseBoardCellTypeConfiguration(String path, int nPlayers) {
         BoardCell[][] boardMatrix = new BoardCell[Constants.BOARD_DIMENSION][Constants.BOARD_DIMENSION];
 
         try {
@@ -78,7 +80,16 @@ public class CsvToBoardParser {
             for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
                 String[] read = csvReader.readNext();
                 for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
-                    boardMatrix[y][x] = new BoardCell(Optional.empty(), strToCellTypeMap.get(read[x]));
+                    int numOfRequiredPlayers = strToNPlayersMap.get(read[x]);
+                    if (!read[x].equals("X")) {
+                        if (nPlayers >= numOfRequiredPlayers) {
+                            boardMatrix[y][x] = new BoardCell(Optional.empty(), BoardCellEnum.ACTIVE);
+                        } else {
+                            boardMatrix[y][x] = new BoardCell(Optional.empty(), BoardCellEnum.INACTIVE);
+                        }
+                    } else {
+                        boardMatrix[y][x] = new BoardCell(Optional.empty(), BoardCellEnum.INACTIVE);
+                    }
                 }
             }
         } catch (IOException | CsvValidationException e) {
@@ -95,8 +106,8 @@ public class CsvToBoardParser {
      * @param path the path of the csv file
      * @return the matrix representing the board containing object cards
      */
-    public static BoardCell[][] parseBoardObjectCardConfiguration(String path) {
-        BoardCell[][] boardMatrix = parseBoardCellTypeConfiguration(path);
+    public static BoardCell[][] parseBoardObjectCardConfiguration(String path, int nPlayers) {
+        BoardCell[][] boardMatrix = parseBoardCellTypeConfiguration(path, nPlayers);
 
         try {
             Reader r = Files.newBufferedReader(Path.of(path));

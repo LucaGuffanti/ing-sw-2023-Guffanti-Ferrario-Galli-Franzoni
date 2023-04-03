@@ -8,7 +8,5 @@ package it.polimi.ingsw.model.cells;
  */
 public enum BoardCellEnum {
     INACTIVE,
-    THREE_PLAYERS,
-    FOUR_PLAYERS,
-    ALWAYS_ACTIVE
+    ACTIVE
 }

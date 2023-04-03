@@ -1,7 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cells.BoardCell;
+import it.polimi.ingsw.model.cells.BoardCellEnum;
 import it.polimi.ingsw.model.utils.Constants;
+import it.polimi.ingsw.model.utils.CsvToBoardParser;
+import it.polimi.ingsw.model.utils.exceptions.EmptySackException;
+
+import java.util.Optional;
 
 /**
  * This class contains elements and methods which can manipulate the board.
@@ -9,15 +14,17 @@ import it.polimi.ingsw.model.utils.Constants;
  * @see BoardCell
  */
 public class Board {
+
+    private static final String pathToCsvFile = "src/main/assets/board/cellTypeConfiguration.csv";
     private int heightInCells;
     private int lengthInCells;
     private BoardCell[][] cells;
     private boolean toBeRefilled;
 
-    public Board(int nPlayer) {
+    public Board(int nPlayer, Sack sack) {
         heightInCells = Constants.BOARD_DIMENSION;
         lengthInCells = Constants.BOARD_DIMENSION;
-        initBoard(nPlayer);
+        initBoard(nPlayer, sack);
     }
 
     /**
@@ -25,14 +32,33 @@ public class Board {
      * @param sack the game sack
      */
     public void refillBoard(Sack sack) {
-        //algorithm
+
+        for (int y = 0; y < lengthInCells; y++) {
+            for (int x = 0; x < heightInCells; x++) {
+                try {
+                    if (cells[y][x].getType().equals(BoardCellEnum.ACTIVE)) {
+                        cells[y][x].setCellCard(Optional.of(sack.pickFromSack()));
+                    }
+                } catch (EmptySackException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         toBeRefilled = false;
     }
 
-    public void initBoard(int nPlayer) {
-        // algorithm
+    /**
+     * This method initializes the board: firstly the cells are instantiated based on their type
+     * and they get populated.
+     * @param nPlayer the number of players in the game
+     * @param sack the sack from which object cards are extracted
+     */
+    public void initBoard(int nPlayer, Sack sack) {
+        cells = CsvToBoardParser.parseBoardCellTypeConfiguration(pathToCsvFile, nPlayer);
+        refillBoard(sack);
         toBeRefilled = false;
     }
+
 
     public boolean shouldBeRefilled() {
         boolean found = false;
@@ -66,5 +92,9 @@ public class Board {
             toBeRefilled = true;
         }
         return toBeRefilled;
+    }
+
+    public BoardCell getCell(int x, int y) {
+        return cells[y][x];
     }
 }
