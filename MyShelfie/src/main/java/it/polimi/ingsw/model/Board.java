@@ -97,4 +97,8 @@ public class Board {
     public BoardCell getCell(int x, int y) {
         return cells[y][x];
     }
+
+    public BoardCell[][] getCells() {
+        return cells;
+    }
 }

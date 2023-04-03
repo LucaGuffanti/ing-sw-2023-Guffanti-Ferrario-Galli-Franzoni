@@ -43,12 +43,36 @@ public class EndGameAdjacencyGoalChecker {
 
         boolean[][] referenceMatrix = MatrixUtils.createEmptyMatrix(shelfLength, shelfHeight);
 
+        int[] highestOccupiedCell = player.getShelf().getHighestOccupiedCell();
+        int count;
         for (ObjectTypeEnum type : ObjectTypeEnum.values()) {
-            //totalPoints += checkAdjacencies(player.getShelf(), referenceMatrix, type);
-            // TODO
+            for (int y = 0; y < shelfHeight; y++) {
+                count = 0;
+                for (int x = 0; x < shelfLength; x++) {
+                    if (referenceMatrix[y][x] == false && shelfMatrix[y][x].getCellCard().isPresent() && shelfMatrix[y][x].getCellCard().get().getType().equals(type)) {
+                        count = MatrixUtils.calculateAdjacentShelfCardsGroupDimension(
+                                shelfMatrix,
+                                shelfLength,
+                                shelfHeight,
+                                referenceMatrix,
+                                type,
+                                x,
+                                y,
+                                highestOccupiedCell
+                        );
+
+                        // System.out.print("I found " + count + " for type: " + type.toString()+". ");
+                        if (count > 6) {
+                            count = 6;
+                        }
+                        // System.out.print("Giving " + matchesToPointsMap.get(count)+ " points.\n");
+                        totalPoints += matchesToPointsMap.get(count);
+                    }
+                }
+            }
         }
 
-        return 0;
+        return totalPoints;
     }
 
 }

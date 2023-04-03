@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.utils;
 
 import it.polimi.ingsw.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.model.cells.BoardCell;
+import it.polimi.ingsw.model.cells.BoardCellEnum;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Shelf;
 
@@ -116,5 +118,27 @@ public class MatrixUtils {
             }
         }
         return count;
+    }
+
+    public static void printBoardCellTypesConfigurationMatrix(BoardCell[][] matrix) {
+        for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
+            for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
+                System.out.print(matrix[y][x].getType().toString()+" ");
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public static void printBoardCardsConfigurationMatrix(BoardCell[][] matrix) {
+        for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
+            for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
+                if (matrix[y][x].getCellCard().isPresent()) {
+                    System.out.print(matrix[y][x].getCellCard().get().getType().toString() + " ");
+                } else {
+                    System.out.print("XX ");
+                }
+            }
+            System.out.print("\n");
+        }
     }
 }
