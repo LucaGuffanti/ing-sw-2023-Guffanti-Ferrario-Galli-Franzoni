@@ -93,10 +93,10 @@ public class Game {
     public void initGame() {
 
         // firstly, the game related objects are instantiated:
-        // the board gets populated
-        board = new Board(gameInfo.getNPlayers());
         // the sack gets filled
         sack = new Sack();
+        // the board gets populated
+        board = new Board(gameInfo.getNPlayers(), sack);
         // the end of game card gets built
         endOfGameCard = new EndOfGameCard();
         // the instance of the deck is retrieved (or if the deck isn't instantiated it gets created)
