@@ -26,10 +26,9 @@ public abstract class Cell {
 
     @Override
     public String toString() {
-        return cellCard.map(objectCard -> objectCard.getType().toString()).orElse("X ");
-    }
-
-    public boolean isCovered(){
-        return cellCard.isPresent();
+        if(cellCard.isPresent())
+            return cellCard.get().getType().toString();
+        else
+            return "X ";
     }
 }

@@ -1,18 +1,22 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.cells.Coordinates;
-
 import java.util.Optional;
 
 /**
- * A Pattern Cell represents a covered cell in a Pattern,
- * with a set of coordinates relative to the Pattern frame
- * and the admittedType.
+ * A subPatternCell represents a covered cell in a Pattern.
  *
  * @author Daniele Ferrario
  */
-public class PatternCell extends Coordinates {
+public class PatternCell {
+    /**
+     * X coordinate relative to the pattern frame.
+     */
+    private int x;
 
+    /**
+     * Y coordinate relative to the pattern frame.
+     */
+    private int y;
 
     /**
      * The optional constraint which indicates
@@ -21,12 +25,13 @@ public class PatternCell extends Coordinates {
     private Optional<ObjectTypeEnum> admittedType;
 
     public PatternCell(int x, int y, Optional<ObjectTypeEnum> admittedType){
-        super(x,y);
+        this.x = x;
+        this.y = y;
         this.admittedType = admittedType;
     }
 
     public int getX() {
-        return super.x;
+        return x;
     }
 
     public void setX(int x) {
