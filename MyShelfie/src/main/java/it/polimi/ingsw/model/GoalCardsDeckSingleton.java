@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.CardBuilder;
+import it.polimi.ingsw.model.cards.Pattern;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.GoalCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.SnakesCommonGoalCard;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
 import java.lang.reflect.Array;
@@ -37,7 +39,12 @@ public class GoalCardsDeckSingleton {
 
         // call CardBuilder.loadPersonalGoalCardsFromJson(path_to_file);
         try {
+
+            // Loading FixedPatternShapedCards from json file
             commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/fixedPatternShapedCommonGoalCards.json");
+            // Loading FreePatternShapedCards
+            commonGoals.add(new SnakesCommonGoalCard("SNAKE"));
+
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -82,16 +89,25 @@ public class GoalCardsDeckSingleton {
             // TODO will be implemented when the goalCards are implemented
         }
 
-        return null;
+        //  TODO: REMOVE THIS AND IMPLEMENT REAL LOGIC
+        toBeReturned.add(new PersonalGoalCard("id1", new Pattern(1,1, new HashSet<>(), 1,6)));
+        toBeReturned.add(new PersonalGoalCard("id2", new Pattern(1,1, new HashSet<>(), 1,6)));
+        toBeReturned.add(new PersonalGoalCard("id3", new Pattern(1,1, new HashSet<>(), 1,6)));
+        toBeReturned.add(new PersonalGoalCard("id4", new Pattern(1,1, new HashSet<>(), 1,6)));
+        // ---------------------------------------------
+        return toBeReturned;
     }
 
     /**
      * This method shuffles the commonGoals list and returns the first 2 elements as an arrayList
      * @return an array list containing 2 common goal cards
      */
-    public ArrayList<CommonGoalCard> pickCommonGoals() {
-        // TODO depends on the implementation of the commonGoalCard.
-        // will be implemented when commonGoalCard is correctly implemented.
-        return null;
+    public ArrayList<CommonGoalCard> pickTwoCommonGoals() {
+        Collections.shuffle(commonGoals);
+        ArrayList<CommonGoalCard> result = new ArrayList<>();
+        result.add(commonGoals.get(0));
+        result.add(commonGoals.get(1));
+
+        return result;
     }
 }
