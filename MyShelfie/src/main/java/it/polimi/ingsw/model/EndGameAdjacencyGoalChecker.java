@@ -43,7 +43,7 @@ public class EndGameAdjacencyGoalChecker {
 
         boolean[][] referenceMatrix = MatrixUtils.createEmptyMatrix(shelfLength, shelfHeight);
 
-        int[] highestOccupiedCell = player.getShelf().getHighestOccupiedCell();
+        int[] highestOccupiedCell = player.getShelf().getHighestOccupiedCells();
         int count;
         for (ObjectTypeEnum type : ObjectTypeEnum.values()) {
             for (int y = 0; y < shelfHeight; y++) {

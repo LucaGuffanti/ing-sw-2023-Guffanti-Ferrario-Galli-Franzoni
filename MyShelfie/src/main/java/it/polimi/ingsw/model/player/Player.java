@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.cards.ObjectCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
+import it.polimi.ingsw.model.utils.exceptions.NoSpaceEnoughInShelfColumnException;
 
 import java.util.List;
 
@@ -80,10 +81,21 @@ public class Player {
      * @return whether a card has been successfully added
      */
     public boolean addCardsToShelf(List<ObjectCard> cards, int column) {
-        boolean success = shelf.addCardsToColumn(cards, column);
+
+        try {
+            shelf.checkIfShelfHasEnoughSpace(cards.size(),column);
+        }catch (NoSpaceEnoughInShelfColumnException ex){
+            if (shelf.isFull()) {
+                achievements.setCompletedShelf(true);
+            }
+            return false;
+        }
+
+        shelf.addCardsToColumn(cards, column);
         if (shelf.isFull()) {
             achievements.setCompletedShelf(true);
         }
-        return success;
+
+        return true;
     }
 }

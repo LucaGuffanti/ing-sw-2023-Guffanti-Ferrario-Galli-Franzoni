@@ -1,12 +1,17 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.ObjectCard;
 import it.polimi.ingsw.model.cells.BoardCell;
 import it.polimi.ingsw.model.cells.BoardCellEnum;
+import it.polimi.ingsw.model.cells.Coordinates;
 import it.polimi.ingsw.model.utils.Constants;
 import it.polimi.ingsw.model.utils.CsvToBoardParser;
-import it.polimi.ingsw.model.utils.exceptions.EmptySackException;
+import it.polimi.ingsw.model.utils.exceptions.*;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.model.utils.Constants.BOARD_DIMENSION;
 
 /**
  * This class contains elements and methods which can manipulate the board.
@@ -59,6 +64,25 @@ public class Board {
         toBeRefilled = false;
     }
 
+    /**
+     *  Remove and return the ObjectCards from the Board at the specified positions in coordinates.
+     *  @param coordinates Ordered list of coordinates which indicates the ObjectCells to pick and remove. Each coordinate
+     *                     is supposed to point to filled cell.
+     *  @return Ordered list of ObjectCards
+     * @throws IllegalBoardCellsPickException
+     */
+    public List<ObjectCard> pickCells(List<Coordinates> coordinates) {
+
+        // Collect and remove
+       return  coordinates.stream().map(c->{
+            BoardCell cell = cells[c.getY()][c.getX()];
+            ObjectCard obj =cell.getCellCard().get();
+            cell.setCellCard(Optional.empty());
+            return obj;
+        }).collect(Collectors.toList());
+
+
+    }
 
     public boolean shouldBeRefilled() {
         boolean found = false;
@@ -101,4 +125,62 @@ public class Board {
     public BoardCell[][] getCells() {
         return cells;
     }
+
+    /**
+     * Check if player can pick a set of BoardCells given their coordinates from the board
+     * @param cellsCoordinates the cells to pick
+     * @author Daniele Ferrario
+     */
+    public void checkIfPlayerCanPickCellsFromBoard(Collection<Coordinates> cellsCoordinates) throws IllegalBoardCellsPickException {
+
+
+        // Check if coordinates do not belong to the same row or to the same column
+        if(cellsCoordinates.stream().map(Coordinates::getX).distinct().count() > 1 &&
+                cellsCoordinates.stream().map(Coordinates::getY).distinct().count() > 1)
+            throw new DiagonalBoardCellsCellsPickException();
+
+
+        for (Coordinates coordinates: cellsCoordinates) {
+            // Check if not empty
+            if(!this.cells[coordinates.getY()][coordinates.getX()].isCovered())
+                throw new EmptyBoardCellsPickException(coordinates.getX(), coordinates.getY());
+
+            // Checking adjacent ones
+            if(!canPickSingleCellFromBoard(coordinates.getX(), coordinates.getY()))
+                throw new NoEmptyAdjacentBoardCellsPickException();
+
+        }
+
+    }
+
+    /**
+     * Check if player can pick a BoardCell from the board given its coordinates
+     * @param x
+     * @param y
+     */
+    private boolean canPickSingleCellFromBoard(int x, int y){
+
+
+        // If target cell is covered
+        if(cells[y][x].isCovered()){
+
+            // Check if exists an adjacent cell which is not covered
+            boolean expr = (
+                    ((x-1 >= 0) && !cells[y][x-1].isCovered()) ||
+                            ((y-1 >= 0) && !cells[y-1][x].isCovered()) ||
+                            ((x+1 < BOARD_DIMENSION) && !cells[y][x+1].isCovered()) ||
+                            ((y+1 < BOARD_DIMENSION) && !cells[y+1][x].isCovered())
+
+            );
+
+
+
+            if (expr)
+                return true;
+        }
+
+        return false;
+
+    }
+
 }

@@ -3,22 +3,13 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
-import it.polimi.ingsw.model.cells.Cell;
 import it.polimi.ingsw.model.cells.Coordinates;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
-import it.polimi.ingsw.model.utils.MatrixUtils;
-import it.polimi.ingsw.model.utils.exceptions.MaxPlayersException;
-import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
-import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
+import it.polimi.ingsw.model.utils.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
-
-import static it.polimi.ingsw.model.utils.Constants.BOARD_DIMENSION;
 
 /**
  * The main game class. <br>
@@ -62,6 +53,9 @@ public class Game {
     private EndOfGameCard endOfGameCard;
     private ArrayList<Player> players;
     private GameInfo gameInfo;
+
+
+
     private GoalCardsDeckSingleton goalCardsDeck;
 
     /**
@@ -88,6 +82,14 @@ public class Game {
         gameInfo.setAdmin(admin);
         gameInfo.setNPlayers(nPlayers);
         gameInfo.setGameStatus(GameStatusEnum.ACCEPTING_PLAYERS);
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     /**
@@ -200,6 +202,8 @@ public class Game {
         }
     }
 
+
+
     /**
      * @param currPlayer the player who will be awarded the pointCard
      * @param pointCard the pointCard that will be awarded to the player
@@ -305,67 +309,48 @@ public class Game {
         players.add(player);
     }
 
+
+    /**
+     * This method adds a player to the game. If the game is full,
+     * so the number of maximum players is reached, an exception is thrown.
+     * @param player
+     * @throws MaxPlayersException when the number of players decided by the host is reached
+     */
+    public void addPlayer(Player player) throws MaxPlayersException {
+        if (players.size() == gameInfo.getNPlayers()) throw new MaxPlayersException("The game is full");
+        players.add(player);
+    }
+
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     /**
      * This method moves cards to a player's shelf. More specifically, it commands the execution of the equivalent
      * method in the player class.
-     * @return true or false if the addition is completed or not.
-     */
-    public boolean moveCardsToPlayerShelf(Player currentPlayer, List<ObjectCard> objectCards, int wantedColumn) {
-        boolean success =  currentPlayer.addCardsToShelf(objectCards, wantedColumn);
-        return success;
-    }
-
-    /**
-     * Check if player can pick a BoardCell from the board given its coordinates
-     * @param x
-     * @param y
-     */
-    private boolean playerCanPickSingleCellFromBoard(int x, int y){
-
-
-        // If target cell is covered
-        if(this.board.getCell(x,y).isCovered()){
-
-            // Check if exists an adjacent cell which is not covered
-            boolean expr = (
-                    ((x-1 >= 0) && !this.board.getCell(x-1, y).isCovered()) ||
-                    ((y-1 >= 0) && !this.board.getCell(x, y-1).isCovered()) ||
-                    ((x+1 < BOARD_DIMENSION) && !this.board.getCell(x+1, y).isCovered()) ||
-                    ((y+1 < BOARD_DIMENSION) && !this.board.getCell(x, y+1).isCovered())
-
-            );
-
-
-
-            if (expr)
-                return true;
-        }
-
-        return false;
-
-    }
-
-    /**
-     * Check if player can pick a set of BoardCells given their coordinates from the board
-     * @param cellsCoordinates the cells to pick
      * @author Daniele Ferrario
+     * @throws IllegalBoardCellsPickException
+     * @throws NoSpaceEnoughInShelfColumnException
      */
-    public boolean playerCanPickFromCellsBoard(Set<Coordinates> cellsCoordinates){
+    public void moveCardsToPlayerShelf(Player currentPlayer, List<Coordinates> tilesCoordinates, int targetColumn) throws IllegalBoardCellsPickException, NoSpaceEnoughInShelfColumnException {
+
+        Shelf playerShelf = currentPlayer.getShelf();
+
+        // Check if there are no illegal moves
+        this.board.checkIfPlayerCanPickCellsFromBoard(tilesCoordinates);
+        playerShelf.checkIfShelfHasEnoughSpace(targetColumn, tilesCoordinates.size());
+
+        // Pick cells from the board and insert them in the player's shelf
+        currentPlayer.addCardsToShelf(this.board.pickCells(tilesCoordinates), targetColumn);
 
 
-        // Check if coordinates belong to the same row or to the same column
-        if(cellsCoordinates.stream().map(Coordinates::getX).distinct().count() > 1 &&
-                cellsCoordinates.stream().map(Coordinates::getY).distinct().count() > 1)
-            return false;
 
-
-        // Checking adjacent ones
-        for (Coordinates cell: cellsCoordinates) {
-            if(!playerCanPickSingleCellFromBoard(cell.getX(), cell.getY()))
-                return false;
-        }
-
-        return true;
     }
+
+
+
+
+
 
 }

@@ -49,7 +49,7 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
         int shelfLength = player.getShelf().getLengthInCells();
         int shelfHeight = player.getShelf().getHeightInCells();
         int totalPoints = 0;
-        int[] highestOccupiedCell = player.getShelf().getHighestOccupiedCell();
+        int[] highestOccupiedCell = player.getShelf().getHighestOccupiedCells();
 
         boolean[][] referenceMatrix = MatrixUtils.createEmptyMatrix(shelfLength, shelfHeight);
 

@@ -35,8 +35,11 @@ class PlayerTest {
             list = new ArrayList<>();
             list.add(new ObjectCard(ObjectTypeEnum.TROPHY));
             assertFalse(player.addCardsToShelf(list, col));
+
             assertTrue(player.getAchievements().isCompletedShelf());
+
         }
+
     }
 
     /**

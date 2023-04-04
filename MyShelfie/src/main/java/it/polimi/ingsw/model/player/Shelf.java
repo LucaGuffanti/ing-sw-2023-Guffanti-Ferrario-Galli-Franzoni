@@ -1,11 +1,12 @@
+
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.cards.ObjectCard;
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.utils.Constants;
+import it.polimi.ingsw.model.utils.exceptions.NoSpaceEnoughInShelfColumnException;
 
-import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class Shelf {
     private ShelfCell[][] cells;
     private boolean isFull;
-    private int[] highestOccupiedCell;
+    private int[] highestOccupiedCells;
 
     private int lengthInCells = Constants.SHELF_LENGTH;
     private int heightInCells = Constants.SHELF_HEIGHT;
@@ -48,12 +49,15 @@ public class Shelf {
     }
 
 
-    public int[] getHighestOccupiedCell() {
-        return highestOccupiedCell;
+    public int[] getHighestOccupiedCells() {
+        return highestOccupiedCells;
     }
 
-    public void setHighestOccupiedCell(int[] highestOccupiedCell) {
-        this.highestOccupiedCell = highestOccupiedCell;
+    public int getHighestOccupiedCellIndex(int colIndex){
+        return highestOccupiedCells[colIndex];
+    }
+    public void setHighestOccupiedCells(int[] highestOccupiedCells) {
+        this.highestOccupiedCells = highestOccupiedCells;
     }
 
     public Shelf() {
@@ -65,8 +69,9 @@ public class Shelf {
             }
         }
         isFull = false;
-        highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
-                Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
+        highestOccupiedCells = new int[lengthInCells];
+        Arrays.fill(highestOccupiedCells, Constants.SHELF_HEIGHT);
+
     }
 
     public Shelf(int length, int height, ShelfCell[][] cells) {
@@ -74,22 +79,27 @@ public class Shelf {
         isFull = false;
         this.lengthInCells = length;
         this.heightInCells = height;
-        highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
-                Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
+        highestOccupiedCells = new int[lengthInCells];
+        Arrays.fill(highestOccupiedCells, Constants.SHELF_HEIGHT);
         fixHighestOccupiedCell();
     }
 
     private void fixHighestOccupiedCell() {
-        for (int i = 0; i < 5; i++) {
-            highestOccupiedCell[i] = 6;
-        }
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 6; y++) {
-                if (!cells[y][x].getCellCard().isEmpty()) {
-                    highestOccupiedCell[x]--;
+
+
+        for (int x = 0; x < lengthInCells; x++) {
+            // Initializing supposing empty column, so the height exceed by 1 the column bound (y=5+1)
+            highestOccupiedCells[x] = heightInCells;
+
+            // If an ObjectType is found at a certain height, reduce the last height found by one
+            for (int y = 0; y < heightInCells; y++) {
+                if (cells[y][x].getCellCard().isPresent()) {
+                    highestOccupiedCells[x]--;
                 }
+
             }
         }
+        isFull = checkFullness();
     }
 
 
@@ -99,46 +109,35 @@ public class Shelf {
 
     /**
      * This method checks if a list of object cards, taken by a player from the board, can be added to a shelf.
-     * @param column column where a player wants to insert his object cards into the shelf
-     * @param cards list of object card that a player has taken from the board
-     * @return outcome of this check
+     * @param column column where a player wants to insert his object cards.
+     * @param cardsNumber the number of card to insert in the column.
      */
-    private boolean checkCardsAddability(List<ObjectCard> cards, int column) {
+
+    public void checkIfShelfHasEnoughSpace(int cardsNumber, int column) throws NoSpaceEnoughInShelfColumnException {
         boolean canInsert;
-        if (highestOccupiedCell[column] - cards.size() >= 0) {
-            canInsert = true;
-        } else {
-            canInsert = false;
+        if (highestOccupiedCells[column] - cardsNumber < 0) {
+            throw new NoSpaceEnoughInShelfColumnException(column, highestOccupiedCells[column]);
         }
-        return canInsert;
     }
 
     /**
      * This method adds to a shelf a list of object card taken from the board by a player.
      * @param cards list of object card that a player has taken from the board
      * @param column column where a player wants to insert his object cards into the shelf
-     * @return outcome of the addition
      */
-    public boolean addCardsToColumn(List<ObjectCard> cards, int column) {
-        boolean success;
-        if (checkCardsAddability(cards, column)) {
-            for (ObjectCard card : cards) {
-                highestOccupiedCell[column]--;
-                cells[highestOccupiedCell[column]][column].setCellCard(Optional.of(card));
-            }
-            success = true;
-        } else {
-            success = false;
+    public void addCardsToColumn(List<ObjectCard> cards, int column) {
+
+        for (ObjectCard card : cards) {
+            highestOccupiedCells[column]--;
+            cells[highestOccupiedCells[column]][column].setCellCard(Optional.of(card));
         }
 
         isFull = checkFullness();
-
-        return success;
     }
 
     public boolean checkFullness() {
         for (int i = 0; i < lengthInCells; i++) {
-            if (highestOccupiedCell[i] != 0) {
+            if (highestOccupiedCells[i] != 0) {
                 return false;
             }
         }
