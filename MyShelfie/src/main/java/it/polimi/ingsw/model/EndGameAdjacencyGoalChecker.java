@@ -49,7 +49,7 @@ public class EndGameAdjacencyGoalChecker {
             for (int y = 0; y < shelfHeight; y++) {
                 count = 0;
                 for (int x = 0; x < shelfLength; x++) {
-                    if (referenceMatrix[y][x] == false && shelfMatrix[y][x].getCellCard().isPresent() && shelfMatrix[y][x].getCellCard().get().getType().equals(type)) {
+                    if (!referenceMatrix[y][x] && shelfMatrix[y][x].getCellCard().isPresent() && shelfMatrix[y][x].getCellCard().get().getType().equals(type)) {
                         count = MatrixUtils.calculateAdjacentShelfCardsGroupDimension(
                                 shelfMatrix,
                                 shelfLength,

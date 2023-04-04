@@ -68,6 +68,7 @@ public class CsvToBoardParser {
      * its type
      * @see BoardCellEnum
      * @param path the path of the csv file
+     * @param nPlayers the number of players
      * @return the matrix where cells are initialized with their correct type
      */
     public static BoardCell[][] parseBoardCellTypeConfiguration(String path, int nPlayers) {
@@ -103,14 +104,16 @@ public class CsvToBoardParser {
      * This method builds a board matrix starting from a configuration where each cell is
      * associated to an objectCard
      * @see ObjectCard
-     * @param path the path of the csv file
+     * @param pathType the path to the csv file which contains type configuration
+     * @param pathObject the path to the csv file which contains object cards configuration
+     * @param nPlayers the number of players
      * @return the matrix representing the board containing object cards
      */
-    public static BoardCell[][] parseBoardObjectCardConfiguration(String path, int nPlayers) {
-        BoardCell[][] boardMatrix = parseBoardCellTypeConfiguration(path, nPlayers);
+    public static BoardCell[][] parseBoardObjectCardConfiguration(String pathType, String pathObject, int nPlayers) {
+        BoardCell[][] boardMatrix = parseBoardCellTypeConfiguration(pathType, nPlayers);
 
         try {
-            Reader r = Files.newBufferedReader(Path.of(path));
+            Reader r = Files.newBufferedReader(Path.of(pathObject));
             CSVReader csvReader = new CSVReader(r);
 
             for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {

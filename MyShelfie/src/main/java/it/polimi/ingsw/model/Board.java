@@ -16,8 +16,8 @@ import java.util.Optional;
 public class Board {
 
     private static final String pathToCsvFile = "src/main/assets/board/cellTypeConfiguration.csv";
-    private int heightInCells;
-    private int lengthInCells;
+    private final int heightInCells;
+    private final int lengthInCells;
     private BoardCell[][] cells;
     private boolean toBeRefilled;
 
@@ -48,8 +48,8 @@ public class Board {
     }
 
     /**
-     * This method initializes the board: firstly the cells are instantiated based on their type
-     * and they get populated.
+     * This method initializes the board: firstly the cells are instantiated based on their type,
+     * then they get populated.
      * @param nPlayer the number of players in the game
      * @param sack the sack from which object cards are extracted
      */
@@ -69,17 +69,17 @@ public class Board {
                             || cells[i+1][j].getCellCard().isPresent())) {
                         found = true;
                     }
-                } else if (i == 0 && j != 0) {
+                } else if (i == 0) {
                     if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
                             cells[i][j-1].getCellCard().isPresent() || cells[i+1][j].getCellCard().isPresent())) {
                         found = true;
                     }
-                } else if (i != 0 && j == 0) {
+                } else if (j == 0) {
                     if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
                             cells[i+1][j].getCellCard().isPresent() || cells[i-1][j].getCellCard().isPresent())) {
                         found = true;
                     }
-                } else if (i != 0 && j != 0) {
+                } else {
                     if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
                             cells[i][j-1].getCellCard().isPresent() || cells[i+1][j].getCellCard().isPresent()
                             || cells[i-1][j].getCellCard().isPresent())) {
