@@ -36,7 +36,7 @@ public class CsvToBoardParserTest {
      * used to initialize the board object), checking that the parsing correctly works for each possible number of players.
      */
     @Test
-    public void CsvToBoardParserTest() {
+    public void CsvToBoardParserTypeConfigurationTest() {
         String pathToFile = "src/main/assets/board/cellTypeConfiguration.csv";
 
         for (int numPlayers = 2; numPlayers <= 4; numPlayers++) {
@@ -65,6 +65,25 @@ public class CsvToBoardParserTest {
             } catch (IOException | CsvValidationException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * This method tests different board configuration according to csv files, one have type configuration,
+     * the other have object cards configuration
+     * @author Marco Galli
+     */
+    @Test
+    public void CsvToBoardParserObjectCardsConfigurationTest() {
+        for (int numPlayers = 2; numPlayers <= 4; numPlayers++ ) {
+            System.out.println("Checking csv parsing with "+numPlayers+" players");
+            String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_"+numPlayers+"players.csv";
+            String pathToObjectCardFile = "src/test/resources/boardTEST/expectedCellObjectCard_"+numPlayers+"players.csv";
+
+            BoardCell[][] boardCell = CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2);
+            MatrixUtils.printBoardCardsConfigurationMatrix(boardCell);
+            assertNotNull(boardCell);
+            System.out.println();
         }
     }
 }
