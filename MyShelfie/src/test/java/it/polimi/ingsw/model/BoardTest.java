@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cells.BoardCell;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.utils.CsvToBoardParser;
 import it.polimi.ingsw.model.utils.MatrixUtils;
 import it.polimi.ingsw.model.utils.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
@@ -23,12 +25,27 @@ class BoardTest {
     @Test
     void shouldBeRefilled() throws WrongNumberOfPlayersException, MaxPlayersException {
         Board board = new Board(2, new Sack());
-        System.out.println("Board initialized");
+        System.out.println("Board initialized, refill needed: false");
+        MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
+        System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
 
-        Game game = new Game(new Player("admin"), 2, 0);
-        game.addPlayer("Marco");
-        game.initGame();
-        System.out.println("Board should be refilled: "+board.shouldBeRefilled());
+        String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_2players.csv";
+        String pathToObjectCardFile = "src/test/resources/boardTEST/expectedCellObjectCard_2players.csv";
+        board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
+        System.out.println("New full board imported, refill needed: false");
+        MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
+        System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
 
+        pathToObjectCardFile = "src/test/resources/boardTEST/emptyBoard.csv";
+        board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
+        System.out.println("New empty board imported, refill needed: true");
+        MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
+        System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
+
+        pathToObjectCardFile = "src/test/resources/boardTEST/boardToRefill.csv";
+        board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
+        System.out.println("New board to refill imported, refill needed: true");
+        MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
+        System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
     }
 }

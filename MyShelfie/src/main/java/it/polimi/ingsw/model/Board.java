@@ -88,9 +88,7 @@ public class Board {
                 }
             }
         }
-        if (!found) {
-            toBeRefilled = true;
-        }
+        toBeRefilled = !found;
         return toBeRefilled;
     }
 
@@ -100,5 +98,9 @@ public class Board {
 
     public BoardCell[][] getCells() {
         return cells;
+    }
+
+    public void setCells(BoardCell[][] cells) {
+        this.cells = cells;
     }
 }
