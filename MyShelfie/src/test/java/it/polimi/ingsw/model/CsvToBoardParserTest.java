@@ -39,7 +39,7 @@ public class CsvToBoardParserTest {
     public void CsvToBoardParserTypeConfigurationTest() {
         String pathToFile = "src/main/assets/board/cellTypeConfiguration.csv";
 
-        for (int numPlayers = 2; numPlayers <= 4; numPlayers++) {
+        for (int numPlayers = Constants.MIN_PLAYER; numPlayers <= Constants.MAX_PLAYER; numPlayers++) {
             System.out.println("Checking csv parsing with "+numPlayers+" players");
             BoardCell[][] boardCell = CsvToBoardParser.parseBoardCellTypeConfiguration(pathToFile, numPlayers);
             MatrixUtils.printBoardCellTypesConfigurationMatrix(boardCell);
@@ -75,7 +75,7 @@ public class CsvToBoardParserTest {
      */
     @Test
     public void CsvToBoardParserObjectCardsConfigurationTest() {
-        for (int numPlayers = 2; numPlayers <= 4; numPlayers++ ) {
+        for (int numPlayers = Constants.MIN_PLAYER; numPlayers <= Constants.MAX_PLAYER; numPlayers++ ) {
             System.out.println("Checking csv parsing with "+numPlayers+" players");
             String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_"+numPlayers+"players.csv";
             String pathToObjectCardFile = "src/test/resources/boardTEST/expectedCellObjectCard_"+numPlayers+"players.csv";

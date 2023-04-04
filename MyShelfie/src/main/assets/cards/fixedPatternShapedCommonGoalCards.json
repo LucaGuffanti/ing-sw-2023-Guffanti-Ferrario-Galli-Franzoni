@@ -42,10 +42,10 @@
       "height": 6,
       "length": 5,
       "coveredCells":[
-      [0,0],[4,0],[5,0],[5,4]
+      [0,0],[4,0],[0,5],[4,5]
         ],
       "minDifferentTypes": 1,
-      "maxDifferentTypes": 6
+      "maxDifferentTypes": 1
     },
     "shouldRotate": false,
     "admitsAdjacency": false,

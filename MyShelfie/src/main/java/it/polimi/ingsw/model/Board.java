@@ -1,186 +1,147 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.cards.ObjectCard;
-import it.polimi.ingsw.model.cells.BoardCell;
-import it.polimi.ingsw.model.cells.BoardCellEnum;
-import it.polimi.ingsw.model.cells.Coordinates;
+import it.polimi.ingsw.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.utils.Constants;
-import it.polimi.ingsw.model.utils.CsvToBoardParser;
-import it.polimi.ingsw.model.utils.exceptions.*;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static it.polimi.ingsw.model.utils.Constants.BOARD_DIMENSION;
+import java.awt.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * This class contains elements and methods which can manipulate the board.
+ * This class contains a player's shelf status and manipulates it with some methods.
  * @author Marco Galli
- * @see BoardCell
+ * @see ShelfCell
+ * @see ObjectCard
  */
-public class Board {
 
-    private static final String pathToCsvFile = "src/main/assets/board/cellTypeConfiguration.csv";
-    private final int heightInCells;
-    private final int lengthInCells;
-    private BoardCell[][] cells;
-    private boolean toBeRefilled;
 
-    public Board(int nPlayer, Sack sack) {
-        heightInCells = Constants.BOARD_DIMENSION;
-        lengthInCells = Constants.BOARD_DIMENSION;
-        initBoard(nPlayer, sack);
+public class Shelf {
+    private ShelfCell[][] cells;
+    private boolean isFull;
+    private int[] highestOccupiedCell;
+
+    private int lengthInCells = Constants.SHELF_LENGTH;
+    private int heightInCells = Constants.SHELF_HEIGHT;
+
+    public int getLengthInCells() {
+        return lengthInCells;
     }
 
-    /**
-     * This method refills board cells that have no more cards, checking if isFull == 0
-     * @param sack the game sack
-     */
-    public void refillBoard(Sack sack) {
-
-        for (int y = 0; y < lengthInCells; y++) {
-            for (int x = 0; x < heightInCells; x++) {
-                try {
-                    if (cells[y][x].getType().equals(BoardCellEnum.ACTIVE)) {
-                        cells[y][x].setCellCard(Optional.of(sack.pickFromSack()));
-                    }
-                } catch (EmptySackException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        toBeRefilled = false;
+    public int getHeightInCells() {
+        return heightInCells;
     }
 
-    /**
-     * This method initializes the board: firstly the cells are instantiated based on their type,
-     * then they get populated.
-     * @param nPlayer the number of players in the game
-     * @param sack the sack from which object cards are extracted
-     */
-    public void initBoard(int nPlayer, Sack sack) {
-        cells = CsvToBoardParser.parseBoardCellTypeConfiguration(pathToCsvFile, nPlayer);
-        refillBoard(sack);
-        toBeRefilled = false;
-    }
-
-    /**
-     *  Remove and return the ObjectCards from the Board at the specified positions in coordinates.
-     *  @param coordinates Ordered list of coordinates which indicates the ObjectCells to pick and remove. Each coordinate
-     *                     is supposed to point to filled cell.
-     *  @return Ordered list of ObjectCards
-     * @throws IllegalBoardCellsPickException
-     */
-    public List<ObjectCard> pickCells(List<Coordinates> coordinates) {
-
-        // Collect and remove
-       return  coordinates.stream().map(c->{
-            BoardCell cell = cells[c.getY()][c.getX()];
-            ObjectCard obj =cell.getCellCard().get();
-            cell.setCellCard(Optional.empty());
-            return obj;
-        }).collect(Collectors.toList());
-
-
-    }
-
-    public boolean shouldBeRefilled() {
-        boolean found = false;
-        for (int i = 0; i < Constants.SHELF_HEIGHT && !found; i++) {
-            for (int j = 0; j < Constants.SHELF_LENGTH && !found; j++) {
-                if (i == 0 && j == 0) {
-                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent()
-                            || cells[i+1][j].getCellCard().isPresent())) {
-                        found = true;
-                    }
-                } else if (i == 0) {
-                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
-                            cells[i][j-1].getCellCard().isPresent() || cells[i+1][j].getCellCard().isPresent())) {
-                        found = true;
-                    }
-                } else if (j == 0) {
-                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
-                            cells[i+1][j].getCellCard().isPresent() || cells[i-1][j].getCellCard().isPresent())) {
-                        found = true;
-                    }
-                } else {
-                    if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent() ||
-                            cells[i][j-1].getCellCard().isPresent() || cells[i+1][j].getCellCard().isPresent()
-                            || cells[i-1][j].getCellCard().isPresent())) {
-                        found = true;
-                    }
-                }
-            }
-        }
-        if (!found) {
-            toBeRefilled = true;
-        }
-        return toBeRefilled;
-    }
-
-    public BoardCell getCell(int x, int y) {
-        return cells[y][x];
-    }
-
-    public BoardCell[][] getCells() {
+    public ShelfCell[][] getCells() {
         return cells;
     }
 
-    /**
-     * Check if player can pick a set of BoardCells given their coordinates from the board
-     * @param cellsCoordinates the cells to pick
-     * @author Daniele Ferrario
-     */
-    public void checkIfPlayerCanPickCellsFromBoard(Collection<Coordinates> cellsCoordinates) throws IllegalBoardCellsPickException {
+    public void setCells(ShelfCell[][] cells) {
+        this.cells = cells;
+        fixHighestOccupiedCell();
+    }
+
+    public boolean isFull() {
+        isFull = checkFullness();
+        return isFull;
+    }
 
 
-        // Check if coordinates do not belong to the same row or to the same column
-        if(cellsCoordinates.stream().map(Coordinates::getX).distinct().count() > 1 &&
-                cellsCoordinates.stream().map(Coordinates::getY).distinct().count() > 1)
-            throw new DiagonalBoardCellsCellsPickException();
+    public int[] getHighestOccupiedCell() {
+        return highestOccupiedCell;
+    }
 
+    public void setHighestOccupiedCell(int[] highestOccupiedCell) {
+        this.highestOccupiedCell = highestOccupiedCell;
+    }
 
-        for (Coordinates coordinates: cellsCoordinates) {
-            // Check if not empty
-            if(!this.cells[coordinates.getY()][coordinates.getX()].isCovered())
-                throw new EmptyBoardCellsPickException(coordinates.getX(), coordinates.getY());
+    public Shelf() {
+        cells = new ShelfCell[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
 
-            // Checking adjacent ones
-            if(!canPickSingleCellFromBoard(coordinates.getX(), coordinates.getY()))
-                throw new NoEmptyAdjacentBoardCellsPickException();
-
+        for (int y = 0; y < heightInCells; y++) {
+            for (int x = 0; x < lengthInCells; x++) {
+                cells[y][x] = new ShelfCell(Optional.empty());
+            }
         }
+        isFull = false;
+        highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
+                Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
+    }
 
+    public Shelf(int length, int height, ShelfCell[][] cells) {
+        this.cells = cells;
+        isFull = false;
+        this.lengthInCells = length;
+        this.heightInCells = height;
+        highestOccupiedCell = new int[]{Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT,
+                Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT, Constants.SHELF_HEIGHT};
+        fixHighestOccupiedCell();
+    }
+
+    private void fixHighestOccupiedCell() {
+        for (int i = 0; i < 5; i++) {
+            highestOccupiedCell[i] = 6;
+        }
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 6; y++) {
+                if (!cells[y][x].getCellCard().isEmpty()) {
+                    highestOccupiedCell[x]--;
+                }
+            }
+        }
+    }
+
+
+    public ShelfCell getCell(int x, int y){
+        return cells[y][x];
     }
 
     /**
-     * Check if player can pick a BoardCell from the board given its coordinates
-     * @param x
-     * @param y
+     * This method checks if a list of object cards, taken by a player from the board, can be added to a shelf.
+     * @param column column where a player wants to insert his object cards into the shelf
+     * @param cards list of object card that a player has taken from the board
+     * @return outcome of this check
      */
-    private boolean canPickSingleCellFromBoard(int x, int y){
-
-
-        // If target cell is covered
-        if(cells[y][x].isCovered()){
-
-            // Check if exists an adjacent cell which is not covered
-            boolean expr = (
-                    ((x-1 >= 0) && !cells[y][x-1].isCovered()) ||
-                            ((y-1 >= 0) && !cells[y-1][x].isCovered()) ||
-                            ((x+1 < BOARD_DIMENSION) && !cells[y][x+1].isCovered()) ||
-                            ((y+1 < BOARD_DIMENSION) && !cells[y+1][x].isCovered())
-
-            );
-
-
-
-            if (expr)
-                return true;
+    private boolean checkCardsAddability(List<ObjectCard> cards, int column) {
+        boolean canInsert;
+        if (highestOccupiedCell[column] - cards.size() >= 0) {
+            canInsert = true;
+        } else {
+            canInsert = false;
         }
-
-        return false;
-
+        return canInsert;
     }
 
+    /**
+     * This method adds to a shelf a list of object card taken from the board by a player.
+     * @param cards list of object card that a player has taken from the board
+     * @param column column where a player wants to insert his object cards into the shelf
+     * @return outcome of the addition
+     */
+    public boolean addCardsToColumn(List<ObjectCard> cards, int column) {
+        boolean success;
+        if (checkCardsAddability(cards, column)) {
+            for (ObjectCard card : cards) {
+                highestOccupiedCell[column]--;
+                cells[highestOccupiedCell[column]][column].setCellCard(Optional.of(card));
+            }
+            success = true;
+        } else {
+            success = false;
+        }
+
+        isFull = checkFullness();
+
+        return success;
+    }
+
+    public boolean checkFullness() {
+        for (int i = 0; i < lengthInCells; i++) {
+            if (highestOccupiedCell[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

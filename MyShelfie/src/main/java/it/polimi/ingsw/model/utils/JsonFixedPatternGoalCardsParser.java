@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.FixedPatternCommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
 
@@ -81,4 +82,74 @@ public class JsonFixedPatternGoalCardsParser {
         Gson customGson = gsonBuilder.create();
         return customGson.fromJson(jsonData, classType);
     }
+
+    private static final Map<String, ObjectTypeEnum > map = Map.of(
+            "G", ObjectTypeEnum.CAT,
+            "B", ObjectTypeEnum.FRAME,
+            "W", ObjectTypeEnum.BOOK,
+            "Y", ObjectTypeEnum.TOY,
+            "C", ObjectTypeEnum.TROPHY,
+            "M", ObjectTypeEnum.PLANT
+    );
+    public static ArrayList<PersonalGoalCard> parsePersonalGoalCard(String path) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException {
+
+        // Writing a GSON deserializer ad hoc
+        JsonDeserializer<ArrayList<PersonalGoalCard> >deserializer = (json, typeOfT, context) -> {
+            JsonArray jsonArray = json.getAsJsonArray();
+            ArrayList<PersonalGoalCard> result = new ArrayList<>();
+
+            for (JsonElement ob : jsonArray) {
+
+                JsonObject goalCardObject = ob.getAsJsonObject();
+                String id = goalCardObject.get("id").getAsString();
+
+                JsonArray subPatternArray = goalCardObject.get("coveredCells").getAsJsonArray();
+
+                List<PatternCell> personalGoalPattern = new ArrayList<>();
+
+                for (JsonElement ob2 : subPatternArray) {
+
+                    JsonObject goalCardObjectInfo = ob2.getAsJsonObject();
+
+                    JsonArray goalCardPosition = goalCardObjectInfo.get("coordinates").getAsJsonArray();
+
+                    String admittedType = goalCardObjectInfo.get("admittedType").getAsString();
+
+                    personalGoalPattern.add(new PatternCell(goalCardPosition.get(0).getAsInt(),
+                            goalCardPosition.get(1).getAsInt(),
+                            Optional.of(map.get(admittedType))));
+
+                }
+
+                Pattern pattern = new Pattern(
+                        6,
+                        5,
+                        (Set) new HashSet<>(personalGoalPattern),
+                        0,0
+                );
+                PersonalGoalCard goalCard = new PersonalGoalCard(
+                        id,
+                        pattern
+                );
+
+                result.add(goalCard);
+
+            }
+
+            return result;
+        };
+
+        String jsonData = Files.readString(Path.of(path));
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        Type classType = new TypeToken<ArrayList<PersonalGoalCard>>() {
+        }.getType();
+
+
+        gsonBuilder.registerTypeAdapter(classType, deserializer);
+        Gson customGson = gsonBuilder.create();
+        return customGson.fromJson(jsonData, classType);
+    }
+
+
 }

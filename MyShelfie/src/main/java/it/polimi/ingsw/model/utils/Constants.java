@@ -18,7 +18,14 @@ public class Constants {
      * Dimension of the shelf
      */
     public static final int SHELF_HEIGHT = 6;
-
     public static final int SHELF_LENGTH = 5;
+    /**
+     * Min number of players
+     */
+    public static final int MIN_PLAYER = 2;
+    /**
+     * Max number of players
+     */
+    public static final int MAX_PLAYER = 4;
 
 }
