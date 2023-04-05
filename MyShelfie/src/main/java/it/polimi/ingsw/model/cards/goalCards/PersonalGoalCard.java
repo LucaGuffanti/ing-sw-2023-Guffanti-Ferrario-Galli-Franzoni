@@ -46,7 +46,7 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
 
     public PersonalGoalCard(String id, Pattern pattern) {
          super(id);
-         this.pattern = pattern;
+         this.pattern = new Pattern(pattern);
     }
 
     public PersonalGoalCard(PersonalGoalCard p) {

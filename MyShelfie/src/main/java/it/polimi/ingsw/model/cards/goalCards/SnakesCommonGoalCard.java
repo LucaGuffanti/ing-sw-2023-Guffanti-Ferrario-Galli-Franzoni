@@ -43,6 +43,7 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
         super(id);
     }
 
+
     @Override
     protected int checkPattern(Player player) {
         ShelfCell[][] shelfMatrix = player.getShelf().getCells();
@@ -82,6 +83,6 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
 
     @Override
     public GoalCard returnEqualCard() {
-        return new SnakesCommonGoalCard(this);
+        return new SnakesCommonGoalCard(this.id);
     }
 }

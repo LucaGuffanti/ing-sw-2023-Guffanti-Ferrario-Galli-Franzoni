@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.GoalCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.SnakesCommonGoalCard;
+import it.polimi.ingsw.model.utils.JsonFixedPatternGoalCardsParser;
 import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
 
 import java.lang.reflect.Array;
@@ -34,16 +35,13 @@ public class GoalCardsDeckSingleton {
     private ArrayList<CommonGoalCard> commonGoals;
 
     private GoalCardsDeckSingleton() {
-        // TODO load resources from the json file
-        personalGoals = new ArrayList<>();
-
-        // call CardBuilder.loadPersonalGoalCardsFromJson(path_to_file);
         try {
-
+            // Loading PersonalGoalCards from json file
+            personalGoals = JsonFixedPatternGoalCardsParser.parsePersonalGoalCard("src/main/assets/cards/personalGoalCard.json");
             // Loading FixedPatternShapedCards from json file
             commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/fixedPatternShapedCommonGoalCards.json");
             // Loading FreePatternShapedCards
-            commonGoals.add(new SnakesCommonGoalCard("SNAKE"));
+            commonGoals.add(new SnakesCommonGoalCard("4"));
 
         }catch(Exception ex){
             ex.printStackTrace();
@@ -61,7 +59,7 @@ public class GoalCardsDeckSingleton {
         CommonGoalCard toBeReturned = null;
         for (CommonGoalCard card : commonGoals) {
             if (card.getId().equals(id)) {
-                toBeReturned = (CommonGoalCard) card.returnEqualCard();
+                toBeReturned = card;
             }
         }
         return toBeReturned;
@@ -90,11 +88,13 @@ public class GoalCardsDeckSingleton {
         }
 
         //  TODO: REMOVE THIS AND IMPLEMENT REAL LOGIC
+        toBeReturned.add((PersonalGoalCard) personalGoals.get(0).returnEqualCard());
         toBeReturned.add(new PersonalGoalCard("id1", new Pattern(1,1, new HashSet<>(), 1,6)));
         toBeReturned.add(new PersonalGoalCard("id2", new Pattern(1,1, new HashSet<>(), 1,6)));
         toBeReturned.add(new PersonalGoalCard("id3", new Pattern(1,1, new HashSet<>(), 1,6)));
         toBeReturned.add(new PersonalGoalCard("id4", new Pattern(1,1, new HashSet<>(), 1,6)));
         // ---------------------------------------------
+
         return toBeReturned;
     }
 
@@ -105,9 +105,8 @@ public class GoalCardsDeckSingleton {
     public ArrayList<CommonGoalCard> pickTwoCommonGoals() {
         Collections.shuffle(commonGoals);
         ArrayList<CommonGoalCard> result = new ArrayList<>();
-        result.add(commonGoals.get(0));
-        result.add(commonGoals.get(1));
-
+        result.add((CommonGoalCard) commonGoals.get(0).returnEqualCard());
+        result.add((CommonGoalCard) commonGoals.get(1).returnEqualCard());
         return result;
     }
 }
