@@ -3,48 +3,359 @@
     "id": "1",
     "coveredCells": [
       {
-        "coordinates": [
-          0,
-          0
-        ],
+        "coordinates": [0,0],
         "admittedType": "M"
       },
       {
-        "coordinates": [
-          2,
-          0
-        ],
+        "coordinates": [2,0],
         "admittedType": "B"
       },
       {
-        "coordinates": [
-          4,
-          1
-        ],
+        "coordinates": [4,1],
         "admittedType": "G"
       },
       {
-        "coordinates": [
-          3,
-          2
-        ],
+        "coordinates": [3,2],
         "admittedType": "W"
       },
       {
-        "coordinates": [
-          1,
-          3
-        ],
+        "coordinates": [1,3],
         "admittedType": "Y"
       },
       {
-        "coordinates": [
-          2,
-          5
-        ],
+        "coordinates": [2,5],
         "admittedType": "C"
+      }
+    ]
+  },
+
+  {
+    "id": "2",
+    "coveredCells": [
+      {
+        "coordinates": [1,1],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [0,2],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [2,2],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [4,3],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [3,4],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [4,5],
+        "admittedType": "B"
+      }
+    ]
+  },
+
+  {
+    "id": "3",
+    "coveredCells": [
+      {
+        "coordinates": [0,1],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [3,1],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [2,2],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [1,3],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [4,3],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [0,5],
+        "admittedType": "W"
+      }
+    ]
+  },
+
+  {
+    "id": "4",
+    "coveredCells": [
+      {
+        "coordinates": [0,4],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [0,2],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [2,2],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [3,3],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [1,4],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [2,4],
+        "admittedType": "G"
+      }
+    ]
+  },
+
+  {
+    "id": "5",
+    "coveredCells": [
+      {
+        "coordinates": [1,1],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [1,3],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [2,3],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [4,4],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [0,5],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [3,5],
+        "admittedType": "G"
+      }
+    ]
+  },
+
+  {
+    "id": "6",
+    "coveredCells": [
+      {
+        "coordinates": [2,0],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [4,0],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [3,2],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [1,4],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [3,4],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [0,5],
+        "admittedType": "M"
+      }
+    ]
+  },
+
+  {
+    "id": "7",
+    "coveredCells": [
+      {
+        "coordinates": [0,0],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [3,1],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [1,2],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [0,3],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [4,4],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [2,5],
+        "admittedType": "W"
+      }
+    ]
+  },
+
+  {
+    "id": "8",
+    "coveredCells": [
+      {
+        "coordinates": [4,0],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [1,1],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [2,2],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [0,3],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [3,4],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [3,5],
+        "admittedType": "Y"
+      }
+    ]
+  },
+
+  {
+    "id": "9",
+    "coveredCells": [
+      {
+        "coordinates": [0,2],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [2,2],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [4,3],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [1,4],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [4,4],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [0,5],
+        "admittedType": "B"
+      }
+    ]
+  },
+
+  {
+    "id": "10",
+    "coveredCells": [
+      {
+        "coordinates": [0,4],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [1,1],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [0,2],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [3,3],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [1,4],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [3,5],
+        "admittedType": "M"
+      }
+    ]
+  },
+
+  {
+    "id": "11",
+    "coveredCells": [
+      {
+        "coordinates": [0,2],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [1,1],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [0,2],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [2,3],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [4,4],
+        "admittedType": "G"
+      },
+      {
+        "coordinates": [3,5],
+        "admittedType": "C"
+      }
+    ]
+  },
+
+  {
+    "id": "12",
+    "coveredCells": [
+      {
+        "coordinates": [0,2],
+        "admittedType": "W"
+      },
+      {
+        "coordinates": [1,1],
+        "admittedType": "M"
+      },
+      {
+        "coordinates": [2,2],
+        "admittedType": "B"
+      },
+      {
+        "coordinates": [3,3],
+        "admittedType": "C"
+      },
+      {
+        "coordinates": [4,4],
+        "admittedType": "Y"
+      },
+      {
+        "coordinates": [0,5],
+        "admittedType": "G"
       }
     ]
   }
 ]
-
