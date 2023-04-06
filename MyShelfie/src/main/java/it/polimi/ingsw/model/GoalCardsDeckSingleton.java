@@ -84,16 +84,10 @@ public class GoalCardsDeckSingleton {
 
         ArrayList<PersonalGoalCard> toBeReturned = new ArrayList<>();
         for(int i = 0; i < nPlayers; i++) {
-            // TODO will be implemented when the goalCards are implemented
+            toBeReturned.add((PersonalGoalCard) temp.get(i).returnEqualCard());
         }
 
-        //  TODO: REMOVE THIS AND IMPLEMENT REAL LOGIC
-        toBeReturned.add((PersonalGoalCard) personalGoals.get(0).returnEqualCard());
-        toBeReturned.add(new PersonalGoalCard("id1", new Pattern(1,1, new HashSet<>(), 1,6)));
-        toBeReturned.add(new PersonalGoalCard("id2", new Pattern(1,1, new HashSet<>(), 1,6)));
-        toBeReturned.add(new PersonalGoalCard("id3", new Pattern(1,1, new HashSet<>(), 1,6)));
-        toBeReturned.add(new PersonalGoalCard("id4", new Pattern(1,1, new HashSet<>(), 1,6)));
-        // ---------------------------------------------
+
 
         return toBeReturned;
     }

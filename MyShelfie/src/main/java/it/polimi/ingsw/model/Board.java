@@ -84,6 +84,7 @@ public class Board {
 
     }
 
+
     public boolean shouldBeRefilled() {
         boolean found = false;
         for (int i = 0; i < Constants.SHELF_HEIGHT && !found; i++) {
