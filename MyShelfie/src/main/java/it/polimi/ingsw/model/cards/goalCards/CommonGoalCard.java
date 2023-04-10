@@ -30,6 +30,7 @@ public abstract class CommonGoalCard extends GoalCard {
 
     public CommonGoalCard(String id) {
         super(id);
+        this.pointsCards = null;
     }
 
 

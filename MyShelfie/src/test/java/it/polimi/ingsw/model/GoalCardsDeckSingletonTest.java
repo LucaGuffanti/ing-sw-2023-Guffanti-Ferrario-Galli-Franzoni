@@ -32,8 +32,17 @@ class GoalCardsDeckSingletonTest {
     @Test
     void pickPersonalGoals() throws WrongNumberOfPlayersException {
         GoalCardsDeckSingleton g = GoalCardsDeckSingleton.getInstance();
-        ArrayList<PersonalGoalCard> cards = g.pickPersonalGoals(4);
-        assertNotNull(cards.get(0));
+        ArrayList<PersonalGoalCard> cards;
+
+        cards = g.pickPersonalGoals(2);
+        assertEquals(2, cards.size());
+
+        cards = g.pickPersonalGoals(3);
+        assertEquals(3, cards.size());
+
+        cards = g.pickPersonalGoals(4);
+        assertEquals(4, cards.size());
+
     }
 
     /**

@@ -303,7 +303,7 @@
     "id": "11",
     "coveredCells": [
       {
-        "coordinates": [0,2],
+        "coordinates": [2,0],
         "admittedType": "M"
       },
       {

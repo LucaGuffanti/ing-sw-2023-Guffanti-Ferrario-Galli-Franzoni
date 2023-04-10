@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.cards.goalCards;
 
+import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cards.Pattern;
 import it.polimi.ingsw.model.cards.PatternCell;
+import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 
@@ -75,11 +77,18 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
             int x = cell.getX();
             int y = cell.getY();
 
-            if (playerShelf.getCell(x, y).equals(cell)) {
-                numOfMatches++;
-            }
-        }
 
+            if (playerShelf.getCell(x,y).getCellCard().isPresent()) {
+                ShelfCell cellAtXY = playerShelf.getCell(x, y);
+                ObjectTypeEnum typeAtXY = cellAtXY.getCellCard().get().getType();
+
+                if (typeAtXY.equals(cell.getAdmittedType().get())) {
+                    numOfMatches++;
+                }
+
+            }
+
+        }
         return numOfMatches;
     }
 

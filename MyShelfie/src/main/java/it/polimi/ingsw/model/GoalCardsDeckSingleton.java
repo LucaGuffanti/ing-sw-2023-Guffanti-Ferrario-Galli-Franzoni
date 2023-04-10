@@ -59,7 +59,7 @@ public class GoalCardsDeckSingleton {
         CommonGoalCard toBeReturned = null;
         for (CommonGoalCard card : commonGoals) {
             if (card.getId().equals(id)) {
-                toBeReturned = card;
+                toBeReturned = (CommonGoalCard) card.returnEqualCard();
             }
         }
         return toBeReturned;
@@ -86,8 +86,6 @@ public class GoalCardsDeckSingleton {
         for(int i = 0; i < nPlayers; i++) {
             toBeReturned.add((PersonalGoalCard) temp.get(i).returnEqualCard());
         }
-
-
 
         return toBeReturned;
     }
