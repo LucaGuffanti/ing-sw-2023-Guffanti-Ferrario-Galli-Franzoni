@@ -50,7 +50,6 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
     public Pattern getRotatedPattern() {
         return rotatedPattern;
     }
-
     public int getMinNumberOfOccurrences() {
         return minNumberOfOccurrences;
     }
@@ -87,13 +86,15 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         this.rotatedPattern = rotatePattern(pattern);
     }
 
+
+
     public FixedPatternCommonGoalCard(FixedPatternCommonGoalCard f) {
         super(f.getId(), f.getPointsCards());
         this.pattern = new Pattern(f.getPattern());
         this.minNumberOfOccurrences = f.getMinNumberOfOccurrences();
         this.shouldRotate = f.isShouldRotate();
         this.admitsAdjacency = f.isAdmitsAdjacency();
-        this.patternsShareSameColor = isPatternsShareSameColor();
+        this.patternsShareSameColor = f.isPatternsShareSameColor();
         this.rotatedPattern = rotatePattern(this.pattern);
 
     }
@@ -154,7 +155,7 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         // Counter of every pattern we find
         int totalSubPatternsFound = 0;
 
-        // Counter for subPatterns we find with only one type
+        // Counter for every pattern we find indexed by their type.
         HashMap<ObjectTypeEnum, Integer> numSubPatternsByType = new HashMap<>();
         for (ObjectTypeEnum objectType: ObjectTypeEnum.values()) {
             numSubPatternsByType.put(objectType, 0);
@@ -164,7 +165,7 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         int cycles = 0;
         Pattern s = this.pattern;
 
-        // Repeat the process with the rotated pattern (if necessary).
+        // Repeat the process with the rotated pattern (if necessary, i.e. when the pattern is not radially symmetric).
         while(cycles < (this.shouldRotate ? 2 : 1)) {
 
             // Iterate the pattern through every cell of the shelf.
@@ -197,7 +198,16 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
 
         }
 
-        return totalSubPatternsFound;
+        int maxValidPatternsFound;
+        // If the patterns should share the same color, pick the number of occurrences
+        // relative to the most frequent color/type
+        if(patternsShareSameColor){
+            maxValidPatternsFound= Collections.max(numSubPatternsByType.values());
+        }else{
+            // Else, pick every pattern found
+            maxValidPatternsFound = totalSubPatternsFound;
+        }
+        return maxValidPatternsFound;
     }
 
 
