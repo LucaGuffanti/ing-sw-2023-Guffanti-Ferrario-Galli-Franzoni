@@ -480,7 +480,7 @@ public class CommonGoalCardTest {
     @Test
     public void crossWithFiveCells_expectedValid() {
         final String SHELF_NAME = "fiveCellsCrossValid.csv";
-        final String PATTERN_ID = "8";
+        final String PATTERN_ID = "9";
         final int EXPECTED_VALUE = 8;
         final String NAME_PLAYER = "Test User";
 
@@ -492,15 +492,15 @@ public class CommonGoalCardTest {
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
-        CommonGoalCard twoRowsOfSixOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        CommonGoalCard crossWithFive = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
         ArrayList<PointCard> points = new ArrayList<>();
         points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
         points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
-        twoRowsOfSixOk.setPointsCards(points);
+        crossWithFive.setPointsCards(points);
 
-        assertEquals(EXPECTED_VALUE, twoRowsOfSixOk.calculatePoints(player));
+        assertEquals(EXPECTED_VALUE, crossWithFive.calculatePoints(player));
     }
 
     @Test
