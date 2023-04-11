@@ -277,9 +277,9 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
@@ -291,7 +291,7 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         fourAnglesOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, fourAnglesOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, fourAnglesOk.calculatePoints(player));
     }
 
     @Test
@@ -303,9 +303,9 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
@@ -317,11 +317,11 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         fourAnglesNotOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, fourAnglesNotOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, fourAnglesNotOk.calculatePoints(player));
     }
 
     @Test
-    public void twoDifferentRowsofSixCells_expectedInvalid() {
+    public void twoDifferentRowsOfSixCells_expectedInvalid() {
         final String SHELF_NAME = "twoRowsDifferentTypesInvalid.csv";
         final String PATTERN_ID = "5";
         final int EXPECTED_VALUE = 0;
@@ -329,9 +329,9 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
@@ -343,7 +343,7 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         twoRowsNotOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, twoRowsNotOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, twoRowsNotOk.calculatePoints(player));
     }
 
     @Test
@@ -355,9 +355,9 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
@@ -369,7 +369,7 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         twoRowsOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, twoRowsOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, twoRowsOk.calculatePoints(player));
     }
     @Test
     public void eightEqualCells_expectedValid() {
@@ -380,9 +380,9 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
@@ -394,7 +394,7 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         eightCellsOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, eightCellsOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, eightCellsOk.calculatePoints(player));
     }
     @Test
     public void eightEqualCells_expectedInvalid() {
@@ -405,9 +405,9 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
@@ -419,50 +419,80 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         eightCellsNotOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, eightCellsNotOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, eightCellsNotOk.calculatePoints(player));
     }
+
+    /*
+    problema : regole per scrivere i casi limite nel file json
      @Test
-    public void eightEqualCells_expectedValid() {
-        final String SHELF_NAME = "fiveCellsCrossValid.csv";
-        final String PATTERN_ID = "9";
-        final int EXPECTED_VALUE = 8;
+    public void sixGroupTwoCellsSameTypeNotAdjacent_expectedInvalid() {
+        final String SHELF_NAME = "";
+        final String PATTERN_ID = "0";
+        final int EXPECTED_VALUE = 0;
         final String NAME_PLAYER = "Test User";
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
-        CommonGoalCard crossOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        CommonGoalCard sixGroupOfTwoCellsNotOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
         ArrayList<PointCard> points = new ArrayList<>();
         points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
         points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
-        crossOk.setPointsCards(points);
+        sixGroupOfTwoCellsNotOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, crossOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, sixGroupOfTwoCellsNotOk.calculatePoints(player));
     }
+
+   @Test
+    public void sixGroupTwoCellsSameTypeNotAdjacent_expectedValid() {
+        final String SHELF_NAME = "";
+        final String PATTERN_ID = "0";
+        final int EXPECTED_VALUE = 8;
+        final String NAME_PLAYER = "Test User";
+
+        Shelf shelf = null;
+        try {
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        Player player = new Player(shelf, NAME_PLAYER);
+        CommonGoalCard sixGroupOfTwoCellsOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        sixGroupOfTwoCellsOk.setPointsCards(points);
+
+        assertEquals(EXPECTED_VALUE, sixGroupOfTwoCellsOk.calculatePoints(player));
+    }
+    */
 
     @Test
     public void crossWithFiveCells_expectedValid() {
-        final String SHELF_NAME = "twoRowsOfSixCellsMaxThreeTypesValid.csv";
+        final String SHELF_NAME = "fiveCellsCrossValid.csv";
         final String PATTERN_ID = "8";
         final int EXPECTED_VALUE = 8;
         final String NAME_PLAYER = "Test User";
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
-        CommonGoalCar twoRowsOfSixOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        CommonGoalCard twoRowsOfSixOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
         ArrayList<PointCard> points = new ArrayList<>();
         points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
@@ -470,7 +500,33 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         twoRowsOfSixOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, twoRowsOfSixOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, twoRowsOfSixOk.calculatePoints(player));
+    }
+
+    @Test
+    public void crossWithFiveCells_expectedInvalid() {
+        final String SHELF_NAME = "fiveCellsCrossInvalid.csv";
+        final String PATTERN_ID = "8";
+        final int EXPECTED_VALUE = 0;
+        final String NAME_PLAYER = "Test User";
+
+        Shelf shelf = null;
+        try {
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        Player player = new Player(shelf, NAME_PLAYER);
+        CommonGoalCard twoRowsOfSixNotOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        twoRowsOfSixNotOk.setPointsCards(points);
+
+        assertEquals(EXPECTED_VALUE, twoRowsOfSixNotOk.calculatePoints(player));
     }
     @Test
     public void twoRowsSixCellsThreeDifferentTypes_expectedInvalid() {
@@ -481,13 +537,13 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
-        CommonGoalCar twoRowsOfSixNotOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        CommonGoalCard twoRowsOfSixNotOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
         ArrayList<PointCard> points = new ArrayList<>();
         points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
@@ -495,7 +551,7 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         twoRowsOfSixNotOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, twoRowsOfSixNotOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, twoRowsOfSixNotOk.calculatePoints(player));
     }
 
     @Test
@@ -507,13 +563,13 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
-        CommonGoalCar twoLinesOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        CommonGoalCard twoLinesOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
         ArrayList<PointCard> points = new ArrayList<>();
         points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
@@ -521,7 +577,7 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         twoLinesOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, twoLinesOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, twoLinesOk.calculatePoints(player));
     }
 
     @Test
@@ -533,13 +589,13 @@ public class CommonGoalCardTest {
 
         Shelf shelf = null;
         try {
-            shelf.cscToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
-        } catch (Excetpion e) {
-            throw new RunTimeException(e);
+            shelf = CsvToShelfParser.convert(ROOT_SHELF_CSV_PATH + SHELF_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Player player = new Player(shelf, NAME_PLAYER);
-        CommonGoalCar twoLinesNotOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
+        CommonGoalCard twoLinesNotOk = goalCardsDeckSingleton.getCommonGoalCardById(PATTERN_ID);
         ArrayList<PointCard> points = new ArrayList<>();
         points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
@@ -547,6 +603,6 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         twoLinesNotOk.setPointsCards(points);
 
-        assertEqual(EXPECTED_VALUE, twoLinesNotOk.calculatePoint(player));
+        assertEquals(EXPECTED_VALUE, twoLinesNotOk.calculatePoints(player));
     }
 }
