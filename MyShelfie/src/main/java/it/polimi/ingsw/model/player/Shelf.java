@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cards.ObjectCard;
 import it.polimi.ingsw.model.cells.ShelfCell;
 import it.polimi.ingsw.model.utils.Constants;
 import it.polimi.ingsw.model.utils.exceptions.NoSpaceEnoughInShelfColumnException;
+import it.polimi.ingsw.model.utils.exceptions.NoSpaceEnoughInShelfException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -113,11 +114,16 @@ public class Shelf {
      * @param cardsNumber the number of card to insert in the column.
      */
 
-    public void checkIfShelfHasEnoughSpace(int cardsNumber, int column) throws NoSpaceEnoughInShelfColumnException {
-        boolean canInsert;
+    public void checkIfEnoughSpaceInColumn(int cardsNumber, int column) throws NoSpaceEnoughInShelfColumnException {
         if (highestOccupiedCells[column] - cardsNumber < 0) {
             throw new NoSpaceEnoughInShelfColumnException(column, highestOccupiedCells[column]);
         }
+    }
+
+    public void checkIfEnoughSpace(int cardsNumber) throws NoSpaceEnoughInShelfException {
+        int emptyCellsNumber =  (int) Arrays.stream(highestOccupiedCells).sum();
+        if (emptyCellsNumber<cardsNumber)
+            throw new NoSpaceEnoughInShelfException(emptyCellsNumber);
     }
 
     /**

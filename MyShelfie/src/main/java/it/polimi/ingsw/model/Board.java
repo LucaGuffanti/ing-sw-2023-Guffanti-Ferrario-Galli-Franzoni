@@ -130,7 +130,7 @@ public class Board {
      * @param cellsCoordinates the cells to pick
      * @author Daniele Ferrario
      */
-    public void checkIfPlayerCanPickCellsFromBoard(Collection<Coordinates> cellsCoordinates) throws IllegalBoardCellsPickException {
+    public void checkBoardPickValidity(Collection<Coordinates> cellsCoordinates) throws IllegalBoardCellsPickException {
 
 
         // Check if coordinates do not belong to the same row or to the same column

@@ -74,16 +74,20 @@ public class Player {
         return isActive;
     }
 
+
+
     /**
      * This method adds cards which a player picks on his turn to the player's shelf.
      * @param cards the cards you pick in your turn
      * @param column column where a player wants to insert his object cards into the shelf
      * @return whether a card has been successfully added
      */
+
+
     public boolean addCardsToShelf(List<ObjectCard> cards, int column) {
 
         try {
-            shelf.checkIfShelfHasEnoughSpace(cards.size(),column);
+            shelf.checkIfEnoughSpaceInColumn(cards.size(),column);
         }catch (NoSpaceEnoughInShelfColumnException ex){
             if (shelf.isFull()) {
                 achievements.setCompletedShelf(true);
@@ -98,4 +102,5 @@ public class Player {
 
         return true;
     }
+
 }

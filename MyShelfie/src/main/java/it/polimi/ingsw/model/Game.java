@@ -333,20 +333,36 @@ public class Game {
      * @throws IllegalBoardCellsPickException
      * @throws NoSpaceEnoughInShelfColumnException
      */
-    public void moveCardsToPlayerShelf(Player currentPlayer, List<Coordinates> tilesCoordinates, int targetColumn) throws IllegalBoardCellsPickException, NoSpaceEnoughInShelfColumnException {
+    public void moveCardsToPlayerShelf(Player currentPlayer, List<Coordinates> tilesCoordinates, int targetColumn) throws IllegalBoardCellsPickException, IllegalShelfActionException{
 
         Shelf playerShelf = currentPlayer.getShelf();
 
         // Check if there are no illegal moves
-        this.board.checkIfPlayerCanPickCellsFromBoard(tilesCoordinates);
-        playerShelf.checkIfShelfHasEnoughSpace(targetColumn, tilesCoordinates.size());
+        checkBoardPickValidity(playerShelf,tilesCoordinates);
+        checkIfEnoughSpaceInColumn(playerShelf, tilesCoordinates.size(), 0);
 
         // Pick cells from the board and insert them in the player's shelf
         currentPlayer.addCardsToShelf(this.board.pickCells(tilesCoordinates), targetColumn);
 
-
-
     }
+
+    public void checkBoardPickValidity(Shelf targetShelf, List<Coordinates> tilesCoordinates) throws IllegalBoardCellsPickException, NoSpaceEnoughInShelfException {
+        // Check if the tiles number exceed the total available number of free cells in the shelf
+        checkIfEnoughSpaceInShelf(targetShelf, tilesCoordinates.size());
+
+        // Check if user can pick from the requested positions
+        this.board.checkBoardPickValidity(tilesCoordinates);
+    }
+
+    public void checkIfEnoughSpaceInShelf(Shelf shelf, int numberOfTiles) throws NoSpaceEnoughInShelfException {
+        shelf.checkIfEnoughSpace(numberOfTiles);
+    }
+    public void checkIfEnoughSpaceInColumn(Shelf shelf, int numberOfTiles, int targetColumn) throws NoSpaceEnoughInShelfColumnException {
+        shelf.checkIfEnoughSpaceInColumn(numberOfTiles, targetColumn);
+    }
+
+
+
 
 
 

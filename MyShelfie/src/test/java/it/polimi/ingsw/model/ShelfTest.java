@@ -128,7 +128,7 @@ class ShelfTest {
             list.add(new ObjectCard(ObjectTypeEnum.CAT));
             list.add(new ObjectCard(ObjectTypeEnum.CAT));
 
-            shelf.checkIfShelfHasEnoughSpace(list.size(), col);
+            shelf.checkIfEnoughSpaceInColumn(list.size(), col);
             shelf.addCardsToColumn(list, col);
             assertEquals(0, shelf.getHighestOccupiedCells()[col]);
 
