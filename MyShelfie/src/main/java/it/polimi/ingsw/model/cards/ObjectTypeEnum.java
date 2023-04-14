@@ -1,13 +1,14 @@
 package it.polimi.ingsw.model.cards;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Possible types of Object Cards.
  * @author Luca Guffanti
  * @see ObjectCard
  */
-public enum ObjectTypeEnum {
+public enum ObjectTypeEnum implements Serializable {
 
     CAT(Color.GREEN),
     BOOK(Color.WHITE),

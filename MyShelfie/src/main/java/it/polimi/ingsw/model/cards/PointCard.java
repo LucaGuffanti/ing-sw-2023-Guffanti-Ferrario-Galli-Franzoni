@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.player.Player;
 
-public class PointCard {
+import java.io.Serializable;
+
+public class PointCard implements Serializable {
     private PointEnumeration type;
     private int pointsGiven;
 

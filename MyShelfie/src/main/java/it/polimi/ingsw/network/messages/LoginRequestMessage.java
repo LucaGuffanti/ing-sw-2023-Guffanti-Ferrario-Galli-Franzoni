@@ -10,16 +10,10 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  */
 public class LoginRequestMessage extends Message{
 
-    private final String requestedUsername;
-    public LoginRequestMessage(String senderUsername, String requestedUsername) {
+    public LoginRequestMessage(String senderUsername) {
         super(MessageType.LOGIN_REQUEST, senderUsername);
-        this.requestedUsername = requestedUsername;
     }
     public LoginRequestMessage(String senderUsername, String description, String requestedUsername) {
         super(MessageType.LOGIN_REQUEST, senderUsername, description);
-        this.requestedUsername = requestedUsername;
-    }
-    public String getRequestedUsername() {
-        return requestedUsername;
     }
 }
