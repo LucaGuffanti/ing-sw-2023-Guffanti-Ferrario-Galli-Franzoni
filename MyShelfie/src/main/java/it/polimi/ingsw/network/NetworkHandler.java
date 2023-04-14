@@ -8,4 +8,5 @@ package it.polimi.ingsw.network;
  * @author Luca Guffanti
  */
 public class NetworkHandler {
+    // TODO TO BE IMPLEMENTED
 }

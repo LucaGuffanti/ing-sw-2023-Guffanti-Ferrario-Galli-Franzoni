@@ -53,14 +53,14 @@ public class Player {
 
     public Player(String nickname) {
         this.nickname = nickname;
-        isActive = verifyActive();
+        isActive = true;
         shelf = new Shelf();
         achievements = new PlayerAchievements();
     }
 
     public Player(Shelf shelf, String nickname) {
         this.nickname = nickname;
-        isActive = verifyActive();
+        isActive = true;
         this.shelf = shelf;
         achievements = new PlayerAchievements();
     }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.controller.phases.GamePhase;
+import it.polimi.ingsw.controller.phases.TurnPhase;
 import it.polimi.ingsw.model.Game;
 
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ public class GameController {
      */
     private Game game;
     /**
-     * The phase in which the game is.
+     * The turnPhase in which the turn is.
      */
-    private GamePhase phase;
+    private TurnPhase turnPhase;
     /**
      * The list of players that log into the game. It will be shuffled when the game starts
      */
@@ -44,8 +44,8 @@ public class GameController {
         return game;
     }
 
-    public GamePhase getPhase() {
-        return phase;
+    public TurnPhase getTurnPhase() {
+        return turnPhase;
     }
 
     public ArrayList<String> getOrderedPlayersNicks() {
