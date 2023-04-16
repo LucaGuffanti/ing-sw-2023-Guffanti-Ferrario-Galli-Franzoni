@@ -10,17 +10,24 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 public class SelectColumnResultMessage extends Message{
 
     private final ResponseResultType resultType;
-    public SelectColumnResultMessage(String senderUsername, ResponseResultType resultType) {
+    private final String recipient;
+    public SelectColumnResultMessage(String senderUsername, ResponseResultType resultType, String recipient) {
         super(MessageType.SELECT_COLUMN_RESULT, senderUsername);
         this.resultType = resultType;
+        this.recipient = recipient;
     }
 
-    public SelectColumnResultMessage(String senderUsername, String description, ResponseResultType resultType) {
+    public SelectColumnResultMessage(String senderUsername, String description, ResponseResultType resultType, String recipient) {
         super(MessageType.SELECT_COLUMN_RESULT, senderUsername, description);
         this.resultType = resultType;
+        this.recipient = recipient;
     }
 
     public ResponseResultType getResultType() {
         return resultType;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 }

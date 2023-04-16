@@ -9,11 +9,19 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  * @author Luca Guffanti
  */
 public class PickNumberOfPlayersMessage extends Message {
-    public PickNumberOfPlayersMessage(String senderUsername) {
+
+    private final String recipient;
+    public PickNumberOfPlayersMessage(String senderUsername, String recipient) {
         super(MessageType.PICK_NUMBER_OF_PLAYERS, senderUsername);
+        this.recipient = recipient;
     }
 
-    public PickNumberOfPlayersMessage(String senderUsername, String description) {
+    public PickNumberOfPlayersMessage(String senderUsername, String description, String recipient) {
         super(MessageType.PICK_NUMBER_OF_PLAYERS, senderUsername, description);
+        this.recipient = recipient;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 }

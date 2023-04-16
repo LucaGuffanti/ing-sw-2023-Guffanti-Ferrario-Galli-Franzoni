@@ -7,11 +7,14 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  * @author Luca Guffanti
  */
 public class PingRequestMessage extends Message{
-    public PingRequestMessage(MessageType type, String senderUsername) {
+    private final String recipient;
+    public PingRequestMessage(MessageType type, String senderUsername, String recipient) {
         super(type, senderUsername);
+        this.recipient = recipient;
     }
 
-    public PingRequestMessage(MessageType type, String senderUsername, String description) {
+    public PingRequestMessage(MessageType type, String senderUsername, String description, String recipient) {
         super(type, senderUsername, description);
+        this.recipient = recipient;
     }
 }

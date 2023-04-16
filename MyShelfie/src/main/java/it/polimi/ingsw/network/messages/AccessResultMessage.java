@@ -16,15 +16,30 @@ public class AccessResultMessage extends Message{
 
     private final ResponseResultType resultType;
     private final ArrayList<String> playersUsernames;
-    public AccessResultMessage(String senderUsername, ResponseResultType resultType, ArrayList<String> playersUsernames) {
+    private final String recipient;
+    public AccessResultMessage(String senderUsername, ResponseResultType resultType, ArrayList<String> playersUsernames, String recipient) {
         super(MessageType.ACCESS_RESULT, senderUsername);
         this.resultType = resultType;
         this.playersUsernames = playersUsernames;
+        this.recipient = recipient;
     }
 
-    public AccessResultMessage(String senderUsername, String description, ResponseResultType resultType, ArrayList<String> playersUsernames) {
+    public AccessResultMessage(String senderUsername, String description, ResponseResultType resultType, ArrayList<String> playersUsernames, String recipient) {
         super(MessageType.ACCESS_RESULT, senderUsername, description);
         this.resultType = resultType;
         this.playersUsernames = playersUsernames;
+        this.recipient = recipient;
+    }
+
+    public ResponseResultType getResultType() {
+        return resultType;
+    }
+
+    public ArrayList<String> getPlayersUsernames() {
+        return playersUsernames;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 }

@@ -9,15 +9,26 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
  * @author Luca Guffanti
  */
 public class LoginResponseMessage extends Message{
-    ResponseResultType resultType;
+    private final ResponseResultType resultType;
+    private final String recipient;
 
-    public LoginResponseMessage(String senderUsername, ResponseResultType resultType) {
+    public LoginResponseMessage(String senderUsername, ResponseResultType resultType, String recipient) {
         super(MessageType.LOGIN_RESPONSE, senderUsername);
         this.resultType = resultType;
+        this.recipient = recipient;
     }
 
-    public LoginResponseMessage(String senderUsername, String description, ResponseResultType resultType) {
+    public LoginResponseMessage(String senderUsername, String description, ResponseResultType resultType, String recipient) {
         super(MessageType.LOGIN_RESPONSE, senderUsername, description);
         this.resultType = resultType;
+        this.recipient = recipient;
+    }
+
+    public ResponseResultType getResultType() {
+        return resultType;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 }

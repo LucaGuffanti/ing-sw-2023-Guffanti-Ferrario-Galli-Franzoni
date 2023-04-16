@@ -10,17 +10,24 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
  */
 public class PickFromBoardResultMessage extends Message{
     private final ResponseResultType resultType;
-    public PickFromBoardResultMessage(String senderUsername, ResponseResultType resultType) {
+    private final String recipient;
+    public PickFromBoardResultMessage(String senderUsername, ResponseResultType resultType, String recipient) {
         super(MessageType.PICK_FROM_BOARD, senderUsername);
         this.resultType = resultType;
+        this.recipient = recipient;
     }
 
-    public PickFromBoardResultMessage(String senderUsername, String description, ResponseResultType resultType) {
+    public PickFromBoardResultMessage(String senderUsername, String description, ResponseResultType resultType, String recipient) {
         super(MessageType.PICK_FROM_BOARD, senderUsername, description);
         this.resultType = resultType;
+        this.recipient = recipient;
     }
 
     public ResponseResultType getResultType() {
         return resultType;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 }
