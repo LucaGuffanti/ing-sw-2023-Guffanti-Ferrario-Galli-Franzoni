@@ -13,7 +13,7 @@ public class LoginRequestMessage extends Message{
     public LoginRequestMessage(String senderUsername) {
         super(MessageType.LOGIN_REQUEST, senderUsername);
     }
-    public LoginRequestMessage(String senderUsername, String description, String requestedUsername) {
+    public LoginRequestMessage(String senderUsername, String description) {
         super(MessageType.LOGIN_REQUEST, senderUsername, description);
     }
 }
