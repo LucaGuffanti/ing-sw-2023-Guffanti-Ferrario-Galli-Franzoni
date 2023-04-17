@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.controller;
 
 /**
- * The
+ * All the phases in which the Client can be found.
+ * @author Daniele Ferrario
  */
 public enum ClientPhasesEnum {
     DISCONNECTED,
@@ -12,8 +13,7 @@ public enum ClientPhasesEnum {
     FINAL_RESULTS_SHOW,
     END;
 
-    ClientPhasesEnum() {
-    }
+
 
 
 }

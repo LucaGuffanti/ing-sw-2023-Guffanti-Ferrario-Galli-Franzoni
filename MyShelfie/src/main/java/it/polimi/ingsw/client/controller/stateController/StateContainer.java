@@ -9,8 +9,8 @@ import java.util.Observer;
 import java.util.Set;
 
 /**
- * A store is an object which holds the application's state,
- * which can be acquired or updated through the supplied methods of the store.
+ * A StateContainer is an object which holds the application's state,
+ * which can be acquired or updated through the supplied methods.
  * @TODO: Remove deprecated Observable/Observer paradigm.
  */
 public class StateContainer extends Observable {
@@ -31,7 +31,7 @@ public class StateContainer extends Observable {
      * @param message
      */
     public void dispatch(Message message){
-        Reducer.reduce(this.state, message);
+        state = Reducer.reduce(this.state, message);
     }
 
     /**

@@ -13,6 +13,9 @@ import java.util.Set;
 
 /**
  * A class which represents a state of the client.
+ * A ClientState object should be updated ONLY with reducers methods
+ * supplied by the StateContainer.
+ * @see StateContainer
  * @author Daniele Ferrario
  */
 public class ClientState implements Cloneable {
