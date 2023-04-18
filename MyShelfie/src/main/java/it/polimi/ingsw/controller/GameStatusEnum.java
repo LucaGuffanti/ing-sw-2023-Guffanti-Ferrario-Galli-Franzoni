@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.controller;
 
 /**
  * This enumeration contains the possible states in which the game may be
@@ -6,6 +6,6 @@ package it.polimi.ingsw.model;
 public enum GameStatusEnum {
     ACCEPTING_PLAYERS,
     STARTED,
-    LAST_TURN,
+    FINAL_TURNS,
     ENDED;
 }

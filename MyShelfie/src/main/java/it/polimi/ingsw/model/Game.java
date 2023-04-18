@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
@@ -7,6 +9,7 @@ import it.polimi.ingsw.model.cells.Coordinates;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Shelf;
 import it.polimi.ingsw.model.utils.exceptions.*;
+import jdk.jfr.Label;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +57,7 @@ public class Game {
     private ArrayList<Player> players;
     private GameInfo gameInfo;
 
-
-
+    private GameController controller;
     private GoalCardsDeckSingleton goalCardsDeck;
 
     /**
@@ -81,7 +83,21 @@ public class Game {
         gameInfo.setGameID(gameID);
         gameInfo.setAdmin(admin);
         gameInfo.setNPlayers(nPlayers);
-        gameInfo.setGameStatus(GameStatusEnum.ACCEPTING_PLAYERS);
+    }
+
+    public Game(Player admin, int nPlayers, int gameID, GameController controller) throws WrongNumberOfPlayersException{
+        if (nPlayers < 2 || nPlayers > 4) {
+            throw new WrongNumberOfPlayersException(nPlayers);
+        }
+
+        players = new ArrayList<>();
+        players.add(admin);
+
+        this.controller = controller;
+        gameInfo = new GameInfo();
+        gameInfo.setGameID(gameID);
+        gameInfo.setAdmin(admin);
+        gameInfo.setNPlayers(nPlayers);
     }
 
     public void setBoard(Board board) {
@@ -99,7 +115,6 @@ public class Game {
      * access information from the specific instance of the game, and notifies the game class when something happens.
      * <br>
      * In this method all the game related stuff is initialized.
-     * @see GameManager
      */
     public void initGame() {
 
@@ -119,8 +134,8 @@ public class Game {
         // create the stack of pointCards based on the number of players
         ArrayList<PointCard> pointCards;
         try {
-            pointCards = CardBuilder.generatePointsCards(gameInfo.getNPlayers());
             for (CommonGoalCard card : commonGoalCards) {
+                pointCards = CardBuilder.generatePointsCards(gameInfo.getNPlayers());
                 card.setPointsCards(pointCards);
             }
         } catch (WrongNumberOfPlayersException e) {
@@ -137,6 +152,7 @@ public class Game {
         try{
 
             personalGoalCards = goalCardsDeck.pickPersonalGoals(gameInfo.getNPlayers());
+            gameInfo.setPersonalGoals(personalGoalCards);
             int nPlayers = gameInfo.getNPlayers();
             for(int i = 0; i < nPlayers; i++) {
                 givePersonalGoalCardToPlayer(players.get(i), personalGoalCards.get(i));
@@ -145,6 +161,33 @@ public class Game {
         } catch (WrongNumberOfPlayersException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method is the addPlayer equivalent without any contact with
+     * the game controller
+     */
+    @Label("DEBUG")
+    public void addPlayerDEBUG(String nickname) throws MaxPlayersException {
+        if (players.size() == gameInfo.getNPlayers()) {
+            throw new MaxPlayersException("The game is full");
+        }
+
+        Player player = new Player(nickname);
+        players.add(player);
+
+    }
+
+    /**
+     * This method is the addPlayer equivalent without any contact with
+     * the game controller
+     */
+    @Label("DEBUG")
+    public void addPlayerDEBUG(Player player) throws MaxPlayersException {
+        if (players.size() == gameInfo.getNPlayers()) {
+            throw new MaxPlayersException("The game is full");
+        }
+        players.add(player);
     }
 
     /**
@@ -177,28 +220,37 @@ public class Game {
                 pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
                 pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
                 awardPointCard(currentPlayer, pointCardToBeAwarded, 1);
+
+                if(currentPlayer.getAchievements().isCompletedSecondCommonGoal()) {
+                    controller.onCommonGoalCompletion(1);
+                }
             }
             catch(WrongPointCardsValueGivenException ex){
                 ex.printStackTrace();
             }
+
         }
         if(!completedSecond) {
             toBeChecked = gameInfo.getSelectedCommonGoals().get(1);
-
             try {
                 pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
                 pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
                 awardPointCard(currentPlayer, pointCardToBeAwarded, 2);
+
+                if(currentPlayer.getAchievements().isCompletedSecondCommonGoal()) {
+                    controller.onCommonGoalCompletion(2);
+                }
             }
             catch(WrongPointCardsValueGivenException ex){
                 ex.printStackTrace();
             }
+
         }
 
         // if the player has completed the shelf, award the end of game card
         if (currentPlayer.getShelf().isFull()) {
-            gameInfo.setGameStatus(GameStatusEnum.LAST_TURN);
             awardEndOfGameCard(currentPlayer);
+            controller.onShelfCompletion();
         }
     }
 
@@ -236,7 +288,6 @@ public class Game {
      * the award of the final points and declares the winner
      */
     public void endGame(List<Player> playersOrderedInTurns) {
-        gameInfo.setGameStatus(GameStatusEnum.ENDED);
         gameCheckout(playersOrderedInTurns);
 
     }
@@ -303,10 +354,15 @@ public class Game {
      * @throws MaxPlayersException when the number of players decided by the host is reached
      */
     public void addPlayer(String nickname) throws MaxPlayersException {
-        if (players.size() == gameInfo.getNPlayers()) throw new MaxPlayersException("The game is full");
+        if (players.size() == gameInfo.getNPlayers()) {
+            throw new MaxPlayersException("The game is full");
+        }
 
         Player player = new Player(nickname);
         players.add(player);
+        if (players.size() == gameInfo.getNPlayers()) {
+            controller.startGame();
+        }
     }
 
 
@@ -319,6 +375,9 @@ public class Game {
     public void addPlayer(Player player) throws MaxPlayersException {
         if (players.size() == gameInfo.getNPlayers()) throw new MaxPlayersException("The game is full");
         players.add(player);
+        if (players.size() == gameInfo.getNPlayers()) {
+            controller.startGame();
+        }
     }
 
 
@@ -330,16 +389,15 @@ public class Game {
      * This method moves cards to a player's shelf. More specifically, it commands the execution of the equivalent
      * method in the player class.
      * @author Daniele Ferrario
-     * @throws IllegalBoardCellsPickException
      * @throws NoSpaceEnoughInShelfColumnException
      */
-    public void moveCardsToPlayerShelf(Player currentPlayer, List<Coordinates> tilesCoordinates, int targetColumn) throws IllegalBoardCellsPickException, IllegalShelfActionException{
+    public void moveCardsToPlayerShelf(Player currentPlayer, List<Coordinates> tilesCoordinates, int targetColumn) throws IllegalShelfActionException, IllegalBoardCellsPickException {
 
         Shelf playerShelf = currentPlayer.getShelf();
 
         // Check if there are no illegal moves
         checkBoardPickValidity(playerShelf,tilesCoordinates);
-        checkIfEnoughSpaceInColumn(playerShelf, tilesCoordinates.size(), 0);
+        checkIfEnoughSpaceInColumn(playerShelf, tilesCoordinates.size(), targetColumn);
 
         // Pick cells from the board and insert them in the player's shelf
         currentPlayer.addCardsToShelf(this.board.pickCells(tilesCoordinates), targetColumn);
@@ -357,16 +415,25 @@ public class Game {
     public void checkIfEnoughSpaceInShelf(Shelf shelf, int numberOfTiles) throws NoSpaceEnoughInShelfException {
         shelf.checkIfEnoughSpace(numberOfTiles);
     }
+
     public void checkIfEnoughSpaceInColumn(Shelf shelf, int numberOfTiles, int targetColumn) throws NoSpaceEnoughInShelfColumnException {
         shelf.checkIfEnoughSpaceInColumn(numberOfTiles, targetColumn);
     }
 
+    public Sack getSack() {
+        return sack;
+    }
 
+    public GameInfo getGameInfo() {
+        return gameInfo;
+    }
 
-
-
-
-
-
-
+    public Player getPlayerByNick(String nick) {
+        for (Player p : players) {
+            if(p.getNickname().equals(nick)) {
+                return p;
+            }
+        }
+        return null;
+    }
 }

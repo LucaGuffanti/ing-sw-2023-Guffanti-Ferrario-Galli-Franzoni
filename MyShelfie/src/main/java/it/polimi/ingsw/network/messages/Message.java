@@ -19,9 +19,9 @@ public class Message implements Serializable {
     /**
      * The type of the message
      */
-    private final MessageType type;
-    private final String senderUsername;
-    private String description;
+    protected final MessageType type;
+    protected final String senderUsername;
+    protected String description;
 
 
     public Message(MessageType type, String senderUsername){
@@ -46,5 +46,9 @@ public class Message implements Serializable {
     }
     public String getDescription() {
         return description;
+    }
+
+    public String getSenderUsername() {
+        return senderUsername;
     }
 }

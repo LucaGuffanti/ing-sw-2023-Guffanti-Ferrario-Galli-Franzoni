@@ -15,15 +15,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     @Test
-    void refillBoard() {
+    void refillBoardTest() {
+        String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_2players.csv";
+        String pathToObjectCardFile = "src/test/resources/boardTEST/boardToRefill.csv";
+        Sack s = new Sack();
+        Board board = new Board(2, s);
+        board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
+
+        MatrixUtils.printMatrix(board.getCells());
+        System.out.println(s.getCards().size());
+        board.refillBoard(s);
+        System.out.println(s.getCards().size());
+        System.out.println("\n\n");
+        MatrixUtils.printMatrix(board.getCells());
     }
 
     @Test
-    void initBoard() {
-    }
-
-    @Test
-    void shouldBeRefilled() throws WrongNumberOfPlayersException, MaxPlayersException {
+    void shouldBeRefilledTest() throws WrongNumberOfPlayersException, MaxPlayersException {
         Board board = new Board(2, new Sack());
         System.out.println("Board initialized, refill needed: false");
         MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());

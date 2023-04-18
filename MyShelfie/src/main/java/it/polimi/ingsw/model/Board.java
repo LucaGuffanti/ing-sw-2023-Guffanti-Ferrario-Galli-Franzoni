@@ -41,7 +41,7 @@ public class Board {
         for (int y = 0; y < lengthInCells; y++) {
             for (int x = 0; x < heightInCells; x++) {
                 try {
-                    if (cells[y][x].getType().equals(BoardCellEnum.ACTIVE)) {
+                    if (cells[y][x].getType().equals(BoardCellEnum.ACTIVE) && !cells[y][x].isCovered()) {
                         cells[y][x].setCellCard(Optional.of(sack.pickFromSack()));
                     }
                 } catch (EmptySackException e) {
@@ -69,7 +69,6 @@ public class Board {
      *  @param coordinates Ordered list of coordinates which indicates the ObjectCells to pick and remove. Each coordinate
      *                     is supposed to point to filled cell.
      *  @return Ordered list of ObjectCards
-     * @throws IllegalBoardCellsPickException
      */
     public List<ObjectCard> pickCells(List<Coordinates> coordinates) {
 

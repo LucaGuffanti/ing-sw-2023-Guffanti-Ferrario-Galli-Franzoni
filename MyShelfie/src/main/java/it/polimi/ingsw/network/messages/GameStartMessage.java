@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class GameStartMessage extends Message{
 
     private final ObjectTypeEnum[][] clientBoard;
-    private final ObjectTypeEnum[][] clientShelf;
+
 
     /**
      * The id of the personal goal in position <i>i</i> is the id of the
@@ -27,13 +27,11 @@ public class GameStartMessage extends Message{
 
     public GameStartMessage(String senderUsername,
                             ObjectTypeEnum[][] board,
-                            ObjectTypeEnum[][] clientShelf,
                             ArrayList<String> clientPersonalGoals,
                             ArrayList<String> orderedPlayers,
                             ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards) {
         super(MessageType.GAME_START, senderUsername);
         this.clientBoard = board;
-        this.clientShelf = clientShelf;
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
@@ -42,13 +40,11 @@ public class GameStartMessage extends Message{
     public GameStartMessage(String senderUsername,
                             String description,
                             ObjectTypeEnum[][] board,
-                            ObjectTypeEnum[][] clientShelf,
                             ArrayList<String> clientPersonalGoals,
                             ArrayList<String> orderedPlayers,
                             ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards) {
         super(MessageType.GAME_START, senderUsername, description);
         this.clientBoard = board;
-        this.clientShelf = clientShelf;
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
@@ -56,10 +52,6 @@ public class GameStartMessage extends Message{
 
     public ObjectTypeEnum[][] getClientBoard() {
         return clientBoard;
-    }
-
-    public ObjectTypeEnum[][] getClientShelf() {
-        return clientShelf;
     }
 
     public ArrayList<String> getClientPersonalGoals() {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.cards.ObjectCard;
 import it.polimi.ingsw.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.model.cells.Coordinates;
@@ -29,7 +30,7 @@ public class GameTest {
         Player player = new Player("Daniele");
 
         Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
-        game.addPlayer(player);
+        game.addPlayerDEBUG(player);
         game.initGame();
 
         game.moveCardsToPlayerShelf(player, testCellsCoordinates, 0);
@@ -47,8 +48,8 @@ public class GameTest {
         Player player2 = new Player("Armando");
 
         Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
-        game.addPlayer(player);
-        game.addPlayer(player2);
+        game.addPlayerDEBUG(player);
+        game.addPlayerDEBUG(player2);
         game.initGame();
 
         ArrayList<ObjectCard> list = new ArrayList<>();
@@ -88,7 +89,7 @@ public class GameTest {
         Player player = new Player("Daniele");
 
         Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
-        game.addPlayer(player);
+        game.addPlayerDEBUG(player);
         game.initGame();
 
         assertThrows(EmptyBoardCellsPickException.class, () -> game.moveCardsToPlayerShelf(player, testCellsCoordinates, 0));
@@ -108,7 +109,7 @@ public class GameTest {
         Player player = new Player("Daniele");
 
         Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
-        game.addPlayer(player);
+        game.addPlayerDEBUG(player);
         game.initGame();
 
         assertThrows(NoEmptyAdjacentBoardCellsPickException.class, () -> game.moveCardsToPlayerShelf(player, testCellsCoordinates, 0));
@@ -131,7 +132,7 @@ public class GameTest {
         Player player = new Player("Daniele");
 
         Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
-        game.addPlayer(player);
+        game.addPlayerDEBUG(player);
         game.initGame();
         assertThrows(DiagonalBoardCellsCellsPickException.class, () -> game.moveCardsToPlayerShelf(player, testCellsCoordinates, 0));
 
@@ -156,13 +157,11 @@ public class GameTest {
         Player player = new Player("Daniele");
 
         Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
-        game.addPlayer("Daniele");
-        game.addPlayer("Armando");
+        game.addPlayerDEBUG("Daniele");
+        game.addPlayerDEBUG("Armando");
         game.initGame();
 
 
         game.moveCardsToPlayerShelf(player, testCellsCoordinates, 0);
-
-
     }
 }

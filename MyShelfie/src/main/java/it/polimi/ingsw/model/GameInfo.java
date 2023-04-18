@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class GameInfo {
     private Player winner;
     private int gameID;
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
-    private GameStatusEnum gameStatus;
+    private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
 
 
     public Player getAdmin() {
@@ -68,11 +70,19 @@ public class GameInfo {
         this.commonGoals = selectedCommonGoals;
     }
 
-    public GameStatusEnum getGameStatus() {
-        return gameStatus;
+    public ArrayList<CommonGoalCard> getCommonGoals() {
+        return commonGoals;
     }
 
-    public void setGameStatus(GameStatusEnum gameStatus) {
-        this.gameStatus = gameStatus;
+    public void setCommonGoals(ArrayList<CommonGoalCard> commonGoals) {
+        this.commonGoals = commonGoals;
+    }
+
+    public ArrayList<PersonalGoalCard> getPersonalGoals() {
+        return personalGoals;
+    }
+
+    public void setPersonalGoals(ArrayList<PersonalGoalCard> personalGoals) {
+        this.personalGoals = personalGoals;
     }
 }

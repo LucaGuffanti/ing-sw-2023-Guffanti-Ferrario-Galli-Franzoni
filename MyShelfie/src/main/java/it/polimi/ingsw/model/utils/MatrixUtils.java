@@ -61,6 +61,24 @@ public class MatrixUtils {
         return s;
     }
 
+    public static String printMatrix(BoardCell[][] m){
+        // For debugging
+        String s = "";
+        String tmp;
+        // Printing the founded cells
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[i].length; j++) {
+                tmp = m[i][j].toString()+"  ";
+                s = s.concat(tmp);
+                System.out.print(tmp);
+
+            }
+            System.out.println();
+        }
+
+        return s;
+    }
+
     public static boolean[][] createEmptyMatrix(int l, int h){
         boolean[][] cells = new boolean[h][l];
 
