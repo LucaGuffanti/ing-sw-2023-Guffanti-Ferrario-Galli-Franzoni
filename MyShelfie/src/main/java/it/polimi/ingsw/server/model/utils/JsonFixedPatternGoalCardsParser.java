@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.FixedPatternCommonGoalCard;

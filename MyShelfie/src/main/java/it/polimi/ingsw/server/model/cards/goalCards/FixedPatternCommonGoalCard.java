@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards.goalCards;
 
-import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cells.ShelfCell;
 import it.polimi.ingsw.server.model.player.Player;

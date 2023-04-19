@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.CardBuilder;
 import it.polimi.ingsw.server.model.cards.EndOfGameCard;
 import it.polimi.ingsw.server.model.cards.PointCard;
@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
-import it.polimi.ingsw.model.utils.exceptions.*;
+import it.polimi.ingsw.server.model.utils.exceptions.*;
 import it.polimi.ingsw.server.model.utils.exceptions.*;
 import jdk.jfr.Label;
 
@@ -289,10 +289,12 @@ public class Game {
     /**
      * This method is called when the game ends. It commands
      * the award of the final points and declares the winner
+     * @param playersOrderedInTurns the players' nicknames as they are ordered
+     * @return the nickname of the winner
      */
-    public void endGame(List<Player> playersOrderedInTurns) {
-        gameCheckout(playersOrderedInTurns);
-
+    public String endGame(List<String> playersOrderedInTurns) {
+        String winner = gameCheckout(playersOrderedInTurns.stream().map(this::getPlayerByNick).toList());
+        return winner;
     }
 
     /**

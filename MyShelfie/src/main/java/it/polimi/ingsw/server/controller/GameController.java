@@ -259,7 +259,7 @@ public class GameController {
      *     </li>
      *     <li>if required, the board gets be refilled</li>
      *     <li>it builds the message describing the end of the turn
-     *     <li>if the game has to finish, it calls the endGame() method</li>
+     *     <li>if the game has to finish, it sets the state to ended and calls the endGame() method</li>
      *     that will be broadcast to every player</li>
      * </ol>
      */
@@ -311,6 +311,7 @@ public class GameController {
         completedShelf = false;
 
         if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && activePlayerIndex == 3) {
+            gameStatus = GameStatusEnum.ENDED;
             endGame();
         } else {
             beginTurn();
@@ -318,12 +319,12 @@ public class GameController {
     }
 
     /**
-     * This method advances the state of the game to ENDED, so that the game won't accept anymore
-     * possible clients' requests. <br>
      * The final points are calculated and an {@link EndOfGameMessage} is built and sent to every connected
      * player.
      */
     public void endGame() {
+        ArrayList<String> players = new ArrayList<>(game.getPlayers().stream().map(Player::getNickname).toList());
+        game.endGame(orderedPlayersNicks);
     }
 
     /**

@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.cells.BoardCellEnum;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.utils.Constants;
 import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
-import it.polimi.ingsw.model.utils.exceptions.*;
+import it.polimi.ingsw.server.model.utils.exceptions.*;
 import it.polimi.ingsw.server.model.utils.exceptions.*;
 
 import java.util.*;
