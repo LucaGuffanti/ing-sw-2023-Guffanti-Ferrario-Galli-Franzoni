@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.PointCard;
-import it.polimi.ingsw.model.cards.PointEnumeration;
-import it.polimi.ingsw.model.cards.goalCards.*;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Shelf;
-import it.polimi.ingsw.model.utils.CsvToShelfParser;
+import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
+import it.polimi.ingsw.server.model.cards.PointCard;
+import it.polimi.ingsw.server.model.cards.PointEnumeration;
+import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.Shelf;
+import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
 import org.junit.Test;
 
 import java.util.ArrayList;

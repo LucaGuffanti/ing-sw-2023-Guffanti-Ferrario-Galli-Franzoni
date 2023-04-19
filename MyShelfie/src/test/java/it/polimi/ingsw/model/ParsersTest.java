@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.player.Shelf;
-import it.polimi.ingsw.model.utils.CsvToShelfParser;
-import it.polimi.ingsw.model.utils.JsonFixedPatternGoalCardsParser;
-import it.polimi.ingsw.model.utils.MatrixUtils;
+import it.polimi.ingsw.server.model.player.Shelf;
+import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
+import it.polimi.ingsw.server.model.utils.JsonFixedPatternGoalCardsParser;
+import it.polimi.ingsw.server.model.utils.MatrixUtils;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;

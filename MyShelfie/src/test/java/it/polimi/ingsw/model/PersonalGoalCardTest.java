@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.ObjectCard;
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.model.cards.PatternCell;
-import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Shelf;
-import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
+import it.polimi.ingsw.server.model.cards.ObjectCard;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cards.PatternCell;
+import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
+import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.Shelf;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongNumberOfPlayersException;
 import org.junit.Test;
 
 import java.util.ArrayList;

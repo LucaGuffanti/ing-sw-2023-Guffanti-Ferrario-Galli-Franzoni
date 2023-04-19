@@ -1,14 +1,15 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.cards.ObjectCard;
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.model.cells.Coordinates;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Shelf;
-import it.polimi.ingsw.model.utils.MatrixUtils;
-import it.polimi.ingsw.model.utils.exceptions.*;
-import org.junit.jupiter.api.Assertions;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Sack;
+import it.polimi.ingsw.server.model.cards.ObjectCard;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cells.Coordinates;
+import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.Shelf;
+import it.polimi.ingsw.server.model.utils.MatrixUtils;
+import it.polimi.ingsw.server.model.utils.exceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

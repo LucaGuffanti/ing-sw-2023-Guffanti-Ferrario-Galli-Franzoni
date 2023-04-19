@@ -2,12 +2,11 @@ package it.polimi.ingsw.model;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.model.cells.BoardCell;
-import it.polimi.ingsw.model.cells.BoardCellEnum;
-import it.polimi.ingsw.model.utils.Constants;
-import it.polimi.ingsw.model.utils.CsvToBoardParser;
-import it.polimi.ingsw.model.utils.MatrixUtils;
+import it.polimi.ingsw.server.model.cells.BoardCell;
+import it.polimi.ingsw.server.model.cells.BoardCellEnum;
+import it.polimi.ingsw.server.model.utils.Constants;
+import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
+import it.polimi.ingsw.server.model.utils.MatrixUtils;
 import org.junit.Test;
 
 import java.io.IOException;

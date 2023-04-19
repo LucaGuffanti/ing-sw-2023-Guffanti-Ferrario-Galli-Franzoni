@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.ObjectCard;
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.model.utils.Constants;
-import it.polimi.ingsw.model.utils.exceptions.EmptySackException;
+import it.polimi.ingsw.server.model.Sack;
+import it.polimi.ingsw.server.model.cards.ObjectCard;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.utils.Constants;
+import it.polimi.ingsw.server.model.utils.exceptions.EmptySackException;
 import org.junit.Test;
 
 

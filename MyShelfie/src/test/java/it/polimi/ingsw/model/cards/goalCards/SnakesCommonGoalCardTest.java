@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.cards.goalCards;
 
+import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.cards.goalCards.SnakesCommonGoalCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

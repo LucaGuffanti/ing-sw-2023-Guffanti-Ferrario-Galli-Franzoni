@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.CardBuilder;
-import it.polimi.ingsw.model.cards.goalCards.FixedPatternCommonGoalCard;
-import it.polimi.ingsw.model.cards.Pattern;
-import it.polimi.ingsw.model.cards.PatternCell;
-import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
-import it.polimi.ingsw.model.utils.exceptions.WrongPointCardsValueGivenException;
+import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
+import it.polimi.ingsw.server.model.cards.CardBuilder;
+import it.polimi.ingsw.server.model.cards.goalCards.FixedPatternCommonGoalCard;
+import it.polimi.ingsw.server.model.cards.Pattern;
+import it.polimi.ingsw.server.model.cards.PatternCell;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongPointCardsValueGivenException;
 import org.junit.Test;
 
 import java.util.HashSet;

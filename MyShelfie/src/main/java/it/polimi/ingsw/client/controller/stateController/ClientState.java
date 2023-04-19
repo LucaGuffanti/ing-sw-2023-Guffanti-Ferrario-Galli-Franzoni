@@ -3,9 +3,9 @@ package it.polimi.ingsw.client.controller.stateController;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.controller.chat.ChatMessage;
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.model.cards.goalCards.SimplifiedCommonGoalCard;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
+import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 import java.util.Map;

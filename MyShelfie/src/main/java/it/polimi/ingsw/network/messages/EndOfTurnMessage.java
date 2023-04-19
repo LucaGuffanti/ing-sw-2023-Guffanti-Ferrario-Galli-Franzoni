@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.model.cards.goalCards.SimplifiedCommonGoalCard;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.util.ArrayList;

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.goalCards.CommonGoalCard;
-import it.polimi.ingsw.model.cards.goalCards.PersonalGoalCard;
-import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
+import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongNumberOfPlayersException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

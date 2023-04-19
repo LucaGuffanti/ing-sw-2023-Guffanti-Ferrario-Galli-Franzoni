@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 
-import it.polimi.ingsw.model.cells.Coordinates;
+import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.util.List;

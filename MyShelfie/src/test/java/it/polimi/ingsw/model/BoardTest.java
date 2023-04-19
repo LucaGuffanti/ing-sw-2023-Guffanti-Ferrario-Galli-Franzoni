@@ -1,16 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cells.BoardCell;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.utils.CsvToBoardParser;
-import it.polimi.ingsw.model.utils.MatrixUtils;
-import it.polimi.ingsw.model.utils.exceptions.MaxPlayersException;
-import it.polimi.ingsw.model.utils.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Sack;
+import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
+import it.polimi.ingsw.server.model.utils.MatrixUtils;
+import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongNumberOfPlayersException;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.plaf.synth.SynthIcon;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
