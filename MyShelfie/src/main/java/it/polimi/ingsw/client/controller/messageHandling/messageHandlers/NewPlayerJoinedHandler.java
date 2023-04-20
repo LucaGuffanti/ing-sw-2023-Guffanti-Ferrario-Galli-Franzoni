@@ -9,14 +9,22 @@ import it.polimi.ingsw.network.messages.NewPlayerMessage;
 
 import java.util.List;
 
-public class NewPlayerJoinedHandler extends Reducer implements Creator {
+/**
+ * Handles the reception of the message relative to the joining
+ * of a new player in the lobby.
+ *
+ * @see NewPlayerMessage
+ * @author Daniele Ferrario
+ */
+public class NewPlayerJoinedHandler extends Reducer  {
 
-    /*
-    public static BeginningOfTurnHandler createMessage(String username, String description){
-        return new LoginRequestMessage(username, description);
 
-    }*/
-
+    /**
+     * Add the new joined user at the end of the ordered user lists.
+     * @param oldClientState
+     * @param m
+     * @return
+     */
     @Override
     protected ClientState executeReduce(ClientState oldClientState, Message m){
         ClientState state = null;
@@ -28,9 +36,10 @@ public class NewPlayerJoinedHandler extends Reducer implements Creator {
             throw new RuntimeException(e);
         }
 
-        List<String> playersList = state.getOrderedPlayersNames();
-        playersList.add(newPlayerMessage.getJoinedPlayer());
-        state.setOrderedPlayersNames(playersList);
+
+        // Add the new player to the current ones
+        state.addPlayerName(newPlayerMessage.getJoinedPlayer());
+
 
         return state;
     }

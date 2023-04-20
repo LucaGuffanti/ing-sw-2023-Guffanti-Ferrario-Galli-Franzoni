@@ -3,12 +3,19 @@ package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
-import it.polimi.ingsw.client.controller.messageHandling.Utils;
+import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.network.messages.LoginRequestMessage;
-import it.polimi.ingsw.network.messages.LoginResponseMessage;
-import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.*;
 
+
+/**
+ * Handles the creation and the reception of the messages relative to the
+ * login requests and responses.
+ *
+ * @see LoginRequestMessage // From client to server
+ * @see LoginResponseMessage // From server to client
+ * @author Daniele Ferrario
+ */
 public class LoginHandler extends Reducer implements Creator {
 
     public static LoginRequestMessage createMessage(String username, String description){
@@ -27,7 +34,7 @@ public class LoginHandler extends Reducer implements Creator {
             throw new RuntimeException(e);
         }
 
-        if(Utils.isSuccess(loginMessage)){
+        if(MessageHandlersUtils.isSuccessful(loginMessage)){
             state.setCurrentPhase(ClientPhasesEnum.LOBBY);
         }
 

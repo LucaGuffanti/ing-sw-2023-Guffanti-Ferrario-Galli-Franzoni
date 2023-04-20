@@ -1,26 +1,24 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
-import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
-import it.polimi.ingsw.client.controller.messageHandling.Utils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.network.messages.AccessResultMessage;
-import it.polimi.ingsw.network.messages.LoginResponseMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.ConnectionEstablishedMessage;
 
-public class ConnectionHandler extends Reducer implements Creator {
-
-    /*
-    public static BeginningOfTurnHandler createMessage(String username, String description){
-        return new LoginRequestMessage(username, description);
-
-    }*/
+/**
+ * Handles the reception of the message representing
+ * the success of the connection between the client and the server.
+ *
+ * @see ConnectionEstablishedMessage
+ * @author Daniele Ferrario
+ */
+public class ConnectionHandler extends Reducer{
 
     @Override
     protected ClientState executeReduce(ClientState oldClientState, Message m){
         ClientState state = null;
-        AccessResultMessage accessResultMessage= (AccessResultMessage) m;
+        ConnectionEstablishedMessage connectionEstablishedMessage= (ConnectionEstablishedMessage) m;
 
         try {
             state = (ClientState) oldClientState.clone();
@@ -28,11 +26,7 @@ public class ConnectionHandler extends Reducer implements Creator {
             throw new RuntimeException(e);
         }
 
-        if(Utils.isSuccess(accessResultMessage)){
-            state.setCurrentPhase(ClientPhasesEnum.CONNECTED);
-        }else {
-            state.setServerErrorMessage("Cannot connect to server.");
-        }
+        state.setCurrentPhase(ClientPhasesEnum.CONNECTED);
 
         return state;
     }

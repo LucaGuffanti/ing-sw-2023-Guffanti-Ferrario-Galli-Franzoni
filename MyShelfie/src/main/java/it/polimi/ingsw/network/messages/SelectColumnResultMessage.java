@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
  * This message contains the result of the choice of the shelf column coming from the user.
  * @author Luca Guffanti
  */
-public class SelectColumnResultMessage extends Message{
+public class SelectColumnResultMessage extends Message implements MessageWithResult{
 
     private final ResponseResultType resultType;
     private final String recipient;
@@ -34,7 +34,7 @@ public class SelectColumnResultMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new SelectColumnHandler();
     }
 }

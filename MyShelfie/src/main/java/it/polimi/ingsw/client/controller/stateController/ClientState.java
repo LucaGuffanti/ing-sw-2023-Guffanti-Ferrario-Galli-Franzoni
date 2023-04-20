@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A class which represents a state of the client.
@@ -22,7 +21,11 @@ public class ClientState implements Cloneable {
     private String username;
     private ClientPhasesEnum currentPhase;
     private UserInterface userInterface;
+
+    // Username of the active player
     private String activePlayer;
+
+    // Ordered players
     private List<String> orderedPlayersNames;
     private boolean hasCompletedFirstCommonGoal;
     private boolean hasCompletedSecondCommonGoal;
@@ -30,13 +33,25 @@ public class ClientState implements Cloneable {
     private Map<Player, Integer> scores; // @TODO: is player list redundant?
 
     private ObjectTypeEnum[][] board;
-    private ObjectTypeEnum[][] shelf;
 
-    private int personalGoalCardId;
+    // Ordered players' shelfs
+    private List<ObjectTypeEnum[][]> shelfs;
 
-    private Set<SimplifiedCommonGoalCard> commonGoalCards;
+    private String personalGoalCardId;
+
+    private List<SimplifiedCommonGoalCard> commonGoalCards;
 
     private String serverErrorMessage;
+
+    public String getServerLastMessage() {
+        return serverLastMessage;
+    }
+
+    public void setServerLastMessage(String serverLastMessage) {
+        this.serverLastMessage = serverLastMessage;
+    }
+
+    private String serverLastMessage;
 
     public String getUsername() {
         return username;
@@ -96,6 +111,10 @@ public class ClientState implements Cloneable {
         this.orderedPlayersNames = orderedPlayersNames;
     }
 
+    public void addPlayerName(String playerName){
+        this.orderedPlayersNames.add(playerName);
+    }
+
     public boolean isHasCompletedFirstCommonGoal() {
         return hasCompletedFirstCommonGoal;
     }
@@ -136,27 +155,32 @@ public class ClientState implements Cloneable {
         this.board = board;
     }
 
-    public ObjectTypeEnum[][] getShelf() {
-        return shelf;
+    public List<ObjectTypeEnum[][]> getShelfs() {
+        return shelfs;
     }
 
-    public void setShelf(ObjectTypeEnum[][] shelf) {
-        this.shelf = shelf;
+    public void setShelfs(List<ObjectTypeEnum[][]> shelfs) {
+        this.shelfs = shelfs;
     }
 
-    public int getPersonalGoalCardId() {
+    public void setActivePlayerShelf(ObjectTypeEnum[][] shelf){
+        int activePlayerIndex = orderedPlayersNames.indexOf(activePlayer);
+        this.shelfs.set(activePlayerIndex, shelf);
+    }
+
+    public String getPersonalGoalCardId() {
         return personalGoalCardId;
     }
 
-    public void setPersonalGoalCardId(int personalGoalCardId) {
+    public void setPersonalGoalCardId(String personalGoalCardId) {
         this.personalGoalCardId = personalGoalCardId;
     }
 
-    public Set<SimplifiedCommonGoalCard> getCommonGoalCards() {
+    public List<SimplifiedCommonGoalCard> getCommonGoalCards() {
         return commonGoalCards;
     }
 
-    public void setCommonGoalCards(Set<SimplifiedCommonGoalCard> commonGoalCards) {
+    public void setCommonGoalCards(List<SimplifiedCommonGoalCard> commonGoalCards) {
         this.commonGoalCards = commonGoalCards;
     }
 

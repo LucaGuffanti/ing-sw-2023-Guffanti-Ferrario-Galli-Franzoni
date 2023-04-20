@@ -23,7 +23,7 @@ public class NewPlayerMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new NewPlayerJoinedHandler();
     }
 

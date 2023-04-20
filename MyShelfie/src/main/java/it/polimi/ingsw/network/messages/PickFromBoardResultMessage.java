@@ -34,7 +34,7 @@ public class PickFromBoardResultMessage extends Message implements MessageWithRe
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new PickFromBoardHandler();
     }
 }

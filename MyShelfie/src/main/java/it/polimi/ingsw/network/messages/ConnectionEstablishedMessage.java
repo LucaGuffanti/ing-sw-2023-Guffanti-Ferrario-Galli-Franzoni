@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  * client and the server is established and the client can proceed with the login operations.
  * @author Luca Guffanti
  */
-public class ConnectionEstablishedMessage extends Message{
+public class ConnectionEstablishedMessage extends Message {
     public ConnectionEstablishedMessage(String senderUsername) {
         super(MessageType.CONNECTION_ESTABLISHED, senderUsername);
     }
@@ -19,7 +19,7 @@ public class ConnectionEstablishedMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return  new ConnectionHandler();
     }
 }

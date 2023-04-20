@@ -53,5 +53,8 @@ public abstract class Message implements Serializable {
         return senderUsername;
     }
 
-    public abstract MessagesHandler getHandler();
+    /**
+     * Get the right handler for the client to use the Message payload when received.
+     */
+    public abstract MessagesHandler getHandlerForClient();
 }

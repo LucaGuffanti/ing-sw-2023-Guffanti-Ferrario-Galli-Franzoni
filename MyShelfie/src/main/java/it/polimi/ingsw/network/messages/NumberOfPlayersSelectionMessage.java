@@ -23,7 +23,7 @@ public class NumberOfPlayersSelectionMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new PlayerNumberHandler();
     }
 

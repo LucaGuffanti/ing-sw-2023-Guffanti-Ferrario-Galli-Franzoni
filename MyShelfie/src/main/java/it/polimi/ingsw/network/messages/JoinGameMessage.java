@@ -26,7 +26,7 @@ public class JoinGameMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new JoinGameHandler();
     }
     public String getUserToAccess() {

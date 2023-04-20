@@ -1,12 +1,19 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
-import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
-import it.polimi.ingsw.client.controller.messageHandling.Utils;
+import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.*;
 
+/**
+ * Handles the creation and the reception of the messages relative to the
+ * game lobby joining.
+ *
+ * @see JoinGameMessage // From client to server
+ * @see AccessResultMessage // From server to client
+ * @author Daniele Ferrario
+ */
 public class JoinGameHandler extends Reducer implements Creator {
 
     public static JoinGameMessage createMessage(String username){
@@ -26,8 +33,10 @@ public class JoinGameHandler extends Reducer implements Creator {
         }
 
 
-        if(Utils.isSuccess(accessResultMessage)){
+        if(MessageHandlersUtils.isSuccessful(accessResultMessage)){
             state.setOrderedPlayersNames(accessResultMessage.getPlayersUsernames());
+        }else{
+            state.setServerErrorMessage(accessResultMessage.getDescription());
         }
 
         return state;

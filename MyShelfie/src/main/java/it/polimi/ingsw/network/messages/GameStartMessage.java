@@ -25,7 +25,7 @@ public class GameStartMessage extends Message{
      */
     private final ArrayList<String> clientPersonalGoals;
     private final ArrayList<String> orderedPlayers;
-    private final ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards;
+    private final ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards; // @TODO: use an HashMap<username, simplifiedGoalCard>
 
     public GameStartMessage(String senderUsername,
                             ObjectTypeEnum[][] board,
@@ -53,7 +53,7 @@ public class GameStartMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new GameStartHandler();
     }
 

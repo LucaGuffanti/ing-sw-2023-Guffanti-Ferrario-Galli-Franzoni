@@ -34,7 +34,7 @@ public class AccessResultMessage extends Message implements MessageWithResult{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new JoinGameHandler();
     }
     public ResponseResultType getResultType() {

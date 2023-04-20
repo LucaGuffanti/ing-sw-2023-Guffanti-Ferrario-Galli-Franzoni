@@ -76,7 +76,7 @@ public class EndOfTurnMessage extends Message{
         this.completedShelf = completedShelf;
     }
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new BeginningOfTurnHandler();
     }
     public ObjectTypeEnum[][] getCurrentBoard() {

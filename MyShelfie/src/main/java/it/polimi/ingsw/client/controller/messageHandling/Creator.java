@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.Message
 
 /**
  * A Message creator is a MessageHandler class that implements the methods to create
- * a Message object given a set of parameters.
+ * a Message object given the requested set of parameters.
  */
 public interface Creator extends MessagesHandler {
 

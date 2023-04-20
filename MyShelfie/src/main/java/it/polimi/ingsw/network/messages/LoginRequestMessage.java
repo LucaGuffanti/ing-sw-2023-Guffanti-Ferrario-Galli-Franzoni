@@ -20,7 +20,7 @@ public class LoginRequestMessage extends Message{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new LoginHandler();
     }
 }

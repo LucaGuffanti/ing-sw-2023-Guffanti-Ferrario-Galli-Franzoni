@@ -31,7 +31,7 @@ public class LoginResponseMessage extends Message implements MessageWithResult{
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new LoginHandler();
     }
 

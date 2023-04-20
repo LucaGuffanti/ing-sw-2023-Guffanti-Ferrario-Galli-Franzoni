@@ -23,7 +23,7 @@ public class BeginningOfTurnMessage extends Message {
     }
 
     @Override
-    public MessagesHandler getHandler() {
+    public MessagesHandler getHandlerForClient() {
         return new BeginningOfTurnHandler();
     }
 
