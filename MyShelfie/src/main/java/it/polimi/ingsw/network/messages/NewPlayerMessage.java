@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.NewPlayerJoinedHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
@@ -18,6 +20,11 @@ public class NewPlayerMessage extends Message{
     public NewPlayerMessage(String senderUsername, String description, String joinedPlayer) {
         super(MessageType.NEW_PLAYER, senderUsername, description);
         this.joinedPlayer = joinedPlayer;
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new NewPlayerJoinedHandler();
     }
 
     public String getJoinedPlayer() {

@@ -6,6 +6,7 @@ package it.polimi.ingsw.client.controller;
  */
 public enum ClientPhasesEnum {
     DISCONNECTED,
+    CONNECTED,
     LOBBY,
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,

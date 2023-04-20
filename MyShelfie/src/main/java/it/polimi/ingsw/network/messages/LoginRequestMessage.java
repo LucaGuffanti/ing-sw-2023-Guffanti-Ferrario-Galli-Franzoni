@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.LoginHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
@@ -15,5 +17,10 @@ public class LoginRequestMessage extends Message{
     }
     public LoginRequestMessage(String senderUsername, String description) {
         super(MessageType.LOGIN_REQUEST, senderUsername, description);
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new LoginHandler();
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.LoginHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 
@@ -8,7 +10,7 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
  * success.
  * @author Luca Guffanti
  */
-public class LoginResponseMessage extends Message{
+public class LoginResponseMessage extends Message implements MessageWithResult{
     private final ResponseResultType resultType;
     private final String recipient;
 
@@ -26,6 +28,11 @@ public class LoginResponseMessage extends Message{
 
     public ResponseResultType getResultType() {
         return resultType;
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new LoginHandler();
     }
 
     public String getRecipient() {

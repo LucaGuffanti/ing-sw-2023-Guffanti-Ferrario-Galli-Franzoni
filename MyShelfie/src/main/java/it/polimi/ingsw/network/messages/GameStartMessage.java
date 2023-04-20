@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.GameStartHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.network.messages.enums.MessageType;
@@ -48,6 +50,11 @@ public class GameStartMessage extends Message{
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new GameStartHandler();
     }
 
     public ObjectTypeEnum[][] getClientBoard() {

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 
@@ -8,7 +10,7 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
  * It contains the result of the picking, as Success or Failure.
  * @author Luca Guffanti
  */
-public class PickFromBoardResultMessage extends Message{
+public class PickFromBoardResultMessage extends Message implements MessageWithResult{
     private final ResponseResultType resultType;
     private final String recipient;
     public PickFromBoardResultMessage(String senderUsername, ResponseResultType resultType, String recipient) {
@@ -29,5 +31,10 @@ public class PickFromBoardResultMessage extends Message{
 
     public String getRecipient() {
         return recipient;
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new PickFromBoardHandler();
     }
 }

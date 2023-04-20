@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.messages;
 
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardHandler;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
@@ -24,6 +26,11 @@ public class PickFromBoardMessage extends Message {
     public PickFromBoardMessage(String senderUsername, String description, List<Coordinates> cardsCoordinates) {
         super(MessageType.PICK_FROM_BOARD, senderUsername, description);
         this.cardsCoordinates = cardsCoordinates;
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new PickFromBoardHandler();
     }
 
     public List<Coordinates> getCardsCoordinates() {

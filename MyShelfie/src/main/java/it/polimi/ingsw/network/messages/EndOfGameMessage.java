@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.GameStartHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.util.HashMap;
@@ -39,6 +41,10 @@ public class EndOfGameMessage extends Message{
         this.winner = winner;
     }
 
+    @Override
+    public MessagesHandler getHandler() {
+        return new GameStartHandler();
+    }
     public HashMap<String, Integer> getNameToPointsMap() {
         return nameToPointsMap;
     }

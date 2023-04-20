@@ -1,8 +1,6 @@
-package it.polimi.ingsw.client.controller.messagesHandlers;
+package it.polimi.ingsw.client.controller.messageHandling;
 
-import it.polimi.ingsw.client.controller.ClientManager;
-import it.polimi.ingsw.client.controller.messagesHandlers.LoginHandler;
-import it.polimi.ingsw.client.controller.messagesHandlers.MessagesHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.Message;
 
@@ -16,14 +14,15 @@ import it.polimi.ingsw.network.messages.Message;
 public abstract class Reducer implements MessagesHandler {
 
     /**
-     * This methods is called by the StateContainer after a dispatch request and acts as
+     * This method is called by the StateContainer after a dispatch request and acts as
      * a wrapper for every type of message that is passed.
      * @param oldClientState
      * @param message
      * @return The next state of the application.
      */
     public static ClientState reduce(ClientState oldClientState, Message message){
-        Reducer handler = (Reducer) MessageHandlerSwitch.getMessageHandler(message);
+        // Get the right handler for the message.
+        Reducer handler = (Reducer) message.getHandler();
         return handler.executeReduce(oldClientState, message);
     }
 

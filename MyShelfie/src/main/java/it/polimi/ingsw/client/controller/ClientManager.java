@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
-import it.polimi.ingsw.client.controller.messagesHandlers.LoginHandler;
 import it.polimi.ingsw.client.view.UserInterface;
 
 /**

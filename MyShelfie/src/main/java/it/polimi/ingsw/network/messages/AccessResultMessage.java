@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 
@@ -12,7 +14,7 @@ import java.util.ArrayList;
  * (An new player's join will be notified to the other clients via a NewPlayer message)
  * @author Luca Guffanti
  */
-public class AccessResultMessage extends Message{
+public class AccessResultMessage extends Message implements MessageWithResult{
 
     private final ResponseResultType resultType;
     private final ArrayList<String> playersUsernames;
@@ -31,6 +33,10 @@ public class AccessResultMessage extends Message{
         this.recipient = recipient;
     }
 
+    @Override
+    public MessagesHandler getHandler() {
+        return new JoinGameHandler();
+    }
     public ResponseResultType getResultType() {
         return resultType;
     }

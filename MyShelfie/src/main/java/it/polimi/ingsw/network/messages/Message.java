@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.io.Serializable;
  * Every message also has two constructors: one with a text description that may be printed
  * and the other without.
  */
-public class Message implements Serializable {
+public abstract class Message implements Serializable {
     /**
      * The type of the message
      */
@@ -51,4 +52,6 @@ public class Message implements Serializable {
     public String getSenderUsername() {
         return senderUsername;
     }
+
+    public abstract MessagesHandler getHandler();
 }

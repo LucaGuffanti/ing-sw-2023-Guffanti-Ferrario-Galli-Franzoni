@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.controller.stateController;
 
-import it.polimi.ingsw.client.controller.messagesHandlers.LoginHandler;
-import it.polimi.ingsw.client.controller.messagesHandlers.Reducer;
+import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.util.Observable;

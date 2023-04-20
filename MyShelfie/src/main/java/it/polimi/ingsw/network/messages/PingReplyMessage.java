@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PingHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
@@ -13,5 +15,10 @@ public class PingReplyMessage extends Message{
 
     public PingReplyMessage(String senderUsername, String description) {
         super(MessageType.PING_REPLY, senderUsername, description);
+    }
+
+    @Override
+    public MessagesHandler getHandler() {
+        return new PingHandler();
     }
 }

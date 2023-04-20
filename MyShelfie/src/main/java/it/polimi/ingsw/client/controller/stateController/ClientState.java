@@ -22,8 +22,8 @@ public class ClientState implements Cloneable {
     private String username;
     private ClientPhasesEnum currentPhase;
     private UserInterface userInterface;
-    private Player activePlayer;
-    private List<Player> orderedPlayers;
+    private String activePlayer;
+    private List<String> orderedPlayersNames;
     private boolean hasCompletedFirstCommonGoal;
     private boolean hasCompletedSecondCommonGoal;
     private List<ChatMessage> chatHistory;
@@ -35,6 +35,32 @@ public class ClientState implements Cloneable {
     private int personalGoalCardId;
 
     private Set<SimplifiedCommonGoalCard> commonGoalCards;
+
+    private String serverErrorMessage;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getServerErrorMessage() {
+        return serverErrorMessage;
+    }
+
+    public String getActivePlayer() {
+        return activePlayer;
+    }
+
+    public void setActivePlayer(String activePlayer) {
+        this.activePlayer = activePlayer;
+    }
+
+    public void setServerErrorMessage(String serverErrorMessage) {
+        this.serverErrorMessage = serverErrorMessage;
+    }
 
     public String getUser() {
         return username;
@@ -60,20 +86,14 @@ public class ClientState implements Cloneable {
         this.userInterface = userInterface;
     }
 
-    public Player getActivePlayer() {
-        return activePlayer;
+
+
+    public List<String> getOrderedPlayersNames() {
+        return orderedPlayersNames;
     }
 
-    public void setActivePlayer(Player activePlayer) {
-        this.activePlayer = activePlayer;
-    }
-
-    public List<Player> getOrderedPlayers() {
-        return orderedPlayers;
-    }
-
-    public void setOrderedPlayers(List<Player> orderedPlayers) {
-        this.orderedPlayers = orderedPlayers;
+    public void setOrderedPlayersNames(List<String> orderedPlayersNames) {
+        this.orderedPlayersNames = orderedPlayersNames;
     }
 
     public boolean isHasCompletedFirstCommonGoal() {

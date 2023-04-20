@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.BeginningOfTurnHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.network.messages.enums.MessageType;
@@ -73,7 +75,10 @@ public class EndOfTurnMessage extends Message{
         this.completedSecondCommonGoal = completedSecondCommonGoal;
         this.completedShelf = completedShelf;
     }
-
+    @Override
+    public MessagesHandler getHandler() {
+        return new BeginningOfTurnHandler();
+    }
     public ObjectTypeEnum[][] getCurrentBoard() {
         return currentBoard;
     }
