@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.turn;
 
+import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.cells.Coordinates;
@@ -84,14 +85,19 @@ public class PickFromBoardPhase extends TurnPhase{
             is sent to the client
          */
         if (!validate(message)) {
-            controller.getNetworkHandler().sendToPlayer(new PickFromBoardResultMessage(
+            controller.getNetworkHandler().sendToPlayer(
+                    message.getSenderUsername(),
+                    new PickFromBoardResultMessage(
                     NetworkHandler.HOSTNAME,
                     ResponsesDescriptions.BADLY_FORMATTED,
                     ResponseResultType.FAILURE,
                     message.getSenderUsername()
             ));
+            Logger.controllerWarning(message.getSenderUsername() + " sent a badly structured PickFromBoardMessage" +
+                    " or " + message.getSenderUsername() + " isn't the active player ("+controller.getOrderedPlayersNicks().get(controller.getActivePlayerIndex())+")");
             return;
         }
+
 
         PickFromBoardMessage pickMessage = (PickFromBoardMessage) message;
 
@@ -113,10 +119,13 @@ public class PickFromBoardPhase extends TurnPhase{
             game.checkBoardPickValidity(activePlayer.getShelf(), pickMessage.getCardsCoordinates());
             responseDescription = ResponsesDescriptions.PICKING_SUCCESS;
             resultType = ResponseResultType.SUCCESS;
+            Logger.controllerWarning(message.getSenderUsername()+ "'s cards selection is valid");
         } catch (IllegalBoardCellsPickException e) {
             responseDescription = ResponsesDescriptions.PICKING_ERROR_WRONG_PICK;
             resultType = ResponseResultType.FAILURE;
+            Logger.controllerWarning(message.getSenderUsername()+ "'s move is against the rules");
         } catch (NoSpaceEnoughInShelfException e) {
+            Logger.controllerWarning("Not enough space in " + message.getSenderUsername()+ "'s shelf");
             responseDescription = ResponsesDescriptions.PICKING_ERROR_NO_SPACE;
             resultType = ResponseResultType.FAILURE;
         }
@@ -124,7 +133,9 @@ public class PickFromBoardPhase extends TurnPhase{
         /*
             The message is sent to the player, and the phase advances if the move is valid.
          */
-        controller.getNetworkHandler().sendToPlayer(new PickFromBoardResultMessage(
+        controller.getNetworkHandler().sendToPlayer(
+                message.getSenderUsername(),
+                new PickFromBoardResultMessage(
                 NetworkHandler.HOSTNAME,
                 responseDescription,
                 resultType,

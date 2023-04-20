@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import java.util.HashSet;
 import java.util.Set;
 import it.polimi.ingsw.server.model.cards.PointCard;
 
@@ -19,7 +20,7 @@ public class PlayerAchievements {
     public PlayerAchievements() {
         completedFirstCommonGoal = false;
         completedSecondCommonGoal = false;
-        this.pointCardsEarned = pointCardsEarned;
+        this.pointCardsEarned = new HashSet<>();
         firstToFinish = false;
         completedShelf = false;
     }

@@ -43,7 +43,6 @@ public class CsvToShelfParser {
                    cells[y][x] = new ShelfCell(map.get(word));
                    x++;
                }
-               System.out.println();
                y++;
                x = 0;
             }

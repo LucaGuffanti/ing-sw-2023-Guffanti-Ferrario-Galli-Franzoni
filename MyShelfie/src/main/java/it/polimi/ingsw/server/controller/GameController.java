@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
 import it.polimi.ingsw.server.controller.turn.TurnPhase;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.GameCheckout;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
@@ -24,6 +26,7 @@ import java.util.Collections;
  * @author Luca Guffanti
  */
 public class GameController {
+    public static final String NAME = "CONTROLLER";
     /**
      * The game instance
      */
@@ -86,7 +89,7 @@ public class GameController {
      *
      * @param nickname the nickname of the player that is trying to join
      */
-    public void onPlayerJoin(String nickname){
+    public synchronized void onPlayerJoin(String nickname){
 
         /*
             The game tries to accept the player only if the game hasn't already started.
@@ -94,9 +97,10 @@ public class GameController {
             ends.
          */
         if (!gameStatus.equals(GameStatusEnum.ACCEPTING_PLAYERS)) {
-            System.out.println(nickname + "tried to join the game but it's already started");
+            Logger.controllerWarning(nickname + " tried to join the game but it's already started");
 
             networkHandler.sendToPlayer(
+                    nickname,
                     new AccessResultMessage(
                             NetworkHandler.HOSTNAME,
                             ResponsesDescriptions.JOIN_FAILURE_ALREADY_STARTED,
@@ -113,6 +117,7 @@ public class GameController {
         ArrayList<String> players = new ArrayList<>(game.getPlayers().stream().map(Player::getNickname).toList());
         try {
             game.addPlayer(new Player(nickname));
+            Logger.controllerInfo(nickname+ " joined the game ("+game.getPlayers().size()+"/"+game.getGameInfo().getNPlayers()+")");
             responseDescription = ResponsesDescriptions.JOIN_SUCCESS;
             resultType = ResponseResultType.SUCCESS;
 
@@ -132,7 +137,7 @@ public class GameController {
             /*
                 The game throws a MaxPlayersException if the
              */
-            System.out.println(nickname + " tried to join but the game is full");
+            Logger.controllerWarning(nickname + " tried to join but the game is full");
             responseDescription = ResponsesDescriptions.JOIN_FAILURE_MAX_PLAYERS;
             resultType = ResponseResultType.FAILURE;
             players = null;
@@ -142,6 +147,7 @@ public class GameController {
             Send the result of the join to the player that's trying to join the game
         */
         networkHandler.sendToPlayer(
+                nickname,
                 new AccessResultMessage(
                         NetworkHandler.HOSTNAME,
                         responseDescription,
@@ -150,6 +156,9 @@ public class GameController {
                         nickname
                 )
         );
+        if (gameStatus.equals(GameStatusEnum.STARTED)) {
+            startGame();
+        }
     }
 
     /**
@@ -165,20 +174,23 @@ public class GameController {
      * @param selectedPlayers the number of players selected by the admin
      * @param gameId the id of the game assigned by the system
      */
-    public void createGame(String adminName, int selectedPlayers, int gameId) {
+    public synchronized void createGame(String adminName, int selectedPlayers, int gameId) {
+        // TODO ADD CHECK FOR WHEN A GAME IS STARTED AND A CREATE GAME IS REQUESTED
         try {
-            game = new Game(new Player(adminName), selectedPlayers, gameId);
+            game = new Game(new Player(adminName), selectedPlayers, gameId, this);
         } catch (Exception e){
             e.printStackTrace();
         }
         gameStatus = GameStatusEnum.ACCEPTING_PLAYERS;
         // the player also automatically joins the game at its creation, so the client is notified.
+        Logger.controllerInfo(adminName+ " created a new game for "+ selectedPlayers + " players (1/"+game.getGameInfo().getNPlayers()+")");
         networkHandler.sendToPlayer(
+                adminName,
                 new AccessResultMessage(
                         NetworkHandler.HOSTNAME,
                         ResponsesDescriptions.JOIN_SUCCESS,
                         ResponseResultType.SUCCESS,
-                        new ArrayList<String>(), // the list is empty as there isn't any other player in the game
+                        new ArrayList<>(), // the list is empty as there isn't any other player in the game
                         adminName
                 )
         );
@@ -196,7 +208,7 @@ public class GameController {
      * and, at last, {@code beginTurn()} is called (notice that activePlayerIndex is set to <b>-1</b> so
      * that the called method can operate correctly)
      */
-    public void startGame() {
+    public synchronized void startGame() {
         // the game is initialized
         game.initGame();
         // the players are shuffled
@@ -212,6 +224,9 @@ public class GameController {
         ArrayList<String> personalGoals = new ArrayList<>(game.getGameInfo().getPersonalGoals().stream().
                 map(GameObjectConverter::simplifyPersonalGoalIntoString).toList());
 
+        Logger.controllerInfo("the game started");
+        Logger.controllerInfo("Players order: "+ orderedPlayersNicks.toString());
+
         networkHandler.broadcastToAll(
                 new GameStartMessage(
                     NetworkHandler.HOSTNAME,
@@ -222,6 +237,9 @@ public class GameController {
                     simplifiedCommonGoalCards
                 )
         );
+
+        beginTurn();
+
     }
 
     /**
@@ -230,9 +248,10 @@ public class GameController {
      * message describing the beginning of a new turn that will be broadcast to every player and
      * sets the turn phase to {@link PickFromBoardPhase}, starting to accept game messages from the players
      */
-    public void beginTurn() {
+    public synchronized void beginTurn() {
         activePlayerIndex = (activePlayerIndex+1)%orderedPlayersNicks.size();
 
+        Logger.controllerInfo("New turn: " + orderedPlayersNicks.get(activePlayerIndex));
         networkHandler.broadcastToAll(
                 new BeginningOfTurnMessage(
                         NetworkHandler.HOSTNAME,
@@ -263,7 +282,10 @@ public class GameController {
      *     that will be broadcast to every player</li>
      * </ol>
      */
-    public void endTurn() {
+    public synchronized void endTurn() {
+
+        Logger.controllerInfo("the current turn ended");
+
         String messageDescription = "";
 
         chosenCoords = null;
@@ -271,17 +293,21 @@ public class GameController {
         game.awardTurnWisePoints(game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex)));
         // the game board is refilled
         if (game.getBoard().shouldBeRefilled()) {
+            Logger.controllerInfo("the board won't be refilled");
             game.getBoard().refillBoard(game.getSack());
             messageDescription += ResponsesDescriptions.END_OF_TURN_REFILL_BOARD + "\n";
         }
 
         if (completedShelf) {
+            Logger.controllerInfo("the player completed the shelf");
             messageDescription += ResponsesDescriptions.END_OF_TURN_COMPLETED_SHELF + "\n";
         }
         if (firstCommonGoalCompletedByActivePlayer) {
+            Logger.controllerInfo("the player completed the first common goal");
             messageDescription += ResponsesDescriptions.END_OF_TURN_CG1_COMPLETED + "\n";
         }
         if (secondCommonGoalCompletedByActivePlayer) {
+            Logger.controllerInfo("the player completed the second common goal");
             messageDescription += ResponsesDescriptions.END_OF_TURN_CG2_COMPLETED + "\n";
         }
         Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
@@ -322,9 +348,19 @@ public class GameController {
      * The final points are calculated and an {@link EndOfGameMessage} is built and sent to every connected
      * player.
      */
-    public void endGame() {
-        ArrayList<String> players = new ArrayList<>(game.getPlayers().stream().map(Player::getNickname).toList());
-        game.endGame(orderedPlayersNicks);
+    public synchronized void endGame() {
+        Logger.controllerInfo("The game ended");
+        GameCheckout gameCheckout = game.endGame(orderedPlayersNicks);
+
+        networkHandler.broadcastToAll(
+                new EndOfGameMessage(
+                        NetworkHandler.HOSTNAME,
+                        ResponsesDescriptions.GAME_ENDED,
+                        gameCheckout.getNickToPoints(),
+                        gameCheckout.getWinner()
+                )
+        );
+
     }
 
     /**
@@ -334,7 +370,7 @@ public class GameController {
      *
      * @param nickname the player who lost connection
      */
-    public void onPlayerDisconnection(String nickname) {
+    public synchronized void onPlayerDisconnection(String nickname) {
         //TODO IMPLEMENT
     }
 
@@ -343,20 +379,20 @@ public class GameController {
      * connection
      * @param nickname the nickname of the player who is trying to reconnect
      */
-    public void onPlayerReconnection(String nickname) {
+    public synchronized void onPlayerReconnection(String nickname) {
         //TODO IMPLEMENT
     }
 
     /**
      * This method is called when, during the awarding of turnwise points, the
      * completion of a {@link CommonGoalCard} is registered.
-     *
+     * <p>
      * Based on goalNumber, the corresponding attribute is set as true.
      * The attribute is used later when the message summing up the turn is
      * built
      * @param goalNumber either 1 or 2, is the ordinal number of the completed goal card
      */
-    public void onCommonGoalCompletion(int goalNumber) {
+    public synchronized void onCommonGoalCompletion(int goalNumber) {
         if (goalNumber == 1)
             firstCommonGoalCompletedByActivePlayer = true;
         else if (goalNumber == 2)
@@ -368,7 +404,7 @@ public class GameController {
      *  As a shelf is completed the game enters its last stage, FINAL_TURNS, and the corresponding attribute is set as
      *  true.
      */
-    public void onShelfCompletion() {
+    public synchronized void onShelfCompletion() {
         completedShelf = true;
         gameStatus = GameStatusEnum.FINAL_TURNS;
     }
@@ -377,47 +413,52 @@ public class GameController {
      * phase.
      * @param message the message submitted by the network networkHandler
      */
-    public void onGameMessageReceived(Message message) {
+    public synchronized void onGameMessageReceived(Message message) {
         turnPhase.manageIncomingMessage(message);
     }
 
     // GETTERS AND SETTERS
-    public Game getGame() {
+    public synchronized Game getGame() {
         return game;
     }
 
-    public TurnPhase getTurnPhase() {
+    public synchronized TurnPhase getTurnPhase() {
         return turnPhase;
     }
 
-    public void setTurnPhase(TurnPhase turnPhase) {
+    public synchronized void setTurnPhase(TurnPhase turnPhase) {
         this.turnPhase = turnPhase;
     }
 
-    public void setActivePlayerIndex(int activePlayerIndex) {
+    public synchronized void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
     }
 
-    public ArrayList<String> getOrderedPlayersNicks() {
+    public synchronized ArrayList<String> getOrderedPlayersNicks() {
         return orderedPlayersNicks;
     }
 
-    public int getActivePlayerIndex() {
+    public synchronized int getActivePlayerIndex() {
         return activePlayerIndex;
     }
 
-    public GameStatusEnum getGameStatus() {
+    public synchronized GameStatusEnum getGameStatus() {
         return gameStatus;
     }
-    public void setChosenCoords(ArrayList<Coordinates> chosenCoords) {
+
+    public synchronized void setGameStatus(GameStatusEnum gameStatus) {
+        this.gameStatus = gameStatus;
+    }
+
+    public synchronized void setChosenCoords(ArrayList<Coordinates> chosenCoords) {
         this.chosenCoords = chosenCoords;
     }
 
-    public ArrayList<Coordinates> getChosenCoords() {
+    public synchronized ArrayList<Coordinates> getChosenCoords() {
         return chosenCoords;
     }
 
-    public NetworkHandler getNetworkHandler() {
+    public synchronized NetworkHandler getNetworkHandler() {
         return networkHandler;
     }
 }

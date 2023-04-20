@@ -56,8 +56,8 @@ public class GameObjectConverter {
         ObjectTypeEnum[][] simplifiedShelf = new ObjectTypeEnum[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
         ShelfCell[][] cells = shelf.getCells();
 
-        for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
-            for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
+        for (int y = 0; y < Constants.SHELF_HEIGHT; y++) {
+            for (int x = 0; x < Constants.SHELF_LENGTH; x++) {
                 if (cells[y][x].getCellCard().isEmpty()) {
                     simplifiedShelf[y][x] = null;
                 } else {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.controller.GameStatusEnum;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.CardBuilder;
 import it.polimi.ingsw.server.model.cards.EndOfGameCard;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.*;
 import jdk.jfr.Label;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -224,7 +226,7 @@ public class Game {
                 pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
                 awardPointCard(currentPlayer, pointCardToBeAwarded, 1);
 
-                if(currentPlayer.getAchievements().isCompletedSecondCommonGoal()) {
+                if(currentPlayer.getAchievements().isCompletedFirstCommonGoal()) {
                     controller.onCommonGoalCompletion(1);
                 }
             }
@@ -292,9 +294,8 @@ public class Game {
      * @param playersOrderedInTurns the players' nicknames as they are ordered
      * @return the nickname of the winner
      */
-    public String endGame(List<String> playersOrderedInTurns) {
-        String winner = gameCheckout(playersOrderedInTurns.stream().map(this::getPlayerByNick).toList());
-        return winner;
+    public GameCheckout endGame(List<String> playersOrderedInTurns) {
+        return gameCheckout(playersOrderedInTurns.stream().map(this::getPlayerByNick).toList());
     }
 
     /**
@@ -304,11 +305,11 @@ public class Game {
      *                              element of the list is the first player to play and the last element is the last
      *                              player to play
      */
-    private String gameCheckout(List<Player> playersOrderedInTurns) {
+    private GameCheckout gameCheckout(List<Player> playersOrderedInTurns) {
 
         String winnerNickName;
         int winnerPoints;
-
+        HashMap<String, Integer> nickToPoints = new HashMap<>();
         winnerNickName = players.get(0).getNickname();
         winnerPoints = calculateFinalPoints(players.get(0));
 
@@ -318,12 +319,13 @@ public class Game {
 
         for(int i = 1; i < players.size(); i++) {
             int currentPoints = calculateFinalPoints(players.get(i));
+            nickToPoints.put(players.get(i).getNickname(), currentPoints);
             if(winnerPoints <= currentPoints) {
                 winnerPoints = currentPoints;
                 winnerNickName = players.get(i).getNickname();
             }
         }
-        return winnerNickName;
+        return new GameCheckout(winnerNickName, nickToPoints);
     }
 
     /**
@@ -381,7 +383,7 @@ public class Game {
         if (players.size() == gameInfo.getNPlayers()) throw new MaxPlayersException("The game is full");
         players.add(player);
         if (players.size() == gameInfo.getNPlayers()) {
-            controller.startGame();
+            controller.setGameStatus(GameStatusEnum.STARTED);
         }
     }
 

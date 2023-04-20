@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.turn;
 
+import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.cells.Coordinates;
@@ -71,12 +72,16 @@ public class PutInShelfPhase extends TurnPhase{
     @Override
     public void manageIncomingMessage(Message message) {
         if (!validate(message)) {
-            controller.getNetworkHandler().sendToPlayer(new SelectColumnResultMessage(
+            controller.getNetworkHandler().sendToPlayer(
+                    message.getSenderUsername(),
+                    new SelectColumnResultMessage(
                     NetworkHandler.HOSTNAME,
                     ResponsesDescriptions.BADLY_FORMATTED,
                     ResponseResultType.FAILURE,
                     message.getSenderUsername()
             ));
+            Logger.controllerWarning(message.getSenderUsername() + " sent a badly structured SelectColumnMessage" +
+                    " or " + message.getSenderUsername() + " isn't the active player ("+controller.getOrderedPlayersNicks().get(controller.getActivePlayerIndex())+")");
             return;
         }
 
@@ -92,14 +97,18 @@ public class PutInShelfPhase extends TurnPhase{
 
         try {
             game.moveCardsToPlayerShelf(activePlayer, coords, selectColumnMessage.getColumnIndex());
+            Logger.controllerWarning(message.getSenderUsername()+ " insertion was completed");
             responseDescription = ResponsesDescriptions.SHELF_SUCCESS;
             resultType = ResponseResultType.SUCCESS;
         } catch (Exception e) {
             responseDescription = ResponsesDescriptions.SHELF_ERROR_WRONG_SELECTION;
+            Logger.controllerWarning(message.getSenderUsername()+ " is invalid as the chosen column is full");
             resultType = ResponseResultType.FAILURE;
         }
 
-        controller.getNetworkHandler().sendToPlayer(new SelectColumnResultMessage(
+        controller.getNetworkHandler().sendToPlayer(
+                message.getSenderUsername(),
+                new SelectColumnResultMessage(
                 NetworkHandler.HOSTNAME,
                 responseDescription,
                 resultType,
