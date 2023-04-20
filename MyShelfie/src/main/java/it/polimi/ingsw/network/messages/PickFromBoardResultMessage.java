@@ -12,13 +12,13 @@ public class PickFromBoardResultMessage extends Message{
     private final ResponseResultType resultType;
     private final String recipient;
     public PickFromBoardResultMessage(String senderUsername, ResponseResultType resultType, String recipient) {
-        super(MessageType.PICK_FROM_BOARD, senderUsername);
+        super(MessageType.PICK_FROM_BOARD_RESULT, senderUsername);
         this.resultType = resultType;
         this.recipient = recipient;
     }
 
     public PickFromBoardResultMessage(String senderUsername, String description, ResponseResultType resultType, String recipient) {
-        super(MessageType.PICK_FROM_BOARD, senderUsername, description);
+        super(MessageType.PICK_FROM_BOARD_RESULT, senderUsername, description);
         this.resultType = resultType;
         this.recipient = recipient;
     }
