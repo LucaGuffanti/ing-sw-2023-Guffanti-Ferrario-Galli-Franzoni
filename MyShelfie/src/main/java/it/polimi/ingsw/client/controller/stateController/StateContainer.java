@@ -3,9 +3,7 @@ package it.polimi.ingsw.client.controller.stateController;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.network.messages.Message;
 
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A StateContainer is an object which holds the application's state,
@@ -13,15 +11,17 @@ import java.util.Set;
  * @TODO: Remove deprecated Observable/Observer paradigm.
  */
 public class StateContainer extends Observable {
-    private ClientState state;
+
+    private List<ClientState> statesHistory;
     private Set<Observer> stateObservers;
 
     public StateContainer(ClientState initialState) {
-        this.state = initialState;
+        this.statesHistory = new ArrayList<>();
+        this.statesHistory.add(initialState);
     }
 
-    public ClientState getState() {
-        return state;
+    public ClientState getCurrentState() {
+        return this.statesHistory.get(statesHistory.size()-1);
     }
 
     /**
@@ -30,7 +30,10 @@ public class StateContainer extends Observable {
      * @param message
      */
     public void dispatch(Message message){
-        state = Reducer.reduce(this.state, message);
+        // Transform current status in the next one and add it to the statesHistory
+        statesHistory.add(
+                Reducer.reduce(this.getCurrentState(), message)
+        );
     }
 
     /**

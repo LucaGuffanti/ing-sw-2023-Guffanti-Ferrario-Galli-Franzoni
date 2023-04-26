@@ -1,8 +1,8 @@
-package it.polimi.ingsw.client.view.clistuffs;
+package it.polimi.ingsw.client.view.cli.cliviews;
 
 import it.polimi.ingsw.server.model.Board;
 
-public class Boardview implements CliView{
+public class BoardView implements CliView {
     public void render(Board board){
         return;
     }

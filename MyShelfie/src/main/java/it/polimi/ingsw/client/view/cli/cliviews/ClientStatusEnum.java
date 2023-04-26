@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.clistuffs;
+package it.polimi.ingsw.client.view.cli.cliviews;
 public enum ClientStatusEnum{
         DISCONNECTED,
         LOBBY,
