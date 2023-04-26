@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 import it.polimi.ingsw.network.utils.ServerConfigurationData;
 import it.polimi.ingsw.network.utils.exceptions.NotYetImplementedException;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.model.Game;
 import jdk.jfr.Label;
 
 import java.io.IOException;
@@ -37,7 +36,6 @@ public class ServerNetworkHandler {
     private int RMIPort;
     private RMIServer rmiServer;
     private SocketServer socketServer;
-    private final HashMap<String, Boolean> nickToBeingConnectedMap;
     private final HashMap<String, ClientConnection> nickToConnectionMap;
     private final HashSet<String> allReconnectedUsers;
     private final Object clientStauts = new Object();
@@ -51,7 +49,6 @@ public class ServerNetworkHandler {
      */
     public ServerNetworkHandler(){
         this.nickToConnectionMap = new HashMap<>();
-        this.nickToBeingConnectedMap = new HashMap<>();
         this.allReconnectedUsers = new HashSet<>();
     }
 
@@ -67,7 +64,6 @@ public class ServerNetworkHandler {
         this.RMIServiceName = data.getRMIRegistryServiceName();
         this.RMIPort = data.getRmiPort();
 
-        this.nickToBeingConnectedMap = new HashMap<>();
         this.nickToConnectionMap = new HashMap<>();
         this.allReconnectedUsers = new HashSet<>();
 
@@ -108,16 +104,13 @@ public class ServerNetworkHandler {
         HashMap<String, ClientConnection> ntcCopy;
         HashMap<String, Boolean> ntbCopy;
         synchronized (nickToConnectionMap) {
-            synchronized (nickToBeingConnectedMap) {
-                ntcCopy = new HashMap<>(nickToConnectionMap);
-                ntbCopy = new HashMap<>(nickToBeingConnectedMap);
-            }
+            ntcCopy = new HashMap<>(nickToConnectionMap);
         }
 
         currentMessage = message;
         Logger.networkInfo("broadcast a " + message.getType() + " message to all but " + sender);
         for (String nick : ntcCopy.keySet()) {
-            if (!nick.equals(sender) && ntbCopy.get(nick)) {
+            if (!nick.equals(sender) && ntcCopy.get(sender).isConnected()) {
                 ntcCopy.get(nick).sendMessage(message);
             }
         }
@@ -127,16 +120,13 @@ public class ServerNetworkHandler {
         HashMap<String, ClientConnection> ntcCopy;
         HashMap<String, Boolean> ntbCopy;
         synchronized (nickToConnectionMap) {
-            synchronized (nickToBeingConnectedMap) {
-                ntcCopy = new HashMap<>(nickToConnectionMap);
-                ntbCopy = new HashMap<>(nickToBeingConnectedMap);
-            }
+            ntcCopy = new HashMap<>(nickToConnectionMap);
         }
         currentMessage = message;
         Logger.networkInfo("broadcast a " + message.getType() + " message");
 
         for (String nick : ntcCopy.keySet()) {
-            if (ntbCopy.get(nick)) {
+            if (ntcCopy.get(nick).isConnected()) {
                 ntcCopy.get(nick).sendMessage(message);
             }
         }
@@ -171,16 +161,14 @@ public class ServerNetworkHandler {
         boolean reconnecting = false;
 
         synchronized (nickToConnectionMap) {
-            synchronized (nickToBeingConnectedMap) {
                 if (!nickToConnectionMap.containsKey(name)) {
                     nickToConnectionMap.put(name, connection);
-                    nickToBeingConnectedMap.put(name, true);
 
                     Logger.networkInfo(name+ " logged in");
                     logged = true;
                 } else {
-                    if (nickToBeingConnectedMap.get(name)==false) {
-                        nickToBeingConnectedMap.put(name, true);
+                    if (!nickToConnectionMap.get(name).isConnected()) {
+                        nickToConnectionMap.get(name).setConnected(true);
                         Logger.networkInfo(name+ " is a known user");
                         Logger.networkInfo(name+ " logged back in");
                         logged = true;
@@ -195,7 +183,6 @@ public class ServerNetworkHandler {
                 }
 
             }
-        }
         return new LoginResult(logged, reconnecting);
     }
     public ClientConnection getClientConnectionFromName(String nick) {
@@ -211,21 +198,19 @@ public class ServerNetworkHandler {
         HashMap<String, ClientConnection> temp;
         synchronized (nickToConnectionMap) {
             temp = new HashMap<>(nickToConnectionMap);
-        }
-
-        if (temp.containsValue(connection)) {
-            String nickname = "";
-            for (String nick : temp.keySet()) {
-                if (temp.get(nick).equals(connection)) {
-                    nickname = nick;
-                    break;
+            if (temp.containsValue(connection)) {
+                String nickname = "";
+                for (String nick : temp.keySet()) {
+                    if (temp.get(nick).equals(connection)) {
+                        nickname = nick;
+                        nickToConnectionMap.get(nick).setConnected(false);
+                        Logger.networkWarning(nickname + " is now considered disconnected");
+                        break;
+                    }
                 }
             }
-            synchronized (nickToBeingConnectedMap) {
-                nickToBeingConnectedMap.put(nickname, false);
-                Logger.networkWarning(nickname + " is now considered disconnected");
-            }
         }
+
     }
 
     /**
@@ -281,8 +266,19 @@ public class ServerNetworkHandler {
                     }
                 }
             }
-            // TODO IMPLEMENT MANAGING COLUMN SELECTION MESSAGES
-            // TODO IMPLEMENT MANAGING CARD PICKING MESSAGES
+            case PICK_FROM_BOARD -> {
+                synchronized (controllerLock) {
+                    PickFromBoardMessage p = (PickFromBoardMessage) m;
+                    controller.onGameMessageReceived(p);
+                }
+            }
+            case SELECT_COLUMN -> {
+                synchronized (controllerLock) {
+                    SelectColumnMessage s = (SelectColumnMessage) m;
+                    controller.onGameMessageReceived(s);
+                }
+            }
+            // TODO MANAGE PING MESSAGES
             // TODO IMPLEMENT MANAGING CHAT MESSAGES
             default -> {
                 Logger.networkCritical(m.getType()+" management is not yet implemented.");

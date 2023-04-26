@@ -33,11 +33,7 @@ public class SocketReceiver extends Thread {
         while(!Thread.currentThread().isInterrupted()) {
             try {
                 Message received = (Message) in.readObject();
-                queue = clientNetworkHandler.getMessageQueue();
-                synchronized (queue) {
-                    queue.add(received);
-                    queue.notifyAll();
-                }
+                received.printMessage();
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Lost connection with the server!");

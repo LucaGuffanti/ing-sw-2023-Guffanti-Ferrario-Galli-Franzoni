@@ -16,7 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketClientConnection implements Runnable, ClientConnection{
+public class SocketClientConnection extends ClientConnection implements Runnable{
 
     private final Socket socket;
     private final SocketServer socketServer;
@@ -25,6 +25,7 @@ public class SocketClientConnection implements Runnable, ClientConnection{
 
 
     public SocketClientConnection(Socket socket, SocketServer socketServer) {
+        super(true);
         this.socket = socket;
         this.socketServer = socketServer;
     }
@@ -95,6 +96,7 @@ public class SocketClientConnection implements Runnable, ClientConnection{
         LoginRequestMessage msg = (LoginRequestMessage)  in.readObject();
         LoginResult result;
 
+        this.setConnected(true);
         result = socketServer.getServerNetworkHandler().onLoginRequest(msg.getSenderUsername(), this);
         if (result.isLogged() && !result.isReconnecting()) {
             sendMessage(new LoginResponseMessage(

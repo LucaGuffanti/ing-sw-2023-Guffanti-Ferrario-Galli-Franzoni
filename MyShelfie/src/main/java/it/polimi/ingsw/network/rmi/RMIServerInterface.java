@@ -11,7 +11,5 @@ import java.rmi.RemoteException;
  * @author Luca Guffanti
  */
 public interface RMIServerInterface extends Remote {
-    void receiveMessage(Message message) throws RemoteException;
-    void login(String username, ClientConnection connection, RMIClientInterface rmiClientInterface) throws RemoteException;
-
+    void receiveMessage(Message message, RMIClientInterface rmiClientInterface) throws RemoteException;
 }
