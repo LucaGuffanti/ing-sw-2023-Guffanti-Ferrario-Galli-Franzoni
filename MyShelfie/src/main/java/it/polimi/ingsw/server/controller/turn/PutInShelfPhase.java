@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.network.NetworkHandler;
+import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.utils.ResponsesDescriptions;
@@ -75,7 +75,7 @@ public class PutInShelfPhase extends TurnPhase{
             controller.getNetworkHandler().sendToPlayer(
                     message.getSenderUsername(),
                     new SelectColumnResultMessage(
-                    NetworkHandler.HOSTNAME,
+                    ServerNetworkHandler.HOSTNAME,
                     ResponsesDescriptions.BADLY_FORMATTED,
                     ResponseResultType.FAILURE,
                     message.getSenderUsername()
@@ -109,7 +109,7 @@ public class PutInShelfPhase extends TurnPhase{
         controller.getNetworkHandler().sendToPlayer(
                 message.getSenderUsername(),
                 new SelectColumnResultMessage(
-                NetworkHandler.HOSTNAME,
+                ServerNetworkHandler.HOSTNAME,
                 responseDescription,
                 resultType,
                 message.getSenderUsername()

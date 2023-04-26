@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.utils;
 
-import it.polimi.ingsw.network.NetworkHandler;
+import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.server.controller.GameController;
 
 /**
@@ -21,13 +21,13 @@ public class Logger {
     private static final String UNDERLINED = "\u001B[4m";
     private static final String BOLD = "\033[1m";
     public static void networkInfo(String msg) {
-        System.out.println(ANSI_GREEN+ NetworkHandler.HOSTNAME +": "+msg+ANSI_RESET);
+        System.out.println(ANSI_GREEN+ ServerNetworkHandler.HOSTNAME +": "+msg+ANSI_RESET);
     }
     public static void networkWarning(String msg) {
-        System.out.println(ANSI_YELLOW+ NetworkHandler.HOSTNAME+": "+msg+ANSI_RESET);
+        System.out.println(ANSI_YELLOW+ ServerNetworkHandler.HOSTNAME+": "+msg+ANSI_RESET);
     }
-    public static void networkError(String msg) {
-        System.out.println(ANSI_RED+ NetworkHandler.HOSTNAME+": "+msg+ANSI_RESET);
+    public static void networkCritical(String msg) {
+        System.out.println(ANSI_RED+ ServerNetworkHandler.HOSTNAME+": "+msg+ANSI_RESET);
     }
 
     public static void controllerInfo(String msg) {

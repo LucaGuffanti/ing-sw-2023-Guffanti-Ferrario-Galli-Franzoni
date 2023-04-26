@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.exceptions.IllegalBoardCellsPickException;
 import it.polimi.ingsw.server.model.utils.exceptions.NoSpaceEnoughInShelfException;
-import it.polimi.ingsw.network.NetworkHandler;
+import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.network.messages.PickFromBoardResultMessage;
@@ -88,7 +88,7 @@ public class PickFromBoardPhase extends TurnPhase{
             controller.getNetworkHandler().sendToPlayer(
                     message.getSenderUsername(),
                     new PickFromBoardResultMessage(
-                    NetworkHandler.HOSTNAME,
+                    ServerNetworkHandler.HOSTNAME,
                     ResponsesDescriptions.BADLY_FORMATTED,
                     ResponseResultType.FAILURE,
                     message.getSenderUsername()
@@ -136,7 +136,7 @@ public class PickFromBoardPhase extends TurnPhase{
         controller.getNetworkHandler().sendToPlayer(
                 message.getSenderUsername(),
                 new PickFromBoardResultMessage(
-                NetworkHandler.HOSTNAME,
+                ServerNetworkHandler.HOSTNAME,
                 responseDescription,
                 resultType,
                 message.getSenderUsername()

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.utils;
 
+import it.polimi.ingsw.network.messages.enums.ResponseResultType;
+
 /**
  * This class contains different messages descriptions. The attributes are self-descriptive
  * @author Luca Guffanti
@@ -15,6 +17,7 @@ public class ResponsesDescriptions {
     public static final String NEW_PLAYER_JOINED = " joined the game.";
     public static final String JOIN_FAILURE_MAX_PLAYERS = "You can't join the game because it's already full";
     public static final String JOIN_FAILURE_ALREADY_STARTED = "You can't join the game because it's already started.";
+    public static final String JOIN_FAILURE_ALREADY_CREATED = "You can't create a game that's already been created.";
     public static final String END_OF_TURN_REFILL_BOARD = "The board was refilled.";
     public static final String END_OF_TURN_COMPLETED_SHELF = "The shelf was completed.";
     public static final String END_OF_TURN_CG1_COMPLETED = "The first common goal card was completed.";
@@ -22,4 +25,7 @@ public class ResponsesDescriptions {
     public static final String NEW_TURN = "A new turn has started.";
     public static final String GAME_STARTED = "The game has started.";
     public static final String GAME_ENDED = "The game has ended.";
+    public static final String LOGIN_SUCCESS = "You've successfully logged into the server";
+    public static final String RECONNECTION_SUCCESS = "You've successfully logged BACK into the server";
+    public static final String LOGIN_FAILURE_ALREADY_TAKEN = "Your username was already taken";
 }

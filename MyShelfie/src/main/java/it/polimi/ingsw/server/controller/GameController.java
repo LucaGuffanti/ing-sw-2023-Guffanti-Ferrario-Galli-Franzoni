@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
-import it.polimi.ingsw.network.NetworkHandler;
+import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.utils.ResponsesDescriptions;
@@ -67,14 +67,14 @@ public class GameController {
     /**
      * The server-side network networkHandler
      */
-    private final NetworkHandler networkHandler;
+    private final ServerNetworkHandler serverNetworkHandler;
 
     /**
-     * When a Game Controller is created, it gets passed a {@link NetworkHandler}.
+     * When a Game Controller is created, it gets passed a {@link ServerNetworkHandler}.
      * The game controller is created
      */
-    public GameController(NetworkHandler networkHandler) {
-        this.networkHandler = networkHandler;
+    public GameController(ServerNetworkHandler serverNetworkHandler) {
+        this.serverNetworkHandler = serverNetworkHandler;
     }
 
     /**
@@ -99,10 +99,10 @@ public class GameController {
         if (!gameStatus.equals(GameStatusEnum.ACCEPTING_PLAYERS)) {
             Logger.controllerWarning(nickname + " tried to join the game but it's already started");
 
-            networkHandler.sendToPlayer(
+            serverNetworkHandler.sendToPlayer(
                     nickname,
                     new AccessResultMessage(
-                            NetworkHandler.HOSTNAME,
+                            ServerNetworkHandler.HOSTNAME,
                             ResponsesDescriptions.JOIN_FAILURE_ALREADY_STARTED,
                             ResponseResultType.FAILURE,
                             null,
@@ -124,10 +124,10 @@ public class GameController {
             /*
                 Broadcast that the new player joined if the join was successful
              */
-            networkHandler.broadcastToAllButSender(
+            serverNetworkHandler.broadcastToAllButSender(
                     nickname,
                     new NewPlayerMessage(
-                            NetworkHandler.HOSTNAME,
+                            ServerNetworkHandler.HOSTNAME,
                             nickname + ResponsesDescriptions.NEW_PLAYER_JOINED,
                             nickname
                     )
@@ -146,10 +146,10 @@ public class GameController {
         /*
             Send the result of the join to the player that's trying to join the game
         */
-        networkHandler.sendToPlayer(
+        serverNetworkHandler.sendToPlayer(
                 nickname,
                 new AccessResultMessage(
-                        NetworkHandler.HOSTNAME,
+                        ServerNetworkHandler.HOSTNAME,
                         responseDescription,
                         resultType,
                         players,
@@ -184,10 +184,10 @@ public class GameController {
         gameStatus = GameStatusEnum.ACCEPTING_PLAYERS;
         // the player also automatically joins the game at its creation, so the client is notified.
         Logger.controllerInfo(adminName+ " created a new game for "+ selectedPlayers + " players (1/"+game.getGameInfo().getNPlayers()+")");
-        networkHandler.sendToPlayer(
+        serverNetworkHandler.sendToPlayer(
                 adminName,
                 new AccessResultMessage(
-                        NetworkHandler.HOSTNAME,
+                        ServerNetworkHandler.HOSTNAME,
                         ResponsesDescriptions.JOIN_SUCCESS,
                         ResponseResultType.SUCCESS,
                         new ArrayList<>(), // the list is empty as there isn't any other player in the game
@@ -221,15 +221,18 @@ public class GameController {
 
         ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
                         .map(GameObjectConverter::simplifyCommonGoalIntoCard).toList());
-        ArrayList<String> personalGoals = new ArrayList<>(game.getGameInfo().getPersonalGoals().stream().
-                map(GameObjectConverter::simplifyPersonalGoalIntoString).toList());
+        ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
+                .map(o -> game.getPlayerByNick(o))
+                .map(p -> p.getGoal())
+                .map(g -> GameObjectConverter.simplifyPersonalGoalIntoString(g))
+                .toList());
 
         Logger.controllerInfo("the game started");
         Logger.controllerInfo("Players order: "+ orderedPlayersNicks.toString());
 
-        networkHandler.broadcastToAll(
+        serverNetworkHandler.broadcastToAll(
                 new GameStartMessage(
-                    NetworkHandler.HOSTNAME,
+                    ServerNetworkHandler.HOSTNAME,
                     ResponsesDescriptions.GAME_STARTED,
                     GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()),
                     personalGoals,
@@ -252,9 +255,9 @@ public class GameController {
         activePlayerIndex = (activePlayerIndex+1)%orderedPlayersNicks.size();
 
         Logger.controllerInfo("New turn: " + orderedPlayersNicks.get(activePlayerIndex));
-        networkHandler.broadcastToAll(
+        serverNetworkHandler.broadcastToAll(
                 new BeginningOfTurnMessage(
-                        NetworkHandler.HOSTNAME,
+                        ServerNetworkHandler.HOSTNAME,
                         ResponsesDescriptions.NEW_TURN,
                         orderedPlayersNicks.get(activePlayerIndex)
                 )
@@ -319,9 +322,9 @@ public class GameController {
                 .toList());
 
         // the message is built and sent
-        networkHandler.broadcastToAll(
+        serverNetworkHandler.broadcastToAll(
                 new EndOfTurnMessage(
-                        NetworkHandler.HOSTNAME,
+                        ServerNetworkHandler.HOSTNAME,
                         messageDescription,
                         GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()),
                         GameObjectConverter.simplifyShelfIntoMatrix(currentPlayer.getShelf()),
@@ -352,9 +355,9 @@ public class GameController {
         Logger.controllerInfo("The game ended");
         GameCheckout gameCheckout = game.endGame(orderedPlayersNicks);
 
-        networkHandler.broadcastToAll(
+        serverNetworkHandler.broadcastToAll(
                 new EndOfGameMessage(
-                        NetworkHandler.HOSTNAME,
+                        ServerNetworkHandler.HOSTNAME,
                         ResponsesDescriptions.GAME_ENDED,
                         gameCheckout.getNickToPoints(),
                         gameCheckout.getWinner()
@@ -381,6 +384,7 @@ public class GameController {
      */
     public synchronized void onPlayerReconnection(String nickname) {
         //TODO IMPLEMENT
+        Logger.controllerError("GAME-SIDE RECONNECTION NOT IMPLEMENTED");
     }
 
     /**
@@ -458,7 +462,7 @@ public class GameController {
         return chosenCoords;
     }
 
-    public synchronized NetworkHandler getNetworkHandler() {
-        return networkHandler;
+    public synchronized ServerNetworkHandler getNetworkHandler() {
+        return serverNetworkHandler;
     }
 }

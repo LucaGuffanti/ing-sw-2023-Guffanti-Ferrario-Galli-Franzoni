@@ -42,6 +42,8 @@ public class JSONMessageDeserializer {
             case PING_REQUEST -> {return new Deserializer<PingRequestMessage>().deserialize(messageJSON, PingRequestMessage.class);}
             case PING_REPLY -> {return new Deserializer<PingReplyMessage>().deserialize(messageJSON, PingReplyMessage.class);}
 
+            case REJOIN_GAME -> {return new Deserializer<ReJoinGameMessage>().deserialize(messageJSON, ReJoinGameMessage.class);}
+
             default -> { throw new IllegalStateException("Unexpected value: " + m.getType()); }
         }
     }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.network.NetworkHandler;
+import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
@@ -12,15 +12,12 @@ import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
 import it.polimi.ingsw.server.model.utils.MatrixUtils;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Luca Guffanti
  */
 public class GameControllerTest {
-    private NetworkHandler handler;
+    private FakeServerNetworkHandler handler;
     private GameController gameController;
 
 
@@ -40,7 +37,7 @@ public class GameControllerTest {
      */
     @BeforeEach
     void init() {
-        handler = new NetworkHandler();
+        handler = new FakeServerNetworkHandler();
         gameController = new GameController(handler);
         System.out.println("Instantiating handler and controller");
         assertNotNull(gameController);
