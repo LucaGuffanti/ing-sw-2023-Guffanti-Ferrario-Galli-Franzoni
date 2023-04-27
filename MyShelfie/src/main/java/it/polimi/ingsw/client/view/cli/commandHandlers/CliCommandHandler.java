@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.commandHandlers;
 
+import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
 
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.Set;
 public abstract class CliCommandHandler {
 
     private Cli cli;
-    private String username;
 
     /**
      * This class describes the handlers for the available commands for the cli.
@@ -21,9 +21,8 @@ public abstract class CliCommandHandler {
      * @param username
      * @param cli
      */
-    public CliCommandHandler(Cli cli, String username) {
+    public CliCommandHandler(Cli cli) {
         this.cli = cli;
-        this.username = username;
     }
 
     /**
@@ -34,7 +33,7 @@ public abstract class CliCommandHandler {
      * @param commandInput The user's input
      * @return
      */
-    public abstract void execute(String commandInput);
+    public abstract void execute(String commandInput, ClientState state);
 
     /**
      * Checks if the inserted parameters are valid for this command.
@@ -52,7 +51,4 @@ public abstract class CliCommandHandler {
         return cli;
     }
 
-    public String getUsername() {
-        return username;
-    }
 }

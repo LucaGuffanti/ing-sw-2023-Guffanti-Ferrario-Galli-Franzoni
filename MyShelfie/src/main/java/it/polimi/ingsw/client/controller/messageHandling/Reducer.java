@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.controller.messageHandling;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.client.controller.stateController.*;
 import it.polimi.ingsw.network.messages.Message;
+
+import java.beans.PropertyChangeSupport;
+
 /**
  * A Reducer is a MessageHandler that implements the client state update logic. Reducer methods are pure functions
  * that will accept the previous state of the app and the Message containing the payload used to calculate

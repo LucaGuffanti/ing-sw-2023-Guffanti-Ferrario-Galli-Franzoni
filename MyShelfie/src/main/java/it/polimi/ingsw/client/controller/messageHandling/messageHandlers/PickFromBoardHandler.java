@@ -37,7 +37,7 @@ public class PickFromBoardHandler extends Reducer implements Creator {
         }
 
         if(MessageHandlersUtils.isSuccessful(resultMessage)){
-            state.setCurrentPhase(ClientPhasesEnum.COLUMN_CHOICE);
+            state.setCurrentPhase(ClientPhasesEnum.SELECT_COLUMN);
         }else {
             // Se the error message
             state.setServerErrorMessage(resultMessage.getDescription());

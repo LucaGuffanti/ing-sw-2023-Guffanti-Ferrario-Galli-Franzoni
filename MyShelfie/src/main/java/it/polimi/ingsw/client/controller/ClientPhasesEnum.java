@@ -10,9 +10,8 @@ public enum ClientPhasesEnum {
     LOBBY,
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,
-    COLUMN_CHOICE,
+    SELECT_COLUMN,
     FINAL_RESULTS_SHOW,
-    END;
 
 
 

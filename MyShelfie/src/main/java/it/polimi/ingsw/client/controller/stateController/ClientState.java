@@ -77,13 +77,6 @@ public class ClientState implements Cloneable {
         this.serverErrorMessage = serverErrorMessage;
     }
 
-    public String getUser() {
-        return username;
-    }
-
-    public void setUser(Player user) {
-        this.username = username;
-    }
 
     public ClientPhasesEnum getCurrentPhase() {
         return currentPhase;
