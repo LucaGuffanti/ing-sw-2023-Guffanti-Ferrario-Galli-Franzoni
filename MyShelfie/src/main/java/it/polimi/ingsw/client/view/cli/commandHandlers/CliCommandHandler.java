@@ -1,18 +1,14 @@
 package it.polimi.ingsw.client.view.cli.commandHandlers;
 
 import it.polimi.ingsw.client.view.cli.Cli;
-import it.polimi.ingsw.client.view.cli.CliCommandResponse;
-import it.polimi.ingsw.client.view.cli.cliviews.ClientStatusEnum;
 
 import java.util.List;
 import java.util.Set;
 
 public abstract class CliCommandHandler {
-    // @todo: move and implement the attributes into the specific classes.
-    private Set<ClientStatusEnum> availableStatues;
-    private String commandLabel;
-    private String commandDescription;
+
     private Cli cli;
+    private String username;
 
     /**
      * This class describes the handlers for the available commands for the cli.
@@ -22,16 +18,12 @@ public abstract class CliCommandHandler {
      * @apiNote The Cli and the method CliCommandHandler.execute(), together, implement the "Visitor pattern",
      * picking the right cli method to handle the appropriate command handler response ( A CliView to change or a Message to be sent to server )
      *
-     * @param availableStatues
-     * @param commandLabel
-     * @param commandDescription
+     * @param username
      * @param cli
      */
-    public CliCommandHandler(Set<ClientStatusEnum> availableStatues, String commandLabel, String commandDescription, Cli cli) {
-        this.availableStatues = availableStatues;
-        this.commandLabel = commandLabel;
-        this.commandDescription = commandDescription;
+    public CliCommandHandler(Cli cli, String username) {
         this.cli = cli;
+        this.username = username;
     }
 
     /**
@@ -55,4 +47,12 @@ public abstract class CliCommandHandler {
         return true;
     }
 
+
+    public Cli getCli() {
+        return cli;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }

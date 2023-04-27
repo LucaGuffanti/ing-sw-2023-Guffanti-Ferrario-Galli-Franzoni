@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class PickFromBoardMessage extends Message {
 
+    /**
+     * First and last cells' coordinates.
+     */
     private final List<Coordinates> cardsCoordinates;
     public PickFromBoardMessage(String senderUsername, List<Coordinates> cardsCoordinates) {
         super(MessageType.PICK_FROM_BOARD, senderUsername);
