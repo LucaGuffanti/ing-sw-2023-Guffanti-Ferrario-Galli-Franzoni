@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.controller.stateController;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.view.UserInterface;
-import it.polimi.ingsw.client.controller.chat.ChatMessage;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.player.Player;
@@ -43,6 +43,9 @@ public class ClientState implements Cloneable {
 
     private String serverErrorMessage;
 
+    public void addToChatHistory(ChatMessage message){
+        chatHistory.add(message);
+    }
     public String getServerLastMessage() {
         return serverLastMessage;
     }

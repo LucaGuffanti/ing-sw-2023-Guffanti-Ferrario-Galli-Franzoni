@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.client.controller.ClientManager;
+import it.polimi.ingsw.client.controller.messageHandling.Reducer;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.network.messages.LoginRequestMessage;
@@ -27,9 +29,11 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
     protected List<Message> messageQueue;
     protected ClientManager manager;
     protected String name;
+    protected StateContainer stateContainer;
 
-    public ClientNetworkHandler() throws RemoteException {
+    public ClientNetworkHandler(StateContainer stateContainer) throws RemoteException {
         super();
+        this.stateContainer = stateContainer;
         messageQueue = new ArrayList<>();
         new MessageRetriever().start();
     }
@@ -39,6 +43,7 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
         * TODO REFACTOR WHEN THE CLIENT CONTROLLER IS READY
         */
 
+        // Old part
         if (received.getType().equals(MessageType.PING_REQUEST)) {
             System.out.println("Sending ping request to server");
             this.sendMessage(
@@ -56,6 +61,12 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
         } else {
             received.printMessage();
         }
+
+        // New part
+
+        // Reduce current state with message payload
+        stateContainer.dispatch(received);
+
     }
 
     /**

@@ -16,9 +16,6 @@ import java.util.Map;
 
 public class Cli extends UserInterface implements PropertyChangeListener {
 
-    // For testing, simulate the input buffer of the user
-    // @todo: no test written yet
-    private final String EXIT_CMD_STR = "/exit";
 
     private StateContainer stateContainer;
     private ClientNetworkHandler networkHandler;
@@ -38,6 +35,7 @@ public class Cli extends UserInterface implements PropertyChangeListener {
         this.stateContainer = stateContainer;
         this.networkHandler = networkHandler;
         this.commandPicker = new CommandPicker(this, System.in);
+        stateContainer.addPropertyChangeListener(this::propertyChange);
     }
 
     // For testing
@@ -45,6 +43,8 @@ public class Cli extends UserInterface implements PropertyChangeListener {
         this.stateContainer = stateContainer;
         this.networkHandler = networkHandler;
         this.commandPicker = new CommandPicker(this, inputStream);
+        stateContainer.addPropertyChangeListener(this::propertyChange);
+
     }
 
 
@@ -54,6 +54,10 @@ public class Cli extends UserInterface implements PropertyChangeListener {
      */
     @Override
     public void run() {
+
+        // Render default view, which should be LoginView when this command is invoked.
+        renderCurrentPhaseDefaultView();
+
         Thread commandPickerThread = new Thread(commandPicker);
         System.out.println("Starting the command receiver thread");
         commandPickerThread.start();
@@ -77,6 +81,9 @@ public class Cli extends UserInterface implements PropertyChangeListener {
             case "currentPhase":
                 CliView cliView = defaultViewsPerPhasesMap.get((ClientPhasesEnum) evt.getNewValue());
                 this.renderCliView(cliView);
+                break;
+            case "serverErrorMessage":
+                Printer.error((String) evt.getNewValue());
         }
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.network.ClientConnection;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 import it.polimi.ingsw.network.messages.ConnectionEstablishedMessage;
@@ -29,8 +30,8 @@ public class SocketClient extends ClientNetworkHandler {
     private SocketSender sender;
     private SocketReceiver receiver;
 
-    public SocketClient(String serverIP, int serverPort) throws RemoteException {
-        super();
+    public SocketClient(String serverIP, int serverPort, StateContainer stateContainer) throws RemoteException {
+        super(stateContainer);
         this.serverIP = serverIP;
         this.serverPort = serverPort;
         this.executorService = Executors.newSingleThreadExecutor();

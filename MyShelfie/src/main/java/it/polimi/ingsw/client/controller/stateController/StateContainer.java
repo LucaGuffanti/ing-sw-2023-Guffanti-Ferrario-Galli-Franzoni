@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.utils.PropsChangesNotifier;
 import it.polimi.ingsw.network.messages.Message;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 
@@ -45,6 +46,15 @@ public class StateContainer {
             e.printStackTrace();
         };
     }
+
+    /**
+     * Add listeners for ClientState updates
+     * @param listener
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
 
 
 }

@@ -18,8 +18,8 @@ import it.polimi.ingsw.network.messages.*;
  */
 public class LoginHandler extends Reducer implements Creator {
 
-    public static LoginRequestMessage createMessage(String username, String description){
-        return new LoginRequestMessage(username, description);
+    public static LoginRequestMessage createMessage(String username){
+        return new LoginRequestMessage(username);
 
     }
 
@@ -36,6 +36,8 @@ public class LoginHandler extends Reducer implements Creator {
 
         if(MessageHandlersUtils.isSuccessful(loginMessage)){
             state.setCurrentPhase(ClientPhasesEnum.LOBBY);
+        }else{
+            state.setServerErrorMessage(m.getDescription());
         }
 
         return state;

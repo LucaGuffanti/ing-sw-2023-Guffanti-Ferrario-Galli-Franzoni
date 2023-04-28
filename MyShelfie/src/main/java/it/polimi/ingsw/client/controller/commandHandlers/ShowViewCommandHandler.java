@@ -9,9 +9,7 @@ import it.polimi.ingsw.client.view.cli.cliviews.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * A showViewCommandHandler parses a /show command and performs the modification of the view.
@@ -35,7 +33,7 @@ public class ShowViewCommandHandler extends CliCommandHandler{
             "/show chat    : shows the chat";
 
     private final static HashMap<String, CliView> paramaterToAction = new HashMap<>();
-    private final static HashMap<String, List<ClientPhasesEnum>> availableStatus = new HashMap<>();
+    private final static HashMap<String, List<ClientPhasesEnum>> availablePhases = new HashMap<>();
 
     public ShowViewCommandHandler(Cli cli) {
         super(cli);
@@ -50,12 +48,12 @@ public class ShowViewCommandHandler extends CliCommandHandler{
         paramaterToAction.put("shelves", new MultipleShelvesView());
         paramaterToAction.put("chat", new ChatView());
 
-        availableStatus.put("board", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
-        availableStatus.put("pg", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
-        availableStatus.put("cg", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
-        availableStatus.put("shelf", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
-        availableStatus.put("shelves", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
-        availableStatus.put("chat", List.of(ClientPhasesEnum.LOBBY, ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("board", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("pg", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("cg", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("shelf", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("shelves", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("chat", List.of(ClientPhasesEnum.LOBBY, ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
 
     }
     @Override
@@ -66,7 +64,8 @@ public class ShowViewCommandHandler extends CliCommandHandler{
             throw new BadlyFormattedParametersException();
         }
 
-        if(!availableStatus.get(parameter).contains(getCli().getStateContainer().getCurrentState().getCurrentPhase())) {
+
+        if(!availablePhases.get(parameter).contains(getCli().getStateContainer().getCurrentState().getCurrentPhase())) {
             throw new CommandNotAvailableInThisPhaseException();
         }
 

@@ -1,9 +1,13 @@
-package it.polimi.ingsw.client.controller.chat;
+package it.polimi.ingsw.network.messages;
+
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.ChatHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
+import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ChatMessage {
+public class ChatMessage extends Message {
 
     private String value;
     private String senderName;
@@ -11,6 +15,7 @@ public class ChatMessage {
     private LocalDateTime sendingTime;
 
     public ChatMessage(String value, String senderName, LocalDateTime sendingTime) {
+        super(MessageType.CHAT_MESSAGE, senderName);
         this.value = value;
         this.senderName = senderName;
         this.sendingTime = sendingTime;
@@ -23,4 +28,8 @@ public class ChatMessage {
     }
 
 
+    @Override
+    public MessagesHandler getHandlerForClient() {
+        return new ChatHandler();
+    }
 }

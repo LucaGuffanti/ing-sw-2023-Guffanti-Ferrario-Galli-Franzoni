@@ -18,17 +18,30 @@ public class PropsChangesNotifier<T> {
 
         for (PropertyDescriptor propertyDesc : beanInfo.getPropertyDescriptors()) {
             String propertyName = propertyDesc.getName();
-            Object value1 = propertyDesc.getReadMethod().invoke(oldObj);
-            Object value2 = propertyDesc.getReadMethod().invoke(newObj);
 
-            if (!value1.equals(value2)) {
-                System.out.println("===============FIRING===============");
-                System.out.println("Differences on "+ propertyName+ ": "+value1.toString()+ " / " +value2.toString());
-                System.out.println("Firing property change on: " + propertyName);
-                support.firePropertyChange(propertyName, value1, value2);
-                System.out.println("====================================");
+            // Necessary try/ catch because ClientState is not a bean
+            // @todo: not the cleanest solution
+            try {
+                Object value1 = propertyDesc.getReadMethod().invoke(oldObj);
+                Object value2 = propertyDesc.getReadMethod().invoke(newObj);
 
-            }
+                if ((value1 == null && value2 != null) || (value1 != null && !value1.equals(value2))) {
+                    String value1Str = value1 == null ? "null" :  value1.toString();
+                    String value2Str = value1 == null ? "null" :  value2.toString();
+
+                    System.out.println("===============FIRING===============");
+                    System.out.println("Differences on "+ propertyName+ ": "+value1Str+ " / " +value2Str);
+                    System.out.println("Firing property change on: " + propertyName);
+                    System.out.println("====================================");
+                    support.firePropertyChange(propertyName, value1, value2);
+
+
+                }
+
+            }catch (Exception ex){}
+
+
+
 
         }
     }

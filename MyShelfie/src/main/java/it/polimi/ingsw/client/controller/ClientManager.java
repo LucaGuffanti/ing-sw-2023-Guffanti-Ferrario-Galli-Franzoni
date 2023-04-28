@@ -27,14 +27,14 @@ public class ClientManager {
         ClientState initialState = new ClientState();
         initialState.setCurrentPhase(ClientPhasesEnum.LOGIN);
         stateContainer = new StateContainer(initialState);
-        networkHandler = new SocketClient(serverIp, serverPort);
+        networkHandler = new SocketClient(serverIp, serverPort, stateContainer);
         userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
     }
 
     public ClientManager(UIModesEnum uiMode, String serverIp, String serviceName, int serverPort) throws RemoteException {
         ClientState initialState = new ClientState();
         stateContainer = new StateContainer(initialState);
-        networkHandler = new RMIClient(serverIp, serviceName, serverPort);
+        networkHandler = new RMIClient(serverIp, serviceName, serverPort, stateContainer);
         userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
     }
 

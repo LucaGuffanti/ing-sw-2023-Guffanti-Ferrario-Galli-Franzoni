@@ -6,6 +6,6 @@ public class LobbyView implements CliView {
 
     @Override
     public void render(ClientState state) {
-        return;
+        System.out.println("------\n\nLOBBY VIEW PLACEHOLDER\n\n-----");
     }
 }
