@@ -10,13 +10,13 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  */
 public class PingRequestMessage extends Message{
     private final String recipient;
-    public PingRequestMessage(MessageType type, String senderUsername, String recipient) {
-        super(type, senderUsername);
+    public PingRequestMessage(String senderUsername, String recipient) {
+        super(MessageType.PING_REQUEST, senderUsername);
         this.recipient = recipient;
     }
 
-    public PingRequestMessage(MessageType type, String senderUsername, String description, String recipient) {
-        super(type, senderUsername, description);
+    public PingRequestMessage(String senderUsername, String description, String recipient) {
+        super(MessageType.PING_REQUEST, senderUsername, description);
         this.recipient = recipient;
     }
 
