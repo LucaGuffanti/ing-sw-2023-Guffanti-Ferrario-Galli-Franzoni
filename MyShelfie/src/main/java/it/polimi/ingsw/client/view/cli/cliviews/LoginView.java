@@ -6,5 +6,6 @@ import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 public class LoginView implements CliView {
     @Override
     public void render(ClientState state) {
-        return;
-    }}
+        System.out.println("------\n\nLOGIN VIEW PLACEHOLDER\n\n-----");
+    }
+}

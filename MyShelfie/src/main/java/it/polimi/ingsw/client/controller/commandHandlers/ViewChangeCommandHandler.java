@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.commandHandlers;
+package it.polimi.ingsw.client.controller.commandHandlers;
 
 
 /**

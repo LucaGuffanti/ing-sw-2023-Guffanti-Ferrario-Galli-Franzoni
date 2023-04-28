@@ -1,6 +1,8 @@
-package it.polimi.ingsw.client.view.cli.commandHandlers;
+package it.polimi.ingsw.client.controller.commandHandlers;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
+import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
+import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
@@ -29,12 +31,12 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
 
     @Override
-    public void execute(String commandInput, ClientState state) {
+    public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
 
         List<String> parameters = Arrays.asList(commandInput.split(" "));
 
         if(!checkParameters(parameters)){
-            // Throw exception
+            throw new BadlyFormattedParametersException();
         }
 
         // Remove command label
@@ -46,7 +48,7 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
         PickFromBoardMessage msg = PickFromBoardHandler.createMessage(state.getUsername(), coordinates);
 
-        super.getCli().handleCommandResponse(msg);
+        super.getCli().dispatchMessageToNetwork(msg);
     }
 
     @Override

@@ -5,13 +5,12 @@ package it.polimi.ingsw.client.controller;
  * @author Daniele Ferrario
  */
 public enum ClientPhasesEnum {
-    DISCONNECTED,
-    CONNECTED,
+    LOGIN,
     LOBBY,
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,
     SELECT_COLUMN,
-    FINAL_RESULTS_SHOW,
+    FINAL_RESULTS_SHOW, CONNECTED,
 
 
 

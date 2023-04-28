@@ -1,14 +1,10 @@
-package it.polimi.ingsw.client.view.cli.commandHandlers;
+package it.polimi.ingsw.client.controller.commandHandlers;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.client.view.cli.cliviews.HelpView;
-import it.polimi.ingsw.network.messages.PickFromBoardMessage;
-import it.polimi.ingsw.server.model.cells.Coordinates;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +17,7 @@ public class HelpCommandHandler extends CliCommandHandler{
     ));
 
 
-    public final static String commandLabel = "/help";
+    public final static String commandLabel = "/show help";
     public final static String commandDescription = "Get every details about the available commands";
 
 
@@ -33,7 +29,7 @@ public class HelpCommandHandler extends CliCommandHandler{
     @Override
     public void execute(String commandInput, ClientState state) {
 
-        super.getCli().handleCommandResponse(new HelpView());
+        super.getCli().renderCliView(new HelpView());
     }
 
     @Override
