@@ -3,18 +3,15 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.rmi.RMIServer;
-import it.polimi.ingsw.network.socket.SocketClientConnection;
 import it.polimi.ingsw.network.socket.SocketServer;
 import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 import it.polimi.ingsw.network.utils.ServerConfigurationData;
-import it.polimi.ingsw.network.utils.exceptions.NotYetImplementedException;
 import it.polimi.ingsw.server.controller.GameController;
 import jdk.jfr.Label;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,6 +36,7 @@ public class ServerNetworkHandler {
     private final HashMap<String, ClientConnection> nickToConnectionMap;
     private final HashSet<String> allReconnectedUsers;
     private final Object clientStauts = new Object();
+    private Pinger pinger;
 
     private GameController controller = null;
     private final Object controllerLock = new Object();
@@ -63,6 +61,7 @@ public class ServerNetworkHandler {
         this.socketPort = data.getSocketPort();
         this.RMIServiceName = data.getRMIRegistryServiceName();
         this.RMIPort = data.getRmiPort();
+        this.pinger = new Pinger(this);
 
         this.nickToConnectionMap = new HashMap<>();
         this.allReconnectedUsers = new HashSet<>();
@@ -90,14 +89,23 @@ public class ServerNetworkHandler {
         } catch (IOException e) {
             Logger.networkCritical("Could not open the socket on port " + socketPort);
         }
+        Logger.networkInfo("Starting pinger");
+        pinger.start();
     }
 
     @Label("DEBUG")
     private Message currentMessage;
     public void sendToPlayer(String recipient, Message message) {
+        HashMap<String, ClientConnection> ntcCopy;
+        synchronized (nickToConnectionMap) {
+            ntcCopy = new HashMap<>(nickToConnectionMap);
+        }
+
         currentMessage = message;
         Logger.networkInfo("sent a " + message.getType() + " private message to "+ recipient);
-        getClientConnectionFromName(recipient).sendMessage(message);
+        synchronized (ntcCopy.get(recipient)) {
+            ntcCopy.get(recipient).sendMessage(message);
+        }
     }
 
     public void broadcastToAllButSender(String sender, Message message) {
@@ -111,7 +119,9 @@ public class ServerNetworkHandler {
         Logger.networkInfo("broadcast a " + message.getType() + " message to all but " + sender);
         for (String nick : ntcCopy.keySet()) {
             if (!nick.equals(sender) && ntcCopy.get(sender).isConnected()) {
-                ntcCopy.get(nick).sendMessage(message);
+                synchronized (ntcCopy.get(nick)) {
+                    ntcCopy.get(nick).sendMessage(message);
+                }
             }
         }
     }
@@ -127,7 +137,9 @@ public class ServerNetworkHandler {
 
         for (String nick : ntcCopy.keySet()) {
             if (ntcCopy.get(nick).isConnected()) {
-                ntcCopy.get(nick).sendMessage(message);
+                synchronized (ntcCopy.get(nick)) {
+                    ntcCopy.get(nick).sendMessage(message);
+                }
             }
         }
 
@@ -185,14 +197,6 @@ public class ServerNetworkHandler {
             }
         return new LoginResult(logged, reconnecting);
     }
-    public ClientConnection getClientConnectionFromName(String nick) {
-        ClientConnection conn;
-        synchronized (nickToConnectionMap) {
-            conn = nickToConnectionMap.get(nick);
-        }
-        return conn;
-    }
-
     public void onDisconnection(ClientConnection connection) {
         Logger.networkWarning("Disconnecting client");
         HashMap<String, ClientConnection> temp;
@@ -278,11 +282,22 @@ public class ServerNetworkHandler {
                     controller.onGameMessageReceived(s);
                 }
             }
+            case PING_REQUEST -> {
+                pinger.addMessage(m);
+            }
             // TODO MANAGE PING MESSAGES
             // TODO IMPLEMENT MANAGING CHAT MESSAGES
             default -> {
                 Logger.networkCritical(m.getType()+" management is not yet implemented.");
             }
         }
+    }
+
+    public HashMap<String, ClientConnection> getNickToConnectionMap() {
+        HashMap<String, ClientConnection> temp;
+        synchronized (nickToConnectionMap) {
+            temp = new HashMap<>(nickToConnectionMap);
+        }
+        return temp;
     }
 }

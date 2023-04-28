@@ -44,4 +44,7 @@ public class Logger {
         System.out.println(ANSI_PURPLE+BOLD+"EXTERNAL: "+msg+ANSI_RESET);
     }
 
+    public static void pingerInfo(String msg) {
+        System.out.println(ANSI_YELLOW+BOLD+"PINGER: "+msg+ANSI_RESET);
+    }
 }
