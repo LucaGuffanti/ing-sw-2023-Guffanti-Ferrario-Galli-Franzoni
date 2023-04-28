@@ -19,7 +19,6 @@ import java.util.Set;
 public abstract class CliCommandHandler {
 
     private Cli cli;
-
     /**
      * This class describes the handlers for the available commands for the cli.
      * They will check the syntax and the current ClientStatus for the command
@@ -56,5 +55,7 @@ public abstract class CliCommandHandler {
     public Cli getCli() {
         return cli;
     }
+
+    public abstract String getCommandDescription();
 
 }

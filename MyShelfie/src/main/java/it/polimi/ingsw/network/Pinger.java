@@ -65,7 +65,7 @@ public class Pinger extends Thread {
                 }
             } else {
                 try {
-                    Logger.pingerInfo("no ");
+                    Logger.pingerInfo("no players connected");
                     TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
