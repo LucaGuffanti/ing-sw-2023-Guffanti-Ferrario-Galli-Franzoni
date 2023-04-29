@@ -39,34 +39,18 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
     }
 
     public void handleIncomingMessage(Message received) {
-        /*
-        * TODO REFACTOR WHEN THE CLIENT CONTROLLER IS READY
-        */
-
-        // Old part
+        // It's useless to make the ping message exit the client network handler
         if (received.getType().equals(MessageType.PING_REQUEST)) {
-            System.out.println("Sending ping request to server");
+            //System.out.println("Sending ping request to server");
             this.sendMessage(
                     new PingRequestMessage(
                             name,
                             ServerNetworkHandler.HOSTNAME
                     )
             );
-        } else if (received.getType().equals(MessageType.LOGIN_RESPONSE)){
-            LoginResponseMessage lrm = (LoginResponseMessage) received;
-            if (lrm.getResultType().equals(ResponseResultType.SUCCESS)) {
-                setName(lrm.getRecipient());
-                System.out.println("Set the name for me!");
-            }
-        } else {
-            received.printMessage();
         }
-
-        // New part
-
         // Reduce current state with message payload
         stateContainer.dispatch(received);
-
     }
 
     /**

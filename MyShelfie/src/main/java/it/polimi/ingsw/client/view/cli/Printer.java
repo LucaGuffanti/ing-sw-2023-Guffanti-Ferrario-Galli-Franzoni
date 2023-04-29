@@ -92,8 +92,24 @@ public class Printer {
     public static final String LIGHT_BROWN_BACKGROUND_BRIGHT = "\033[48;5;137m";
     public static final String DARK_BROWN_BACKGROUND_BRIGHT = "\033[48;5;94m";
 
+    // MY SHELFIE
+    public static final String nameOfGameART = " " + "                                                                                                                                                    \n" +
+            "                                               @P!?@#                                       .^#:@                   \n" +
+            " 7&&@@@7      P@@@@#                          &@P ~B&#&   &?JJ!                   :PG5    !B&####G7                 \n" +
+            "  !P&@#.      ^&@@#:                         5@@~ :P&@@&   ^G&@#7                    G@5 :G@P:G:@@@5                \n" +
+            "   5&&&~      J@&@P                          5&@P   &#@     ~B&G.                    G&Y P@G  @##&@#                \n" +
+            "   5#&@&.    ~&@&@5         .^!.    !!!~^     B@@B^         ~B&G.                    P&Y B@?   B##B^                \n" +
+            "   5#&P&G   .#&G#@5     ^P#&&@G.   :G@@P^      #@@@B7       ~B&G.  .                 P&Y P@?                        \n" +
+            "   Y#&^Y&J  P@7J#@5      .^5&@B.  :P@&J         Y#&@@&Y.    ~B&#PG##BPJ:             P&J Y&B       &@#              \n" +
+            "   YB&~ P&~?&5 Y#@5         7B@#^^G@&7             G&&&&5.  ~G&&@&GP#&&B:   .!JYY7:  5&J :G@?     !GP     ~?YY?^    \n" +
+            "   JB&7 .G&&G. 5B&Y          ~P&&#&#~               :P&&&B. ~G&&P:   P&&~ :5B?:..!#  5&J 5B&&#GBJ 7?J~  ?BY^  ^GB.  \n" +
+            "   JG&J  !#&~  PB&Y           !5&&G:        :7?7^     G&&#J ~G&#.    J##::P&B   ~P&5 &?.  !&&^    B&&! ##J    J&5   \n" +
+            "   JG&Y .P##5  PB&J  ^JPGBP:  7G&P.        YB###BP:   ?&#BP ~P&G.    Y#5 7##?!!!!!7~ J#?    5&P   5#B: #5!!!!!77    \n" +
+            "   ?P&P   ... .PB&J 7P#B##&? !G&J.        .####GPPY  .G##P? ~P#P    .P#7 ?B#^      Y J#?    Y#B.  5#B: #J           \n" +
+            "  .JG##^      7PB&5 !Y#B5555G##7           ?###PPP?7YB#B5?. !P#P.   !P#5 :G#P^    ## ?B7   .5#B.  5BB: #B!.    &5   \n" +
+            " :Y5GGGG^    7PGGGG5 !YBBBB#BP~             :7YPGGBBBGY?~  :PGGGJ  ^GGGG? .?PGGGGP  @5G5   JPPP!  5PP~ ~5GGGBGP?.   \n";
 
-
+    // GAME OBJECTS RELATED STUFF
     public static final Map<ObjectTypeEnum, String> objectTypeToRender = new HashMap<>();
     public static final Map<String, ObjectTypeEnum[][]> personalIdToRender = new HashMap<>();
     public static final Map<String, String> commonIdToRender = new HashMap<>();
@@ -459,6 +475,10 @@ public class Printer {
         System.out.print("\n");
     }
 
+    public static void printName() {
+        System.out.println(nameOfGameART);
+    }
+
     @Label("DEBUG")
     public static void main(String[] args) throws Exception {
         String s = "src/test/resources/shelfTEST/endGameShelfCheck_full.csv";
@@ -481,6 +501,6 @@ public class Printer {
             System.out.println("ID: "+i.toString());
             printCommonGoalCard(i.toString());
         }
+        printName();
     }
-
 }

@@ -35,6 +35,8 @@ public class LoginHandler extends Reducer implements Creator {
         }
 
         if(MessageHandlersUtils.isSuccessful(loginMessage)){
+            //update the name of the client with the username if the login is successful
+            state.setUsername(loginMessage.getRecipient());
             state.setCurrentPhase(ClientPhasesEnum.NOT_JOINED);
         }else{
             state.setServerErrorMessage(m.getDescription());

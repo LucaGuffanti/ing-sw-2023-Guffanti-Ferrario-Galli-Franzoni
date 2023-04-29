@@ -33,8 +33,9 @@ public class ClientManager {
 
     public ClientManager(UIModesEnum uiMode, String serverIp, String serviceName, int serverPort) throws RemoteException {
         ClientState initialState = new ClientState();
+        initialState.setCurrentPhase(ClientPhasesEnum.LOGIN);
         stateContainer = new StateContainer(initialState);
-        networkHandler = new RMIClient(serverIp, serviceName, serverPort, stateContainer);
+        networkHandler = new RMIClient(serviceName, serverIp , serverPort, stateContainer);
         userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
     }
 

@@ -175,7 +175,6 @@ public class ServerNetworkHandler {
         synchronized (nickToConnectionMap) {
                 if (!nickToConnectionMap.containsKey(name)) {
                     nickToConnectionMap.put(name, connection);
-
                     Logger.networkInfo(name+ " logged in");
                     logged = true;
                 } else {
