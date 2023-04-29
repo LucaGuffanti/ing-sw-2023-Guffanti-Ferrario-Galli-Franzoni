@@ -17,4 +17,12 @@ public class SimplifiedCommonGoalCard implements Serializable {
         this.id = id;
         this.pointCards = pointCards;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public ArrayList<PointCard> getPointCards() {
+        return pointCards;
+    }
 }

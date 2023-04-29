@@ -4,10 +4,13 @@ import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Sack;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
+import it.polimi.ingsw.server.model.cards.PointCard;
+import it.polimi.ingsw.server.model.cards.PointEnumeration;
+import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
 import jdk.jfr.Label;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,6 +95,17 @@ public class Printer {
     public static final String LIGHT_BROWN_BACKGROUND_BRIGHT = "\033[48;5;137m";
     public static final String DARK_BROWN_BACKGROUND_BRIGHT = "\033[48;5;94m";
 
+    public static final String GREETING = """
+            Hello, dear Player, Welcome to our awesome game!
+            
+            Feel free to have a look around: try commands (there's not much in the terminal).
+            If you need help, simply write "/help" and you'll get all the information you need!
+            When you are ready, write:
+                  
+                  /login USERNAME
+            
+            with USERNAME being the name you want. You'll know if your name is ok... Have fun!""";
+
     // MY SHELFIE
     public static final String nameOfGameART = " " + "                                                                                                                                                    \n" +
             "                                               @P!?@#                                       .^#:@                   \n" +
@@ -113,218 +127,232 @@ public class Printer {
     public static final Map<ObjectTypeEnum, String> objectTypeToRender = new HashMap<>();
     public static final Map<String, ObjectTypeEnum[][]> personalIdToRender = new HashMap<>();
     public static final Map<String, String> commonIdToRender = new HashMap<>();
+    public static final Map<Integer, String> pointCardToRender = new HashMap<>();
 
     public static final Map<String, String> jsonCardIdToResourceCardId = new HashMap<>();
 
     public static final String cg1 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             ┌─────┬─────┐             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             │  =  │  =  │             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             ├─────┼─────┤             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             │  =  │  =  │             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             └─────┴─────┘             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                  x2                   "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             ┌─────┬─────┐             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             │  =  │  =  │             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             ├─────┼─────┤             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             │  =  │  =  │             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             └─────┴─────┘             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                  x2                   "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
 
     public static final String cg2 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ┌─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │     x2          "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┘                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ┌─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │     x2          "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┘                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg3 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌ ─ ─ ─ ─ ─ ─ ─ ─ ┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ┌─────┐     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |  x4       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     └─────┘     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └ ─ ─ ─ ─ ─ ─ ─ ─ ┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌ ─ ─ ─ ─ ─ ─ ─ ─ ┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ┌─────┐     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |  x4       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     └─────┘     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └ ─ ─ ─ ─ ─ ─ ─ ─ ┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg4 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           ┌ ─ ─ ─ ─ ─ ─ ─ ─ ┐         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     ┌─────┐     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     │  =  │     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     ├─────┤     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     │  =  │     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     └─────┘     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           └ ─ ─ ─ ─ ─ ─ ─ ─ ┘         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                    x6                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           ┌ ─ ─ ─ ─ ─ ─ ─ ─ ┐         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     ┌─────┐     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     │  =  │     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     ├─────┤     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     │  =  │     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     └─────┘     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           └ ─ ─ ─ ─ ─ ─ ─ ─ ┘         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                    x6                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg5 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ┌─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │   MAX  3≠       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤     x3          "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┘                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ┌─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │   MAX  3≠       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤     x3          "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┘                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg6 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┬─────┬─────┬─────┬─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  ≠  │  ≠  │  ≠  │  ≠  │  ≠  │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                  x2                   "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┬─────┬─────┬─────┬─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  ≠  │  ≠  │  ≠  │  ≠  │  ≠  │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                  x2                   "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg7 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┬─────┬─────┬─────┬─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │     │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               MAX  3≠                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                 x4                    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┬─────┬─────┬─────┬─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │     │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               MAX  3≠                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                 x4                    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg8 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐── ── ────── ── ──┌─────┐    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                  │  =  │    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┘                  └─────┘    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                  ┌─────┐    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                  │  =  │    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┘── ── ────── ── ──└─────┘    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐── ── ────── ── ──┌─────┐    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                  │  =  │    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┘                  └─────┘    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                  ┌─────┐    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                  │  =  │    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┘── ── ────── ── ──└─────┘    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg9 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┐     ┌─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┘     └─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    ┌─────┐    ┌─────┐    ┌─────┐      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    │  =  │    │  =  │    │  =  │      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    └─────┘    └─────┘    └─────┘      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    ┌─────┐    ┌─────┐    ┌─────┐      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    │  =  │    │  =  │    │  =  │      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    └─────┘    └─────┘    └─────┘      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┐     ┌─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┘     └─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    ┌─────┐    ┌─────┐    ┌─────┐      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    │  =  │    │  =  │    │  =  │      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    └─────┘    └─────┘    └─────┘      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    ┌─────┐    ┌─────┐    ┌─────┐      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    │  =  │    │  =  │    │  =  │      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    └─────┘    └─────┘    └─────┘      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg10 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┐     ┌─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┼─────┼─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  =  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┼─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┘     └─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┐     ┌─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┼─────┼─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  =  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┼─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┘     └─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
 
     public static final String cg11 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┼─────┐                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┼─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  =  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                     └─────┼─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                           │  =  │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                           └─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┼─────┐                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┼─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  =  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                     └─────┼─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                           │  =  │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                           └─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
     public static final String cg12 = "" +
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┐                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┼─────┼─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │     │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
-            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┐                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   C     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O G   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M O   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   M A   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   O L   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┼─────┼─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   N     "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │     │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
 
-
-
-
+    private static final String pc4 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  2  │ │  4  │ │  6  │ │  8  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ └─────┘ └─────┘ └─────┘ "+RESET+"\n";
+    private static final String pc3 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ ┌─────┐ ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  2  │ │  4  │ │  6  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ └─────┘ └─────┘ "+RESET+"\n";
+    private static final String pc2 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  2  │ │  4  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ └─────┘ "+RESET+"\n";
+    private static final String pc1 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  2  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ "+RESET+"\n";
 
 
     static {
@@ -377,12 +405,24 @@ public class Printer {
         commonIdToRender.put("10", cg10);
         commonIdToRender.put("11", cg11);
         commonIdToRender.put("12", cg12);
+
+        pointCardToRender.put(1, pc1);
+        pointCardToRender.put(2, pc2);
+        pointCardToRender.put(3, pc3);
+        pointCardToRender.put(4, pc4);
     }
 
     public static void log(String s) {
         System.out.println(s);
     }
 
+    public static void title(String s) {
+        System.out.println(PURPLE_BOLD_BRIGHT+s+RESET);
+    }
+
+    public static void subtitle(String s) {
+        System.out.println(YELLOW_BOLD+s+RESET);
+    }
     public static void error(String s) {
         System.out.println(RED_BOLD+s+RESET);
     }
@@ -475,6 +515,15 @@ public class Printer {
         System.out.print("\n");
     }
 
+    public static void printGoalCardPoints(ArrayList<PointCard> pointCards) {
+        System.out.println(pointCardToRender.get(pointCards.size()));
+    }
+    public static void printSimplifiedCommonGoal(SimplifiedCommonGoalCard simpl) {
+        printCommonGoalCard(simpl.getId());
+        title("REMAINING POINTS");
+        printGoalCardPoints(simpl.getPointCards());
+    }
+
     public static void printName() {
         System.out.println(nameOfGameART);
     }
@@ -502,5 +551,19 @@ public class Printer {
             printCommonGoalCard(i.toString());
         }
         printName();
+        ArrayList<PointCard> points = new ArrayList<>();
+        points.add(new PointCard(PointEnumeration.TWO_POINTS, 2));
+        points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
+        points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
+        points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+        printGoalCardPoints(points);
+        SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points);
+        printSimplifiedCommonGoal(simpl);
+
+        printGreeting();
+    }
+
+    public static void printGreeting() {
+        System.out.println(CYAN+GREETING+RESET);
     }
 }

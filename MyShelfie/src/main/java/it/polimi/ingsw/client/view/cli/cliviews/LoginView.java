@@ -8,5 +8,6 @@ public class LoginView implements CliView {
     @Override
     public void render(ClientState state) {
         Printer.printName();
+        Printer.printGreeting();
     }
 }
