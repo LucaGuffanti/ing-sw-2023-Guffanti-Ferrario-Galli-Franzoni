@@ -83,9 +83,9 @@ public class Printer {
     // HIGH INTENSITY BACKGROUNDS
     public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";
     public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";
-    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";
+    public static final String GREEN_BACKGROUND_BRIGHT = "\033[48;5;118m";
     public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";
-    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";
+    public static final String BLUE_BACKGROUND_BRIGHT = "\033[48;5;25m";
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m";
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";
@@ -97,6 +97,217 @@ public class Printer {
     public static final Map<ObjectTypeEnum, String> objectTypeToRender = new HashMap<>();
     public static final Map<String, ObjectTypeEnum[][]> personalIdToRender = new HashMap<>();
     public static final Map<String, String> commonIdToRender = new HashMap<>();
+
+    public static final Map<String, String> jsonCardIdToResourceCardId = new HashMap<>();
+
+    public static final String cg1 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             ┌─────┬─────┐             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             │  =  │  =  │             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             ├─────┼─────┤             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             │  =  │  =  │             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"             └─────┴─────┘             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                  x2                   "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+
+    public static final String cg2 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ┌─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │     x2          "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  ≠  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┘                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg3 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌ ─ ─ ─ ─ ─ ─ ─ ─ ┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ┌─────┐     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |  x4       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     ├─────┤     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     │  =  │     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         |     └─────┘     |           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └ ─ ─ ─ ─ ─ ─ ─ ─ ┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg4 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           ┌ ─ ─ ─ ─ ─ ─ ─ ─ ┐         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     ┌─────┐     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     │  =  │     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     ├─────┤     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     │  =  │     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           |     └─────┘     |         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"           └ ─ ─ ─ ─ ─ ─ ─ ─ ┘         "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                    x6                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg5 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ┌─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │   MAX  3≠       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤     x3          "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               ├─────┤                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┘                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg6 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┬─────┬─────┬─────┬─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  ≠  │  ≠  │  ≠  │  ≠  │  ≠  │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                  x2                   "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg7 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┬─────┬─────┬─────┬─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │     │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               MAX  3≠                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                 x4                    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg8 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐── ── ────── ── ──┌─────┐    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                  │  =  │    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┘                  └─────┘    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   |                              |    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                  ┌─────┐    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                  │  =  │    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┘── ── ────── ── ──└─────┘    "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg9 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┐     ┌─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┘     └─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    ┌─────┐    ┌─────┐    ┌─────┐      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    │  =  │    │  =  │    │  =  │      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    └─────┘    └─────┘    └─────┘      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    ┌─────┐    ┌─────┐    ┌─────┐      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    │  =  │    │  =  │    │  =  │      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"    └─────┘    └─────┘    └─────┘      "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg10 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┐     ┌─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┼─────┼─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  =  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         ┌─────┼─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┘     └─────┘           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+
+    public static final String cg11 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │  =  │                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┼─────┐                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         │  =  │                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"         └─────┼─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               │  =  │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"               └─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                     │  =  │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                     └─────┼─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                           │  =  │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                           └─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+    public static final String cg12 = "" +
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ┌─────┐                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │                             "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┐                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+" COMMON "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┐                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"   **   "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │                 "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"  GOAL  "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┼─────┐           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │           "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   ├─────┼─────┼─────┼─────┼─────┐     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   │     │     │     │     │     │     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"   └─────┴─────┴─────┴─────┴─────┘     "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n"+
+            WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"        "+RESET+"\n";
+
+
+
 
 
 
@@ -125,6 +336,31 @@ public class Printer {
             throw new RuntimeException(e);
         }
 
+        jsonCardIdToResourceCardId.put("0", "4");
+        jsonCardIdToResourceCardId.put("1", "11");
+        jsonCardIdToResourceCardId.put("2", "8");
+        jsonCardIdToResourceCardId.put("3", "7");
+        jsonCardIdToResourceCardId.put("4", "3");
+        jsonCardIdToResourceCardId.put("5", "2");
+        jsonCardIdToResourceCardId.put("6", "1");
+        jsonCardIdToResourceCardId.put("7", "6");
+        jsonCardIdToResourceCardId.put("8", "5");
+        jsonCardIdToResourceCardId.put("9", "10");
+        jsonCardIdToResourceCardId.put("10", "9");
+        jsonCardIdToResourceCardId.put("11", "12");
+
+        commonIdToRender.put("1", cg1);
+        commonIdToRender.put("2", cg2);
+        commonIdToRender.put("3", cg3);
+        commonIdToRender.put("4", cg4);
+        commonIdToRender.put("5", cg5);
+        commonIdToRender.put("6", cg6);
+        commonIdToRender.put("7", cg7);
+        commonIdToRender.put("8", cg8);
+        commonIdToRender.put("9", cg9);
+        commonIdToRender.put("10", cg10);
+        commonIdToRender.put("11", cg11);
+        commonIdToRender.put("12", cg12);
     }
 
     public static void log(String s) {
@@ -196,30 +432,30 @@ public class Printer {
         }
         System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+"   "+RESET);
         System.out.print("\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"COORDINATE SYSTEM:       "+RESET+"\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"y      With y increasing "+RESET+"\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"║      going through the "+RESET+"\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"╚══x   rows              "+RESET+"\n");
+        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"COORDINATE SYSTEM:          "+RESET+"\n");
+        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"╔══x      With y increasing "+RESET+"\n");
+        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"║y        going through the "+RESET+"\n");
+        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"          rows              "+RESET+"\n");
     }
     public static void printCommonGoalCard(String id) {
-
+        System.out.println(commonIdToRender.get(jsonCardIdToResourceCardId.get(id)));
     }
 
     public static void printPersonalGoalCard(String id) {
         printShelf(personalIdToRender.get(id));
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+" x 1 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+" x 1 "+RESET);
         for (int x = 2; x < 7; x++) {
-            System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+"  "+x+" "+RESET);
+            System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"  "+x+" "+RESET);
         }
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+" "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+" "+RESET);
         System.out.print("\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+" * 1 "+RESET);
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+"  2 "+RESET);
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+"  4 "+RESET);
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+"  6 "+RESET);
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+"  9 "+RESET);
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+" 12 "+RESET);
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+WHITE_BOLD_BRIGHT+" "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+" * 1 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"  2 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"  4 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"  6 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"  9 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+" 12 "+RESET);
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+" "+RESET);
         System.out.print("\n");
     }
 
@@ -235,7 +471,16 @@ public class Printer {
         Sack sack = new Sack();
         Board b = new Board(4, sack);
         Printer.printBoard(GameObjectConverter.simplifyBoardIntoMatrix(b));
-        printPersonalGoalCard("1");
+
+        for (Integer i = 1; i <= 12; i++) {
+            System.out.println("ID: "+i.toString());
+            printPersonalGoalCard(i.toString());
+        }
+
+        for (Integer i = 0; i < 12; i++) {
+            System.out.println("ID: "+i.toString());
+            printCommonGoalCard(i.toString());
+        }
     }
 
 }
