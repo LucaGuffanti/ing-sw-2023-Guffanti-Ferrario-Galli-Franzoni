@@ -6,6 +6,7 @@ package it.polimi.ingsw.client.controller;
  */
 public enum ClientPhasesEnum {
     LOGIN,
+    NOT_JOINED,
     LOBBY,
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,

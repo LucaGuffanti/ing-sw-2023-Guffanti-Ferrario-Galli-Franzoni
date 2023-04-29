@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
@@ -32,8 +33,9 @@ public class JoinGameHandler extends Reducer implements Creator {
             throw new RuntimeException(e);
         }
 
-
+        // Join the lobby
         if(MessageHandlersUtils.isSuccessful(accessResultMessage)){
+            state.setCurrentPhase(ClientPhasesEnum.LOBBY);
             state.setOrderedPlayersNames(accessResultMessage.getPlayersUsernames());
         }else{
             state.setServerErrorMessage(accessResultMessage.getDescription());

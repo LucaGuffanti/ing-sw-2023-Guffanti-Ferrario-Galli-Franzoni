@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.controller.commandHandlers.CliCommandHandler;
-import it.polimi.ingsw.client.controller.commandHandlers.LoginCommandHandler;
-import it.polimi.ingsw.client.controller.commandHandlers.PickFromBoardCommandHandler;
-import it.polimi.ingsw.client.controller.commandHandlers.ShowViewCommandHandler;
+import it.polimi.ingsw.client.controller.commandHandlers.*;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
 import it.polimi.ingsw.client.controller.exceptions.CliCommandException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
@@ -85,9 +82,9 @@ public class CommandPicker implements Runnable{
     // @todo: use Map.of
     private void loadCommandMap() {
         inputCommandMap.put(LoginCommandHandler.commandLabel, new LoginCommandHandler(cli));
+        inputCommandMap.put(JoinGameCommandHandler.commandLabel, new JoinGameCommandHandler(cli));
         inputCommandMap.put(PickFromBoardCommandHandler.commandLabel, new PickFromBoardCommandHandler(cli));
         inputCommandMap.put(ShowViewCommandHandler.commandLabel, new ShowViewCommandHandler(cli));
-
         // TODO put here all the commands
     }
 }

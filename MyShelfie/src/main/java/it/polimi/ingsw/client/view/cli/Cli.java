@@ -84,6 +84,10 @@ public class Cli extends UserInterface implements PropertyChangeListener {
                 break;
             case "serverErrorMessage":
                 Printer.error((String) evt.getNewValue());
+                break;
+            case "serverLastMessage":
+                Printer.log((String) evt.getNewValue());
+
         }
     }
 

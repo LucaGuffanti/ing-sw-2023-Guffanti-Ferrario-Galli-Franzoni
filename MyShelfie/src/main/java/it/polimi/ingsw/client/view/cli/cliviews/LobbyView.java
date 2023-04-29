@@ -6,6 +6,12 @@ public class LobbyView implements CliView {
 
     @Override
     public void render(ClientState state) {
-        System.out.println("------\n\nLOBBY VIEW PLACEHOLDER\n\n-----");
+        System.out.println("------LOBBY VIEW PLACEHOLDER----");
+        for (String username: state.getOrderedPlayersNames()
+             ) {
+            System.out.println(username);
+        }
+        System.out.println("--------------------------------");
+
     }
 }

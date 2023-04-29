@@ -35,7 +35,7 @@ public class LoginHandler extends Reducer implements Creator {
         }
 
         if(MessageHandlersUtils.isSuccessful(loginMessage)){
-            state.setCurrentPhase(ClientPhasesEnum.LOBBY);
+            state.setCurrentPhase(ClientPhasesEnum.NOT_JOINED);
         }else{
             state.setServerErrorMessage(m.getDescription());
         }
