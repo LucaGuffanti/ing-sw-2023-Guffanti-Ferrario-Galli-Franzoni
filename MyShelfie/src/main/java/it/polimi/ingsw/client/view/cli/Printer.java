@@ -95,6 +95,8 @@ public class Printer {
     public static final String LIGHT_BROWN_BACKGROUND_BRIGHT = "\033[48;5;137m";
     public static final String DARK_BROWN_BACKGROUND_BRIGHT = "\033[48;5;94m";
 
+    public static final String PLAYER_NAME_COLOR = "\033[38;5;228m";
+
     public static final String GREETING = """
             Hello, dear Player, Welcome to our awesome game!
             
@@ -528,6 +530,9 @@ public class Printer {
         System.out.println(nameOfGameART);
     }
 
+    public static void printPlayerName(String username) {
+        System.out.println(PLAYER_NAME_COLOR+username+RESET);
+    }
     @Label("DEBUG")
     public static void main(String[] args) throws Exception {
         String s = "src/test/resources/shelfTEST/endGameShelfCheck_full.csv";
