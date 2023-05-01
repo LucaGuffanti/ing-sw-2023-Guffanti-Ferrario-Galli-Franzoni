@@ -19,8 +19,8 @@ public class LoginCommandHandler extends CliCommandHandler{
 
 
     public final static String commandLabel = "/login";
-    public final static String commandDescription = "Login to a game.\n\n" +
-            "Usage: /login username";
+    public final static String commandDescription = "Login into a game.\n\n" +
+            "Usage: /login USERNAME";
 
 
     public LoginCommandHandler(Cli cli) {

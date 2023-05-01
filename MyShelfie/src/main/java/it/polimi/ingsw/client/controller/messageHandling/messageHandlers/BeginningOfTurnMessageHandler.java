@@ -35,11 +35,17 @@ public class BeginningOfTurnMessageHandler extends Reducer {
 
         // Refresh the active player.
         state.setActivePlayer(beginningOfTurnMessage.getActiveUser());
-
+        if (beginningOfTurnMessage.getActiveUser().equals(state.getUsername())) {
+            System.out.println("I'm the active player");
+        } else {
+            System.out.println(beginningOfTurnMessage.getActiveUser()+" is the active player");
+        }
         // Check if the active user is the client itself.
         if(state.getActivePlayer().equals(state.getUsername())){
                 state.setCurrentPhase(ClientPhasesEnum.PICK_FORM_BOARD);
         }
+
+
 
         return state;
     }

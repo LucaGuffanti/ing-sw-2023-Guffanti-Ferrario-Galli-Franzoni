@@ -41,7 +41,7 @@ public class LoginMessageHandler extends Reducer implements Creator {
         }else{
             state.setServerErrorMessage(m.getDescription());
         }
-
+        state.setServerLastMessage(loginMessage.getDescription());
         return state;
     }
 

@@ -1,9 +1,13 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.NewPlayerMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles the reception of the message relative to the joining
@@ -34,9 +38,11 @@ public class NewPlayerJoinedMessageHandler extends Reducer  {
 
 
         // Add the new player to the current ones
-        state.addPlayerName(newPlayerMessage.getJoinedPlayer());
 
+        List<String> temp = new ArrayList<>(state.getOrderedPlayersNames());
+        temp.add(newPlayerMessage.getJoinedPlayer());
 
+        state.setOrderedPlayersNames(temp);
         return state;
     }
 

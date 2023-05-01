@@ -2,13 +2,12 @@ package it.polimi.ingsw.client.view.cli.cliviews;
 
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.CLIMessages;
+import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.client.view.cli.Printer;
-import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 
-public class LoginView implements CliView {
+public class NotJoinedView implements CliView {
     @Override
     public void render(ClientState state) {
-        Printer.printName();
-        Printer.printInfo(CLIMessages.GREETING);
+        Printer.printInfo(CLIMessages.NOT_JOINED);
     }
 }

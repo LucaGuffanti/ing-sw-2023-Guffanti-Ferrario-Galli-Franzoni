@@ -97,16 +97,7 @@ public class Printer {
 
     public static final String PLAYER_NAME_COLOR = "\033[38;5;228m";
 
-    public static final String GREETING = """
-            Hello, dear Player, Welcome to our awesome game!
-            
-            Feel free to have a look around: try commands (there's not much in the terminal).
-            If you need help, simply write "/help" and you'll get all the information you need!
-            When you are ready, write:
-                  
-                  /login USERNAME
-            
-            with USERNAME being the name you want. You'll know if your name is ok... Have fun!""";
+
 
     // MY SHELFIE
     public static final String nameOfGameART = " " + "                                                                                                                                                    \n" +
@@ -564,11 +555,14 @@ public class Printer {
         printGoalCardPoints(points);
         SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points);
         printSimplifiedCommonGoal(simpl);
-
-        printGreeting();
+        printInfo(CLIMessages.NOT_JOINED);
     }
 
-    public static void printGreeting() {
-        System.out.println(CYAN+GREETING+RESET);
+    public static void printInfo(String s) {
+        System.out.println(CYAN+s+RESET);
+    }
+
+    public static void printImportantInfo(String s) {
+        System.out.println(CYAN_BOLD+s+RESET);
     }
 }

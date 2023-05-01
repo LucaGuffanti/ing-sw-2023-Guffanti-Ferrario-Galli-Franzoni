@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 
 /**
  * Handles the reception of the message representing
@@ -26,6 +27,7 @@ public class EndOfTurnMessageHandler extends Reducer {
         }
 
 
+        System.out.println("THE TURN ENDED");
 
         state.setBoard(
                 endOfTurnMessage.getCurrentBoard()
@@ -47,6 +49,7 @@ public class EndOfTurnMessageHandler extends Reducer {
                 endOfTurnMessage.isCompletedSecondCommonGoal()
         );
 
+        state.setServerLastMessage(endOfTurnMessage.getDescription());
 
 
         return state;

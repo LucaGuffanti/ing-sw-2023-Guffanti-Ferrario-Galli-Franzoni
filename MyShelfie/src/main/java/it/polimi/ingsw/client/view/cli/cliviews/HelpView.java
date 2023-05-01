@@ -7,6 +7,5 @@ public class HelpView implements CliView {
     @Override
     public void render(ClientState state) {
         System.out.println("HELP VIEW PLACEHOLDER");
-        return;
     }
 }

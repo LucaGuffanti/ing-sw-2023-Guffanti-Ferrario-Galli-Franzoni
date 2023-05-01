@@ -24,6 +24,7 @@ public class Cli extends UserInterface implements PropertyChangeListener {
 
     private final Map<ClientPhasesEnum, CliView> defaultViewsPerPhasesMap = Map.of(
         ClientPhasesEnum.LOGIN, new LoginView(),
+        ClientPhasesEnum.NOT_JOINED, new NotJoinedView(),
         ClientPhasesEnum.LOBBY, new LobbyView(),
         ClientPhasesEnum.WAITING_FOR_TURN, new BoardView(),
         ClientPhasesEnum.PICK_FORM_BOARD, new PickFromBoardView(),
@@ -80,14 +81,23 @@ public class Cli extends UserInterface implements PropertyChangeListener {
             // When currentPhase is changed, always render the default view for the new currentPhase
             case "currentPhase":
                 CliView cliView = defaultViewsPerPhasesMap.get((ClientPhasesEnum) evt.getNewValue());
-                this.renderCliView(cliView);
+                // this is done to prevent the double printing of the list of players that would otherwise
+                // be experienced by the player who creates the game
+                if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
+                    this.renderCliView(cliView);
+                }
                 break;
             case "serverErrorMessage":
                 Printer.error((String) evt.getNewValue());
                 break;
             case "serverLastMessage":
                 Printer.log((String) evt.getNewValue());
-
+                break;
+            case "orderedPlayersNames":
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
+                    renderCurrentPhaseDefaultView();
+                }
+                break;
         }
     }
 

@@ -8,6 +8,7 @@ public class PickFromBoardView implements CliView {
 
     @Override
     public void render(ClientState state) {
+        Printer.title("NEW TURN: "+state.getActivePlayer());
         Printer.title("PICK FROM BOARD PHASE");
         Printer.subtitle("Game Board:");
         Printer.printBoard(state.getBoard());

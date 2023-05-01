@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class PickFromBoardCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
@@ -41,8 +42,14 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
 
         List<Coordinates> coordinates = new ArrayList<Coordinates>();
+
         coordinates.add(new Coordinates(parameters.get(1), parameters.get(2)));
-        coordinates.add(new Coordinates(parameters.get(3), parameters.get(4)));
+        if (parameters.size() >= 5) {
+            coordinates.add(new Coordinates(parameters.get(3), parameters.get(4)));
+            if (parameters.size() == 7) {
+                coordinates.add(new Coordinates(parameters.get(5), parameters.get(6)));
+            }
+        }
 
         PickFromBoardMessage msg = PickFromBoardMessageHandler.createMessage(state.getUsername(), coordinates);
 
@@ -51,8 +58,15 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
-
-        //@Todo: implementation
+        ArrayList<String> temp = new ArrayList<>(parameters);
+        temp.remove(0);
+        if (!(temp.size() == 2 || temp.size() == 4 || temp.size() == 6))
+            return false;
+        for(String param : temp) {
+            if(!param.matches("[0-8]")) {
+                return false;
+            }
+        }
         return true;
     }
 

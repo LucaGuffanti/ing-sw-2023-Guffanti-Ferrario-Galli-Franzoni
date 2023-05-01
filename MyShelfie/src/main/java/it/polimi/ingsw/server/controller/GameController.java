@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
@@ -115,9 +116,10 @@ public class GameController {
 
         String responseDescription;
         ResponseResultType resultType;
-        ArrayList<String> players = new ArrayList<>(game.getPlayers().stream().map(Player::getNickname).toList());
+        ArrayList<String> players;
         try {
             game.addPlayer(new Player(nickname));
+            players = new ArrayList<>(game.getPlayers().stream().map(Player::getNickname).toList());
             Logger.controllerInfo(nickname+ " joined the game ("+game.getPlayers().size()+"/"+game.getGameInfo().getNPlayers()+")");
             responseDescription = ResponsesDescriptions.JOIN_SUCCESS;
             resultType = ResponseResultType.SUCCESS;
@@ -176,7 +178,6 @@ public class GameController {
      * @param gameId the id of the game assigned by the system
      */
     public synchronized void createGame(String adminName, int selectedPlayers, int gameId) {
-        // TODO ADD CHECK FOR WHEN A GAME IS STARTED AND A CREATE GAME IS REQUESTED
         try {
             game = new Game(new Player(adminName), selectedPlayers, gameId, this);
         } catch (Exception e){
@@ -258,7 +259,7 @@ public class GameController {
     public synchronized void beginTurn() {
         activePlayerIndex = (activePlayerIndex+1)%orderedPlayersNicks.size();
 
-        Logger.controllerInfo("New turn: " + orderedPlayersNicks.get(activePlayerIndex));
+        Logger.controllerInfo("New turn: " + orderedPlayersNicks.get(activePlayerIndex) + " with player index " + activePlayerIndex);
         serverNetworkHandler.broadcastToAll(
                 new BeginningOfTurnMessage(
                         ServerNetworkHandler.HOSTNAME,
@@ -291,8 +292,19 @@ public class GameController {
      */
     public synchronized void endTurn() {
 
-        Logger.controllerInfo("the current turn ended");
+        Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
 
+        Logger.controllerInfo("the current turn ended");
+        for (Player p : game.getPlayers()) {
+            Printer.printPlayerName(p.getNickname()+"'s shelf");
+            Printer.printShelf(GameObjectConverter.simplifyShelfIntoMatrix(p.getShelf()));
+        }
+        Printer.printPlayerName("Board");
+        Printer.printBoard(GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()));
+
+
+        Printer.printPlayerName("Current player's Shelf");
+        Printer.printShelf(GameObjectConverter.simplifyShelfIntoMatrix(currentPlayer.getShelf()));
         String messageDescription = "";
 
         chosenCoords = null;
@@ -317,7 +329,7 @@ public class GameController {
             Logger.controllerInfo("the player completed the second common goal");
             messageDescription += ResponsesDescriptions.END_OF_TURN_CG2_COMPLETED + "\n";
         }
-        Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
+//        Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
         ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game
                 .getGameInfo()
                 .getSelectedCommonGoals()

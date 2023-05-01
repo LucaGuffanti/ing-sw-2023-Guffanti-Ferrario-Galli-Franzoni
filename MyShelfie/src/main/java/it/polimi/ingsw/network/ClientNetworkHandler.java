@@ -5,10 +5,8 @@ import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
-import it.polimi.ingsw.network.messages.LoginRequestMessage;
-import it.polimi.ingsw.network.messages.LoginResponseMessage;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.PingRequestMessage;
+import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.rmi.RMIClient;
@@ -48,9 +46,14 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
                             ServerNetworkHandler.HOSTNAME
                     )
             );
+        } else {
+            // Reduce current state with message payload
+            // if (received instanceof EndOfTurnMessage) {
+            //     Printer.printShelf(((EndOfTurnMessage) received).getActivePlayerShelf());
+            //     Printer.printBoard(((EndOfTurnMessage) received).getCurrentBoard());
+            // }
+            stateContainer.dispatch(received);
         }
-        // Reduce current state with message payload
-        stateContainer.dispatch(received);
     }
 
     /**

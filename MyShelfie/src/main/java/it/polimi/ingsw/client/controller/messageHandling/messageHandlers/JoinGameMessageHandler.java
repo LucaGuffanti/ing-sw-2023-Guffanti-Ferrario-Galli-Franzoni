@@ -40,7 +40,6 @@ public class JoinGameMessageHandler extends Reducer implements Creator {
         }else{
             state.setServerErrorMessage(accessResultMessage.getDescription());
         }
-
         return state;
     }
 
