@@ -18,6 +18,7 @@ import jdk.jfr.Label;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The main game class. <br>
@@ -390,6 +391,10 @@ public class Game {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public List<Shelf> getPlayersShelves(){
+        return players.stream().map(Player::getShelf).collect(Collectors.toList());
     }
 
     /**

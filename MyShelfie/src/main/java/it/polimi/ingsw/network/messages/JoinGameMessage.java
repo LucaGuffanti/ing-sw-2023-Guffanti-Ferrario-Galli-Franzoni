@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
@@ -27,7 +27,7 @@ public class JoinGameMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new JoinGameHandler();
+        return new JoinGameMessageHandler();
     }
     public String getUserToAccess() {
         return userToAccess;

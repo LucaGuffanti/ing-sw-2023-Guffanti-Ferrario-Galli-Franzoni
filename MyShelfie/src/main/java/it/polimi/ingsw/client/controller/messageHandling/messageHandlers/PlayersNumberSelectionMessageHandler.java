@@ -13,7 +13,7 @@ import it.polimi.ingsw.network.messages.*;
  * @see NumberOfPlayersSelectionMessage // Response from the Client
  * @author Daniele Ferrario
  */
-public class PlayerNumberHandler extends Reducer implements Creator {
+public class PlayersNumberSelectionMessageHandler extends Reducer implements Creator {
 
 
     public static NumberOfPlayersSelectionMessage createMessage(String username, int numOfPlayers){

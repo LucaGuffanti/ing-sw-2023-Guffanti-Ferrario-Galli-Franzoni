@@ -3,15 +3,11 @@ package it.polimi.ingsw.client.controller.commandHandlers;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameHandler;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameMessageHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.network.messages.JoinGameMessage;
-import it.polimi.ingsw.network.messages.PickFromBoardMessage;
-import it.polimi.ingsw.server.model.cells.Coordinates;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -38,13 +34,15 @@ public class JoinGameCommandHandler extends CliCommandHandler{
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
 
-        List<String> parameters = Arrays.asList(commandInput.split(" "));
+        List<String> parameters = super.splitAndTrimInput(commandInput);
 
         if(!checkParameters(parameters)){
             throw new BadlyFormattedParametersException();
         }
-
-        JoinGameMessage msg = JoinGameHandler.createMessage(state.getUsername());
+        if(!super.checkAvailability(availablePhases, state)){
+            throw new CommandNotAvailableInThisPhaseException();
+        }
+        JoinGameMessage msg = JoinGameMessageHandler.createMessage(state.getUsername());
 
         super.getCli().dispatchMessageToNetwork(msg);
     }

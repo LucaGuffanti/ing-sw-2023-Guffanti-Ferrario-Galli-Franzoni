@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.GameStartHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.GameStartMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This message is broadcast to every player and contains information regarding the various game
@@ -18,6 +19,7 @@ public class GameStartMessage extends Message{
 
     private final ObjectTypeEnum[][] clientBoard;
 
+    private final List<ObjectTypeEnum[][]> shelves;
 
     /**
      * The id of the personal goal in position <i>i</i> is the id of the
@@ -29,11 +31,13 @@ public class GameStartMessage extends Message{
 
     public GameStartMessage(String senderUsername,
                             ObjectTypeEnum[][] board,
+                            List<ObjectTypeEnum[][]> shelves,
                             ArrayList<String> clientPersonalGoals,
                             ArrayList<String> orderedPlayers,
                             ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards) {
         super(MessageType.GAME_START, senderUsername);
         this.clientBoard = board;
+        this.shelves = shelves;
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
@@ -42,11 +46,13 @@ public class GameStartMessage extends Message{
     public GameStartMessage(String senderUsername,
                             String description,
                             ObjectTypeEnum[][] board,
+                            List<ObjectTypeEnum[][]> shelves,
                             ArrayList<String> clientPersonalGoals,
                             ArrayList<String> orderedPlayers,
                             ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards) {
         super(MessageType.GAME_START, senderUsername, description);
         this.clientBoard = board;
+        this.shelves = shelves;
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
@@ -54,11 +60,15 @@ public class GameStartMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new GameStartHandler();
+        return new GameStartMessageHandler();
     }
 
     public ObjectTypeEnum[][] getClientBoard() {
         return clientBoard;
+    }
+
+    public List<ObjectTypeEnum[][]> getShelves() {
+        return shelves;
     }
 
     public ArrayList<String> getClientPersonalGoals() {

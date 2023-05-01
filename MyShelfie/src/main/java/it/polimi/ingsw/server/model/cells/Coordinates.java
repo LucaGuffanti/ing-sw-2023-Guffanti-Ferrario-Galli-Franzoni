@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model.cells;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     protected int x;
     protected int y;
 

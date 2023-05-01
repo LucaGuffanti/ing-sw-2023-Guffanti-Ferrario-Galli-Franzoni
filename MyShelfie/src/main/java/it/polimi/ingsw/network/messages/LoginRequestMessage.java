@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.LoginHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.LoginMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
@@ -21,6 +21,6 @@ public class LoginRequestMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new LoginHandler();
+        return new LoginMessageHandler();
     }
 }

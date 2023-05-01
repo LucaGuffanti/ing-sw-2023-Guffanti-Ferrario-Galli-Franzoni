@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PingHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PingMessageHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
@@ -22,6 +22,6 @@ public class PingRequestMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new PingHandler();
+        return new PingMessageHandler();
     }
 }

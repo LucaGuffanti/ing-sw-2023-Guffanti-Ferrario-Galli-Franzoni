@@ -15,7 +15,7 @@ import it.polimi.ingsw.network.messages.*;
  * @see AccessResultMessage // From server to client
  * @author Daniele Ferrario
  */
-public class JoinGameHandler extends Reducer implements Creator {
+public class JoinGameMessageHandler extends Reducer implements Creator {
 
     public static JoinGameMessage createMessage(String username){
         return new JoinGameMessage(username, username);

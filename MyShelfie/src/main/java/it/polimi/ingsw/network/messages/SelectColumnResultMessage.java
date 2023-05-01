@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.SelectColumnHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.SelectColumnMessageHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 
@@ -35,6 +35,6 @@ public class SelectColumnResultMessage extends Message implements MessageWithRes
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new SelectColumnHandler();
+        return new SelectColumnMessageHandler();
     }
 }

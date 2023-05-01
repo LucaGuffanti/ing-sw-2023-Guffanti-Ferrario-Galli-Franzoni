@@ -1,12 +1,9 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
-import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
-
-import java.util.ArrayList;
 
 /**
  * Handles the reception of the message representing
@@ -15,7 +12,7 @@ import java.util.ArrayList;
  * @see EndOfTurnMessage
  * @author Daniele Ferrario
  */
-public class EndOfTurnHandler extends Reducer {
+public class EndOfTurnMessageHandler extends Reducer {
 
     @Override
     protected ClientState executeReduce(ClientState oldClientState, Message m){

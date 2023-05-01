@@ -35,7 +35,7 @@ public class ClientState implements Cloneable {
     private ObjectTypeEnum[][] board;
 
     // Ordered players' shelfs
-    private List<ObjectTypeEnum[][]> shelfs;
+    private List<ObjectTypeEnum[][]> shelves;
 
     private String personalGoalCardId;
 
@@ -151,17 +151,17 @@ public class ClientState implements Cloneable {
         this.board = board;
     }
 
-    public List<ObjectTypeEnum[][]> getShelfs() {
-        return shelfs;
+    public List<ObjectTypeEnum[][]> getShelves() {
+        return shelves;
     }
 
-    public void setShelfs(List<ObjectTypeEnum[][]> shelfs) {
-        this.shelfs = shelfs;
+    public void setShelves(List<ObjectTypeEnum[][]> shelves) {
+        this.shelves = shelves;
     }
 
     public void setActivePlayerShelf(ObjectTypeEnum[][] shelf){
         int activePlayerIndex = orderedPlayersNames.indexOf(activePlayer);
-        this.shelfs.set(activePlayerIndex, shelf);
+        this.shelves.set(activePlayerIndex, shelf);
     }
 
     public String getPersonalGoalCardId() {

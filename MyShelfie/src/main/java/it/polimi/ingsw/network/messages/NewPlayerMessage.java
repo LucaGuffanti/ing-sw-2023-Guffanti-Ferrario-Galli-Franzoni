@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.NewPlayerJoinedHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.NewPlayerJoinedMessageHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
@@ -24,7 +24,7 @@ public class NewPlayerMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new NewPlayerJoinedHandler();
+        return new NewPlayerJoinedMessageHandler();
     }
 
     public String getJoinedPlayer() {

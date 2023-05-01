@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PlayerNumberHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PlayersNumberSelectionMessageHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
@@ -24,7 +24,7 @@ public class NumberOfPlayersSelectionMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new PlayerNumberHandler();
+        return new PlayersNumberSelectionMessageHandler();
     }
 
     public int getNumOfPlayers() {

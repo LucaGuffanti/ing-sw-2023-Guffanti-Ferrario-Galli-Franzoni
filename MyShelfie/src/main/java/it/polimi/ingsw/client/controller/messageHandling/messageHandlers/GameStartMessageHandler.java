@@ -1,11 +1,8 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
-import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.network.messages.BeginningOfTurnMessage;
-import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.GameStartMessage;
 import it.polimi.ingsw.network.messages.Message;
 
@@ -16,7 +13,7 @@ import it.polimi.ingsw.network.messages.Message;
  * @see GameStartMessage
  * @author Daniele Ferrario
  */
-public class GameStartHandler extends Reducer {
+public class GameStartMessageHandler extends Reducer {
 
 
     /**
@@ -47,7 +44,7 @@ public class GameStartHandler extends Reducer {
         state.setPersonalGoalCardId(gameStartMessage.getClientPersonalGoals().get(userPosition));
         state.setCommonGoalCards(gameStartMessage.getClientCommonGoalCards());
         state.setBoard(gameStartMessage.getClientBoard());
-
+        state.setShelves(gameStartMessage.getShelves());
         state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_TURN);
 
         return state;

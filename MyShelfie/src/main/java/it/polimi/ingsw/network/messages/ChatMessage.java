@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.ChatHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.ChatMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
@@ -30,6 +30,6 @@ public class ChatMessage extends Message {
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new ChatHandler();
+        return new ChatMessageHandler();
     }
 }

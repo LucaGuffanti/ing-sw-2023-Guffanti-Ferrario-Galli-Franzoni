@@ -17,7 +17,7 @@ import it.polimi.ingsw.network.messages.SelectColumnResultMessage;
  * @see SelectColumnResultMessage
  * @author Daniele Ferrario
  */
-public class SelectColumnHandler extends Reducer implements Creator {
+public class SelectColumnMessageHandler extends Reducer implements Creator {
 
 
     public static SelectColumnMessage createMessage(String username, int columnIndex){

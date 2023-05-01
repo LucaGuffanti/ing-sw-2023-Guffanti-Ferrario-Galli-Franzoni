@@ -10,6 +10,9 @@ import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.utils.Constants;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * This class implements methods that help converting complex objects into their simplified description.
  * Methods perform the subsequent operations
@@ -66,6 +69,15 @@ public class GameObjectConverter {
             }
         }
         return simplifiedShelf;
+    }
+
+    /**
+     * This method simplifies the list of shelves objects into a list of ObjectTypeEnum[][] matrixes
+     * @param shelves the list of shelves to be converted into a matrix
+     * @return the matrix representation of the shelf
+     */
+    public static List<ObjectTypeEnum[][]> simplifyShelvesIntoMatrix(List<Shelf> shelves) {
+        return shelves.stream().map(GameObjectConverter::simplifyShelfIntoMatrix).collect(Collectors.toList());
     }
 
     public static String simplifyPersonalGoalIntoString(PersonalGoalCard goal) {

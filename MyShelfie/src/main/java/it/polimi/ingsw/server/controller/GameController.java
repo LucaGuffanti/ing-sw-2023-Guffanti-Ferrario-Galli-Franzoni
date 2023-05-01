@@ -19,6 +19,7 @@ import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * The GameController is the controller of the game: it keeps an instance of the game, interacting with it when messages are received
@@ -184,13 +185,15 @@ public class GameController {
         gameStatus = GameStatusEnum.ACCEPTING_PLAYERS;
         // the player also automatically joins the game at its creation, so the client is notified.
         Logger.controllerInfo(adminName+ " created a new game for "+ selectedPlayers + " players (1/"+game.getGameInfo().getNPlayers()+")");
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add(adminName);
         serverNetworkHandler.sendToPlayer(
                 adminName,
                 new AccessResultMessage(
                         ServerNetworkHandler.HOSTNAME,
                         ResponsesDescriptions.JOIN_SUCCESS,
                         ResponseResultType.SUCCESS,
-                        new ArrayList<>(), // the list is empty as there isn't any other player in the game
+                        tmp, // the list is empty as there isn't any other player in the game
                         adminName
                 )
         );
@@ -235,6 +238,7 @@ public class GameController {
                     ServerNetworkHandler.HOSTNAME,
                     ResponsesDescriptions.GAME_STARTED,
                     GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()),
+                    GameObjectConverter.simplifyShelvesIntoMatrix(game.getPlayersShelves()),
                     personalGoals,
                     orderedPlayersNicks,
                     simplifiedCommonGoalCards

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.BeginningOfTurnHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.BeginningOfTurnMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
@@ -24,7 +24,7 @@ public class BeginningOfTurnMessage extends Message {
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new BeginningOfTurnHandler();
+        return new BeginningOfTurnMessageHandler();
     }
 
     public String getActiveUser() {

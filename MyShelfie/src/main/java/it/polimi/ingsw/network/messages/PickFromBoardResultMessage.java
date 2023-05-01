@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardMessageHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 
@@ -35,6 +35,6 @@ public class PickFromBoardResultMessage extends Message implements MessageWithRe
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new PickFromBoardHandler();
+        return new PickFromBoardMessageHandler();
     }
 }

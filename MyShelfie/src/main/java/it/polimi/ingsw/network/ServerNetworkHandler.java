@@ -232,6 +232,7 @@ public class ServerNetworkHandler {
                        sendToPlayer(m.getSenderUsername(),
                                new PickNumberOfPlayersMessage(
                                        ServerNetworkHandler.HOSTNAME,
+                                       "Insert the number of user for this game through the specific command.",
                                        m.getSenderUsername()
                                )
                        );

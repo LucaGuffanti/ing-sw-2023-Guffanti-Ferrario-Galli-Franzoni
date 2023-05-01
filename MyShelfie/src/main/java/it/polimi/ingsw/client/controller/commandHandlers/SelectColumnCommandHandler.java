@@ -3,27 +3,28 @@ package it.polimi.ingsw.client.controller.commandHandlers;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.LoginMessageHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardMessageHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
-import it.polimi.ingsw.network.messages.LoginRequestMessage;
+import it.polimi.ingsw.network.messages.PickFromBoardMessage;
+import it.polimi.ingsw.network.messages.SelectColumnMessage;
+import it.polimi.ingsw.network.messages.SelectColumnResultMessage;
+import it.polimi.ingsw.server.model.cells.Coordinates;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
-public class LoginCommandHandler extends CliCommandHandler{
+public class SelectColumnCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
-            ClientPhasesEnum.LOGIN
+            ClientPhasesEnum.SELECT_COLUMN
     ));
 
 
-    public final static String commandLabel = "/login";
-    public final static String commandDescription = "Login to a game.\n\n" +
-            "Usage: /login username";
+    public final static String commandLabel = "/sc";
+    public final static String commandDescription = "Select shelf's column command\n\n" +
+            "Usage: "+commandLabel+" x where x is the number of the column. 0 <= x <= 4";
 
 
-    public LoginCommandHandler(Cli cli) {
+    public SelectColumnCommandHandler(Cli cli) {
         super(cli);
     }
 
@@ -39,16 +40,25 @@ public class LoginCommandHandler extends CliCommandHandler{
         if(!super.checkAvailability(availablePhases, state)){
             throw new CommandNotAvailableInThisPhaseException();
         }
-        LoginRequestMessage msg = LoginMessageHandler.createMessage(parameters.get(1));
+
+        SelectColumnMessage msg = new SelectColumnMessage(state.getUsername(), Integer.parseInt(parameters.get(1)));
 
         super.getCli().dispatchMessageToNetwork(msg);
     }
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
+        if(parameters.size() != 2)
+            return false;
 
-        return parameters.size() == 2;
+        try {
 
+            Integer.parseInt(parameters.get(1));
+            // value is an Integer
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
     public static String getCommandLabel() {

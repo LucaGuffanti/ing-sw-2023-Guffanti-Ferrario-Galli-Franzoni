@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.ConnectionHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
@@ -18,8 +17,9 @@ public class ConnectionEstablishedMessage extends Message {
         super(MessageType.CONNECTION_ESTABLISHED, senderUsername, description);
     }
 
+    // This message is handled directly by the ClientNetworkManager
     @Override
     public MessagesHandler getHandlerForClient() {
-        return  new ConnectionHandler();
+        return null;
     }
 }

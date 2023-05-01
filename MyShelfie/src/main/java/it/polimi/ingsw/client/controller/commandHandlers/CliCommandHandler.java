@@ -1,12 +1,16 @@
 package it.polimi.ingsw.client.controller.commandHandlers;
 
+import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -56,6 +60,14 @@ public abstract class CliCommandHandler {
         return cli;
     }
 
+    protected boolean checkAvailability(HashSet<ClientPhasesEnum> availablePhases, ClientState state){
+        return availablePhases.contains(state.getCurrentPhase());
+    }
+
     public abstract String getCommandDescription();
 
+    // Trim starting and ending spaces, and return substrings
+    public List<String> splitAndTrimInput(String input){
+        return Stream.of(input.trim().split(" ")).collect(Collectors.toList());
+    }
 }

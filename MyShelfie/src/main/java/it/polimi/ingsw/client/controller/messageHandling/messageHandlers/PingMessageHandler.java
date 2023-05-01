@@ -12,7 +12,7 @@ import it.polimi.ingsw.network.messages.*;
  * @see PingRequestMessage // Request from server to client
  * @author Daniele Ferrario
  */
-public class PingHandler extends Reducer implements Creator {
+public class PingMessageHandler extends Reducer implements Creator {
 
 
     public static PingRequestMessage createMessage(String username){

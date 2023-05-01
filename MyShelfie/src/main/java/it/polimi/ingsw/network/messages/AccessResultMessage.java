@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameHandler;
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.JoinGameMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
@@ -35,7 +35,7 @@ public class AccessResultMessage extends Message implements MessageWithResult{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new JoinGameHandler();
+        return new JoinGameMessageHandler();
     }
     public ResponseResultType getResultType() {
         return resultType;

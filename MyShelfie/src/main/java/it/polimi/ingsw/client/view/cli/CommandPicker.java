@@ -2,15 +2,11 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.controller.commandHandlers.*;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
-import it.polimi.ingsw.client.controller.exceptions.CliCommandException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
-import it.polimi.ingsw.client.controller.exceptions.NoCommandFoundException;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -83,8 +79,10 @@ public class CommandPicker implements Runnable{
     private void loadCommandMap() {
         inputCommandMap.put(LoginCommandHandler.commandLabel, new LoginCommandHandler(cli));
         inputCommandMap.put(JoinGameCommandHandler.commandLabel, new JoinGameCommandHandler(cli));
+        inputCommandMap.put(PlayersNumberCommandHandler.commandLabel, new PlayersNumberCommandHandler(cli));
         inputCommandMap.put(PickFromBoardCommandHandler.commandLabel, new PickFromBoardCommandHandler(cli));
         inputCommandMap.put(ShowViewCommandHandler.commandLabel, new ShowViewCommandHandler(cli));
+        inputCommandMap.put(SelectColumnCommandHandler.commandLabel, new SelectColumnCommandHandler(cli));
         // TODO put here all the commands
     }
 }

@@ -27,7 +27,7 @@ public class PropsChangesNotifier<T> {
 
                 if ((value1 == null && value2 != null) || (value1 != null && !value1.equals(value2))) {
                     String value1Str = value1 == null ? "null" :  value1.toString();
-                    String value2Str = value1 == null ? "null" :  value2.toString();
+                    String value2Str = value2 == null ? "null" :  value2.toString();
 
                     System.out.println("===============FIRING===============");
                     System.out.println("Differences on "+ propertyName+ ": "+value1Str+ " / " +value2Str);

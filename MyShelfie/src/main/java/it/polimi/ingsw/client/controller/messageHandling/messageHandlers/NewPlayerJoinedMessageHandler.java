@@ -1,13 +1,9 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
-import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.network.messages.LoginResponseMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.NewPlayerMessage;
-
-import java.util.List;
 
 /**
  * Handles the reception of the message relative to the joining
@@ -16,7 +12,7 @@ import java.util.List;
  * @see NewPlayerMessage
  * @author Daniele Ferrario
  */
-public class NewPlayerJoinedHandler extends Reducer  {
+public class NewPlayerJoinedMessageHandler extends Reducer  {
 
 
     /**

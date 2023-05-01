@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @see it.polimi.ingsw.network.messages.ChatMessage
  * @author Daniele Ferrario
  */
-public class ChatMessagesHandler extends Reducer implements Creator {
+public class ChatMessageHandler extends Reducer implements Creator {
 
     @Override
     protected ClientState executeReduce(ClientState oldClientState, Message m){

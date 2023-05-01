@@ -18,7 +18,7 @@ import java.util.List;
  * @see PickFromBoardResultMessage // From server to client
  * @author Daniele Ferrario
  */
-public class PickFromBoardHandler extends Reducer implements Creator {
+public class PickFromBoardMessageHandler extends Reducer implements Creator {
 
 
     public static PickFromBoardMessage createMessage(String username, List<Coordinates> cardsCoordinates){

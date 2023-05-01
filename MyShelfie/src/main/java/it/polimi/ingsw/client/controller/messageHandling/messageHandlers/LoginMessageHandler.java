@@ -16,7 +16,7 @@ import it.polimi.ingsw.network.messages.*;
  * @see LoginResponseMessage // From server to client
  * @author Daniele Ferrario
  */
-public class LoginHandler extends Reducer implements Creator {
+public class LoginMessageHandler extends Reducer implements Creator {
 
     public static LoginRequestMessage createMessage(String username){
         return new LoginRequestMessage(username);
