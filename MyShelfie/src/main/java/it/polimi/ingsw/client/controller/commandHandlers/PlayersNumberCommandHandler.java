@@ -20,7 +20,7 @@ public class PlayersNumberCommandHandler extends CliCommandHandler{
 
     public final static String commandLabel = "/n";
     public final static String commandDescription = "Select the number of players for the new game when user is admin.\n\n" +
-            "Usage: "+commandLabel+" x    with 2 <= x <=4";
+            "Usage: "+commandLabel+" x    with 2 <= x <= 4";
 
 
     public PlayersNumberCommandHandler(Cli cli) {

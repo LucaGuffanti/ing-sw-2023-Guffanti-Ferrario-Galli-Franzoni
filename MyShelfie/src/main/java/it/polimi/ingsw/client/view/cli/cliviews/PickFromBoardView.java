@@ -8,14 +8,14 @@ public class PickFromBoardView implements CliView {
 
     @Override
     public void render(ClientState state) {
-        Printer.title("NEW TURN: "+state.getActivePlayer());
+        Printer.printPlayerName("Your Turn, "+state.getActivePlayer());
         Printer.title("PICK FROM BOARD PHASE");
-        Printer.subtitle("Game Board:");
+        Printer.subtitle("Pick the cards from the board by selecting the coordinates");
         Printer.printBoard(state.getBoard());
-        Printer.subtitle("Common Goals:");
-        for (SimplifiedCommonGoalCard s : state.getCommonGoalCards()) {
-            Printer.printCommonGoalCard(s.getId());
-            Printer.printGoalCardPoints(s.getPointCards());
+        Printer.title("ALL THE SHELVES");
+        for (int i = 0; i < state.getShelves().size(); i++) {
+            Printer.subtitle(state.getOrderedPlayersNames().get(i)+"'s Shelf");
+            Printer.printShelf(state.getShelves().get(i));
         }
 
     }

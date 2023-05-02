@@ -29,10 +29,10 @@ public class PropsChangesNotifier<T> {
                     String value1Str = value1 == null ? "null" :  value1.toString();
                     String value2Str = value2 == null ? "null" :  value2.toString();
 
-                    System.out.println("===============FIRING===============");
-                    System.out.println("Differences on "+ propertyName+ ": "+value1Str+ " / " +value2Str);
-                    System.out.println("Firing property change on: " + propertyName);
-                    System.out.println("====================================");
+                    // System.out.println("===============FIRING===============");
+                    // System.out.println("Differences on "+ propertyName+ ": "+value1Str+ " / " +value2Str);
+                    // System.out.println("Firing property change on: " + propertyName);
+                    // System.out.println("====================================");
                     support.firePropertyChange(propertyName, value1, value2);
 
 

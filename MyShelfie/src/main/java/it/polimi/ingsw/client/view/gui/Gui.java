@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -51,13 +52,13 @@ public class Gui extends Application implements UserInterface {
         });
 
         // LAYOUT AND SCENES
-        StackPane layoutMainMenu = new StackPane();
+        HBox layoutMainMenu = new HBox();
         layoutMainMenu.getChildren().addAll(labelMainMenu, buttonStart, buttonQuit);
-        sceneMainMenu = new Scene(layoutMainMenu, 250, 200);
+        sceneMainMenu = new Scene(layoutMainMenu, 500, 100);
 
-        HBox layoutGame = new HBox();
+        VBox layoutGame = new VBox();
         layoutGame.getChildren().addAll(labelGame, buttonBack);
-        sceneGame = new Scene(layoutGame, 600, 300);
+        sceneGame = new Scene(layoutGame, 100, 500);
 
         // DISPLAY
         window.setScene(sceneMainMenu);

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
+import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.BeginningOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
 
@@ -35,10 +36,8 @@ public class BeginningOfTurnMessageHandler extends Reducer {
 
         // Refresh the active player.
         state.setActivePlayer(beginningOfTurnMessage.getActiveUser());
-        if (beginningOfTurnMessage.getActiveUser().equals(state.getUsername())) {
-            System.out.println("I'm the active player");
-        } else {
-            System.out.println(beginningOfTurnMessage.getActiveUser()+" is the active player");
+        if (!beginningOfTurnMessage.getActiveUser().equals(state.getUsername())) {
+            Printer.title("It's " + beginningOfTurnMessage.getActiveUser()+"'s turn!");
         }
         // Check if the active user is the client itself.
         if(state.getActivePlayer().equals(state.getUsername())){

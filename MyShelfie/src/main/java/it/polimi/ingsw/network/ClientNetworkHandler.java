@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.socket.SocketClient;
 import it.polimi.ingsw.network.utils.ClientNetworkConfigurationData;
 import it.polimi.ingsw.network.utils.ConnectionTypeEnum;
+import it.polimi.ingsw.network.utils.Logger;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @TODO: TO COMPLETE
+ * The client network handler is responsible for the server-client interactions.
+ * It's an abstract class that is extended by {@link RMIClient} and {@link SocketClient}.
  */
 public abstract class ClientNetworkHandler extends UnicastRemoteObject implements Serializable {
     protected List<Message> messageQueue;
@@ -33,10 +35,25 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
         super();
         this.stateContainer = stateContainer;
         messageQueue = new ArrayList<>();
-        new MessageRetriever().start();
+        // new MessageRetriever().start();
     }
 
+    /**
+     * This method manages the incoming message:
+     * <ul>
+     *     <li>
+     *         If the message is of type PING_REQUEST, it's directly sent back to the server.
+     *     </li>
+     *     <li>
+     *         In any other case the message is sent to the state container that dispatches an handler
+     *         capable of executing the payload and changing the the view based on the information
+     *         contained in the message
+     *     </li>
+     * </ul>
+     * @param received The received message
+     */
     public void handleIncomingMessage(Message received) {
+        Logger.externalInjection("Managing "+received.getType());
         // It's useless to make the ping message exit the client network handler
         if (received.getType().equals(MessageType.PING_REQUEST)) {
             //System.out.println("Sending ping request to server");
@@ -76,7 +93,7 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
      * one between the client and the server has become offline.
      */
     public void onConnectionLost() {
-
+        // TODO IMPLEMENT
     }
 
     /**
@@ -85,9 +102,18 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
      * @param toSend
      */
     public abstract void sendMessage(Message toSend);
+
+    /**
+     * This method initializes the network handler,
+     * by opening the socket connection in the case of a SocketClient or
+     * by executing the registry lookup in the case of a RMIClient.
+     */
     public abstract void init();
 
 
+    /**
+     * This method manages the case of an impossible connection
+     */
     public void onImpossibleConnection() {
         System.out.println("Couldn't connect");
     }
@@ -119,7 +145,9 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
                     queuedMessages = retrieveMessagesFromInterface();
                 }
                 for (int i = 0; i < queuedMessages.size(); i++) {
+                    Logger.externalInjection("SUBMITTING "+ queuedMessages.get(0).getType());
                     handleIncomingMessage(queuedMessages.get(0));
+                    queuedMessages.remove(0);
                 }
             }
         }

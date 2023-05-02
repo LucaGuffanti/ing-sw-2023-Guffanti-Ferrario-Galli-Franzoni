@@ -26,7 +26,6 @@ import java.util.HashSet;
 public class ServerNetworkHandler {
 
     public static final String HOSTNAME = "SERVER";
-
     private String RMIServiceName;
     private String socketIP;
     private int socketPort;

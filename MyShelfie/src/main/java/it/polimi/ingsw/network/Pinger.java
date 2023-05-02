@@ -3,6 +3,8 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.PingRequestMessage;
 import it.polimi.ingsw.network.messages.enums.MessageType;
+import it.polimi.ingsw.network.rmi.RMIClientConnection;
+import it.polimi.ingsw.network.rmi.RMIClientInterface;
 import it.polimi.ingsw.network.utils.Logger;
 
 import java.util.HashMap;
@@ -33,7 +35,8 @@ public class Pinger extends Thread {
             nickToConnection = retrieveNicksAndConnections();
             if (nickToConnection.size() != 0) {
                 for (String nick : nickToConnection.keySet()) {
-                    if (nickToConnection.get(nick).isConnected()) {
+                    //TODO test if this works, restricting to rmi the pinging as it's async.
+                    if (nickToConnection.get(nick).isConnected() && nickToConnection.get(nick) instanceof RMIClientConnection) {
                         synchronized (nickToConnection.get(nick)) {
                             Logger.pingerInfo("Pinging "+nick);
                             nickToConnection.get(nick).sendMessage(

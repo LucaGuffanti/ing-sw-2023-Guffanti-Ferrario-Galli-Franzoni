@@ -54,10 +54,6 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
 
     @Override
     public void messageFromServer(Message message) throws RemoteException {
-        synchronized (messageQueue) {
-            messageQueue.add(message);
-            messageQueue.notifyAll();
-        }
-
+        handleIncomingMessage(message);
     }
 }
