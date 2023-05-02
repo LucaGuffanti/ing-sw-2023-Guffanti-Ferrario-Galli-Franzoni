@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.player.Player;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,10 @@ public class ClientState implements Cloneable {
     private String username;
     private ClientPhasesEnum currentPhase;
     private UserInterface userInterface;
+
+    private String winnerUserName;
+
+    private HashMap <String, Integer> nameToPointMap;
 
     // Username of the active player
     private String activePlayer;
@@ -105,6 +110,22 @@ public class ClientState implements Cloneable {
 
     public void setOrderedPlayersNames(List<String> orderedPlayersNames) {
         this.orderedPlayersNames = orderedPlayersNames;
+    }
+
+    public String getWinnerUserName() {
+        return winnerUserName;
+    }
+
+    public void setWinnerUserName(String winnerUserName) {
+        this.winnerUserName = winnerUserName;
+    }
+
+    public HashMap<String, Integer> getNameToPointMap() {
+        return nameToPointMap;
+    }
+
+    public void setNameToPointMap(HashMap<String, Integer> nameToPointMap) {
+        this.nameToPointMap = nameToPointMap;
     }
 
     public void addPlayerName(String playerName){
