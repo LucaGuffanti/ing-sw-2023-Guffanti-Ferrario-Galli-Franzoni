@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.util.Map;
 
-public class Cli extends UserInterface implements PropertyChangeListener {
+public class Cli implements UserInterface, PropertyChangeListener {
 
 
     private StateContainer stateContainer;
