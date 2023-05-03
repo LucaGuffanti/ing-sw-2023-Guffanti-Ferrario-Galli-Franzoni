@@ -7,6 +7,8 @@ import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.*;
 
+import java.util.ArrayList;
+
 
 /**
  * Handles the creation and the reception of the messages relative to the
@@ -38,6 +40,7 @@ public class LoginMessageHandler extends Reducer implements Creator {
             //update the name of the client with the username if the login is successful
             state.setUsername(loginMessage.getRecipient());
             state.setCurrentPhase(ClientPhasesEnum.NOT_JOINED);
+            state.setChatHistory(new ArrayList<>());
         }else{
             state.setServerErrorMessage(m.getDescription());
         }

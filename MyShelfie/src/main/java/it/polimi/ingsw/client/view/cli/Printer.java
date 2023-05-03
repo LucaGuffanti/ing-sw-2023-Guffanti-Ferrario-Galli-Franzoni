@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Sack;
@@ -10,8 +11,10 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
 import jdk.jfr.Label;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -556,6 +559,8 @@ public class Printer {
         SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points);
         printSimplifiedCommonGoal(simpl);
         printInfo(CLIMessages.NOT_JOINED);
+        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()));
+        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu")));
     }
 
     public static void printInfo(String s) {
@@ -564,5 +569,18 @@ public class Printer {
 
     public static void printImportantInfo(String s) {
         System.out.println(CYAN_BOLD+s+RESET);
+    }
+
+    public static void printChatMessage(ChatMessage c) {
+        boolean isPrivate = c.getRecipients().size()>0;
+        StringBuilder builder = new StringBuilder();
+        builder.append(PLAYER_NAME_COLOR+"["+c.getTime()+"]"+RESET);
+        if (isPrivate) {
+            builder.append(RED_BOLD_BRIGHT+"[PRIVATE] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"you"+RESET);
+        } else {
+            builder.append(RED_BOLD_BRIGHT+"[ALL] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET);
+        }
+        builder.append(": "+c.getBody());
+        System.out.println(builder.toString());
     }
 }

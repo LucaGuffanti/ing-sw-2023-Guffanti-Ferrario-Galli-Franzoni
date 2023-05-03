@@ -51,7 +51,7 @@ public abstract class CliCommandHandler {
 
     /**
      * Checks if the inserted parameters are valid for this command.
-     * @param parameters the list of parameters after the command. ex: "/sendMessage "hi guys" --to Pippo Pluto
+     * @param parameters the list of parameters after the command. ex: "/send "hi guys" --to Pippo Pluto
      *                   parameters = {"hi guys", "--to", "Pippo", "Pluto"}
      * @return if command is valid.
      */

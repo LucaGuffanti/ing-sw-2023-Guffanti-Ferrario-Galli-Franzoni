@@ -15,6 +15,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * The network handler contains the instance of a socket server and of a rmi server:
@@ -103,7 +104,9 @@ public class ServerNetworkHandler {
         currentMessage = message;
         Logger.networkInfo("sent a " + message.getType() + " private message to "+ recipient);
         synchronized (ntcCopy.get(recipient)) {
-            ntcCopy.get(recipient).sendMessage(message);
+            if(ntcCopy.get(recipient).isConnected()) {
+                ntcCopy.get(recipient).sendMessage(message);
+            }
         }
     }
 
@@ -283,6 +286,18 @@ public class ServerNetworkHandler {
             }
             case PING_REQUEST -> {
                 pinger.addMessage(m);
+            }
+            case CHAT_MESSAGE -> {
+                ChatMessage c = (ChatMessage) m;
+                List<String> users = c.getRecipients();
+
+                if (users.size() == 0) {
+                    broadcastToAllButSender(c.getSenderUsername(), c);
+                } else {
+                    for (String u : users) {
+                        sendToPlayer(u, c);
+                    }
+                }
             }
             // TODO MANAGE PING MESSAGES
             // TODO IMPLEMENT MANAGING CHAT MESSAGES

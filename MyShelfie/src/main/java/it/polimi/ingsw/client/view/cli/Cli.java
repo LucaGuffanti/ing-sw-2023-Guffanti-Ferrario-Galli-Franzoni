@@ -21,6 +21,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
     private ClientNetworkHandler networkHandler;
 
     private CommandPicker commandPicker;
+    private CliView cliView = null;
 
     private final Map<ClientPhasesEnum, CliView> defaultViewsPerPhasesMap = Map.of(
         ClientPhasesEnum.LOGIN, new LoginView(),
@@ -77,27 +78,29 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()){
+        switch (evt.getPropertyName()) {
             // When currentPhase is changed, always render the default view for the new currentPhase
-            case "currentPhase":
+            case "currentPhase" -> {
                 CliView cliView = defaultViewsPerPhasesMap.get((ClientPhasesEnum) evt.getNewValue());
                 // this is done to prevent the double printing of the list of players that would otherwise
                 // be experienced by the player who creates the game
                 if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     this.renderCliView(cliView);
                 }
-                break;
-            case "serverErrorMessage":
-                Printer.error((String) evt.getNewValue());
-                break;
-            case "serverLastMessage":
-                Printer.log((String) evt.getNewValue());
-                break;
-            case "orderedPlayersNames":
+            }
+            case "serverErrorMessage" -> Printer.error((String) evt.getNewValue());
+            case "serverLastMessage" -> Printer.log((String) evt.getNewValue());
+            case "orderedPlayersNames" -> {
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     renderCurrentPhaseDefaultView();
                 }
-                break;
+            }
+            case "lastChatMessage" -> {
+                if (cliView instanceof ChatView) {
+                    ChatView cli = (ChatView) cliView;
+                    cli.updateRender(stateContainer.getCurrentState());
+                }
+            }
         }
     }
 
@@ -123,6 +126,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
      */
     public void renderCliView(CliView view){
         view.render(stateContainer.getCurrentState());
+        this.cliView = view;
     }
 
 
@@ -139,5 +143,13 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
     public StateContainer getStateContainer() {
         return stateContainer;
+    }
+
+    public CliView getCliView() {
+        return cliView;
+    }
+
+    public void setCliView(CliView cliView) {
+        this.cliView = cliView;
     }
 }

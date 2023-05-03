@@ -35,13 +35,16 @@ public class ClientState implements Cloneable {
     private boolean hasCompletedFirstCommonGoal;
     private boolean hasCompletedSecondCommonGoal;
     private List<ChatMessage> chatHistory;
+
+    private ChatMessage lastChatMessage;
+
     private Map<Player, Integer> scores; // @TODO: is player list redundant?
 
     private ObjectTypeEnum[][] board;
 
     // Ordered players' shelfs
-    private List<ObjectTypeEnum[][]> shelves;
 
+    private List<ObjectTypeEnum[][]> shelves;
     private String personalGoalCardId;
 
     private List<SimplifiedCommonGoalCard> commonGoalCards;
@@ -51,10 +54,10 @@ public class ClientState implements Cloneable {
     public void addToChatHistory(ChatMessage message){
         chatHistory.add(message);
     }
+
     public String getServerLastMessage() {
         return serverLastMessage;
     }
-
     public void setServerLastMessage(String serverLastMessage) {
         this.serverLastMessage = serverLastMessage;
     }
@@ -110,6 +113,14 @@ public class ClientState implements Cloneable {
 
     public void setOrderedPlayersNames(List<String> orderedPlayersNames) {
         this.orderedPlayersNames = orderedPlayersNames;
+    }
+
+    public ChatMessage getLastChatMessage() {
+        return lastChatMessage;
+    }
+
+    public void setLastChatMessage(ChatMessage lastChatMessage) {
+        this.lastChatMessage = lastChatMessage;
     }
 
     public String getWinnerUserName() {

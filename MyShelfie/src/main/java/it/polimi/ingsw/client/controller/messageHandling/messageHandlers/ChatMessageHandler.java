@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 /**
@@ -31,11 +32,11 @@ public class ChatMessageHandler extends Reducer implements Creator {
         }
 
         state.addToChatHistory(chatMessage);
+        state.setLastChatMessage(chatMessage);
         return state;
     }
 
-    public static ChatMessage createMessage(String username, String value){
-        return new ChatMessage(value, username, LocalDateTime.now());
+    public static ChatMessage createMessage(String username, String value, List<String> recipients){
+        return new ChatMessage(value, username, LocalDateTime.now(), recipients);
     }
-
 }
