@@ -19,5 +19,6 @@ public class ServerStart {
         ServerConfigurationData data = new ServerConfigurationData();
         ServerNetworkHandler serverNetworkHandler = new ServerNetworkHandler(data);
         serverNetworkHandler.activateHandler();
+
     }
 }

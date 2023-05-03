@@ -47,8 +47,9 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
         } catch (MalformedURLException e) {
             System.out.println("The url is malformed");
         } catch (RemoteException e) {
-            System.out.println("Couldn't access the remote object");
-            e.printStackTrace();
+            //system.out.println("Couldn't access the remote object");
+            //e.printStackTrace();
+            onImpossibleConnection();
         }
     }
 

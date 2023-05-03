@@ -292,14 +292,14 @@ public class ServerNetworkHandler {
                 List<String> users = c.getRecipients();
 
                 if (users.size() == 0) {
-                    broadcastToAllButSender(c.getSenderUsername(), c);
+                    broadcastToAll(c);
                 } else {
                     for (String u : users) {
                         sendToPlayer(u, c);
                     }
+                    sendToPlayer(c.getSenderUsername(), c);
                 }
             }
-            // TODO MANAGE PING MESSAGES
             // TODO IMPLEMENT MANAGING CHAT MESSAGES
             default -> {
                 Logger.networkCritical(m.getType()+" management is not yet implemented.");

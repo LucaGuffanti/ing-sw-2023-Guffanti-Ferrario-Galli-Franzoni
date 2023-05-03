@@ -11,14 +11,19 @@ import java.util.List;
 
 public class HelpCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availableStatues = new HashSet<>(Arrays.asList(
+            ClientPhasesEnum.LOGIN,
+            ClientPhasesEnum.NOT_JOINED,
+            ClientPhasesEnum.LOBBY,
+            ClientPhasesEnum.WAITING_FOR_TURN,
             ClientPhasesEnum.PICK_FORM_BOARD,
-            ClientPhasesEnum.SELECT_COLUMN
-            //..@todo: Add every phase
+            ClientPhasesEnum.SELECT_COLUMN,
+            ClientPhasesEnum.FINAL_RESULTS_SHOW
+
     ));
 
 
-    public final static String commandLabel = "/show help";
-    public final static String commandDescription = "Get every details about the available commands";
+    public final static String commandLabel = "/help";
+    public final static String commandDescription = "Get every detail about the available commands";
 
 
     public HelpCommandHandler(Cli cli) {

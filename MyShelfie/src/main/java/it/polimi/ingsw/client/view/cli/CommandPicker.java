@@ -61,7 +61,8 @@ public class CommandPicker implements Runnable{
         String[] commandSubStrings = userInput.split(" ");
 
         if (!inputCommandMap.containsKey(commandSubStrings[0])) {
-            Printer.error(commandSubStrings[0] + " is an unknown command");
+            Printer.error(commandSubStrings[0] + " is an unknown command\n" +
+                    "Write /help to learn about every command");
         } else {
             try {
                 inputCommandMap.get(commandSubStrings[0]).execute(userInput, stateContainer.getCurrentState());
@@ -84,6 +85,6 @@ public class CommandPicker implements Runnable{
         inputCommandMap.put(ShowViewCommandHandler.commandLabel, new ShowViewCommandHandler(cli));
         inputCommandMap.put(SelectColumnCommandHandler.commandLabel, new SelectColumnCommandHandler(cli));
         inputCommandMap.put(ChatCommandHandler.commandLabel, new ChatCommandHandler(cli));
-        // TODO put here all the commands
+        inputCommandMap.put(HelpCommandHandler.commandLabel, new HelpCommandHandler(cli));
     }
 }

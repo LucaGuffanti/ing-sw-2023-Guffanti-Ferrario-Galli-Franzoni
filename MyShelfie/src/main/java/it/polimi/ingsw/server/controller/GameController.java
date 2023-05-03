@@ -127,14 +127,19 @@ public class GameController {
             /*
                 Broadcast that the new player joined if the join was successful
              */
-            serverNetworkHandler.broadcastToAllButSender(
-                    nickname,
-                    new NewPlayerMessage(
-                            ServerNetworkHandler.HOSTNAME,
-                            nickname + ResponsesDescriptions.NEW_PLAYER_JOINED,
-                            nickname
-                    )
-            );
+            for (String player: players) {
+                if(!player.equals(nickname)) {
+
+                    serverNetworkHandler.sendToPlayer(
+                            player,
+                            new NewPlayerMessage(
+                                    ServerNetworkHandler.HOSTNAME,
+                                    nickname + ResponsesDescriptions.NEW_PLAYER_JOINED,
+                                    nickname
+                            )
+                    );
+                }
+            }
 
         } catch (MaxPlayersException e) {
             /*

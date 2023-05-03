@@ -13,11 +13,11 @@ public class ChatView implements CliView {
         Printer.title("CHAT");
         List<ChatMessage> messages = state.getChatHistory();
         for (int i = 0; i < messages.size(); i++) {
-           Printer.printChatMessage(messages.get(i));
+           Printer.printChatMessage(messages.get(i), state.getUsername());
         }
     }
 
     public void updateRender(ClientState state) {
-        Printer.printChatMessage(state.getLastChatMessage());
+        Printer.printChatMessage(state.getLastChatMessage(), state.getUsername());
     }
 }

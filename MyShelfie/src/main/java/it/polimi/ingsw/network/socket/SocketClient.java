@@ -46,7 +46,7 @@ public class SocketClient extends ClientNetworkHandler {
         try {
             socket = new Socket(serverIP, serverPort);
         } catch (IOException e) {
-            System.out.println("Couldn't connect to the server");
+            //System.out.println("Couldn't connect to the server");
             onImpossibleConnection();
             return;
         }

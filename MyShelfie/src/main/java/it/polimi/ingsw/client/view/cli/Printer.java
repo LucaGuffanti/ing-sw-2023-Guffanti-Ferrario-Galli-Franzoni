@@ -559,8 +559,9 @@ public class Printer {
         SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points);
         printSimplifiedCommonGoal(simpl);
         printInfo(CLIMessages.NOT_JOINED);
-        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()));
-        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu")));
+        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()), "Luca");
+        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu")), "Luca");
+        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu", "testttt")), "Luca");
     }
 
     public static void printInfo(String s) {
@@ -571,16 +572,38 @@ public class Printer {
         System.out.println(CYAN_BOLD+s+RESET);
     }
 
-    public static void printChatMessage(ChatMessage c) {
+    public static void printChatMessage(ChatMessage c, String ownUsername) {
         boolean isPrivate = c.getRecipients().size()>0;
         StringBuilder builder = new StringBuilder();
         builder.append(PLAYER_NAME_COLOR+"["+c.getTime()+"]"+RESET);
         if (isPrivate) {
-            builder.append(RED_BOLD_BRIGHT+"[PRIVATE] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"you"+RESET);
+            if (c.getSenderUsername().equals(ownUsername)) {
+                StringBuilder people = new StringBuilder();
+                if(c.getRecipients().size()>1) {
+                    people.append("{ ");
+                    people.append(c.getRecipients().get(0)+", ");
+                    for (int i = 1; i < c.getRecipients().size()-1; i++) {
+                        people.append(c.getRecipients().get(i) + ", ");
+                    }
+                    people.append(c.getRecipients().get(c.getRecipients().size()-1)+" ");
+                    if(c.getRecipients().size()>1) {
+                        people.append("}");
+                    }
+                } else {
+                    people.append(c.getRecipients().get(0));
+                }
+                builder.append(RED_BOLD_BRIGHT+"[PRIVATE] "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+people+RESET);
+            } else {
+                builder.append(RED_BOLD_BRIGHT+"[PRIVATE] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"you"+RESET);
+            }
         } else {
             builder.append(RED_BOLD_BRIGHT+"[ALL] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET);
         }
-        builder.append(": "+c.getBody());
+        builder.append(" : "+c.getBody());
         System.out.println(builder.toString());
+    }
+
+    public static void boldsSubtitle(String s) {
+        System.out.println(YELLOW_BOLD_BRIGHT+s+RESET);
     }
 }
