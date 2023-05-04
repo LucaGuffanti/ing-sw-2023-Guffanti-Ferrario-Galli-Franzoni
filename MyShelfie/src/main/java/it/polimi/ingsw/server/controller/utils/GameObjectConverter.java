@@ -1,15 +1,20 @@
 package it.polimi.ingsw.server.controller.utils;
 
 import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.server.model.cells.BoardCell;
 import it.polimi.ingsw.server.model.cells.ShelfCell;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.utils.Constants;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +89,14 @@ public class GameObjectConverter {
         return goal.getId();
     }
 
-    public static SimplifiedCommonGoalCard simplifyCommonGoalIntoCard(CommonGoalCard goal) {
-        return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards());
+    public static SimplifiedCommonGoalCard simplifyCommonGoalIntoCard(CommonGoalCard goal, Game game, int numOfCard) {
+        HashMap<String, PointCard> nickToPoints = new HashMap<>();
+
+        List<String> playerNicks = game.getPlayers().stream().map(Player::getNickname).toList();
+        for (String player : playerNicks) {
+            nickToPoints.put(player, (game.getPlayerByNick(player).getAchievements().getPointCardsEarned().get(numOfCard+1)));
+        }
+
+        return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), nickToPoints);
     }
 }

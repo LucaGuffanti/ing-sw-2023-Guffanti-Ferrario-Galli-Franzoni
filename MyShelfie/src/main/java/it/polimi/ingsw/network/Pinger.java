@@ -47,6 +47,7 @@ public class Pinger extends Thread {
                             );
                         }
                         try {
+                            // the thread sleeps waiting for the ping response to arrive
                             TimeUnit.MILLISECONDS.sleep(3000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);

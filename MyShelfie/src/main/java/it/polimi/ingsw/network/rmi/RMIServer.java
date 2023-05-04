@@ -47,6 +47,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         serverNetworkHandler.onMessageReceived(message);
     }
 
+    @Override
+    public void incomingPing(Message message, RMIClientInterface rmiClientInterface) throws RemoteException {
+        Logger.pingerInfo("Getting a ping from RMI Client");
+    }
+
 
     public void login(String username, RMIClientInterface rmiClientInterface) throws RemoteException {
         LoginResult result;

@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,19 +29,21 @@ public class GameStartMessage extends Message{
     private final ArrayList<String> clientPersonalGoals;
     private final ArrayList<String> orderedPlayers;
     private final ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards; // @TODO: use an HashMap<username, simplifiedGoalCard>
-
+    private final String firstToCompleteTheShelf;
     public GameStartMessage(String senderUsername,
                             ObjectTypeEnum[][] board,
                             List<ObjectTypeEnum[][]> shelves,
                             ArrayList<String> clientPersonalGoals,
                             ArrayList<String> orderedPlayers,
-                            ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards) {
+                            ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards,
+                            String firstToCompleteTheShelf) {
         super(MessageType.GAME_START, senderUsername);
         this.clientBoard = board;
         this.shelves = shelves;
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
+        this.firstToCompleteTheShelf = firstToCompleteTheShelf;
     }
 
     public GameStartMessage(String senderUsername,
@@ -49,13 +52,15 @@ public class GameStartMessage extends Message{
                             List<ObjectTypeEnum[][]> shelves,
                             ArrayList<String> clientPersonalGoals,
                             ArrayList<String> orderedPlayers,
-                            ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards) {
+                            ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards,
+                            String firstToCompleteTheShelf) {
         super(MessageType.GAME_START, senderUsername, description);
         this.clientBoard = board;
         this.shelves = shelves;
         this.clientPersonalGoals = clientPersonalGoals;
         this.orderedPlayers = orderedPlayers;
         this.clientCommonGoalCards = clientCommonGoalCards;
+        this.firstToCompleteTheShelf = firstToCompleteTheShelf;
     }
 
     @Override
@@ -81,5 +86,9 @@ public class GameStartMessage extends Message{
 
     public ArrayList<SimplifiedCommonGoalCard> getClientCommonGoalCards() {
         return clientCommonGoalCards;
+    }
+
+    public String getFirstToCompleteTheShelf() {
+        return firstToCompleteTheShelf;
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import it.polimi.ingsw.server.model.cards.PointCard;
@@ -12,7 +13,7 @@ import it.polimi.ingsw.server.model.cards.PointCard;
 public class PlayerAchievements {
     private boolean completedFirstCommonGoal;
     private boolean completedSecondCommonGoal;
-    private Set<PointCard> pointCardsEarned;
+    private HashMap<Integer, PointCard> pointCardsEarned;
     private boolean firstToFinish;
 
     private boolean completedShelf;
@@ -20,7 +21,7 @@ public class PlayerAchievements {
     public PlayerAchievements() {
         completedFirstCommonGoal = false;
         completedSecondCommonGoal = false;
-        this.pointCardsEarned = new HashSet<>();
+        this.pointCardsEarned = new HashMap<>();
         firstToFinish = false;
         completedShelf = false;
     }
@@ -49,11 +50,11 @@ public class PlayerAchievements {
         this.completedSecondCommonGoal = completedSecondCommonGoal;
     }
 
-    public Set<PointCard> getPointCardsEarned() {
+    public HashMap<Integer, PointCard> getPointCardsEarned() {
         return pointCardsEarned;
     }
 
-    public void setPointCardsEarned(Set<PointCard> pointCardsEarned) {
+    public void setPointCardsEarned(HashMap<Integer, PointCard> pointCardsEarned) {
         this.pointCardsEarned = pointCardsEarned;
     }
 

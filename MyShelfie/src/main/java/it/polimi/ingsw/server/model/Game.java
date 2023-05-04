@@ -271,10 +271,11 @@ public class Game {
         // the point card should be awarded only if its points are not 0
         if (pointCard.getPointsGiven() != 0) {
             // if the point card is meaningful the player gets it, and the common goal is marked as completed.
-            currPlayer.getAchievements().getPointCardsEarned().add(pointCard);
             if (fromWhichCommonGoal == 1) {
+                currPlayer.getAchievements().getPointCardsEarned().put(1, pointCard);
                 currPlayer.getAchievements().setCompletedFirstCommonGoal(true);
             } else {
+                currPlayer.getAchievements().getPointCardsEarned().put(2, pointCard);
                 currPlayer.getAchievements().setCompletedSecondCommonGoal(true);
             }
         }
@@ -338,7 +339,7 @@ public class Game {
         int finalPoints = 0;
 
         // first calculate the total points given by completing common goal cards
-        finalPoints += player.getAchievements().getPointCardsEarned().stream()
+        finalPoints += player.getAchievements().getPointCardsEarned().values().stream()
                 .map(PointCard::getPointsGiven)
                 .reduce(0, Integer::sum);
         // then calculate the total points given by completing the personal goal card

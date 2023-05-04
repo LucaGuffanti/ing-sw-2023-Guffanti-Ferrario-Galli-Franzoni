@@ -20,7 +20,6 @@ import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * The GameController is the controller of the game: it keeps an instance of the game, interacting with it when messages are received
@@ -229,7 +228,8 @@ public class GameController {
         gameStatus = GameStatusEnum.STARTED;
 
         ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
-                        .map(GameObjectConverter::simplifyCommonGoalIntoCard).toList());
+                        .map(s->GameObjectConverter.simplifyCommonGoalIntoCard(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
+
         ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
                 .map(o -> game.getPlayerByNick(o))
                 .map(p -> p.getGoal())
@@ -247,7 +247,8 @@ public class GameController {
                     GameObjectConverter.simplifyShelvesIntoMatrix(game.getPlayersShelves()),
                     personalGoals,
                     orderedPlayersNicks,
-                    simplifiedCommonGoalCards
+                    simplifiedCommonGoalCards,
+                    null //as the game starts, no one is the first to complete the shelf
                 )
         );
 
@@ -339,7 +340,7 @@ public class GameController {
                 .getGameInfo()
                 .getSelectedCommonGoals()
                 .stream()
-                .map(GameObjectConverter::simplifyCommonGoalIntoCard)
+                .map(c -> GameObjectConverter.simplifyCommonGoalIntoCard(c, game, game.getGameInfo().getCommonGoals().indexOf(c)))
                 .toList());
 
         // the message is built and sent
@@ -352,7 +353,8 @@ public class GameController {
                         simplifiedCommonGoalCards,
                         firstCommonGoalCompletedByActivePlayer,
                         secondCommonGoalCompletedByActivePlayer,
-                        completedShelf
+                        completedShelf,
+                        orderedPlayersNicks.get(activePlayerIndex)
                 )
         );
 

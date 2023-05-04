@@ -43,6 +43,7 @@ public class EndOfTurnMessage extends Message{
     private final boolean completedFirstCommonGoal;
     private final boolean completedSecondCommonGoal;
     private final boolean completedShelf;
+    private final String activePlayer;
 
     public EndOfTurnMessage(String senderUsername,
                             ObjectTypeEnum[][] currentBoard,
@@ -50,7 +51,8 @@ public class EndOfTurnMessage extends Message{
                             ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards,
                             boolean completedFirstCommonGoal,
                             boolean completedSecondCommonGoal,
-                            boolean completedShelf) {
+                            boolean completedShelf,
+                            String activePlayer) {
         super(MessageType.END_OF_TURN, senderUsername);
         this.currentBoard = currentBoard;
         this.activePlayerShelf = activePlayerShelf;
@@ -58,6 +60,7 @@ public class EndOfTurnMessage extends Message{
         this.completedFirstCommonGoal = completedFirstCommonGoal;
         this.completedSecondCommonGoal = completedSecondCommonGoal;
         this.completedShelf = completedShelf;
+        this.activePlayer = activePlayer;
     }
 
     public EndOfTurnMessage(String senderUsername,
@@ -67,7 +70,8 @@ public class EndOfTurnMessage extends Message{
                             ArrayList<SimplifiedCommonGoalCard> clientCommonGoalCards,
                             boolean completedFirstCommonGoal,
                             boolean completedSecondCommonGoal,
-                            boolean completedShelf) {
+                            boolean completedShelf,
+                            String activePlayer) {
         super(MessageType.END_OF_TURN, senderUsername, description);
         this.currentBoard = currentBoard;
         this.activePlayerShelf = activePlayerShelf;
@@ -75,6 +79,7 @@ public class EndOfTurnMessage extends Message{
         this.completedFirstCommonGoal = completedFirstCommonGoal;
         this.completedSecondCommonGoal = completedSecondCommonGoal;
         this.completedShelf = completedShelf;
+        this.activePlayer = activePlayer;
     }
     @Override
     public MessagesHandler getHandlerForClient() {
@@ -102,5 +107,9 @@ public class EndOfTurnMessage extends Message{
 
     public boolean isCompletedShelf() {
         return completedShelf;
+    }
+
+    public String getActivePlayer() {
+        return activePlayer;
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.Board;
@@ -556,7 +557,7 @@ public class Printer {
         points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         printGoalCardPoints(points);
-        SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points);
+        SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points, null);
         printSimplifiedCommonGoal(simpl);
         printInfo(CLIMessages.NOT_JOINED);
         printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()), "Luca");
@@ -605,5 +606,30 @@ public class Printer {
 
     public static void boldsSubtitle(String s) {
         System.out.println(YELLOW_BOLD_BRIGHT+s+RESET);
+    }
+
+    public static void printShelfCompletionStatus(ClientState clientState) {
+        boldsSubtitle("Shelf:");
+        if(clientState.getFirstToCompleteShelf()==null) {
+            subtitle("No one has completed the shelf yet");
+        } else {
+            subtitle(clientState.getFirstToCompleteShelf()+" was the first player to complete the shelf");
+        }
+    }
+
+    public static void printCommonGoalCardStatus(SimplifiedCommonGoalCard c) {
+        boldsSubtitle("Common goal card: ");
+        printCommonGoalCard(c.getId());
+
+        int numNotOfNull = 0;
+        for(String s : c.getNickToEarnedPoints().keySet()) {
+            if(c.getNickToEarnedPoints().get(s) != null) {
+                subtitle(s+" -> "+c.getNickToEarnedPoints().get(s).getPointsGiven());
+                numNotOfNull++;
+            }
+        }
+        if (numNotOfNull == 0 || c.getNickToEarnedPoints()==null) {
+            subtitle("No one has achieved any points for this goal card");
+        }
     }
 }

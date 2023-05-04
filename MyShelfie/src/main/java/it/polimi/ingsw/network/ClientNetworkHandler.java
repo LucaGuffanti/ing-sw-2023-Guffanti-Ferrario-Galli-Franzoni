@@ -21,6 +21,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO ADD PINGING FROM THE CLIENT TO THE SERVER
+
 /**
  * The client network handler is responsible for the server-client interactions.
  * It's an abstract class that is extended by {@link RMIClient} and {@link SocketClient}.
@@ -65,10 +67,6 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
             );
         } else {
             // Reduce current state with message payload
-            // if (received instanceof EndOfTurnMessage) {
-            //     Printer.printShelf(((EndOfTurnMessage) received).getActivePlayerShelf());
-            //     Printer.printBoard(((EndOfTurnMessage) received).getCurrentBoard());
-            // }
             stateContainer.dispatch(received);
         }
     }
@@ -93,7 +91,8 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
      * one between the client and the server has become offline.
      */
     public void onConnectionLost() {
-        // TODO IMPLEMENT
+        System.out.println("CONNECTION LOST");
+        System.exit(1);
     }
 
     /**
@@ -115,7 +114,10 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
      * This method manages the case of an impossible connection
      */
     public void onImpossibleConnection() {
-        System.out.println("Couldn't connect");
+        Printer.error("Couldn't connect to the server. Check that you and the server are " +
+                "both online and connected to the same network.");
+        Printer.error("========TERMINATING========");
+        System.exit(1);
     }
 
 

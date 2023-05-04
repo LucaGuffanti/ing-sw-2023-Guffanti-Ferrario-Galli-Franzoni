@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 
+import java.util.HashMap;
+
 /**
  * Handles the reception of the message representing
  * the end of the turn by the active player
@@ -49,6 +51,10 @@ public class EndOfTurnMessageHandler extends Reducer {
         state.setHasCompletedSecondCommonGoal(
                 endOfTurnMessage.isCompletedSecondCommonGoal()
         );
+
+        if (state.getFirstToCompleteShelf()==null && endOfTurnMessage.isCompletedShelf()) {
+            state.setFirstToCompleteShelf(endOfTurnMessage.getActivePlayer());
+        }
 
         Printer.title(CLIMessages.END_OF_TURN);
         state.setServerLastMessage(endOfTurnMessage.getDescription());

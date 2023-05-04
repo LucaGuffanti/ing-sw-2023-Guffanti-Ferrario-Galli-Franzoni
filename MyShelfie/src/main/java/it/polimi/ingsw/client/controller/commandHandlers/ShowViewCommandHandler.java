@@ -30,7 +30,8 @@ public class ShowViewCommandHandler extends CliCommandHandler{
             "/show cg      : shows the common goal card\n"+
             "/show shelf   : shows your shelf\n"+
             "/show shelves : shows all the shelves of the players in the game\n"+
-            "/show chat    : shows the chat";
+            "/show chat    : shows the chat\n"+
+            "/show points  : shows the points totaled by the players";
 
     private final static HashMap<String, CliView> paramaterToAction = new HashMap<>();
     private final static HashMap<String, List<ClientPhasesEnum>> availablePhases = new HashMap<>();
@@ -47,6 +48,7 @@ public class ShowViewCommandHandler extends CliCommandHandler{
         paramaterToAction.put("shelf", new ShelfView());
         paramaterToAction.put("shelves", new MultipleShelvesView());
         paramaterToAction.put("chat", new ChatView());
+        paramaterToAction.put("points", new PointsView());
 
         availablePhases.put("board", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
         availablePhases.put("pg", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
@@ -54,6 +56,7 @@ public class ShowViewCommandHandler extends CliCommandHandler{
         availablePhases.put("shelf", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
         availablePhases.put("shelves", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
         availablePhases.put("chat", List.of(ClientPhasesEnum.LOBBY, ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
+        availablePhases.put("points", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
 
     }
     @Override

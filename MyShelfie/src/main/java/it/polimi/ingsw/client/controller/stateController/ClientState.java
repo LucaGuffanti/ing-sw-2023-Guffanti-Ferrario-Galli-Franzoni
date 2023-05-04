@@ -45,6 +45,7 @@ public class ClientState implements Cloneable {
     // Ordered players' shelfs
 
     private List<ObjectTypeEnum[][]> shelves;
+    private String firstToCompleteShelf;
     private String personalGoalCardId;
 
     private List<SimplifiedCommonGoalCard> commonGoalCards;
@@ -215,6 +216,14 @@ public class ClientState implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getFirstToCompleteShelf() {
+        return firstToCompleteShelf;
+    }
+
+    public void setFirstToCompleteShelf(String firstToCompleteShelf) {
+        this.firstToCompleteShelf = firstToCompleteShelf;
     }
 
     // @TODO: TO ADD EVENTUAL OTHERS PROPS FOR THE VIEW
