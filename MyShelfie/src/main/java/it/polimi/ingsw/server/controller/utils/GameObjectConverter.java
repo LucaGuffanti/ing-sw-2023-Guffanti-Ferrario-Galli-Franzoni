@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.controller.utils;
 
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.GameInfo;
+import it.polimi.ingsw.server.model.SimplifiedGameInfo;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.server.model.cells.BoardCell;
 import it.polimi.ingsw.server.model.cells.ShelfCell;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
+import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.Constants;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
@@ -39,7 +42,7 @@ public class GameObjectConverter {
      * @param board the board to be converted into a matrix
      * @return a ObjectTypeEnum matrix representing the board
      */
-    public static ObjectTypeEnum[][] simplifyBoardIntoMatrix(Board board) {
+    public static ObjectTypeEnum[][] fromBoardToMatrix(Board board) {
         ObjectTypeEnum[][] simplifiedBoard = new ObjectTypeEnum[Constants.BOARD_DIMENSION][Constants.BOARD_DIMENSION];
         BoardCell[][] cells = board.getCells();
 
@@ -60,7 +63,7 @@ public class GameObjectConverter {
      * @param shelf the shelf to be converted into a matrix
      * @return the matrix representation of the shelf
      */
-    public static ObjectTypeEnum[][] simplifyShelfIntoMatrix(Shelf shelf) {
+    public static ObjectTypeEnum[][] fromShelfToMatrix(Shelf shelf) {
         ObjectTypeEnum[][] simplifiedShelf = new ObjectTypeEnum[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
         ShelfCell[][] cells = shelf.getCells();
 
@@ -81,15 +84,27 @@ public class GameObjectConverter {
      * @param shelves the list of shelves to be converted into a matrix
      * @return the matrix representation of the shelf
      */
-    public static List<ObjectTypeEnum[][]> simplifyShelvesIntoMatrix(List<Shelf> shelves) {
-        return shelves.stream().map(GameObjectConverter::simplifyShelfIntoMatrix).collect(Collectors.toList());
+    public static List<ObjectTypeEnum[][]> fromShelvesToMatrices(List<Shelf> shelves) {
+        return shelves.stream().map(GameObjectConverter::fromShelfToMatrix).collect(Collectors.toList());
     }
 
-    public static String simplifyPersonalGoalIntoString(PersonalGoalCard goal) {
+    /**
+     * This method maps a personalGoal to its id
+     * @param goal the personal goal
+     * @return the id of the personalGoal
+     */
+    public static String fromPersonalGoalToString(PersonalGoalCard goal) {
         return goal.getId();
     }
 
-    public static SimplifiedCommonGoalCard simplifyCommonGoalIntoCard(CommonGoalCard goal, Game game, int numOfCard) {
+    /**
+     * This method maps a common goal card to a simplified common goal card
+     * @param goal the common goal
+     * @param game the game
+     * @param numOfCard the ordinal number of the card (either 0 or 1)
+     * @return the corresponding simplifiedCommonGoalCard
+     */
+    public static SimplifiedCommonGoalCard fromCommonGoalToSimplifiedCommonGoal(CommonGoalCard goal, Game game, int numOfCard) {
         HashMap<String, PointCard> nickToPoints = new HashMap<>();
 
         List<String> playerNicks = game.getPlayers().stream().map(Player::getNickname).toList();
@@ -98,5 +113,32 @@ public class GameObjectConverter {
         }
 
         return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), nickToPoints);
+    }
+    public static List<SimplifiedPlayer> fromPlayersToSimplifiedPlayers(ArrayList<Player> players) {
+        return players.stream()
+                .map(p-> new SimplifiedPlayer(
+                        p.getNickname(),
+                        fromShelfToMatrix(p.getShelf()),
+                        p.getAchievements(),
+                        fromPersonalGoalToString(p.getGoal())))
+                .toList();
+    }
+
+    public static SimplifiedGameInfo fromGameInfoToSimplifiedGameInfo(GameInfo gameInfo) {
+
+        List<CommonGoalCard> commonGoalCards = gameInfo.getCommonGoals();
+        List<SimplifiedCommonGoalCard> simpleCommonGoalCards = commonGoalCards
+                .stream()
+                .map(c->new SimplifiedCommonGoalCard(c.getId(), c.getPointsCards(), null))
+                .toList();
+
+        return new SimplifiedGameInfo(
+                gameInfo.getAdmin().getNickname(),
+                gameInfo.getNPlayers(),
+                "NULL",
+                gameInfo.getGameID(),
+                new ArrayList<>(simpleCommonGoalCards),
+                new ArrayList<>(gameInfo.getPersonalGoals().stream().map(p->p.getId()).toList())
+        );
     }
 }

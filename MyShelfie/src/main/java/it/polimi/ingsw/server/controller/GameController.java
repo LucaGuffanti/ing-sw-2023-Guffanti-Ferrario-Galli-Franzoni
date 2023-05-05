@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.utils.Logger;
+import it.polimi.ingsw.server.controller.save.SaveFileManager;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
 import it.polimi.ingsw.server.controller.turn.TurnPhase;
@@ -228,12 +229,12 @@ public class GameController {
         gameStatus = GameStatusEnum.STARTED;
 
         ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
-                        .map(s->GameObjectConverter.simplifyCommonGoalIntoCard(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
+                        .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
 
         ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
                 .map(o -> game.getPlayerByNick(o))
                 .map(p -> p.getGoal())
-                .map(g -> GameObjectConverter.simplifyPersonalGoalIntoString(g))
+                .map(g -> GameObjectConverter.fromPersonalGoalToString(g))
                 .toList());
 
         Logger.controllerInfo("the game started");
@@ -243,8 +244,8 @@ public class GameController {
                 new GameStartMessage(
                     ServerNetworkHandler.HOSTNAME,
                     ResponsesDescriptions.GAME_STARTED,
-                    GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()),
-                    GameObjectConverter.simplifyShelvesIntoMatrix(game.getPlayersShelves()),
+                    GameObjectConverter.fromBoardToMatrix(game.getBoard()),
+                    GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
                     personalGoals,
                     orderedPlayersNicks,
                     simplifiedCommonGoalCards,
@@ -297,20 +298,22 @@ public class GameController {
      * </ol>
      */
     public synchronized void endTurn() {
+        // FIRST THE GAME STATE IS SAVED
+
 
         Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
 
         Logger.controllerInfo("the current turn ended");
         for (Player p : game.getPlayers()) {
             Printer.printPlayerName(p.getNickname()+"'s shelf");
-            Printer.printShelf(GameObjectConverter.simplifyShelfIntoMatrix(p.getShelf()));
+            Printer.printShelf(GameObjectConverter.fromShelfToMatrix(p.getShelf()));
         }
         Printer.printPlayerName("Board");
-        Printer.printBoard(GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()));
+        Printer.printBoard(GameObjectConverter.fromBoardToMatrix(game.getBoard()));
 
 
         Printer.printPlayerName("Current player's Shelf");
-        Printer.printShelf(GameObjectConverter.simplifyShelfIntoMatrix(currentPlayer.getShelf()));
+        Printer.printShelf(GameObjectConverter.fromShelfToMatrix(currentPlayer.getShelf()));
         String messageDescription = "";
 
         chosenCoords = null;
@@ -322,6 +325,8 @@ public class GameController {
             game.getBoard().refillBoard(game.getSack());
             messageDescription += ResponsesDescriptions.END_OF_TURN_REFILL_BOARD + "\n";
         }
+
+        SaveFileManager.saveGameState(getGame(), this, "src/main/assets/savedGames/savefile.json");
 
         if (completedShelf) {
             Logger.controllerInfo("the player completed the shelf");
@@ -340,7 +345,7 @@ public class GameController {
                 .getGameInfo()
                 .getSelectedCommonGoals()
                 .stream()
-                .map(c -> GameObjectConverter.simplifyCommonGoalIntoCard(c, game, game.getGameInfo().getCommonGoals().indexOf(c)))
+                .map(c -> GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(c, game, game.getGameInfo().getCommonGoals().indexOf(c)))
                 .toList());
 
         // the message is built and sent
@@ -348,8 +353,8 @@ public class GameController {
                 new EndOfTurnMessage(
                         ServerNetworkHandler.HOSTNAME,
                         messageDescription,
-                        GameObjectConverter.simplifyBoardIntoMatrix(game.getBoard()),
-                        GameObjectConverter.simplifyShelfIntoMatrix(currentPlayer.getShelf()),
+                        GameObjectConverter.fromBoardToMatrix(game.getBoard()),
+                        GameObjectConverter.fromShelfToMatrix(currentPlayer.getShelf()),
                         simplifiedCommonGoalCards,
                         firstCommonGoalCompletedByActivePlayer,
                         secondCommonGoalCompletedByActivePlayer,

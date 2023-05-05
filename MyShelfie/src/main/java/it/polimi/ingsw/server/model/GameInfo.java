@@ -20,7 +20,6 @@ import java.util.ArrayList;
  */
 public class GameInfo {
 
-    // TODO port admin from player to string: the nickname of the player
     private Player admin;
     private int nPlayers;
     private Player winner;

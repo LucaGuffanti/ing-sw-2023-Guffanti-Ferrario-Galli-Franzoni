@@ -61,6 +61,16 @@ public class GoalCardsDeckSingleton {
         }
         return toBeReturned;
     }
+
+    public PersonalGoalCard GetPersonalGoalCardById(String id) {
+        PersonalGoalCard toBeReturned = null;
+        for (PersonalGoalCard card : personalGoals) {
+            if (card.getId().equals(id)) {
+                toBeReturned = (PersonalGoalCard) card.returnEqualCard();
+            }
+        }
+        return toBeReturned;
+    }
     /**
      * This method shuffles the personalGoals list and returns the first nPlayers elements as an arrayList
      * @param nPlayers the number of players

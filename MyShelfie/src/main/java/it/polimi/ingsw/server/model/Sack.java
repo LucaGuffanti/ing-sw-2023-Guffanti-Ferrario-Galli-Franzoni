@@ -24,6 +24,10 @@ public class Sack {
         initSack();
     }
 
+    public Sack(Sack sack) {
+        this.cards = sack.getCards();
+    }
+
     /**
      * Initializes the card sack by generating the object cards and by shuffling them
      */
@@ -84,5 +88,9 @@ public class Sack {
 
     public ArrayList<ObjectCard> getCards() {
         return cards;
+    }
+
+    public void setCards(ArrayList<ObjectCard> cards) {
+        this.cards = cards;
     }
 }

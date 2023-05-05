@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameStatusEnum;
+import it.polimi.ingsw.server.controller.save.SaveFileData;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.CardBuilder;
 import it.polimi.ingsw.server.model.cards.EndOfGameCard;
@@ -106,6 +107,10 @@ public class Game {
         gameInfo.setNPlayers(nPlayers);
     }
 
+
+    public void loadGame(SaveFileData saveFileData) {
+        //TODO LOADGAME
+    }
     public void setBoard(Board board) {
         this.board = board;
     }

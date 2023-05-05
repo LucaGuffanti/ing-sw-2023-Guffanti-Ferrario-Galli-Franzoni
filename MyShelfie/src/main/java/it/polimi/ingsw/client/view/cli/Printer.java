@@ -531,15 +531,15 @@ public class Printer {
     @Label("DEBUG")
     public static void main(String[] args) throws Exception {
         String s = "src/test/resources/shelfTEST/endGameShelfCheck_full.csv";
-        Printer.printShelf(GameObjectConverter.simplifyShelfIntoMatrix(CsvToShelfParser.convert(s)));
+        Printer.printShelf(GameObjectConverter.fromShelfToMatrix(CsvToShelfParser.convert(s)));
         System.out.print("\n");
         s = "src/test/resources/shelfTEST/diagonalValid.csv";
-        Printer.printShelf(GameObjectConverter.simplifyShelfIntoMatrix(CsvToShelfParser.convert(s)));
+        Printer.printShelf(GameObjectConverter.fromShelfToMatrix(CsvToShelfParser.convert(s)));
         s = "src/test/resources/boardTEST/expectedCellObjectCard_4players.csv";
 
         Sack sack = new Sack();
         Board b = new Board(4, sack);
-        Printer.printBoard(GameObjectConverter.simplifyBoardIntoMatrix(b));
+        Printer.printBoard(GameObjectConverter.fromBoardToMatrix(b));
 
         for (Integer i = 1; i <= 12; i++) {
             System.out.println("ID: "+i.toString());

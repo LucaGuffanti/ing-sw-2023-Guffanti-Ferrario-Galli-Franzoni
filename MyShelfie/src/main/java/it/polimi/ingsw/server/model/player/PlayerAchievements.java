@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.server.model.cards.PointCard;
  * @author Marco Galli
  * @see PointCard
  */
-public class PlayerAchievements {
+public class PlayerAchievements implements Serializable {
     private boolean completedFirstCommonGoal;
     private boolean completedSecondCommonGoal;
     private HashMap<Integer, PointCard> pointCardsEarned;
