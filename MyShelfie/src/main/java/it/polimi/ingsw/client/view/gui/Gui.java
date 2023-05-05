@@ -8,9 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.net.URL;
-
 /**
  * This class contains main info of GUI
  * @author Marco Galli
@@ -34,6 +31,8 @@ public class Gui extends Application implements UserInterface {
             stage.setTitle("My Shelfie");
             stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
             stage.setScene(scene);
+            stage.setFullScreen(false);
+            stage.setMaximized(true);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,23 +4,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene1LoginController">
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene2CreateJoinController">
     <top>
-        <ImageView fitHeight="159.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+        <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <image>
                 <Image url="@../images/Publisher material/Title 2000x618px.png" />
             </image>
             <BorderPane.margin>
                 <Insets top="20.0" />
-            </BorderPane.margin></ImageView>
+            </BorderPane.margin>
+        </ImageView>
     </top>
-   <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+    <center>
+        <Label fx:id="labelErrorCreateJoin" textFill="RED" underline="true">
+            <font>
+                <Font name="Algerian" size="20.0" />
+            </font>
+            <BorderPane.margin>
+                <Insets bottom="20.0" />
+            </BorderPane.margin>
+        </Label>
+    </center>
+   <bottom>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="120.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Create Lobby" />
-            <Button mnemonicParsing="false" text="Join Lobby" />
+             <Button fx:id="buttonCreateLobby" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#createLobby" text="Create Lobby">
+                <font>
+                   <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Button>
+             <Button fx:id="buttonJoinLobby" mnemonicParsing="false" onAction="#joinLobby" text="Join Lobby">
+                <font>
+                   <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Button>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="70.0" />
+         </BorderPane.margin>
       </HBox>
-   </center>
+   </bottom>
 </BorderPane>

@@ -1,52 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene1LoginController">
-    <children>
-        <ImageView fitHeight="360.0" fitWidth="640.0" opacity="0.9" pickOnBounds="true">
-
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LobbyController">
+    <top>
+        <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <image>
+                <Image url="@../images/Publisher material/Title 2000x618px.png" />
+            </image>
+            <BorderPane.margin>
+                <Insets top="20.0" />
+            </BorderPane.margin>
         </ImageView>
-        <Label layoutX="58.0" layoutY="14.0" prefWidth="524.0" text="MY SHELFIE" textAlignment="CENTER">
-            <font>
-                <Font name="Algerian" size="96.0" />
-            </font>
-            <effect>
-                <Blend />
-            </effect>
-            <textFill>
-                <LinearGradient endX="0.14015151244221313" endY="1.0" startX="0.1325757485447508">
-                    <stops>
-                        <Stop>
-                            <color>
-                                <Color red="0.5686274766921997" green="0.062745101749897" blue="0.062745101749897" />
-                            </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                            <color>
-                                <Color red="0.7473683953285217" green="0.2768031060695648" blue="0.2768031060695648" />
-                            </color>
-                        </Stop>
-                    </stops>
-                </LinearGradient>
-            </textFill>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </Label>
-        <Label layoutX="58.0" layoutY="112.0" prefHeight="44.0" prefWidth="386.0" text="Waiting for players..." textAlignment="CENTER">
-            <font>
-                <Font name="Times New Roman Bold Italic" size="24.0" />
-            </font>
-            <effect>
-                <Blend />
-            </effect>
-        </Label>
-    </children>
-</AnchorPane>
+    </top>
+</BorderPane>

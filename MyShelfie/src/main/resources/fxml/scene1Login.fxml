@@ -7,6 +7,16 @@
 <?import javafx.scene.text.*?>
 
 <BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene1LoginController">
+   <top>
+      <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../images/Publisher material/Title 2000x618px.png" />
+         </image>
+         <BorderPane.margin>
+            <Insets top="20.0" />
+         </BorderPane.margin>
+      </ImageView>
+   </top>
    <center>
       <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="70.0">
          <children>
@@ -34,13 +44,4 @@
          </padding>
       </VBox>
    </center>
-   <top>
-      <ImageView fitHeight="159.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="@../images/Publisher material/Title 2000x618px.png" />
-         </image>
-         <BorderPane.margin>
-            <Insets top="20.0" />
-         </BorderPane.margin></ImageView>
-   </top>
 </BorderPane>
