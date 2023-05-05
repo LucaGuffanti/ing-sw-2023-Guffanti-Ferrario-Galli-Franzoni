@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -17,11 +18,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>19.0.2.1</version>
-    </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -42,16 +38,21 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter</artifactId>
-          <version>5.9.2</version>
-          <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.9.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>21-ea+5</version>
+    </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>19.0.2.1</version>
+      <version>21-ea+5</version>
     </dependency>
   </dependencies>
 
@@ -101,21 +102,33 @@
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-maven-plugin</artifactId>
           <version>0.0.8</version>
+          <executions>
+            <execution>
+              <!-- Default configuration for running with: mvn clean javafx:run -->
+              <id>default-cli</id>
+              <configuration>
+                <mainClass>it.polimi.ingsw.client.view.gui.Gui</mainClass>
+                <launcher>app</launcher>
+                <jlinkZipName>app</jlinkZipName>
+                <jlinkImageName>app</jlinkImageName>
+                <noManPages>true</noManPages>
+                <stripDebug>true</stripDebug>
+                <noHeaderFiles>true</noHeaderFiles>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <mainClass>it.polimi.ingsw.client.view.gui.Gui</mainClass>
+            <source>18</source>
+            <target>18</target>
           </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
-      <plugins>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <configuration>
-                  <source>18</source>
-                  <target>18</target>
-              </configuration>
-          </plugin>
+    <plugins>
       </plugins>
   </build>
 </project>
