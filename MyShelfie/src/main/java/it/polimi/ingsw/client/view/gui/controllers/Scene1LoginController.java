@@ -21,11 +21,13 @@ public class Scene1LoginController {
 
         labelErrorLogin.setText("ERROR! PLEASE TRY AGAIN");
 
-        Parent newSceneParent = FXMLLoader.load(getClass().getResource("scene2CreateJoin.fxml"));
-        Scene newScene = new Scene(newSceneParent);
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/scene2CreateJoin.fxml"));
+        Parent root = null;
+        root = loader.load();
+        Scene scene = new Scene(root);
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
+        window.setScene(scene);
         window.show();
     }
 }

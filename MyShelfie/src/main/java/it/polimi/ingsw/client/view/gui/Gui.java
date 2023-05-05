@@ -32,14 +32,11 @@ public class Gui extends Application implements UserInterface {
             root = loader.load();
             Scene scene = new Scene(root);
             stage.setTitle("My Shelfie");
-            stage.getIcons().add(new Image("file:src/main/resources/images/icon.png"));
+            stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(getClass().getResource("scene1Login.fxml"));
     }
 }
-           //     it.polimi.ingsw.client.view.gui/scene1Login.fxml
-           //     it/polimi/ingsw/client/view/gui/scene1Login.fxml

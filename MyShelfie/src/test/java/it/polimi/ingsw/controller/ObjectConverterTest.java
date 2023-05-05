@@ -32,8 +32,8 @@ public class ObjectConverterTest {
         g.getPlayers().get(0).getAchievements().getPointCardsEarned().put(2, new PointCard(PointEnumeration.SIX_POINTS, 6));
         g.getPlayers().get(1).getAchievements().getPointCardsEarned().put(2, new PointCard(PointEnumeration.FOUR_POINTS, 4));
 
-        SimplifiedCommonGoalCard s = GameObjectConverter.simplifyCommonGoalIntoCard(g.getGameInfo().getCommonGoals().get(0),g,0 );
-        SimplifiedCommonGoalCard s2 = GameObjectConverter.simplifyCommonGoalIntoCard(g.getGameInfo().getCommonGoals().get(1),g,1 );
+        SimplifiedCommonGoalCard s = GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(g.getGameInfo().getCommonGoals().get(0),g,0 );
+        SimplifiedCommonGoalCard s2 = GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(g.getGameInfo().getCommonGoals().get(1),g,1 );
 
         for (String nick : s.getNickToEarnedPoints().keySet()) {
             System.out.println(nick+" "+s.getNickToEarnedPoints().get(nick).getPointsGiven());
