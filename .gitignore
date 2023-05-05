@@ -77,7 +77,7 @@ MyShelfie/.idea/httpRequests
 MyShelfie/.idea/caches/build_file_checksums.ser
 
 # Copyrighted assets
-MyShelfie/assets/
+MyShelfie//
 
 # target folder
 MyShelfie/target/
@@ -93,3 +93,11 @@ MyShelfie/PSP17.iml
 
 # complier.xml in .idea folder
 MyShelfie/.idea/compiler.xml
+
+MyShelfie/src/main/resources/images/boards
+MyShelfie/src/main/resources/images/common goal cards
+MyShelfie/src/main/resources/images/item tiles
+MyShelfie/src/main/resources/images/misc
+MyShelfie/src/main/resources/images/personal goal cards
+MyShelfie/src/main/resources/images/Publisher material
+MyShelfie/src/main/resources/images/scoring tokens
