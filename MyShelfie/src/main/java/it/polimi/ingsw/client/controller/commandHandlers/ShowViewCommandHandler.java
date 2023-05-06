@@ -65,7 +65,7 @@ public class ShowViewCommandHandler extends CliCommandHandler{
         if (!checkParameters(parameters)) {
             throw new BadlyFormattedParametersException();
         }
-        String parameter = parameters.get(1);
+        String parameter = parameters.get(0);
 
 
         if(!availablePhases.get(parameter).contains(getCli().getStateContainer().getCurrentState().getCurrentPhase())) {
@@ -79,7 +79,7 @@ public class ShowViewCommandHandler extends CliCommandHandler{
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
-        return parameters.size() == 2 && paramaterToAction.containsKey(parameters.get(1));
+        return parameters.size() == 1 && paramaterToAction.containsKey(parameters.get(0));
     }
 
     @Override

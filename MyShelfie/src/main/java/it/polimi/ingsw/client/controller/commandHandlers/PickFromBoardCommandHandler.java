@@ -43,11 +43,11 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
         List<Coordinates> coordinates = new ArrayList<Coordinates>();
 
-        coordinates.add(new Coordinates(parameters.get(1), parameters.get(2)));
-        if (parameters.size() >= 5) {
-            coordinates.add(new Coordinates(parameters.get(3), parameters.get(4)));
-            if (parameters.size() == 7) {
-                coordinates.add(new Coordinates(parameters.get(5), parameters.get(6)));
+        coordinates.add(new Coordinates(parameters.get(0), parameters.get(1)));
+        if (parameters.size() >= 4) {
+            coordinates.add(new Coordinates(parameters.get(2), parameters.get(3)));
+            if (parameters.size() == 6) {
+                coordinates.add(new Coordinates(parameters.get(4), parameters.get(5)));
             }
         }
 
@@ -59,7 +59,6 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
     @Override
     protected boolean checkParameters(List<String> parameters) {
         ArrayList<String> temp = new ArrayList<>(parameters);
-        temp.remove(0);
         if (!(temp.size() == 2 || temp.size() == 4 || temp.size() == 6))
             return false;
         for(String param : temp) {

@@ -41,19 +41,19 @@ public class SelectColumnCommandHandler extends CliCommandHandler{
             throw new CommandNotAvailableInThisPhaseException();
         }
 
-        SelectColumnMessage msg = new SelectColumnMessage(state.getUsername(), Integer.parseInt(parameters.get(1)));
+        SelectColumnMessage msg = new SelectColumnMessage(state.getUsername(), Integer.parseInt(parameters.get(0)));
 
         super.getCli().dispatchMessageToNetwork(msg);
     }
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
-        if(parameters.size() != 2)
+        if(parameters.size() != 1)
             return false;
 
         try {
 
-            Integer.parseInt(parameters.get(1));
+            Integer.parseInt(parameters.get(0));
             // value is an Integer
         } catch (NumberFormatException e) {
             return false;

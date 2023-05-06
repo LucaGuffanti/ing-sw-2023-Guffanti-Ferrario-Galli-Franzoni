@@ -65,7 +65,7 @@ public class CommandPicker implements Runnable{
                     "Write /help to learn about every command");
         } else {
             try {
-                inputCommandMap.get(commandSubStrings[0]).execute(userInput, stateContainer.getCurrentState());
+                inputCommandMap.get(commandSubStrings[0]).execute(userInput.substring(commandSubStrings[0].length()).trim(), stateContainer.getCurrentState());
             } catch (BadlyFormattedParametersException e) {
                 Printer.error(userInput + " has badly formatted parameters");
                 Printer.error(inputCommandMap.get(commandSubStrings[0]).getCommandDescription());

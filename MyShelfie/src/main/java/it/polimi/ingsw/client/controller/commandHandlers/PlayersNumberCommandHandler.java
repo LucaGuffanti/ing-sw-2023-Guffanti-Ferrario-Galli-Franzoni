@@ -41,17 +41,17 @@ public class PlayersNumberCommandHandler extends CliCommandHandler{
             throw new CommandNotAvailableInThisPhaseException();
         }
 
-        NumberOfPlayersSelectionMessage msg = PlayersNumberSelectionMessageHandler.createMessage(state.getUsername(), Integer.parseInt(parameters.get(1)));
+        NumberOfPlayersSelectionMessage msg = PlayersNumberSelectionMessageHandler.createMessage(state.getUsername(), Integer.parseInt(parameters.get(0)));
         super.getCli().dispatchMessageToNetwork(msg);
     }
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
-        if(parameters.size() == 2){
+        if(parameters.size() == 1){
 
             int num;
             try{
-                num = Integer.parseInt(parameters.get(1));
+                num = Integer.parseInt(parameters.get(0));
                 if(num < 2 || num > 4)
                     return false;
             }catch (NumberFormatException ex){

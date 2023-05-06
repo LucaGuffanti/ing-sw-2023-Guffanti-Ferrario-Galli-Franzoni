@@ -61,7 +61,6 @@ public class ChatCommandHandler extends CliCommandHandler{
         }
 
         StringBuilder builder = new StringBuilder();
-        parameters.remove(0);
         int listIndex = 0;
         for(String s : parameters) {
             if(!s.equals(ChatCommandHandler.receiversTag)) {
@@ -94,8 +93,7 @@ public class ChatCommandHandler extends CliCommandHandler{
      */
     @Override
     protected boolean checkParameters(List<String> parameters) {
-        Logger.externalInjection("EXPERIMENTAL CHECKING");
-        if (parameters.size()<2) {
+        if (parameters.size()<1) {
             return false;
         } else {
             if (parameters.contains(receiversTag)) {

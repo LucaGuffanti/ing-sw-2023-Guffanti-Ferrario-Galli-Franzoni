@@ -33,14 +33,13 @@ public class HelpCommandHandler extends CliCommandHandler{
 
     @Override
     public void execute(String commandInput, ClientState state) {
-
+        checkParameters(super.splitAndTrimInput(commandInput));
         super.getCli().renderCliView(new HelpView());
     }
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
-
-        return true;
+        return parameters.get(0).equals("");
     }
 
     public static String getCommandLabel() {

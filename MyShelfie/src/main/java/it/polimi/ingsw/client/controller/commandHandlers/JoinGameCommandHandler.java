@@ -35,7 +35,6 @@ public class JoinGameCommandHandler extends CliCommandHandler{
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
 
         List<String> parameters = super.splitAndTrimInput(commandInput);
-
         if(!checkParameters(parameters)){
             throw new BadlyFormattedParametersException();
         }
@@ -50,7 +49,7 @@ public class JoinGameCommandHandler extends CliCommandHandler{
     @Override
     protected boolean checkParameters(List<String> parameters) {
 
-        return parameters.size() == 1;
+        return parameters.get(0).equals("");
     }
 
     public static String getCommandLabel() {
