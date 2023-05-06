@@ -23,4 +23,20 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.network.rmi;
     opens it.polimi.ingsw.server.model.utils to com.opencsv;
     exports it.polimi.ingsw.server.model.utils;
+
+    opens it.polimi.ingsw.server.model to com.google.gson;
+    exports it.polimi.ingsw.server.model;
+    opens it.polimi.ingsw.server.model.player to com.google.gson;
+    exports it.polimi.ingsw.server.model.player;
+    opens it.polimi.ingsw.server.model.cells to com.google.gson;
+    exports it.polimi.ingsw.server.model.cells;
+    opens it.polimi.ingsw.server.model.cards to com.google.gson;
+    exports it.polimi.ingsw.server.model.cards;
+    opens it.polimi.ingsw.server.model.cards.goalCards to com.google.gson;
+    exports it.polimi.ingsw.server.model.cards.goalCards;
+    opens it.polimi.ingsw.server.controller.save to com.google.gson;
+    exports it.polimi.ingsw.server.controller.save;
+    opens it.polimi.ingsw.server.controller.utils to com.google.gson;
+    exports it.polimi.ingsw.server.controller.utils;
+
 }
