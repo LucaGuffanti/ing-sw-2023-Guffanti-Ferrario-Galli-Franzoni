@@ -33,10 +33,11 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
     protected String name;
     protected StateContainer stateContainer;
 
-    public ClientNetworkHandler(StateContainer stateContainer) throws RemoteException {
+    public ClientNetworkHandler(StateContainer stateContainer, ClientManager clientManager) throws RemoteException {
         super();
         this.stateContainer = stateContainer;
         messageQueue = new ArrayList<>();
+        this.manager = clientManager;
         // new MessageRetriever().start();
     }
 
@@ -55,7 +56,7 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
      * @param received The received message
      */
     public void handleIncomingMessage(Message received) {
-        Logger.externalInjection("Managing "+received.getType());
+        //Logger.externalInjection("Managing "+received.getType());
         // It's useless to make the ping message exit the client network handler
         if (received.getType().equals(MessageType.PING_REQUEST)) {
             //System.out.println("Sending ping request to server");
@@ -91,8 +92,8 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
      * one between the client and the server has become offline.
      */
     public void onConnectionLost() {
-        System.out.println("CONNECTION LOST");
-        System.exit(1);
+        Printer.error("CONNECTION LOST");
+        manager.onDisconnection();
     }
 
     /**

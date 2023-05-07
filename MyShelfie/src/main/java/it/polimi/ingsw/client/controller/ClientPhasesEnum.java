@@ -12,7 +12,7 @@ public enum ClientPhasesEnum {
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,
     SELECT_COLUMN,
-
+    ABORTED_GAME,
     FINAL_RESULTS_SHOW, CONNECTED,
 
 

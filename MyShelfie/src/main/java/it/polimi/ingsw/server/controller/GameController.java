@@ -503,20 +503,14 @@ public class GameController {
      * If the disconnected player is the player that's should be active during the turn, the turn is instantly
      * ended without calculating the points, and the next turn starts.
      *
-     * @param nickname the player who lost connection
      */
-    public synchronized void onPlayerDisconnection(String nickname) {
-        //TODO IMPLEMENT
-    }
-
-    /**
-     * This method manages the reconnection of a player who previously lost
-     * connection
-     * @param nickname the nickname of the player who is trying to reconnect
-     */
-    public synchronized void onPlayerReconnection(String nickname) {
-        //TODO IMPLEMENT
-        Logger.controllerError("GAME-SIDE RECONNECTION NOT IMPLEMENTED");
+    public synchronized void onPlayerDisconnection() {
+        serverNetworkHandler.broadcastToAll(
+                new AbortedGameMessage(
+                        ServerNetworkHandler.HOSTNAME
+                )
+        );
+        System.exit(1);
     }
 
     /**

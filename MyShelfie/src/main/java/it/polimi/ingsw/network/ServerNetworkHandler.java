@@ -217,6 +217,9 @@ public class ServerNetworkHandler {
                 }
             }
         }
+        synchronized (controllerLock) {
+            controller.onPlayerDisconnection();
+        }
 
     }
 
@@ -269,9 +272,9 @@ public class ServerNetworkHandler {
                 }
                 // preventing already joined players to rejoin
                 if (aruCopy.contains(m.getSenderUsername())) {
-                    synchronized (controllerLock) {
-                        controller.onPlayerReconnection(m.getSenderUsername());
-                    }
+//                    synchronized (controllerLock) {
+//                        controller.onPlayerReconnection(m.getSenderUsername());
+//                    }
                 }
             }
             case PICK_FROM_BOARD -> {

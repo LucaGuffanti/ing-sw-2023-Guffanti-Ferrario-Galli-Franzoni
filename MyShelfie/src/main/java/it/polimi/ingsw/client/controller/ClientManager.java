@@ -27,7 +27,7 @@ public class ClientManager {
         ClientState initialState = new ClientState();
         initialState.setCurrentPhase(ClientPhasesEnum.LOGIN);
         stateContainer = new StateContainer(initialState);
-        networkHandler = new SocketClient(serverIp, serverPort, stateContainer);
+        networkHandler = new SocketClient(serverIp, serverPort, stateContainer, this);
         userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
     }
 
@@ -35,7 +35,7 @@ public class ClientManager {
         ClientState initialState = new ClientState();
         initialState.setCurrentPhase(ClientPhasesEnum.LOGIN);
         stateContainer = new StateContainer(initialState);
-        networkHandler = new RMIClient(serviceName, serverIp , serverPort, stateContainer);
+        networkHandler = new RMIClient(serviceName, serverIp , serverPort, stateContainer, this);
         userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
     }
 
@@ -44,6 +44,7 @@ public class ClientManager {
     }
 
 
-
-
+    public void onDisconnection() {
+        userInterface.onGameAborted();
+    }
 }

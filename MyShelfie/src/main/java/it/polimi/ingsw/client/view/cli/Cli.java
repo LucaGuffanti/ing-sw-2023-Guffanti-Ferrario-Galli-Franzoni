@@ -32,6 +32,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
         ClientPhasesEnum.WAITING_FOR_TURN, new BoardView(),
         ClientPhasesEnum.PICK_FORM_BOARD, new PickFromBoardView(),
         ClientPhasesEnum.SELECT_COLUMN, new SelectColumnView(),
+        ClientPhasesEnum.ABORTED_GAME, new GameAbortedView(),
         ClientPhasesEnum.FINAL_RESULTS_SHOW, new EndGameResultsView()
     );
 
@@ -63,8 +64,14 @@ public class Cli implements UserInterface, PropertyChangeListener {
         renderCurrentPhaseDefaultView();
 
         Thread commandPickerThread = new Thread(commandPicker);
-        System.out.println("Starting the command receiver thread");
         commandPickerThread.start();
+        Printer.title("YOU CAN NOW WRITE AND SUBMIT COMMANDS");
+    }
+
+    @Override
+    public void onGameAborted() {
+        CliView cli = new GameAbortedView();
+        cli.render(null);
     }
 
     /**

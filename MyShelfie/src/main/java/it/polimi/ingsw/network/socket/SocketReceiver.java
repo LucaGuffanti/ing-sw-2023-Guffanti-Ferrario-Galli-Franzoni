@@ -39,12 +39,12 @@ public class SocketReceiver extends Thread {
                     clientNetworkHandler.getMessageQueue().notifyAll();
                 }*/
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 System.out.println("Lost connection with the server!");
                 clientNetworkHandler.onConnectionLost();
                 Thread.currentThread().interrupt();
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 System.out.println("Couldn't cast to Message");
                 clientNetworkHandler.onConnectionLost();
                 Thread.currentThread().interrupt();

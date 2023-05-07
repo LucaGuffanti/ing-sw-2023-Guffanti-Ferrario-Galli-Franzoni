@@ -30,8 +30,7 @@ public class SocketSender {
             out.writeObject(m);
             out.flush();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Couldn't reach the server");
+            clientNetworkHandler.onConnectionLost();
         }
     }
 

@@ -20,6 +20,11 @@ public class Gui extends Application implements UserInterface {
     }
 
     @Override
+    public void onGameAborted() {
+
+    }
+
+    @Override
     public void start(Stage stage) throws Exception {
 
         try {

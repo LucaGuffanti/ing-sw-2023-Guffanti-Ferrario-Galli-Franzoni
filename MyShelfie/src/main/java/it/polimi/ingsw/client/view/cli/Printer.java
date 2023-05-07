@@ -568,7 +568,7 @@ public class Printer {
     }
 
     public static void printInfo(String s) {
-        System.out.println(CYAN+s+RESET);
+        System.out.println(YELLOW_BOLD_BRIGHT+s+RESET);
     }
 
     public static void printImportantInfo(String s) {

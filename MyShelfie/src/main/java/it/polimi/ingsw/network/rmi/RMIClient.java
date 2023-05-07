@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 import it.polimi.ingsw.network.ServerNetworkHandler;
@@ -24,8 +25,8 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
     private RMIServerInterface server;
     private RMIClientPinger simplePinger;
     private boolean pingerActive;
-    public RMIClient(String serviceName, String serverIP, int serverPort, StateContainer stateContainer) throws RemoteException {
-        super(stateContainer);
+    public RMIClient(String serviceName, String serverIP, int serverPort, StateContainer stateContainer, ClientManager manager) throws RemoteException {
+        super(stateContainer, manager);
         this.serviceName = serviceName;
         this.serverIP = serverIP;
         this.serverPort = serverPort;
@@ -54,7 +55,7 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
                 t.start();
             }
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            onConnectionLost();
         }
     }
 
