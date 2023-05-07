@@ -105,6 +105,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     ResponseResultType.SUCCESS,
                     msg.getSenderUsername()
             ));
+            socketServer.getServerNetworkHandler().onNewLogin(msg.getSenderUsername());
         }
         else if (result.isLogged() && result.isReconnecting()) {
             sendMessage(new LoginResponseMessage(

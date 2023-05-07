@@ -66,6 +66,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
                     ResponseResultType.SUCCESS,
                     username
             ));
+            serverNetworkHandler.onNewLogin(username);
         }
         else if (result.isLogged() && result.isReconnecting()) {
             rmiClientInterface.messageFromServer(new LoginResponseMessage(

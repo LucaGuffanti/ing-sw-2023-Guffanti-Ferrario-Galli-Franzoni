@@ -7,13 +7,14 @@ package it.polimi.ingsw.client.controller;
 public enum ClientPhasesEnum {
     LOGIN,
     NOT_JOINED,
+    WAITING_FOR_LOBBY,
     LOBBY,
     DECIDING_FOR_RELOAD,
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,
     SELECT_COLUMN,
     ABORTED_GAME,
-    FINAL_RESULTS_SHOW, CONNECTED,
+    FINAL_RESULTS_SHOW, CONNECTED, PICK_PLAYERS,
 
 
 

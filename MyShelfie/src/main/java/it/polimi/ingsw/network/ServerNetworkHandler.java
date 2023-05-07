@@ -39,7 +39,10 @@ public class ServerNetworkHandler {
     private final HashSet<String> allReconnectedUsers;
     private final Object clientStauts = new Object();
     private Pinger pinger;
+    private Boolean creatingLobby = false;
+    private final Object creatingLobbyLock = new Object();
 
+    private List<String> waitingForLobby;
     private GameController controller = null;
     private final Object controllerLock = new Object();
 
@@ -67,6 +70,8 @@ public class ServerNetworkHandler {
 
         this.nickToConnectionMap = new HashMap<>();
         this.allReconnectedUsers = new HashSet<>();
+        this.waitingForLobby = new ArrayList<>();
+        this.creatingLobby = false;
 
     }
 
@@ -231,27 +236,15 @@ public class ServerNetworkHandler {
      */
     public void onMessageReceived(Message m) {
         switch (m.getType()) {
-            case JOIN_GAME -> {
-                synchronized (controllerLock) {
-                    if (controller != null) {
-                        controller.onPlayerJoin(m.getSenderUsername());
-                    } else {
-                       sendToPlayer(m.getSenderUsername(),
-                               new PickNumberOfPlayersMessage(
-                                       ServerNetworkHandler.HOSTNAME,
-                                       "Insert the number of user for this game through the specific command.",
-                                       m.getSenderUsername()
-                               )
-                       );
-                    }
-                }
-            }
             case NUMBER_OF_PLAYERS_SELECTION -> {
                 synchronized (controllerLock) {
                     if (controller == null) {
                         NumberOfPlayersSelectionMessage msg = (NumberOfPlayersSelectionMessage) m;
                         controller = new GameController(this);
-                        controller.createGame(msg.getSenderUsername(),msg.getNumOfPlayers(),0);
+                        controller.createGame(msg.getSenderUsername(), msg.getNumOfPlayers(),0);
+                        for (String player : waitingForLobby) {
+                            controller.onPlayerJoin(player);
+                        }
                     } else {
                         sendToPlayer(m.getSenderUsername(),
                                 new AccessResultMessage(
@@ -329,5 +322,33 @@ public class ServerNetworkHandler {
             temp = new HashMap<>(nickToConnectionMap);
         }
         return temp;
+    }
+
+    public void onNewLogin(String username) {
+        synchronized (controllerLock) {
+            if (controller != null) {
+                controller.onPlayerJoin(username);
+            } else {
+                synchronized (creatingLobbyLock) {
+                    if (!creatingLobby) {
+                        creatingLobby = true;
+                        sendToPlayer(username,
+                                new PickNumberOfPlayersMessage(
+                                        ServerNetworkHandler.HOSTNAME,
+                                        "Insert the number of user for this game through the specific command.",
+                                        username
+                                )
+                        );
+                    } else {
+                        waitingForLobby.add(username);
+                        sendToPlayer(username,
+                                new WaitForLobbyMessage(
+                                        ServerNetworkHandler.HOSTNAME
+                                )
+                        );
+                    }
+                }
+            }
+        }
     }
 }

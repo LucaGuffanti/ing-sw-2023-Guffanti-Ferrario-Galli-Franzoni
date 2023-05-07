@@ -18,6 +18,7 @@ public class HelpView implements CliView {
         inputCommandMapToDescription.put(SelectColumnCommandHandler.commandLabel, SelectColumnCommandHandler.commandDescription);
         inputCommandMapToDescription.put(ChatCommandHandler.commandLabel, ChatCommandHandler.commandDescription);
         inputCommandMapToDescription.put(HelpCommandHandler.commandLabel, HelpCommandHandler.commandDescription);
+        inputCommandMapToDescription.put(ReloadGameCommandHandler.commandLabel, ReloadGameCommandHandler.commandDescription);
 
     }
     @Override

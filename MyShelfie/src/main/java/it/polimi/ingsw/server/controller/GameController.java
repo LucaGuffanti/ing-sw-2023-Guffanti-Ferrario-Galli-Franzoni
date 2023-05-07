@@ -257,7 +257,7 @@ public class GameController {
         List<String> joinedPlayerNicks = game.getPlayers().stream().map(p->p.getNickname()).toList();
 
 
-        if (loadedNumOfPlayers == actualNumOfPlayers && loadedAdminName.equals(actualAdmin) && loadedPlayerNicks.equals(joinedPlayerNicks)) {
+        if (loadedNumOfPlayers == actualNumOfPlayers && loadedPlayerNicks.equals(joinedPlayerNicks)) {
             this.gameStatus = GameStatusEnum.FOUND_SAVE_FILE;
             serverNetworkHandler.sendToPlayer(loadedAdminName, new FoundSavedGameMessage(
                   ServerNetworkHandler.HOSTNAME,
@@ -280,7 +280,7 @@ public class GameController {
 
         Logger.controllerInfo("The players will play in the following order");
         Logger.controllerInfo(orderedPlayersNicks.toString());
-        Logger.controllerInfo(orderedPlayersNicks.get((activePlayerIndex+1)%4)+" will start playing");
+        Logger.controllerInfo(orderedPlayersNicks.get((activePlayerIndex+1)%game.getGameInfo().getNPlayers())+" will start playing");
         game.loadGame(saveFileData);
 
         gameStatus = GameStatusEnum.STARTED;

@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.messages.Message;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Cli implements UserInterface, PropertyChangeListener {
@@ -24,22 +25,26 @@ public class Cli implements UserInterface, PropertyChangeListener {
     private CliView cliView = null;
 
 
-    private final Map<ClientPhasesEnum, CliView> defaultViewsPerPhasesMap = Map.of(
-        ClientPhasesEnum.LOGIN, new LoginView(),
-        ClientPhasesEnum.NOT_JOINED, new NotJoinedView(),
-        ClientPhasesEnum.LOBBY, new LobbyView(),
-        ClientPhasesEnum.DECIDING_FOR_RELOAD, new ReloadDecisionView(),
-        ClientPhasesEnum.WAITING_FOR_TURN, new BoardView(),
-        ClientPhasesEnum.PICK_FORM_BOARD, new PickFromBoardView(),
-        ClientPhasesEnum.SELECT_COLUMN, new SelectColumnView(),
-        ClientPhasesEnum.ABORTED_GAME, new GameAbortedView(),
-        ClientPhasesEnum.FINAL_RESULTS_SHOW, new EndGameResultsView()
-    );
+    private Map<ClientPhasesEnum, CliView> defaultViewsPerPhasesMap;
 
     public Cli(StateContainer stateContainer, ClientNetworkHandler networkHandler) {
         this.stateContainer = stateContainer;
         this.networkHandler = networkHandler;
         this.commandPicker = new CommandPicker(this, System.in);
+        this.defaultViewsPerPhasesMap = new HashMap<>();
+
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.LOGIN, new LoginView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.NOT_JOINED, new NotJoinedView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.PICK_PLAYERS, new PickPlayersView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, new WaitingForLobbyView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.LOBBY, new LobbyView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.DECIDING_FOR_RELOAD, new ReloadDecisionView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.WAITING_FOR_TURN, new BoardView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.PICK_FORM_BOARD, new PickFromBoardView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.SELECT_COLUMN, new SelectColumnView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.ABORTED_GAME, new GameAbortedView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.FINAL_RESULTS_SHOW, new EndGameResultsView());
+
         stateContainer.addPropertyChangeListener(this::propertyChange);
     }
 

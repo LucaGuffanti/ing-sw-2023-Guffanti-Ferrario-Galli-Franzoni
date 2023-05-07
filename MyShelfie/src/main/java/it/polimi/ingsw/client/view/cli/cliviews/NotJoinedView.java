@@ -8,6 +8,6 @@ import it.polimi.ingsw.client.view.cli.Printer;
 public class NotJoinedView implements CliView {
     @Override
     public void render(ClientState state) {
-        Printer.printInfo(CLIMessages.NOT_JOINED);
+        Printer.title("ULTIMATING LOGIN...");
     }
 }

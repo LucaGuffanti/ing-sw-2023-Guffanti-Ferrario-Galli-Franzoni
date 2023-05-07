@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PlayersNumberCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
-            ClientPhasesEnum.NOT_JOINED
+            ClientPhasesEnum.PICK_PLAYERS
     ));
 
 

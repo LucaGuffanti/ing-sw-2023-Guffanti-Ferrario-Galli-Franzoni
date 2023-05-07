@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
@@ -32,7 +33,7 @@ public class PlayersNumberSelectionMessageHandler extends Reducer implements Cre
             throw new RuntimeException(e);
         }
 
-        state.setServerLastMessage(pickNumberOfPlayersMessage.getDescription());
+        state.setCurrentPhase(ClientPhasesEnum.PICK_PLAYERS);
 
 
         return state;
