@@ -21,7 +21,7 @@ public class Gui extends Application implements UserInterface {
 
     @Override
     public void onGameAborted() {
-
+        // esce un messaggio "partita finita"
     }
 
     @Override
@@ -36,8 +36,8 @@ public class Gui extends Application implements UserInterface {
             stage.setTitle("My Shelfie");
             stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
             stage.setScene(scene);
-            stage.setFullScreen(false);
             stage.setMaximized(true);
+            stage.setFullScreen(false);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene2LobbyCreationController">
+    <top>
+        <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <image>
+                <Image url="@../images/Publisher material/Title 2000x618px.png" />
+            </image>
+            <BorderPane.margin>
+                <Insets top="20.0" />
+            </BorderPane.margin>
+        </ImageView>
+    </top>
+    <center>
+      <VBox alignment="TOP_CENTER" fillWidth="false" spacing="70.0">
+         <BorderPane.margin>
+            <Insets top="40.0" />
+         </BorderPane.margin>
+         <children>
+             <Label fx:id="labelCreationLobby" textFill="RED" underline="true">
+                <font>
+                      <Font name="Algerian" size="20.0" />
+                </font>
+             </Label>
+             <TextField fx:id="textFieldNumberPlayers" focusTraversable="false" layoutX="249.0" layoutY="211.0" prefHeight="34.0" prefWidth="197.0" promptText="Number of players (2-4)">
+                 <font>
+                     <Font name="Times New Roman" size="18.0" />
+                 </font>
+             </TextField>
+             <Button fx:id="buttonCreateLobby" alignment="TOP_LEFT" defaultButton="true" mnemonicParsing="false" onAction="#createLobby" text="CREATE LOBBY">
+                <font>
+                   <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+    </center>
+   <bottom>
+       <Button fx:id="buttonJoinLobby" mnemonicParsing="false" onAction="#joinLobby" text="JOIN LOBBY" visible="false" BorderPane.alignment="TOP_CENTER">
+           <font>
+               <Font name="System Bold Italic" size="20.0" />
+           </font>
+       </Button>
+   </bottom>
+</BorderPane>

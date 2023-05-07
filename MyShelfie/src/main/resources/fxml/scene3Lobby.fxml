@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LobbyController">
     <top>
@@ -15,4 +17,36 @@
             </BorderPane.margin>
         </ImageView>
     </top>
+   <left>
+      <Label fx:id="labelLobby" text="When all the players connect, you can start the game!" textFill="#ffedaa" underline="true" BorderPane.alignment="TOP_LEFT">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="24.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="50.0" />
+         </padding>
+      </Label>
+   </left>
+   <bottom>
+      <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+         <BorderPane.margin>
+            <Insets bottom="70.0" />
+         </BorderPane.margin>
+         <children>
+            <Label fx:id="labelErrorStartGame" textFill="RED" underline="true">
+               <font>
+                  <Font name="Algerian" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="buttonStartGame" disable="true" mnemonicParsing="false" onAction="#startGame" text="START GAME">
+                <font>
+                    <Font name="System Bold Italic" size="20.0" />
+                </font>
+            </Button>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
