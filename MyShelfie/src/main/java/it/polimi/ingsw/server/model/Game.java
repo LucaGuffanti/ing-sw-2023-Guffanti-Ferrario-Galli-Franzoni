@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameStatusEnum;
 import it.polimi.ingsw.server.controller.save.SaveFileData;
+import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.cards.CardBuilder;
 import it.polimi.ingsw.server.model.cards.EndOfGameCard;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
+import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.*;
 import it.polimi.ingsw.server.model.utils.exceptions.*;
 import jdk.jfr.Label;
@@ -88,7 +90,7 @@ public class Game {
 
         gameInfo = new GameInfo();
         gameInfo.setGameID(gameID);
-        gameInfo.setAdmin(admin);
+        gameInfo.setAdmin(admin.getNickname());
         gameInfo.setNPlayers(nPlayers);
     }
 
@@ -103,13 +105,34 @@ public class Game {
         this.controller = controller;
         gameInfo = new GameInfo();
         gameInfo.setGameID(gameID);
-        gameInfo.setAdmin(admin);
+        gameInfo.setAdmin(admin.getNickname());
         gameInfo.setNPlayers(nPlayers);
     }
 
 
     public void loadGame(SaveFileData saveFileData) {
-        //TODO LOADGAME
+        goalCardsDeck = GoalCardsDeckSingleton.getInstance();
+        SimplifiedPlayer[] savedPlayers = saveFileData.getPlayers();
+        ObjectTypeEnum[][] savedBoard = saveFileData.getBoard();
+        SimplifiedGameInfo savedGameInfo = saveFileData.getGameInfo();
+        Sack savedSack = saveFileData.getSack();
+
+        sack = new Sack();
+        // setting the sack
+        sack.setCards(savedSack.getCards());
+        // setting the gameInfo
+        gameInfo.setAdmin(savedGameInfo.getAdmin());
+        gameInfo.setWinner(null);
+        gameInfo.setFirstToCompleteTheShelf(savedGameInfo.getFirstToCompleteTheShelf());
+        gameInfo.setGameID(0);
+        gameInfo.setSelectedCommonGoals(GameObjectConverter.fromSimplifiedCommonGoalsToCommonGoals(savedGameInfo.getCommonGoals()));
+        gameInfo.setNPlayers(savedGameInfo.getnPlayers());
+        gameInfo.setPersonalGoals(GameObjectConverter.fromIdToPersonalGoal(savedGameInfo.getPersonalGoals()));
+        // setting the game board
+        board = new Board();
+        board.setCells(GameObjectConverter.fromMatrixToBoard(savedBoard, gameInfo.getNPlayers(), "src/main/assets/board/cellTypeConfiguration.csv"));
+        // setting every player
+        players = GameObjectConverter.fromSimplifiedPlayerToPlayer(savedPlayers);
     }
     public void setBoard(Board board) {
         this.board = board;
@@ -117,6 +140,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public GoalCardsDeckSingleton getGoalCardsDeck() {
+        return goalCardsDeck;
     }
 
     /**
@@ -258,9 +285,10 @@ public class Game {
 
         }
 
-        // if the player has completed the shelf, award the end of game card
-        if (currentPlayer.getShelf().isFull()) {
+        // if the player has completed the shelf and is the first one, update all the necessary data.
+        if (currentPlayer.getShelf().isFull() && gameInfo.getFirstToCompleteTheShelf()==null) {
             awardEndOfGameCard(currentPlayer);
+            gameInfo.setFirstToCompleteTheShelf(currentPlayer.getNickname());
             controller.onShelfCompletion();
         }
     }

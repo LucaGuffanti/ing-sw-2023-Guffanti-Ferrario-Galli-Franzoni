@@ -425,6 +425,7 @@ public class Printer {
     }
 
     public static void printShelf(ObjectTypeEnum[][] shelf) {
+        System.out.println(DARK_BROWN_BACKGROUND_BRIGHT+"        MY SHELFIE        "+RESET);
         int wantedWidth = 3;
         for (int x = 0; x < shelf[0].length; x++) {
             System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+"     "+RESET);
@@ -453,6 +454,7 @@ public class Printer {
         }
         System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+"   "+RESET);
         System.out.print("\n");
+
     }
 
     public static void printBoard(ObjectTypeEnum[][] board) {

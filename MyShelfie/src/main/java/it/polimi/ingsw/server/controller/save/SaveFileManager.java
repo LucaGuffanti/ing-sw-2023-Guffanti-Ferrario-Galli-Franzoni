@@ -10,10 +10,9 @@ import it.polimi.ingsw.server.model.SimplifiedGameInfo;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * This object contains methods that save and load a game state to and from disk
@@ -24,7 +23,7 @@ public class SaveFileManager {
         try {
             Logger.controllerInfo("SAVING GAME STATE");
 
-            List<SimplifiedPlayer> players = GameObjectConverter.fromPlayersToSimplifiedPlayers(g.getPlayers());
+            SimplifiedPlayer[] players = GameObjectConverter.fromPlayersToSimplifiedPlayers(g.getPlayers());
             ObjectTypeEnum[][] board = GameObjectConverter.fromBoardToMatrix(g.getBoard());
             SimplifiedGameInfo gameInfo = GameObjectConverter.fromGameInfoToSimplifiedGameInfo(g.getGameInfo());
             Sack sack = new Sack(g.getSack());
@@ -52,8 +51,16 @@ public class SaveFileManager {
 
     }
 
-    public static SaveFileData loadGameState(String pathtoFile) {
-        // TODO IMPLEMENT
-        return null;
+    public static SaveFileData loadGameState(File file) throws IOException {
+        FileInputStream in = new FileInputStream(file);
+        Scanner scanner = new Scanner(in);
+
+        Gson gson = new Gson();
+
+        String savedJson = scanner.nextLine();
+        in.close();
+
+        SaveFileData s = gson.fromJson(savedJson, SaveFileData.class);
+        return s;
     }
 }

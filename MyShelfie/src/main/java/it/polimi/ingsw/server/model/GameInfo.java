@@ -20,19 +20,20 @@ import java.util.ArrayList;
  */
 public class GameInfo {
 
-    private Player admin;
+    private String admin;
     private int nPlayers;
     private Player winner;
+    private String firstToCompleteTheShelf;
     private int gameID;
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
 
 
-    public Player getAdmin() {
+    public String getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Player admin) {
+    public void setAdmin(String admin) {
         this.admin = admin;
     }
 
@@ -54,6 +55,14 @@ public class GameInfo {
 
     public int getGameID() {
         return gameID;
+    }
+
+    public String getFirstToCompleteTheShelf() {
+        return firstToCompleteTheShelf;
+    }
+
+    public void setFirstToCompleteTheShelf(String firstToCompleteTheShelf) {
+        this.firstToCompleteTheShelf = firstToCompleteTheShelf;
     }
 
     public void setGameID(int gameID) {

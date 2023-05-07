@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.messages.*;
+import it.polimi.ingsw.network.messages.enums.ReloadGameChoice;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.rmi.RMIServer;
 import it.polimi.ingsw.network.socket.SocketServer;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 import it.polimi.ingsw.network.utils.ServerConfigurationData;
 import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.controller.GameStatusEnum;
 import jdk.jfr.Label;
 
 import java.io.IOException;
@@ -300,7 +302,18 @@ public class ServerNetworkHandler {
                     sendToPlayer(c.getSenderUsername(), c);
                 }
             }
-            // TODO IMPLEMENT MANAGING CHAT MESSAGES
+            case FOUND_SAVED_GAME_RESPONSE -> {
+                FoundSavedGameResponseMessage f = (FoundSavedGameResponseMessage) m;
+                synchronized (controllerLock) {
+                    if (controller.getGameStatus().equals(GameStatusEnum.FOUND_SAVE_FILE)) {
+                        if (f.getChoice().equals(ReloadGameChoice.ACCEPT_RELOAD) && f.getSenderUsername().equals(controller.getGame().getGameInfo().getAdmin())) {
+                            controller.reloadExistingGame();
+                        } else if (f.getChoice().equals(ReloadGameChoice.DECLINE_RELOAD)){
+                            controller.newGameNoReload();
+                        }
+                    }
+                }
+            }
             default -> {
                 Logger.networkCritical(m.getType()+" management is not yet implemented.");
             }

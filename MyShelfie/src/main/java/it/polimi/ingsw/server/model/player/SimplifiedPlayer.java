@@ -26,6 +26,8 @@ public class SimplifiedPlayer implements Serializable {
         this.personalGoalId = personalGoalId;
     }
 
+    public SimplifiedPlayer(){}
+
     public String getName() {
         return name;
     }

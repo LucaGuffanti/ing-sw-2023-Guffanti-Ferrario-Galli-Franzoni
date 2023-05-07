@@ -14,11 +14,11 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  * @author Luca Guffanti
  */
 public class FoundSavedGameMessage extends Message{
-    public FoundSavedGameMessage(MessageType type, String senderUsername) {
+    public FoundSavedGameMessage(String senderUsername) {
         super(MessageType.FOUND_SAVED_GAME, senderUsername);
     }
 
-    public FoundSavedGameMessage(MessageType type, String senderUsername, String description) {
+    public FoundSavedGameMessage(String senderUsername, String description) {
         super(MessageType.FOUND_SAVED_GAME, senderUsername, description);
     }
 

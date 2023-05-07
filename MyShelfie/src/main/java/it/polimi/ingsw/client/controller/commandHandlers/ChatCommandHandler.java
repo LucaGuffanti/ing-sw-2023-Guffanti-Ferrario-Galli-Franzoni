@@ -25,6 +25,7 @@ import java.util.List;
 public class ChatCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.LOBBY,
+            ClientPhasesEnum.DECIDING_FOR_RELOAD,
             ClientPhasesEnum.WAITING_FOR_TURN,
             ClientPhasesEnum.PICK_FORM_BOARD,
             ClientPhasesEnum.SELECT_COLUMN,
@@ -80,8 +81,6 @@ public class ChatCommandHandler extends CliCommandHandler{
             }
         }
 
-
-        //TODO PARSING OF THE COMMAND AND SENDING OF THE MESSAGE
         ChatMessage msg = new ChatMessage(body, clientState.getUsername(), LocalDateTime.now(ZoneId.systemDefault()), receivers);
         super.getCli().dispatchMessageToNetwork(msg);
     }

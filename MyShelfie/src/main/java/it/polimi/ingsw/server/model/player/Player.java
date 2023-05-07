@@ -103,4 +103,7 @@ public class Player {
         return true;
     }
 
+    public void setAchievements(PlayerAchievements achievements) {
+        this.achievements = achievements;
+    }
 }

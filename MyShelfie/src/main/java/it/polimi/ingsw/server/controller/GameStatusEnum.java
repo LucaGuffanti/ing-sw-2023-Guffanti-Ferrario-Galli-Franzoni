@@ -5,6 +5,7 @@ package it.polimi.ingsw.server.controller;
  */
 public enum GameStatusEnum {
     ACCEPTING_PLAYERS,
+    FOUND_SAVE_FILE,
     STARTED,
     FINAL_TURNS,
     ENDED;

@@ -86,5 +86,6 @@ public class CommandPicker implements Runnable{
         inputCommandMap.put(SelectColumnCommandHandler.commandLabel, new SelectColumnCommandHandler(cli));
         inputCommandMap.put(ChatCommandHandler.commandLabel, new ChatCommandHandler(cli));
         inputCommandMap.put(HelpCommandHandler.commandLabel, new HelpCommandHandler(cli));
+        inputCommandMap.put(ReloadGameCommandHandler.commandLabel, new ReloadGameCommandHandler(cli));
     }
 }

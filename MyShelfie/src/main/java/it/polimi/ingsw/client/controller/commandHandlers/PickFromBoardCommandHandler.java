@@ -20,7 +20,9 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
     public final static String commandLabel = "/pb";
     public final static String commandDescription = "Pick Form Board Command\n\n" +
-            "Usage: +"+commandLabel+" x1 y1 [x2 y2 x3 y3] with xi yi being the coordinates of the cards you want to pick";
+            "Usage: +"+commandLabel+" x1 y1 [x2 y2 x3 y3] with xi yi being the coordinates of the cards you want to pick.\n" +
+            "Remember that the tiles you pick must be adjacent on either the horizontal or vertical axis, and that you can't pick\n" +
+            "the same tiles";
 
 
     public PickFromBoardCommandHandler(Cli cli) {
@@ -66,7 +68,60 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
                 return false;
             }
         }
+
+        int x1 = Integer.parseInt(parameters.get(0));
+        int y1 = Integer.parseInt(parameters.get(1));
+
+        int x2;
+        int y2;
+
+        int x3;
+        int y3;
+
+        if (parameters.size() >= 4) {
+            x2 = Integer.parseInt(parameters.get(2));
+            y2 = Integer.parseInt(parameters.get(3));
+
+            if (parameters.size() == 6) {
+                x3 = Integer.parseInt(parameters.get(4));
+                y3 = Integer.parseInt(parameters.get(5));
+
+                if(x1 == x2 && x2 == x3) {
+                    return checkTripleOrdering(y1, y2, y3);
+                } else if (y1 == y2 && y2 == y3) {
+                    return checkTripleOrdering(x1, x2, x3);
+                } else {
+                    return false;
+                }
+            } else {
+               if (x1 != x2) {
+                   return x1+1 == x2 || x1-1 == x2;
+               } else if (y1 != y2) {
+                   return y1+1 == y2 || y1-1 == y2;
+               } else {
+                   return false;
+               }
+            }
+        }
         return true;
+    }
+
+    /**
+     * This method checks that 3 coordinates are correctly ordered, either in ascending and descending
+     * order and that they are subsequent
+     * @param c1 the first coordinate
+     * @param c2 the second coordinate
+     * @param c3 the third coordinate
+     * @return c1"<"c2"<"c3 && c1+2==c2+1==c3 OR c3"<"c2"<"c1 && c3+2==c2+1==c1
+     */
+    private boolean checkTripleOrdering(int c1, int c2, int c3) {
+        if (c1 < c2 && c2 < c3) {
+            return c1 +1 == c2 && c2 +1 == c3;
+        } else if (c3 < c2 && c2 < c1) {
+            return c3 +1 == c2 && c2 +1 == c1;
+        }else {
+            return false;
+        }
     }
 
     public static String getCommandLabel() {
@@ -76,5 +131,4 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
     public String getCommandDescription() {
         return commandDescription;
     }
-
 }

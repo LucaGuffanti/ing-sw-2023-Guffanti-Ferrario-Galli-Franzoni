@@ -1,24 +1,22 @@
 package it.polimi.ingsw.server.controller.utils;
 
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.GameInfo;
-import it.polimi.ingsw.server.model.SimplifiedGameInfo;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.cards.ObjectCard;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.server.model.cells.BoardCell;
+import it.polimi.ingsw.server.model.cells.BoardCellEnum;
 import it.polimi.ingsw.server.model.cells.ShelfCell;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.Constants;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
+import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -114,14 +112,14 @@ public class GameObjectConverter {
 
         return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), nickToPoints);
     }
-    public static List<SimplifiedPlayer> fromPlayersToSimplifiedPlayers(ArrayList<Player> players) {
+    public static SimplifiedPlayer[] fromPlayersToSimplifiedPlayers(ArrayList<Player> players) {
         return players.stream()
-                .map(p-> new SimplifiedPlayer(
+                .map(p -> new SimplifiedPlayer(
                         p.getNickname(),
                         fromShelfToMatrix(p.getShelf()),
                         p.getAchievements(),
                         fromPersonalGoalToString(p.getGoal())))
-                .toList();
+                .toList().toArray(new SimplifiedPlayer[0]);
     }
 
     public static SimplifiedGameInfo fromGameInfoToSimplifiedGameInfo(GameInfo gameInfo) {
@@ -133,12 +131,81 @@ public class GameObjectConverter {
                 .toList();
 
         return new SimplifiedGameInfo(
-                gameInfo.getAdmin().getNickname(),
+                gameInfo.getAdmin(),
                 gameInfo.getNPlayers(),
                 "NULL",
                 gameInfo.getGameID(),
                 new ArrayList<>(simpleCommonGoalCards),
-                new ArrayList<>(gameInfo.getPersonalGoals().stream().map(p->p.getId()).toList())
+                new ArrayList<>(gameInfo.getPersonalGoals().stream().map(p->p.getId()).toList()),
+                gameInfo.getFirstToCompleteTheShelf()
         );
+    }
+
+    public static ArrayList<CommonGoalCard> fromSimplifiedCommonGoalsToCommonGoals(ArrayList<SimplifiedCommonGoalCard> simplified) {
+        ArrayList<CommonGoalCard> commonGoals = new ArrayList<>(simplified.stream()
+                .map(s-> GoalCardsDeckSingleton.getInstance().getCommonGoalCardById(s.getId()))
+                .toList());
+        
+        for (int i = 0; i < commonGoals.size(); i++) {
+            commonGoals.get(i).setPointsCards(simplified.get(i).getPointCards());
+        }
+        return commonGoals;
+    }
+
+    public static ArrayList<PersonalGoalCard> fromIdToPersonalGoal(ArrayList<String> personalGoals) {
+        return new ArrayList<>(
+                personalGoals.stream().map(p->GoalCardsDeckSingleton.getInstance().getPersonalGoalCardById(p)).toList()
+        );
+    }
+
+    /**
+     *
+     * @param savedBoard the matrix representing the saved board
+     * @param nPlayers the number of players
+     * @param path the path to the csv file containing the board configuration in terms of active and inactive cells
+     *             based on the number of players
+     * @return the board cell matrix
+     */
+    public static BoardCell[][] fromMatrixToBoard(ObjectTypeEnum[][] savedBoard, int nPlayers, String path) {
+        BoardCell[][] cells = CsvToBoardParser.parseBoardCellTypeConfiguration(path, nPlayers);
+        for (int i = 0; i < Constants.BOARD_DIMENSION; i++) {
+            for (int j = 0; j < Constants.BOARD_DIMENSION; j++) {
+                if (savedBoard[i][j] == null) {
+                    cells[i][j].setCellCard(Optional.empty());
+                } else {
+                    cells[i][j].setCellCard(Optional.of(new ObjectCard(savedBoard[i][j])));
+                }
+            }
+        }
+        return cells;
+    }
+
+    public static ArrayList<Player> fromSimplifiedPlayerToPlayer(SimplifiedPlayer[] savedPlayers) {
+        ArrayList<Player> players = new ArrayList<>();
+
+        for (int i = 0; i< savedPlayers.length; i++) {
+            Player p = new Player(savedPlayers[i].getName());
+            p.setGoal(GoalCardsDeckSingleton.getInstance().getPersonalGoalCardById(savedPlayers[i].getPersonalGoalId()));
+            p.setAchievements(savedPlayers[i].getAchievements());
+            p.setShelf(fromMatrixToShelf(savedPlayers[i].getShelf()));
+            players.add(p);
+        }
+        return players;
+    }
+
+    public static Shelf fromMatrixToShelf(ObjectTypeEnum[][] shelf) {
+        ShelfCell[][] cells = new ShelfCell[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
+        for (int i = 0; i < Constants.SHELF_HEIGHT; i++) {
+            for (int j = 0; j < Constants.SHELF_LENGTH; j++) {
+                if (shelf[i][j] == null) {
+                    cells[i][j] = new ShelfCell(Optional.empty());
+                } else {
+                    cells[i][j] = new ShelfCell(Optional.of(new ObjectCard(shelf[i][j])));
+                }
+            }
+        }
+        Shelf s = new Shelf();
+        s.setCells(cells);
+        return s;
     }
 }

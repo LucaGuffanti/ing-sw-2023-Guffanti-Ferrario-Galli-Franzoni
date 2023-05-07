@@ -8,9 +8,11 @@ public enum ClientPhasesEnum {
     LOGIN,
     NOT_JOINED,
     LOBBY,
+    DECIDING_FOR_RELOAD,
     WAITING_FOR_TURN,
     PICK_FORM_BOARD,
     SELECT_COLUMN,
+
     FINAL_RESULTS_SHOW, CONNECTED,
 
 

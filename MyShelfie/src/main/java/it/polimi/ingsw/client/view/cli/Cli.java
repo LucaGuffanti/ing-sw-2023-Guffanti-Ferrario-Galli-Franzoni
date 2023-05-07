@@ -23,10 +23,12 @@ public class Cli implements UserInterface, PropertyChangeListener {
     private CommandPicker commandPicker;
     private CliView cliView = null;
 
+
     private final Map<ClientPhasesEnum, CliView> defaultViewsPerPhasesMap = Map.of(
         ClientPhasesEnum.LOGIN, new LoginView(),
         ClientPhasesEnum.NOT_JOINED, new NotJoinedView(),
         ClientPhasesEnum.LOBBY, new LobbyView(),
+        ClientPhasesEnum.DECIDING_FOR_RELOAD, new ReloadDecisionView(),
         ClientPhasesEnum.WAITING_FOR_TURN, new BoardView(),
         ClientPhasesEnum.PICK_FORM_BOARD, new PickFromBoardView(),
         ClientPhasesEnum.SELECT_COLUMN, new SelectColumnView(),

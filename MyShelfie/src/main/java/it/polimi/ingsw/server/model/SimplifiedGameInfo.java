@@ -19,6 +19,7 @@ public class SimplifiedGameInfo implements Serializable {
     private String admin;
     private int nPlayers;
     private String winner;
+    private String firstToCompleteTheShelf;
     private int gameID;
     private ArrayList<SimplifiedCommonGoalCard> commonGoals = new ArrayList<>();
     private ArrayList<String> personalGoals = new ArrayList<>();
@@ -31,19 +32,22 @@ public class SimplifiedGameInfo implements Serializable {
      * @param gameID id of the game
      * @param commonGoals common goal list
      * @param personalGoals personal goal list
+     * @param firstToCompleteTheShelf the first player who's completed the shelf
      */
     public SimplifiedGameInfo(String admin,
                               int nPlayers,
                               String winner,
                               int gameID,
                               ArrayList<SimplifiedCommonGoalCard> commonGoals,
-                              ArrayList<String> personalGoals) {
+                              ArrayList<String> personalGoals,
+                              String firstToCompleteTheShelf) {
         this.admin = admin;
         this.nPlayers = nPlayers;
         this.winner = winner;
         this.gameID = gameID;
         this.commonGoals = commonGoals;
         this.personalGoals = personalGoals;
+        this.firstToCompleteTheShelf = firstToCompleteTheShelf;
     }
 
     public String getAdmin() {
@@ -92,5 +96,13 @@ public class SimplifiedGameInfo implements Serializable {
 
     public void setPersonalGoals(ArrayList<String> personalGoals) {
         this.personalGoals = personalGoals;
+    }
+
+    public String getFirstToCompleteTheShelf() {
+        return firstToCompleteTheShelf;
+    }
+
+    public void setFirstToCompleteTheShelf(String firstToCompleteTheShelf) {
+        this.firstToCompleteTheShelf = firstToCompleteTheShelf;
     }
 }

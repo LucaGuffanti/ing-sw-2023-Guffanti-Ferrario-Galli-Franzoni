@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.controller.commandHandlers.JoinGameCommandHandler;
 import it.polimi.ingsw.client.controller.commandHandlers.PlayersNumberCommandHandler;
+import it.polimi.ingsw.client.controller.commandHandlers.ReloadGameCommandHandler;
 
 /**
  * This class contains messages used to inform the player during the game (for cli).
@@ -28,5 +29,12 @@ public class CLIMessages {
             """;
     public static final String END_OF_TURN = """
             THE TURN ENDED!
+            """;
+
+    public static final String RELOAD_DECISION = """
+            To reload the saved game, please write\n\n\t\t""" + ReloadGameCommandHandler.commandLabel +""" 
+             accept
+            \nIf the game hasn't been created yet, write\n\n\t\t""" + ReloadGameCommandHandler.commandLabel + """ 
+             decline
             """;
 }

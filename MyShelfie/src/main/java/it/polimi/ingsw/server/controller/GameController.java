@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.utils.Logger;
+import it.polimi.ingsw.server.controller.save.SaveFileData;
 import it.polimi.ingsw.server.controller.save.SaveFileManager;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
@@ -9,18 +10,25 @@ import it.polimi.ingsw.server.controller.turn.TurnPhase;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.GameCheckout;
+import it.polimi.ingsw.server.model.Sack;
+import it.polimi.ingsw.server.model.SimplifiedGameInfo;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
 import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * The GameController is the controller of the game: it keeps an instance of the game, interacting with it when messages are received
@@ -70,6 +78,8 @@ public class GameController {
      * The server-side network networkHandler
      */
     private final ServerNetworkHandler serverNetworkHandler;
+
+    private SaveFileData saveFileData = null;
 
     /**
      * When a Game Controller is created, it gets passed a {@link ServerNetworkHandler}.
@@ -206,18 +216,113 @@ public class GameController {
     }
 
     /**
-     * This method is called when the selected number of logged in players is reached.
+     * This method is called when the selected number of logged in players is reached. <br>
+     *     If there exists a saved game with the same number of players, with all the players having the same
+     *     nickname as the players from the previously saved game, the admin has to decide whether or not he wants
+     *     to reload the previously ended game.
      *
-     * <ol>
-     *     <li>The game is initialized (via {@code game.initGame()} in {@link Game})</li>
-     *     <li>The list of players is shuffled and activeIndex is set to -1</li>
-     *     <li>The status of the game is set to STARTED</li>
-     *     <li>Every player is notified with a {@link GameStartMessage}</li>
-     * </ol>
-     * and, at last, {@code beginTurn()} is called (notice that activePlayerIndex is set to <b>-1</b> so
-     * that the called method can operate correctly)
+     *
      */
     public synchronized void startGame() {
+
+        File saveFile = new File("src/main/assets/savedGames/savefile.json");
+
+        boolean existingFile = saveFile.exists() && !saveFile.isDirectory();
+        if (existingFile) {
+            Logger.controllerInfo("A SAVED GAME EXISTS");
+            managePossibleReload(saveFile);
+        } else {
+            newGameNoReload();
+        }
+    }
+
+    private void managePossibleReload(File saveFile) {
+        try {
+            saveFileData = SaveFileManager.loadGameState(saveFile);
+        } catch (Exception e) {
+            Logger.controllerError("Couldn't find file. Starting a game from scratch");
+            e.printStackTrace();
+            newGameNoReload();
+            return;
+        }
+
+        assert saveFileData != null;
+
+        int loadedNumOfPlayers = saveFileData.getGameInfo().getnPlayers();
+        String loadedAdminName = saveFileData.getGameInfo().getAdmin();
+        List<String> loadedPlayerNicks = Arrays.stream(saveFileData.getPlayers()).map(p->p.getName()).toList();
+
+        int actualNumOfPlayers = game.getGameInfo().getNPlayers();
+        String actualAdmin = game.getGameInfo().getAdmin();
+        List<String> joinedPlayerNicks = game.getPlayers().stream().map(p->p.getNickname()).toList();
+
+
+        if (loadedNumOfPlayers == actualNumOfPlayers && loadedAdminName.equals(actualAdmin) && loadedPlayerNicks.equals(joinedPlayerNicks)) {
+            this.gameStatus = GameStatusEnum.FOUND_SAVE_FILE;
+            serverNetworkHandler.sendToPlayer(loadedAdminName, new FoundSavedGameMessage(
+                  ServerNetworkHandler.HOSTNAME,
+                  ResponsesDescriptions.FOUND_COMPATIBLE_SAVED_GAME
+            ));
+        } else {
+            Logger.controllerInfo("Mismatch in saved players and joined players found: starting game from the beginning");
+            newGameNoReload();
+        }
+    }
+
+    /**
+     * This method reloads an existing game
+     */
+    public void reloadExistingGame() {
+        Logger.controllerInfo("RESUMING GAME");
+        this.orderedPlayersNicks = new ArrayList<>(saveFileData.getOrderedPlayers());
+        // because beginTurn advances the player index
+        this.activePlayerIndex = saveFileData.getActivePlayerIndex();
+
+        Logger.controllerInfo("The players will play in the following order");
+        Logger.controllerInfo(orderedPlayersNicks.toString());
+        Logger.controllerInfo(orderedPlayersNicks.get((activePlayerIndex+1)%4)+" will start playing");
+        game.loadGame(saveFileData);
+
+        gameStatus = GameStatusEnum.STARTED;
+        Logger.controllerInfo("GAME IS READY");
+
+
+        ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
+                .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
+
+        ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
+                .map(o -> game.getPlayerByNick(o))
+                .map(p -> p.getGoal())
+                .map(g -> GameObjectConverter.fromPersonalGoalToString(g))
+                .toList());
+
+        serverNetworkHandler.broadcastToAll(
+                new GameStartMessage(
+                        ServerNetworkHandler.HOSTNAME,
+                        ResponsesDescriptions.GAME_STARTED,
+                        GameObjectConverter.fromBoardToMatrix(game.getBoard()),
+                        GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
+                        personalGoals,
+                        orderedPlayersNicks,
+                        simplifiedCommonGoalCards,
+                        game.getGameInfo().getFirstToCompleteTheShelf() //as the game starts, no one is the first to complete the shelf
+                )
+        );
+
+        beginTurn();
+    }
+
+    /**
+     *
+     * <ol>
+     *  <li>The game is initialized (via {@code game.initGame()} in {@link Game})</li>
+     *  <li>The list of players is shuffled and activeIndex is set to -1</li>
+     *  <li>The status of the game is set to STARTED</li>
+     *  <li>Every player is notified with a {@link GameStartMessage}</li>
+     * </ol>
+     *   and, at last, {@code beginTurn()} is called (notice that activePlayerIndex is set to <b>-1</b> so
+     *   that the called method can operate correctly)*/
+    public synchronized void newGameNoReload() {
         // the game is initialized
         game.initGame();
         // the players are shuffled
@@ -229,7 +334,7 @@ public class GameController {
         gameStatus = GameStatusEnum.STARTED;
 
         ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
-                        .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
+                .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
 
         ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
                 .map(o -> game.getPlayerByNick(o))
@@ -242,19 +347,18 @@ public class GameController {
 
         serverNetworkHandler.broadcastToAll(
                 new GameStartMessage(
-                    ServerNetworkHandler.HOSTNAME,
-                    ResponsesDescriptions.GAME_STARTED,
-                    GameObjectConverter.fromBoardToMatrix(game.getBoard()),
-                    GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
-                    personalGoals,
-                    orderedPlayersNicks,
-                    simplifiedCommonGoalCards,
-                    null //as the game starts, no one is the first to complete the shelf
+                        ServerNetworkHandler.HOSTNAME,
+                        ResponsesDescriptions.GAME_STARTED,
+                        GameObjectConverter.fromBoardToMatrix(game.getBoard()),
+                        GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
+                        personalGoals,
+                        orderedPlayersNicks,
+                        simplifiedCommonGoalCards,
+                        null //as the game starts, no one is the first to complete the shelf
                 )
         );
 
         beginTurn();
-
     }
 
     /**

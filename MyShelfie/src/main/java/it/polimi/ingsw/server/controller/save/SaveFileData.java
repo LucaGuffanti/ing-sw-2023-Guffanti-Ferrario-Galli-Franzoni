@@ -41,7 +41,7 @@ public class SaveFileData implements Serializable {
     /*
     ==================FROM THE MODEL==================
      */
-    private List<SimplifiedPlayer> players;
+    private SimplifiedPlayer[] players;
     private ObjectTypeEnum[][] board;
     private SimplifiedGameInfo gameInfo;
     private Sack sack;
@@ -51,7 +51,7 @@ public class SaveFileData implements Serializable {
     private List<String> orderedPlayers;
     private int activePlayerIndex;
 
-    public SaveFileData(List<SimplifiedPlayer> players,
+    public SaveFileData(SimplifiedPlayer[] players,
                         ObjectTypeEnum[][] board,
                         SimplifiedGameInfo gameInfo,
                         Sack sack,
@@ -65,11 +65,11 @@ public class SaveFileData implements Serializable {
         this.activePlayerIndex = activePlayerIndex;
     }
 
-    public List<SimplifiedPlayer> getPlayers() {
+    public SimplifiedPlayer[] getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<SimplifiedPlayer> players) {
+    public void setPlayers(SimplifiedPlayer[] players) {
         this.players = players;
     }
 

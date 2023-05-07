@@ -27,6 +27,10 @@ public class Board {
     private BoardCell[][] cells;
     private boolean toBeRefilled;
 
+    public Board() {
+        heightInCells = Constants.BOARD_DIMENSION;
+        lengthInCells = Constants.BOARD_DIMENSION;
+    }
     public Board(int nPlayer, Sack sack) {
         heightInCells = Constants.BOARD_DIMENSION;
         lengthInCells = Constants.BOARD_DIMENSION;
