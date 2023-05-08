@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * This object contains all the information needed to completely store the state of a running game on
  * the disk.
- *
  * For a game state to be safely stored, the following elements are needed:
  * <h3>GAME MODEL INFORMATION</h3>
  * <ul>

@@ -8,5 +8,5 @@ public enum GameStatusEnum {
     FOUND_SAVE_FILE,
     STARTED,
     FINAL_TURNS,
-    ENDED;
+    ENDED
 }

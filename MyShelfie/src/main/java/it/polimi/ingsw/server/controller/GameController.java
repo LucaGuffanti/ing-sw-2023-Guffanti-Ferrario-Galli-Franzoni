@@ -1,34 +1,28 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.network.ServerNetworkHandler;
+import it.polimi.ingsw.network.messages.*;
+import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.utils.Logger;
+import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 import it.polimi.ingsw.server.controller.save.SaveFileData;
 import it.polimi.ingsw.server.controller.save.SaveFileManager;
-import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
+import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.turn.TurnPhase;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.GameCheckout;
-import it.polimi.ingsw.server.model.Sack;
-import it.polimi.ingsw.server.model.SimplifiedGameInfo;
-import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
-import it.polimi.ingsw.network.ServerNetworkHandler;
-import it.polimi.ingsw.network.messages.*;
-import it.polimi.ingsw.network.messages.enums.ResponseResultType;
-import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * The GameController is the controller of the game: it keeps an instance of the game, interacting with it when messages are received
@@ -79,6 +73,9 @@ public class GameController {
      */
     private final ServerNetworkHandler serverNetworkHandler;
 
+    /**
+     * The save file data object, which is populated as the new program restarts.
+     */
     private SaveFileData saveFileData = null;
 
     /**
@@ -105,7 +102,7 @@ public class GameController {
 
         /*
             The game tries to accept the player only if the game hasn't already started.
-            If the game has already started the client is notified with an adeguate message and the method
+            If the game has already started the client is notified with an adequate message and the method
             ends.
          */
         if (!gameStatus.equals(GameStatusEnum.ACCEPTING_PLAYERS)) {
@@ -218,10 +215,8 @@ public class GameController {
     /**
      * This method is called when the selected number of logged in players is reached. <br>
      *     If there exists a saved game with the same number of players, with all the players having the same
-     *     nickname as the players from the previously saved game, the admin has to decide whether or not he wants
+     *     nickname as the players from the previously saved game, the admin has to decide whether he wants
      *     to reload the previously ended game.
-     *
-     *
      */
     public synchronized void startGame() {
 
@@ -236,12 +231,16 @@ public class GameController {
         }
     }
 
+    /**
+     * This method tries to load the game state from the save file, building the
+     * saveFileData object. if the loading fails a new game is created from scratch.
+     * @param saveFile the file containing the saved game state
+     */
     private void managePossibleReload(File saveFile) {
         try {
             saveFileData = SaveFileManager.loadGameState(saveFile);
         } catch (Exception e) {
             Logger.controllerError("Couldn't find file. Starting a game from scratch");
-            e.printStackTrace();
             newGameNoReload();
             return;
         }
@@ -249,17 +248,18 @@ public class GameController {
         assert saveFileData != null;
 
         int loadedNumOfPlayers = saveFileData.getGameInfo().getnPlayers();
-        String loadedAdminName = saveFileData.getGameInfo().getAdmin();
-        List<String> loadedPlayerNicks = Arrays.stream(saveFileData.getPlayers()).map(p->p.getName()).toList();
+        List<String> loadedPlayerNicks = Arrays.stream(saveFileData.getPlayers()).map(SimplifiedPlayer::getName).toList();
 
         int actualNumOfPlayers = game.getGameInfo().getNPlayers();
         String actualAdmin = game.getGameInfo().getAdmin();
-        List<String> joinedPlayerNicks = game.getPlayers().stream().map(p->p.getNickname()).toList();
+        List<String> joinedPlayerNicks = game.getPlayers().stream().map(Player::getNickname).toList();
 
+        Set<String> loaded = new HashSet<>(loadedPlayerNicks);
+        Set<String> present = new HashSet<>(joinedPlayerNicks);
 
-        if (loadedNumOfPlayers == actualNumOfPlayers && loadedPlayerNicks.equals(joinedPlayerNicks)) {
+        if (loadedNumOfPlayers == actualNumOfPlayers && loaded.equals(present)) {
             this.gameStatus = GameStatusEnum.FOUND_SAVE_FILE;
-            serverNetworkHandler.sendToPlayer(loadedAdminName, new FoundSavedGameMessage(
+            serverNetworkHandler.sendToPlayer(actualAdmin, new FoundSavedGameMessage(
                   ServerNetworkHandler.HOSTNAME,
                   ResponsesDescriptions.FOUND_COMPATIBLE_SAVED_GAME
             ));
@@ -270,12 +270,12 @@ public class GameController {
     }
 
     /**
-     * This method reloads an existing game
+     * This method reloads an existing game, by correctly setting useful data in the controller (
+     * the ordered list of players and the index of the last playing player)
      */
     public void reloadExistingGame() {
         Logger.controllerInfo("RESUMING GAME");
         this.orderedPlayersNicks = new ArrayList<>(saveFileData.getOrderedPlayers());
-        // because beginTurn advances the player index
         this.activePlayerIndex = saveFileData.getActivePlayerIndex();
 
         Logger.controllerInfo("The players will play in the following order");
@@ -287,13 +287,13 @@ public class GameController {
         Logger.controllerInfo("GAME IS READY");
 
 
-        ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
+        ArrayList<SimplifiedCommonGoalCard> common = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
                 .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
 
         ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
                 .map(o -> game.getPlayerByNick(o))
-                .map(p -> p.getGoal())
-                .map(g -> GameObjectConverter.fromPersonalGoalToString(g))
+                .map(Player::getGoal)
+                .map(GameObjectConverter::fromPersonalGoalToString)
                 .toList());
 
         serverNetworkHandler.broadcastToAll(
@@ -304,7 +304,7 @@ public class GameController {
                         GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
                         personalGoals,
                         orderedPlayersNicks,
-                        simplifiedCommonGoalCards,
+                        common,
                         game.getGameInfo().getFirstToCompleteTheShelf() //as the game starts, no one is the first to complete the shelf
                 )
         );
@@ -313,7 +313,6 @@ public class GameController {
     }
 
     /**
-     *
      * <ol>
      *  <li>The game is initialized (via {@code game.initGame()} in {@link Game})</li>
      *  <li>The list of players is shuffled and activeIndex is set to -1</li>
@@ -321,7 +320,8 @@ public class GameController {
      *  <li>Every player is notified with a {@link GameStartMessage}</li>
      * </ol>
      *   and, at last, {@code beginTurn()} is called (notice that activePlayerIndex is set to <b>-1</b> so
-     *   that the called method can operate correctly)*/
+     *   that the called method can operate correctly)
+     **/
     public synchronized void newGameNoReload() {
         // the game is initialized
         game.initGame();
@@ -333,13 +333,13 @@ public class GameController {
 
         gameStatus = GameStatusEnum.STARTED;
 
-        ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
+        ArrayList<SimplifiedCommonGoalCard> common = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
                 .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
 
         ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
                 .map(o -> game.getPlayerByNick(o))
-                .map(p -> p.getGoal())
-                .map(g -> GameObjectConverter.fromPersonalGoalToString(g))
+                .map(Player::getGoal)
+                .map(GameObjectConverter::fromPersonalGoalToString)
                 .toList());
 
         Logger.controllerInfo("the game started");
@@ -353,11 +353,10 @@ public class GameController {
                         GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
                         personalGoals,
                         orderedPlayersNicks,
-                        simplifiedCommonGoalCards,
+                        common,
                         null //as the game starts, no one is the first to complete the shelf
                 )
         );
-
         beginTurn();
     }
 
@@ -387,7 +386,7 @@ public class GameController {
      * <ol>
      *     <li>deletes the coordinates selection made by the active player</li>
      *     <li>
-     *         calculates the turnwise points
+     *         calculates the turn wise points
      *         <ol>
      *             <li>if the player completes any of the two common goals, the method updates
      *             the corresponding attributes in the state of the controller</li>
@@ -402,8 +401,6 @@ public class GameController {
      * </ol>
      */
     public synchronized void endTurn() {
-        // FIRST THE GAME STATE IS SAVED
-
 
         Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
 
@@ -430,6 +427,7 @@ public class GameController {
             messageDescription += ResponsesDescriptions.END_OF_TURN_REFILL_BOARD + "\n";
         }
 
+        // the state is saved after all the points have been assigned
         SaveFileManager.saveGameState(getGame(), this, "src/main/assets/savedGames/savefile.json");
 
         if (completedShelf) {
@@ -444,7 +442,7 @@ public class GameController {
             Logger.controllerInfo("the player completed the second common goal");
             messageDescription += ResponsesDescriptions.END_OF_TURN_CG2_COMPLETED + "\n";
         }
-//        Player currentPlayer = game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex));
+
         ArrayList<SimplifiedCommonGoalCard> simplifiedCommonGoalCards = new ArrayList<>(game
                 .getGameInfo()
                 .getSelectedCommonGoals()
@@ -467,10 +465,12 @@ public class GameController {
                 )
         );
 
+        // after game points have been assigned the information is reset
         firstCommonGoalCompletedByActivePlayer = false;
         secondCommonGoalCompletedByActivePlayer = false;
         completedShelf = false;
 
+        // at last the game may end, or a new turn starts
         if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && activePlayerIndex == 3) {
             gameStatus = GameStatusEnum.ENDED;
             endGame();
@@ -514,7 +514,7 @@ public class GameController {
     }
 
     /**
-     * This method is called when, during the awarding of turnwise points, the
+     * This method is called when, during the awarding of turn wise points, the
      * completion of a {@link CommonGoalCard} is registered.
      * <p>
      * Based on goalNumber, the corresponding attribute is set as true.
@@ -558,10 +558,6 @@ public class GameController {
 
     public synchronized void setTurnPhase(TurnPhase turnPhase) {
         this.turnPhase = turnPhase;
-    }
-
-    public synchronized void setActivePlayerIndex(int activePlayerIndex) {
-        this.activePlayerIndex = activePlayerIndex;
     }
 
     public synchronized ArrayList<String> getOrderedPlayersNicks() {

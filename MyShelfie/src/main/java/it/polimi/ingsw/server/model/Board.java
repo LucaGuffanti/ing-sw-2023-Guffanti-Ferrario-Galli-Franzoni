@@ -91,8 +91,8 @@ public class Board {
 
     public boolean shouldBeRefilled() {
         boolean found = false;
-        for (int i = 0; i < Constants.SHELF_HEIGHT && !found; i++) {
-            for (int j = 0; j < Constants.SHELF_LENGTH && !found; j++) {
+        for (int i = 0; i < BOARD_DIMENSION && !found; i++) {
+            for (int j = 0; j < BOARD_DIMENSION && !found; j++) {
                 if (i == 0 && j == 0) {
                     if (cells[i][j].getCellCard().isPresent() && (cells[i][j+1].getCellCard().isPresent()
                             || cells[i+1][j].getCellCard().isPresent())) {

@@ -103,7 +103,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
                 }
             }
             case "serverErrorMessage" -> Printer.error((String) evt.getNewValue());
-            case "serverLastMessage" -> Printer.log((String) evt.getNewValue());
+            case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
             case "orderedPlayersNames" -> {
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     renderCurrentPhaseDefaultView();
