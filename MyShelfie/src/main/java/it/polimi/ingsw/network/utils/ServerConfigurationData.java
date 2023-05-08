@@ -50,4 +50,8 @@ public class ServerConfigurationData {
     public int getRmiPort() {
         return rmiPort;
     }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
 }
