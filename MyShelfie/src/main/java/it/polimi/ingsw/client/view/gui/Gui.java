@@ -4,16 +4,10 @@ import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.UserInterface;
-import it.polimi.ingsw.client.view.cli.Printer;
-import it.polimi.ingsw.client.view.cli.cliviews.ChatView;
-import it.polimi.ingsw.client.view.cli.cliviews.CliView;
-import it.polimi.ingsw.client.view.gui.controllers.Scene1LoginController;
-import it.polimi.ingsw.client.view.gui.controllers.Scene2LobbyCreationController;
-import it.polimi.ingsw.client.view.gui.controllers.Scene2WaitingForLobbyController;
 import it.polimi.ingsw.network.ClientNetworkHandler;
+
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
@@ -45,28 +39,6 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         initPhaseToController();
     }
     */
-    public ClientNetworkHandler getClientNetworkHandler() {
-        return clientNetworkHandler;
-    }
-
-    public void setClientNetworkHandler(ClientNetworkHandler clientNetworkHandler) {
-        this.clientNetworkHandler = clientNetworkHandler;
-        System.out.println(clientNetworkHandler);
-        System.out.println(this.clientNetworkHandler);
-        System.out.println("Set networkHandler");
-    }
-
-    public StateContainer getStateContainer() {
-        return stateContainer;
-    }
-
-    public void setStateContainer(StateContainer stateContainer) {
-        this.stateContainer = stateContainer;
-        System.out.println(stateContainer);
-        System.out.println(this.stateContainer);
-        stateContainer.addPropertyChangeListener(this::propertyChange);
-        System.out.println("Set stateContainer");
-    }
 
     public static Stage getStage() {
         return stage;
@@ -98,9 +70,23 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             Scene sLobby = new Scene(pLobby, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sLobby);
 
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene3LoadGame.fxml"));
+            Parent pLoadGame = loader.load();
+            Scene sLoadGame = new Scene(pLoadGame, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sLoadGame);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void renderGui(Scene sceneToRender) throws IOException {
+        getStage().setScene(sceneToRender);
+    }
+
+    public void renderCurrentScene() {
+        getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
     }
 
     @Override
@@ -133,23 +119,20 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
+        renderCurrentScene();
     }
 
     @Override
     public void onGameAborted() {
         // esce un messaggio "partita finita"
     }
-    @FXML
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             // When currentPhase is changed, always render the default view for the new currentPhase
             case "currentPhase" -> {
                 Scene newScene = phaseToSceneMap.get((ClientPhasesEnum) evt.getNewValue());
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_PLAYERS)) {
-                    System.out.println("got here");
-                }
                 // this is done to prevent the double printing of the list of players that would otherwise
                 // be experienced by the player who creates the game
                 if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
@@ -168,12 +151,14 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                 }
             }
             //case "serverErrorMessage" -> labelErrorLogin.setText((String) evt.getNewValue());
-            /*case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
+            //case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
             case "orderedPlayersNames" -> {
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
-                    renderCurrentPhaseDefaultView();
+                    Platform.runLater(()->
+                            renderCurrentScene()
+                    );
                 }
-            }
+            }/*
             case "lastChatMessage" -> {
                 if (cliView instanceof ChatView) {
                     ChatView cli = (ChatView) cliView;
@@ -181,9 +166,5 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                 }
             }*/
         }
-    }
-
-    private void renderGui(Scene sceneToRender) throws IOException {
-        getStage().setScene(sceneToRender);
     }
 }

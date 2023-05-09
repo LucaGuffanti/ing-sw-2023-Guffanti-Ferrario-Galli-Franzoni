@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodybg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene2LobbyCreationController">
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBg" stylesheets="@../css/styleBg.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene2LobbyCreationController">
     <top>
         <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <image>
@@ -23,7 +23,7 @@
             <Insets top="40.0" />
          </BorderPane.margin>
          <children>
-             <Label fx:id="labelCreationLobby" textFill="RED" underline="true">
+             <Label fx:id="labelErrorCreationLobby" textFill="RED" underline="true">
                 <font>
                       <Font name="Algerian" size="20.0" />
                 </font>

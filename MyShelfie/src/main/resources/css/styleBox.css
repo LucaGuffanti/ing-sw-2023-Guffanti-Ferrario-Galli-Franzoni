@@ -1,5 +1,5 @@
-.bodybg{
-    -fx-background-image: url("../images/Publisher%20material/Display_5.jpg");
+.bodyBox {
+    -fx-background-image: url("../images/misc/base_pagina2.jpg");
     -fx-background-size: 100% 100%;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
