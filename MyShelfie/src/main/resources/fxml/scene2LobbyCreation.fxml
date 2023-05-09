@@ -41,11 +41,4 @@
          </children>
       </VBox>
     </center>
-   <bottom>
-       <Button fx:id="buttonJoinLobby" mnemonicParsing="false" onAction="#joinLobby" text="JOIN LOBBY" visible="false" BorderPane.alignment="TOP_CENTER">
-           <font>
-               <Font name="System Bold Italic" size="20.0" />
-           </font>
-       </Button>
-   </bottom>
 </BorderPane>

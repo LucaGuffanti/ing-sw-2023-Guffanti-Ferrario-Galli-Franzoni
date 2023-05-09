@@ -2,8 +2,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.constants.UIModesEnum;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.utils.ClientNetworkConfigurationData;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -15,7 +17,7 @@ import java.util.Scanner;
 public class ClientMain {
 
 
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
         ClientNetworkConfigurationData clientNetworkConfigurationData = new ClientNetworkConfigurationData().get();

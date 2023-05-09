@@ -18,12 +18,14 @@ import java.rmi.RemoteException;
  * there are the methods to initialize the different UIs.
  */
 public class ClientManager {
+    public static ClientManager instance;
     private StateContainer stateContainer;
     private ClientNetworkHandler networkHandler;
     private UserInterface userInterface;
 
 
     public ClientManager(UIModesEnum uiMode, String serverIp, int serverPort) throws RemoteException {
+        instance = this;
         ClientState initialState = new ClientState();
         initialState.setCurrentPhase(ClientPhasesEnum.LOGIN);
         stateContainer = new StateContainer(initialState);
@@ -32,6 +34,7 @@ public class ClientManager {
     }
 
     public ClientManager(UIModesEnum uiMode, String serverIp, String serviceName, int serverPort) throws RemoteException {
+        instance = this;
         ClientState initialState = new ClientState();
         initialState.setCurrentPhase(ClientPhasesEnum.LOGIN);
         stateContainer = new StateContainer(initialState);
@@ -46,5 +49,21 @@ public class ClientManager {
 
     public void onDisconnection() {
         userInterface.onGameAborted();
+    }
+
+    public StateContainer getStateContainer() {
+        return stateContainer;
+    }
+
+    public ClientNetworkHandler getNetworkHandler() {
+        return networkHandler;
+    }
+
+    public UserInterface getUserInterface() {
+        return userInterface;
+    }
+
+    public static ClientManager getInstance() {
+        return instance;
     }
 }

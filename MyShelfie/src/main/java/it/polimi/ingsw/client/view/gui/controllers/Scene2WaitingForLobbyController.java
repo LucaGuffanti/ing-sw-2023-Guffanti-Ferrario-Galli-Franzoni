@@ -1,13 +1,9 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
-import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.ClientNetworkHandler;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Scene2LobbyCreationController implements GuiController {
+public class Scene2WaitingForLobbyController implements GuiController {
     @FXML
     private Label labelCreationLobby;
     @FXML
@@ -80,9 +76,9 @@ public class Scene2LobbyCreationController implements GuiController {
     public void render(ClientState state, ClientNetworkHandler clientNetworkHandler, Stage stage, Scene scene) throws IOException {
         this.state = state;
         this.clientNetworkHandler = clientNetworkHandler;
-        System.out.println("Got in lobby creation");
+
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/scene2LobbyCreation.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/scene2WaitingForLobby.fxml"));
         Parent root = null;
         root = loader.load();
         Scene sceneNew = new Scene(root, scene.getWidth(), scene.getHeight());
@@ -90,8 +86,5 @@ public class Scene2LobbyCreationController implements GuiController {
         stage.setMaximized(true);
         stage.setFullScreen(false);
         stage.show();
-    }
-
-    public void createLobby(ActionEvent actionEvent) {
     }
 }

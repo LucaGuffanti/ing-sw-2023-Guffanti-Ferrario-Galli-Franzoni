@@ -19,7 +19,7 @@ public class ServerStart {
     public static void main(String[] args) {
 
         System.out.println("Insert your LAN IP address if you had any problem before (due " +
-                "to java not recognizing your network interface). Simply press enter if you don't want" +
+                "to java not recognizing your network interface). Simply press enter if you don't want " +
                 "to insert any address.");
         System.out.print("IP address: ");
         Scanner scanner = new Scanner(System.in);
