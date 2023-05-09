@@ -565,6 +565,7 @@ public class Printer {
         printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()), "Luca");
         printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu")), "Luca");
         printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu", "testttt")), "Luca");
+        printWinner("luca");
     }
 
     public static void printInfo(String s) {
@@ -633,5 +634,16 @@ public class Printer {
         if (numNotOfNull == 0 || c.getNickToEarnedPoints()==null) {
             subtitle("No one has achieved any points for this goal card");
         }
+    }
+
+    public static void printWinner(String w){
+        System.out.println("\n" +
+                " _    _                       _                             _      \n" +
+                "| |  | |                     (_)                           (_)     \n" +
+                "| |_ | |__    ___  __      __ _  _ __   _ __    ___  _ __   _  ___ \n" +
+                "| __|| '_ \\  / _ \\ \\ \\ /\\ / /| || '_ \\ | '_ \\  / _ \\| '__| | |/ __|\n" +
+                "| |_ | | | ||  __/  \\ V  V / | || | | || | | ||  __/| |    | |\\__ \\\n" +
+                " \\__||_| |_| \\___|   \\_/\\_/  |_||_| |_||_| |_| \\___||_|    |_||___/\n");
+        System.out.println(WHITE_BACKGROUND_BRIGHT+YELLOW_BOLD+w+RESET);
     }
 }
