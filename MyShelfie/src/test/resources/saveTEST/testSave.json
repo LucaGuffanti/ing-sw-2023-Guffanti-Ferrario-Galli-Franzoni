@@ -1,0 +1,653 @@
+{
+  "players": [
+    {
+      "name": "Test0",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "8"
+    },
+    {
+      "name": "Test1",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "2"
+    },
+    {
+      "name": "Test2",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "1"
+    },
+    {
+      "name": "Test3",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "3"
+    }
+  ],
+  "board": [
+    [
+      null,
+      null,
+      null,
+      "CAT",
+      "TOY",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "CAT",
+      "TROPHY",
+      "PLANT",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      "TOY",
+      "PLANT",
+      "CAT",
+      "TOY",
+      "PLANT",
+      null,
+      null
+    ],
+    [
+      null,
+      "BOOK",
+      "FRAME",
+      "TROPHY",
+      "PLANT",
+      "PLANT",
+      "TROPHY",
+      "TROPHY",
+      "FRAME"
+    ],
+    [
+      "FRAME",
+      "BOOK",
+      "FRAME",
+      "PLANT",
+      "TOY",
+      "CAT",
+      "PLANT",
+      "TOY",
+      "CAT"
+    ],
+    [
+      "CAT",
+      "FRAME",
+      "TOY",
+      "PLANT",
+      "FRAME",
+      "FRAME",
+      "PLANT",
+      "TROPHY",
+      null
+    ],
+    [
+      null,
+      null,
+      "TOY",
+      "CAT",
+      "TOY",
+      "TOY",
+      "FRAME",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "TROPHY",
+      "CAT",
+      "FRAME",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "BOOK",
+      "CAT",
+      null,
+      null,
+      null
+    ]
+  ],
+  "gameInfo": {
+    "admin": "Test0",
+    "nPlayers": 4,
+    "winner": "NULL",
+    "gameID": 0,
+    "commonGoals": [
+      {
+        "id": "11",
+        "pointCards": [
+          {
+            "type": "TWO_POINTS",
+            "pointsGiven": 2
+          },
+          {
+            "type": "FOUR_POINTS",
+            "pointsGiven": 4
+          },
+          {
+            "type": "SIX_POINTS",
+            "pointsGiven": 6
+          },
+          {
+            "type": "EIGHT_POINTS",
+            "pointsGiven": 8
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "pointCards": [
+          {
+            "type": "TWO_POINTS",
+            "pointsGiven": 2
+          },
+          {
+            "type": "FOUR_POINTS",
+            "pointsGiven": 4
+          },
+          {
+            "type": "SIX_POINTS",
+            "pointsGiven": 6
+          },
+          {
+            "type": "EIGHT_POINTS",
+            "pointsGiven": 8
+          }
+        ]
+      }
+    ],
+    "personalGoals": [
+      "8",
+      "2",
+      "1",
+      "3"
+    ]
+  },
+  "sack": {
+    "cards": [
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      }
+    ]
+  },
+  "orderedPlayers": [
+    "Test2",
+    "Test1",
+    "Test3",
+    "Test0"
+  ],
+  "activePlayerIndex": 0
+}

@@ -18,7 +18,7 @@
         </ImageView>
     </top>
    <left>
-      <Label fx:id="labelLobby" text="When all the players connect, you can start the game!" textFill="#ffedaa" underline="true" BorderPane.alignment="TOP_LEFT">
+      <Label fx:id="labelLobby" text="When all the players connect, the game will start automatically!" textFill="#ffedaa" underline="true" BorderPane.alignment="TOP_LEFT">
          <font>
             <Font name="Times New Roman Bold Italic" size="24.0" />
          </font>
@@ -31,22 +31,13 @@
       </Label>
    </left>
    <bottom>
-      <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+      <Label fx:id="labelErrorStartGame" textFill="RED" underline="true" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Algerian" size="20.0" />
+         </font>
          <BorderPane.margin>
-            <Insets bottom="70.0" />
+            <Insets bottom="100.0" />
          </BorderPane.margin>
-         <children>
-            <Label fx:id="labelErrorStartGame" textFill="RED" underline="true">
-               <font>
-                  <Font name="Algerian" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="buttonStartGame" disable="true" mnemonicParsing="false" onAction="#startGame" text="START GAME">
-                <font>
-                    <Font name="System Bold Italic" size="20.0" />
-                </font>
-            </Button>
-         </children>
-      </VBox>
+      </Label>
    </bottom>
 </BorderPane>

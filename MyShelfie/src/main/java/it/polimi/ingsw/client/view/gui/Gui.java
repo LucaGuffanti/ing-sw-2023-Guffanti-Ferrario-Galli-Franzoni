@@ -7,12 +7,13 @@ import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.cli.cliviews.ChatView;
 import it.polimi.ingsw.client.view.cli.cliviews.CliView;
-import it.polimi.ingsw.client.view.gui.controllers.GuiController;
 import it.polimi.ingsw.client.view.gui.controllers.Scene1LoginController;
 import it.polimi.ingsw.client.view.gui.controllers.Scene2LobbyCreationController;
 import it.polimi.ingsw.client.view.gui.controllers.Scene2WaitingForLobbyController;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
@@ -31,9 +32,10 @@ import java.util.HashMap;
 public class Gui extends Application implements UserInterface, PropertyChangeListener {
     private ClientNetworkHandler clientNetworkHandler;
     private StateContainer stateContainer;
-    private HashMap<ClientPhasesEnum, GuiController> phaseToControllerMap;
-    private Stage stage;
+    private HashMap<ClientPhasesEnum, Scene> phaseToSceneMap;
+    private static Stage stage;
     private Scene scene;
+
     /*
     public Gui(StateContainer stateContainer, ClientNetworkHandler clientNetworkHandler) {
         super();
@@ -43,7 +45,6 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         initPhaseToController();
     }
     */
-
     public ClientNetworkHandler getClientNetworkHandler() {
         return clientNetworkHandler;
     }
@@ -67,10 +68,39 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         System.out.println("Set stateContainer");
     }
 
-    private void initPhaseToController() {
-        phaseToControllerMap.put(ClientPhasesEnum.LOGIN, new Scene1LoginController());
-        phaseToControllerMap.put(ClientPhasesEnum.PICK_PLAYERS, new Scene2LobbyCreationController());
-        phaseToControllerMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, new Scene2WaitingForLobbyController());
+    public static Stage getStage() {
+        return stage;
+    }
+
+    private void initPhaseToScene(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene1Login.fxml"));
+            Parent pLogin = loader.load();
+            Scene sLogin = new Scene(pLogin, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOGIN, sLogin);
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene2LobbyCreation.fxml"));
+            Parent pLobbyCreation = loader.load();
+            Scene sLobbyCreation = new Scene(pLobbyCreation, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.PICK_PLAYERS, sLobbyCreation);
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene2WaitingForLobby.fxml"));
+            Parent pWaitingForLobby = loader.load();
+            Scene sWaitingForLobby = new Scene(pWaitingForLobby, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, sWaitingForLobby);
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene3Lobby.fxml"));
+            Parent pLobby = loader.load();
+            Scene sLobby = new Scene(pLobby, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sLobby);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -83,10 +113,10 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         ClientManager manager = ClientManager.getInstance();
         this.stateContainer = manager.getStateContainer();
         this.clientNetworkHandler = manager.getNetworkHandler();
+        Gui.stage = stage;
         stateContainer.addPropertyChangeListener(this::propertyChange);
         try {
-            phaseToControllerMap = new HashMap<>();
-            initPhaseToController();
+            phaseToSceneMap = new HashMap<>();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene0Boot.fxml"));
             Parent root = null;
@@ -97,46 +127,48 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.setFullScreen(false);
-
-            this.stage = stage;
             this.scene = scene;
-
             stage.show();
+            initPhaseToScene();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        renderCurrentPhaseGui();
+        getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
     }
 
     @Override
     public void onGameAborted() {
         // esce un messaggio "partita finita"
     }
-
-    public void renderCurrentPhaseGui() throws IOException {
-        phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).render(stateContainer.getCurrentState(), this.clientNetworkHandler, this.stage, this.scene);
-    }
-
+    @FXML
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             // When currentPhase is changed, always render the default view for the new currentPhase
             case "currentPhase" -> {
-                GuiController controller = phaseToControllerMap.get((ClientPhasesEnum) evt.getNewValue());
+                Scene newScene = phaseToSceneMap.get((ClientPhasesEnum) evt.getNewValue());
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_PLAYERS)) {
+                    System.out.println("got here");
+                }
                 // this is done to prevent the double printing of the list of players that would otherwise
                 // be experienced by the player who creates the game
                 if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     try {
-                        this.renderGui(controller);
-                    } catch (IOException e) {
+                        Platform.runLater(()-> {
+                            try {
+                                this.renderGui(newScene);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    } catch (Exception e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 }
             }
-            /*
-            case "serverErrorMessage" -> Printer.error((String) evt.getNewValue());
-            case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
+            //case "serverErrorMessage" -> labelErrorLogin.setText((String) evt.getNewValue());
+            /*case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
             case "orderedPlayersNames" -> {
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     renderCurrentPhaseDefaultView();
@@ -147,13 +179,11 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                     ChatView cli = (ChatView) cliView;
                     cli.updateRender(stateContainer.getCurrentState());
                 }
-            }
-
-             */
+            }*/
         }
     }
 
-    private void renderGui(GuiController controller) throws IOException {
-            controller.render(stateContainer.getCurrentState(), this.clientNetworkHandler, this.stage, this.scene);
+    private void renderGui(Scene sceneToRender) throws IOException {
+        getStage().setScene(sceneToRender);
     }
 }

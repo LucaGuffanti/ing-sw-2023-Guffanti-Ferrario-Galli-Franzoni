@@ -9,7 +9,7 @@
    <center>
       <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="177.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="183.0" fitWidth="656.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Publisher material/Title 2000x618px.png" />
                </image>

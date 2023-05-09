@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Scene2WaitingForLobbyController implements GuiController {
+public class Scene2WaitingForLobbyController {
     @FXML
     private Label labelCreationLobby;
     @FXML
@@ -72,7 +72,7 @@ public class Scene2WaitingForLobbyController implements GuiController {
         buttonJoinLobby.fireEvent(actionEvent);
     }
 */
-    @Override
+
     public void render(ClientState state, ClientNetworkHandler clientNetworkHandler, Stage stage, Scene scene) throws IOException {
         this.state = state;
         this.clientNetworkHandler = clientNetworkHandler;
