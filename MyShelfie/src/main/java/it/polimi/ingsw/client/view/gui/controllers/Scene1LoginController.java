@@ -7,11 +7,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class Scene1LoginController {
+public class Scene1LoginController implements SceneController {
     @FXML
     private Label labelErrorLogin;
+
     @FXML
     private TextField textFieldNickname;
+
+    @Override
+    public void setLabelErrorMessage(String message) {
+        labelErrorLogin.setText(message);
+    }
 
     @FXML
     protected void serverLogin() {

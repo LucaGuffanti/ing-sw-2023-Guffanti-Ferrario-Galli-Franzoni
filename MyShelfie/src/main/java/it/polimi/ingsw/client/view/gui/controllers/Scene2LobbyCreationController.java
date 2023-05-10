@@ -6,11 +6,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class Scene2LobbyCreationController {
+public class Scene2LobbyCreationController implements SceneController {
     @FXML
     private Label labelErrorCreationLobby;
     @FXML
     private TextField textFieldNumberPlayers;
+
+    @Override
+    public void setLabelErrorMessage(String message) {
+        labelErrorCreationLobby.setText(message);
+    }
 
     @FXML
     protected void createLobby() {

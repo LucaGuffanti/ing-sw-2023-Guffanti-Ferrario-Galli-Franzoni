@@ -3,14 +3,19 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class Scene3LoadGameController {
+public class Scene3LoadGameController implements SceneController {
     @FXML
     Label labelErrorLoadGame;
-    public void yesLoad() {
-        labelErrorLoadGame.setText("FAILED TO LOAD THE GAME");
+
+    @Override
+    public void setLabelErrorMessage(String message) {
+        labelErrorLoadGame.setText(message);
     }
 
+    public void yesLoad() {
+
+    }
     public void noLoad() {
-        labelErrorLoadGame.setText("FAILED TO START THE GAME");
+
     }
 }

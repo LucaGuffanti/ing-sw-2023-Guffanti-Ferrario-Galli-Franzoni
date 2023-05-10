@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.UserInterface;
+import it.polimi.ingsw.client.view.gui.controllers.*;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 
 import javafx.application.Application;
@@ -27,18 +28,9 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     private ClientNetworkHandler clientNetworkHandler;
     private StateContainer stateContainer;
     private HashMap<ClientPhasesEnum, Scene> phaseToSceneMap;
+    private HashMap<ClientPhasesEnum, SceneController> phaseToControllerMap;
     private static Stage stage;
     private Scene scene;
-
-    /*
-    public Gui(StateContainer stateContainer, ClientNetworkHandler clientNetworkHandler) {
-        super();
-        this.stateContainer = stateContainer;
-        this.clientNetworkHandler = clientNetworkHandler;
-        phaseToControllerMap = new HashMap<>();
-        initPhaseToController();
-    }
-    */
 
     public static Stage getStage() {
         return stage;
@@ -51,30 +43,36 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             Parent pLogin = loader.load();
             Scene sLogin = new Scene(pLogin, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.LOGIN, sLogin);
+            phaseToControllerMap.put(ClientPhasesEnum.LOGIN, loader.getController());
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene2LobbyCreation.fxml"));
             Parent pLobbyCreation = loader.load();
             Scene sLobbyCreation = new Scene(pLobbyCreation, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.PICK_PLAYERS, sLobbyCreation);
+            phaseToControllerMap.put(ClientPhasesEnum.PICK_PLAYERS, loader.getController());
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene2WaitingForLobby.fxml"));
             Parent pWaitingForLobby = loader.load();
             Scene sWaitingForLobby = new Scene(pWaitingForLobby, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, sWaitingForLobby);
+            phaseToControllerMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, loader.getController());
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene3LoadGame.fxml"));
+            Parent pLoadGame = loader.load();
+            Scene sLoadGame = new Scene(pLoadGame, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.DECIDING_FOR_RELOAD, sLoadGame);
+            phaseToControllerMap.put(ClientPhasesEnum.DECIDING_FOR_RELOAD, loader.getController());
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene3Lobby.fxml"));
             Parent pLobby = loader.load();
             Scene sLobby = new Scene(pLobby, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sLobby);
+            phaseToControllerMap.put(ClientPhasesEnum.LOBBY, loader.getController());
 
-            loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/scene3LoadGame.fxml"));
-            Parent pLoadGame = loader.load();
-            Scene sLoadGame = new Scene(pLoadGame, scene.getWidth(), scene.getHeight());
-            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sLoadGame);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,6 +101,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         stateContainer.addPropertyChangeListener(this::propertyChange);
         try {
             phaseToSceneMap = new HashMap<>();
+            phaseToControllerMap = new HashMap<>();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene0Boot.fxml"));
             Parent root = null;
@@ -150,12 +149,16 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                     }
                 }
             }
-            //case "serverErrorMessage" -> labelErrorLogin.setText((String) evt.getNewValue());
+            case "serverErrorMessage" ->
+                Platform.runLater(()->
+                    phaseToControllerMap.get(
+                    ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase()
+                    ).setLabelErrorMessage((String) evt.getNewValue()));
             //case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
             case "orderedPlayersNames" -> {
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     Platform.runLater(()->
-                            renderCurrentScene()
+                        renderCurrentScene()
                     );
                 }
             }/*
