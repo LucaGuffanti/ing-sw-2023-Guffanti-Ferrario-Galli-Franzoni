@@ -2,8 +2,12 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.view.cli.Printer;
 
+import java.io.FileInputStream;
 import java.util.HashMap;
+
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelBuffer;
 
 /**
  * This object contains all the resources that are useful for the gui.
@@ -13,6 +17,7 @@ public class MediaManager {
     public static HashMap<String, Image> personalGoalToImage = new HashMap<>();
     public static HashMap<String, Image> commonGoalToImage = new HashMap<>();
     public static HashMap<String, String> jsonCommonGoalIdToResourceId = new HashMap<>();
+    public static HashMap<ObjectTypeEnum, Image> tileToImage = new HashMap<>();
 
     static {
         jsonCommonGoalIdToResourceId.put("0", "4");
@@ -39,31 +44,52 @@ public class MediaManager {
      */
     public static void loadGraphicResources() {
         try {
-            personalGoalToImage.put("1", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals.png"));
-            personalGoalToImage.put("2", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals2.png"));
-            personalGoalToImage.put("3", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals3.png"));
-            personalGoalToImage.put("4", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals4.png"));
-            personalGoalToImage.put("5", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals5.png"));
-            personalGoalToImage.put("6", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals6.png"));
-            personalGoalToImage.put("7", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals7.png"));
-            personalGoalToImage.put("8", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals8.png"));
-            personalGoalToImage.put("9", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals9.png"));
-            personalGoalToImage.put("10", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals10.png"));
-            personalGoalToImage.put("11", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals11.png"));
-            personalGoalToImage.put("12", new Image("file:src/main/resources/images/personal goal cards/Personal_Goals12.png"));
+            personalGoalToImage.put("1", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals.png")));
+            personalGoalToImage.put("2", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals2.png")));
+            personalGoalToImage.put("3", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals3.png")));
+            personalGoalToImage.put("4", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals4.png")));
+            personalGoalToImage.put("5", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals5.png")));
+            personalGoalToImage.put("6", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals6.png")));
+            personalGoalToImage.put("7", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals7.png")));
+            personalGoalToImage.put("8", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals8.png")));
+            personalGoalToImage.put("9", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals9.png")));
+            personalGoalToImage.put("10", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals10.png")));
+            personalGoalToImage.put("11", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals11.png")));
+            personalGoalToImage.put("12", new Image(new FileInputStream("src/main/resources/images/personal goal cards/Personal_Goals12.png")));
 
-            commonGoalToImage.put("1", new Image("file:src/main/resources/images/common goal cards/1.png"));
-            commonGoalToImage.put("2", new Image("file:src/main/resources/images/common goal cards/2.png"));
-            commonGoalToImage.put("3", new Image("file:src/main/resources/images/common goal cards/3.png"));
-            commonGoalToImage.put("4", new Image("file:src/main/resources/images/common goal cards/4.png"));
-            commonGoalToImage.put("5", new Image("file:src/main/resources/images/common goal cards/5.png"));
-            commonGoalToImage.put("6", new Image("file:src/main/resources/images/common goal cards/6.png"));
-            commonGoalToImage.put("7", new Image("file:src/main/resources/images/common goal cards/7.png"));
-            commonGoalToImage.put("8", new Image("file:src/main/resources/images/common goal cards/8.png"));
-            commonGoalToImage.put("9", new Image("file:src/main/resources/images/common goal cards/9.png"));
-            commonGoalToImage.put("10", new Image("file:src/main/resources/images/common goal cards/10.png"));
-            commonGoalToImage.put("11", new Image("file:src/main/resources/images/common goal cards/11.png"));
-            commonGoalToImage.put("12", new Image("file:src/main/resources/images/common goal cards/12.png"));
+            for(Image i : personalGoalToImage.values()) {
+                System.out.println(i);
+            }
+
+            commonGoalToImage.put("1", new Image(new FileInputStream("src/main/resources/images/common goal cards/1.jpg")));
+            commonGoalToImage.put("2", new Image(new FileInputStream("src/main/resources/images/common goal cards/2.jpg")));
+            commonGoalToImage.put("3", new Image(new FileInputStream("src/main/resources/images/common goal cards/3.jpg")));
+            commonGoalToImage.put("4", new Image(new FileInputStream("src/main/resources/images/common goal cards/4.jpg")));
+            commonGoalToImage.put("5", new Image(new FileInputStream("src/main/resources/images/common goal cards/5.jpg")));
+            commonGoalToImage.put("6", new Image(new FileInputStream("src/main/resources/images/common goal cards/6.jpg")));
+            commonGoalToImage.put("7", new Image(new FileInputStream("src/main/resources/images/common goal cards/7.jpg")));
+            commonGoalToImage.put("8", new Image(new FileInputStream("src/main/resources/images/common goal cards/8.jpg")));
+            commonGoalToImage.put("9", new Image(new FileInputStream("src/main/resources/images/common goal cards/9.jpg")));
+            commonGoalToImage.put("10", new Image(new FileInputStream("src/main/resources/images/common goal cards/10.jpg")));
+            commonGoalToImage.put("11", new Image(new FileInputStream("src/main/resources/images/common goal cards/11.jpg")));
+            commonGoalToImage.put("12", new Image(new FileInputStream("src/main/resources/images/common goal cards/12.jpg")));
+
+
+            for(Image i : commonGoalToImage.values()) {
+                System.out.println(i);
+            }
+
+            tileToImage.put(ObjectTypeEnum.CAT,  new Image(new FileInputStream("src/main/resources/images/item tiles/Gatti1.1.png")));
+            tileToImage.put(ObjectTypeEnum.BOOK, new Image(new FileInputStream("src/main/resources/images/item tiles/Libri1.1.png")));
+            tileToImage.put(ObjectTypeEnum.TOY, new Image(new FileInputStream("src/main/resources/images/item tiles/Giochi1.1.png")));
+            tileToImage.put(ObjectTypeEnum.FRAME, new Image(new FileInputStream("src/main/resources/images/item tiles/Cornici1.1.png")));
+            tileToImage.put(ObjectTypeEnum.TROPHY, new Image(new FileInputStream("src/main/resources/images/item tiles/Trofei1.1.png")));
+            tileToImage.put(ObjectTypeEnum.PLANT, new Image(new FileInputStream("src/main/resources/images/item tiles/Piante1.1.png")));
+
+
+            for(Image i : tileToImage.values()) {
+                System.out.println(i);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
