@@ -73,6 +73,41 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sLobby);
             phaseToControllerMap.put(ClientPhasesEnum.LOBBY, loader.getController());
 
+            // GAME CYCLE SCENES:
+            //  PICK FROM BOARD
+            //  SELECT COLUMN
+            //  WAIT FOR TURN
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene4PickFromBoard.fxml"));
+            Parent pPickFromBoard = loader.load();
+            Scene sPickFromBoard = new Scene(pPickFromBoard, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sPickFromBoard);
+            phaseToControllerMap.put(ClientPhasesEnum.PICK_FORM_BOARD, loader.getController());
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene4SelectColumn.fxml"));
+            Parent pSelectColumn = loader.load();
+            Scene sSelectColumn = new Scene(pSelectColumn, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sSelectColumn);
+            phaseToControllerMap.put(ClientPhasesEnum.SELECT_COLUMN, loader.getController());
+
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene4WaitForTurn.fxml"));
+            Parent pWaitForTurn = loader.load();
+            Scene sWaitForTurn = new Scene(pWaitForTurn, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sWaitForTurn);
+            phaseToControllerMap.put(ClientPhasesEnum.WAITING_FOR_TURN, loader.getController());
+
+            // GAME ABORTED SCENE
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene4WaitForTurn.fxml"));
+            Parent pGameAborted = loader.load();
+            Scene sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sGameAborted);
+            phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
