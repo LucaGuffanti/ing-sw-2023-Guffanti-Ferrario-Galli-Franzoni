@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBg" stylesheets="@../css/styleBg.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LobbyController">
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgPreGame" stylesheets="@../css/styleBgPreGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LobbyController">
     <top>
         <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <image>

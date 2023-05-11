@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBg" stylesheets="@../css/styleBg.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene2WaitingForLobbyController">
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgPreGame" stylesheets="@../css/styleBgPreGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene2WaitingForLobbyController">
     <top>
         <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <image>
@@ -18,9 +18,9 @@
         </ImageView>
     </top>
    <center>
-      <VBox alignment="TOP_CENTER" fillWidth="false" spacing="50.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="CENTER" fillWidth="false" spacing="50.0" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
-            <Insets />
+            <Insets bottom="40.0" />
          </BorderPane.margin>
          <children>
               <Label fx:id="labelWaitingForLobby" styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="You will join the lobby when it's ready!" textFill="#ffedaa" underline="true">

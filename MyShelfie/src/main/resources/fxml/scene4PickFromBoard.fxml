@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBg" stylesheets="@../css/gamePhaseStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene4PickFromBoardController">
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgGame" stylesheets="@../css/styleBgGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene4PickFromBoardController">
    <left>
       <HBox fx:id="cardContainer" prefHeight="377.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>

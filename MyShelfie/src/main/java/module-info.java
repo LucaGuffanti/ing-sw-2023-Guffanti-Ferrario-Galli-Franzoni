@@ -1,13 +1,14 @@
 module it.polimi.ingsw {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
     requires java.rmi;
     requires java.desktop;
     requires jdk.jfr;
     requires com.google.gson;
     requires com.opencsv;
 
-    opens it.polimi.ingsw.client.view.gui to javafx.fxml;
+    opens it.polimi.ingsw.client.view.gui to javafx.fxml, javafx.media;
     exports it.polimi.ingsw.client.view.gui;
     opens it.polimi.ingsw.client.view.gui.controllers to javafx.fxml;
     exports it.polimi.ingsw.client.view.gui.controllers;

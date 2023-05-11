@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgStart" stylesheets="@../css/styleBgStart.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPaneBoot" prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgStart" stylesheets="@../css/styleBgStart.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="67.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="183.0" fitWidth="656.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -23,7 +23,18 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </Label>
+            <ProgressBar prefWidth="200.0" />
          </children>
       </VBox>
    </center>
+   <bottom>
+      <ImageView fitHeight="121.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
+         <image>
+            <Image url="@../images/Publisher%20material/Publisher.png" />
+         </image>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="30.0" />
+         </BorderPane.margin>
+      </ImageView>
+   </bottom>
 </BorderPane>

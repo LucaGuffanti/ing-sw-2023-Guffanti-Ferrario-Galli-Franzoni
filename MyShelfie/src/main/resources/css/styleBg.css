@@ -1,7 +1,0 @@
-.bodyBg {
-    -fx-background-image: url("../images/Publisher%20material/Display_5.jpg");
-    -fx-background-size: 100% 100%;
-    -fx-background-repeat: stretch;
-    -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
-}

@@ -13,12 +13,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * This class contains main info of GUI
@@ -29,15 +34,26 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     private StateContainer stateContainer;
     private HashMap<ClientPhasesEnum, Scene> phaseToSceneMap;
     private HashMap<ClientPhasesEnum, SceneController> phaseToControllerMap;
+    private HashMap<ClientPhasesEnum, MediaPlayer> phaseToMusicMap;
     private static Stage stage;
     private Scene scene;
+    private MediaPlayer mediaPlayer;
 
     public static Stage getStage() {
         return stage;
     }
 
-    private void initPhaseToScene(){
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
+    }
+
+    private void initGui(){
         try {
+            // LOAD SCENES AND CONTROLLERS
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene1Login.fxml"));
             Parent pLogin = loader.load();
@@ -101,20 +117,29 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
 
             // GAME ABORTED SCENE
             loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/scene4WaitForTurn.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/sceneGameAborted.fxml"));
             Parent pGameAborted = loader.load();
             Scene sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.ABORTED_GAME, sGameAborted);
             phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
 
+            // LOAD SOUNDS
+            Media sound = new Media(new File("src/main/resources/audio/LocalForecast-Elevator.mp3").toURI().toString());
+            MediaPlayer mPreGame = new MediaPlayer(sound);
+            mPreGame.setOnEndOfMedia(() -> mPreGame.seek(Duration.ZERO));
+            phaseToMusicMap.put(ClientPhasesEnum.LOGIN, mPreGame);
 
-
+            sound = new Media(new File("src/main/resources/audio/KevinMacLeod-CasaBossaNova.mp3").toURI().toString());
+            MediaPlayer mGame = new MediaPlayer(sound);
+            mGame.setOnEndOfMedia(() -> mGame.seek(Duration.ZERO));
+            phaseToMusicMap.put(ClientPhasesEnum.PICK_FORM_BOARD, mGame);
+            phaseToMusicMap.put(ClientPhasesEnum.WAITING_FOR_TURN, mGame);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void renderGui(Scene sceneToRender) throws IOException {
+    private void renderGui(Scene sceneToRender, MediaPlayer m) throws IOException {
         if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
@@ -122,10 +147,25 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             controller.drawScene(stage);
         }
         getStage().setScene(sceneToRender);
+        if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
+            if (getMediaPlayer() != null) {
+                getMediaPlayer().stop();
+            }
+            m.play();
+            setMediaPlayer(m);
+        }
     }
 
     public void renderCurrentScene() {
         getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
+        MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
+        if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
+            if (getMediaPlayer() != null) {
+                getMediaPlayer().stop();
+            }
+            m.play();
+            setMediaPlayer(m);
+        }
     }
 
     @Override
@@ -143,6 +183,8 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         try {
             phaseToSceneMap = new HashMap<>();
             phaseToControllerMap = new HashMap<>();
+            phaseToMusicMap = new HashMap<>();
+            setMediaPlayer(null);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene0Boot.fxml"));
             Parent root = null;
@@ -151,15 +193,13 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             stage.setTitle("My Shelfie");
             stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
             stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setFullScreen(false);
-            this.scene = scene;
             stage.show();
-
-
+            stage.setFullScreen(true);
+            stage.setFullScreen(false);
+            stage.setMaximized(true);
+            this.scene = scene;
             MediaManager.loadGraphicResources();
-            initPhaseToScene();
-
+            initGui();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,13 +217,14 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             // When currentPhase is changed, always render the default view for the new currentPhase
             case "currentPhase" -> {
                 Scene newScene = phaseToSceneMap.get((ClientPhasesEnum) evt.getNewValue());
+                MediaPlayer m = phaseToMusicMap.get((ClientPhasesEnum) evt.getNewValue());
                 // this is done to prevent the double printing of the list of players that would otherwise
                 // be experienced by the player who creates the game
                 if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     try {
                         Platform.runLater(()-> {
                             try {
-                                this.renderGui(newScene);
+                                this.renderGui(newScene, m);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
