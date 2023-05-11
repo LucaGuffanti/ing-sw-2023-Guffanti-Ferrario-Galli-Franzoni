@@ -82,21 +82,21 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             loader.setLocation(getClass().getResource("/fxml/scene4PickFromBoard.fxml"));
             Parent pPickFromBoard = loader.load();
             Scene sPickFromBoard = new Scene(pPickFromBoard, scene.getWidth(), scene.getHeight());
-            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sPickFromBoard);
+            phaseToSceneMap.put(ClientPhasesEnum.PICK_FORM_BOARD, sPickFromBoard);
             phaseToControllerMap.put(ClientPhasesEnum.PICK_FORM_BOARD, loader.getController());
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene4SelectColumn.fxml"));
             Parent pSelectColumn = loader.load();
             Scene sSelectColumn = new Scene(pSelectColumn, scene.getWidth(), scene.getHeight());
-            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sSelectColumn);
+            phaseToSceneMap.put(ClientPhasesEnum.SELECT_COLUMN, sSelectColumn);
             phaseToControllerMap.put(ClientPhasesEnum.SELECT_COLUMN, loader.getController());
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene4WaitForTurn.fxml"));
             Parent pWaitForTurn = loader.load();
             Scene sWaitForTurn = new Scene(pWaitForTurn, scene.getWidth(), scene.getHeight());
-            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sWaitForTurn);
+            phaseToSceneMap.put(ClientPhasesEnum.WAITING_FOR_TURN, sWaitForTurn);
             phaseToControllerMap.put(ClientPhasesEnum.WAITING_FOR_TURN, loader.getController());
 
             // GAME ABORTED SCENE
@@ -104,7 +104,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             loader.setLocation(getClass().getResource("/fxml/scene4WaitForTurn.fxml"));
             Parent pGameAborted = loader.load();
             Scene sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
-            phaseToSceneMap.put(ClientPhasesEnum.LOBBY, sGameAborted);
+            phaseToSceneMap.put(ClientPhasesEnum.ABORTED_GAME, sGameAborted);
             phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
 
 
@@ -115,6 +115,12 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     }
 
     private void renderGui(Scene sceneToRender) throws IOException {
+        if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+            System.out.println("Drawing scene");
+            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+            System.out.println(controller);
+            controller.drawScene(stage);
+        }
         getStage().setScene(sceneToRender);
     }
 
@@ -149,7 +155,11 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             stage.setFullScreen(false);
             this.scene = scene;
             stage.show();
+
+
+            MediaManager.loadGraphicResources();
             initPhaseToScene();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

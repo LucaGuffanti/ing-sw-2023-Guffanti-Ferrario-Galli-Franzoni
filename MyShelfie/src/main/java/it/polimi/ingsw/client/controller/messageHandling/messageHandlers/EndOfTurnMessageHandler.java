@@ -56,7 +56,6 @@ public class EndOfTurnMessageHandler extends Reducer {
             state.setFirstToCompleteShelf(endOfTurnMessage.getActivePlayer());
         }
 
-        Printer.title(CLIMessages.END_OF_TURN);
         state.setServerLastMessage(endOfTurnMessage.getDescription());
 
 

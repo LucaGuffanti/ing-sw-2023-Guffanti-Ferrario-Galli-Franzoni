@@ -33,7 +33,7 @@ public class SocketReceiver extends Thread {
         while(!Thread.currentThread().isInterrupted()) {
             try {
                 Message received = (Message) in.readObject();
-                System.out.println(received.getType());
+                // System.out.println(received.getType());
                 clientNetworkHandler.handleIncomingMessage(received);
                 /*synchronized (clientNetworkHandler.getMessageQueue()) {
                     clientNetworkHandler.getMessageQueue().add(received);

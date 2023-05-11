@@ -20,11 +20,6 @@ public class BeginningOfTurnMessageHandler extends Reducer {
     @Override
     protected ClientState executeReduce(ClientState oldClientState, Message m){
 
-        // @TODO: Check if messages are sent in the right order?
-        // Check if Game data has not been received yet
-        if(oldClientState.getCurrentPhase() != ClientPhasesEnum.WAITING_FOR_TURN)
-            return oldClientState;
-
         ClientState state = null;
         BeginningOfTurnMessage beginningOfTurnMessage = (BeginningOfTurnMessage) m;
 
@@ -36,12 +31,11 @@ public class BeginningOfTurnMessageHandler extends Reducer {
 
         // Refresh the active player.
         state.setActivePlayer(beginningOfTurnMessage.getActiveUser());
-        if (!beginningOfTurnMessage.getActiveUser().equals(state.getUsername())) {
-            Printer.title("It's " + beginningOfTurnMessage.getActiveUser()+"'s turn!");
-        }
         // Check if the active user is the client itself.
         if(state.getActivePlayer().equals(state.getUsername())){
                 state.setCurrentPhase(ClientPhasesEnum.PICK_FORM_BOARD);
+        } else {
+            state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_TURN);
         }
 
 

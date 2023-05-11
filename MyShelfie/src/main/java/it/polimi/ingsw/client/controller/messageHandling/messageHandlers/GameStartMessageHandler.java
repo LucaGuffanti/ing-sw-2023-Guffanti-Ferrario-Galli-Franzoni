@@ -45,7 +45,7 @@ public class GameStartMessageHandler extends Reducer {
         state.setCommonGoalCards(gameStartMessage.getClientCommonGoalCards());
         state.setBoard(gameStartMessage.getClientBoard());
         state.setShelves(gameStartMessage.getShelves());
-        state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_TURN);
+        //state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_TURN);
         state.setFirstToCompleteShelf(gameStartMessage.getFirstToCompleteTheShelf());
 
         return state;

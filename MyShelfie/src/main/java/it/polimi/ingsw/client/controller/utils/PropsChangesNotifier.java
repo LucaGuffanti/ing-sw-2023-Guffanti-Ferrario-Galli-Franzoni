@@ -38,7 +38,7 @@ public class PropsChangesNotifier<T> {
 
                 }
 
-            }catch (Exception ex){}
+            }catch (Exception ex){}//ex.printStackTrace();}
 
 
 

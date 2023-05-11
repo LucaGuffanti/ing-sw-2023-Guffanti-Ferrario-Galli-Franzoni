@@ -20,7 +20,6 @@ import java.util.Map;
  */
 public class ClientState implements Cloneable {
     private String username;
-    private ClientPhasesEnum currentPhase;
     private UserInterface userInterface;
 
     private String winnerUserName;
@@ -51,6 +50,7 @@ public class ClientState implements Cloneable {
     private List<SimplifiedCommonGoalCard> commonGoalCards;
 
     private String serverErrorMessage;
+    private ClientPhasesEnum currentPhase;
 
     public void addToChatHistory(ChatMessage message){
         chatHistory.add(message);
@@ -59,10 +59,10 @@ public class ClientState implements Cloneable {
     public String getServerLastMessage() {
         return serverLastMessage;
     }
+
     public void setServerLastMessage(String serverLastMessage) {
         this.serverLastMessage = serverLastMessage;
     }
-
     private String serverLastMessage;
 
     public String getUsername() {

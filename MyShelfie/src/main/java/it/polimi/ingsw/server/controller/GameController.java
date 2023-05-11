@@ -415,7 +415,7 @@ public class GameController {
 
         Printer.printPlayerName("Current player's Shelf");
         Printer.printShelf(GameObjectConverter.fromShelfToMatrix(currentPlayer.getShelf()));
-        String messageDescription = "";
+        String messageDescription = "THE TURN ENDED\n";
 
         chosenCoords = null;
         // points are calculated

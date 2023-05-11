@@ -39,7 +39,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, new WaitingForLobbyView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.LOBBY, new LobbyView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.DECIDING_FOR_RELOAD, new ReloadDecisionView());
-        defaultViewsPerPhasesMap.put(ClientPhasesEnum.WAITING_FOR_TURN, new BoardView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.WAITING_FOR_TURN, new WaitingForTurnView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.PICK_FORM_BOARD, new PickFromBoardView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.SELECT_COLUMN, new SelectColumnView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.ABORTED_GAME, new GameAbortedView());
