@@ -45,8 +45,8 @@ public class CardBuilder {
         ArrayList<PointCard> list = new ArrayList<>();
 
         int [][] pointsByPlayersNumber = new int[][]{
-                new int[]{4, 8},        // For 2 players
-                new int[]{4, 6, 8},     // For 3 players
+                new int[]{2, 4},        // For 2 players
+                new int[]{2, 4, 6},     // For 3 players
                 new int[]{2, 4, 6, 8},  // For 4 players
         };
 
