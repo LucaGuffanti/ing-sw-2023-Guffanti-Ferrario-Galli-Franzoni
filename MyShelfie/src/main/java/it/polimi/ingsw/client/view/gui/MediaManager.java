@@ -22,6 +22,8 @@ public class MediaManager {
     public static HashMap<ObjectTypeEnum, Image> tileToImage = new HashMap<>();
     public static HashMap<PointEnumeration, Image> pointToImage = new HashMap<>();
 
+    public static Image endOfGamePoint;
+
     static {
         jsonCommonGoalIdToResourceId.put("0", "4");
         jsonCommonGoalIdToResourceId.put("1", "11");
@@ -117,6 +119,8 @@ public class MediaManager {
                     i.exceptionProperty().getValue().printStackTrace();
                 }
             }
+
+            endOfGamePoint = new Image("file:src/main/resources/images/scoring tokens/end game.jpg");
 
         } catch (Exception e) {
             e.printStackTrace();

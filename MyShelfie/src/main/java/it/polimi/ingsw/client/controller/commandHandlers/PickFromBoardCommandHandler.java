@@ -5,12 +5,12 @@ import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersExce
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFromBoardMessageHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
+import it.polimi.ingsw.client.controller.utils.PickChecker;
 import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class PickFromBoardCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
@@ -87,9 +87,9 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
                 y3 = Integer.parseInt(parameters.get(5));
 
                 if(x1 == x2 && x2 == x3) {
-                    return checkTripleOrdering(y1, y2, y3);
+                    return PickChecker.checkTripleAdjacency(y1, y2, y3);
                 } else if (y1 == y2 && y2 == y3) {
-                    return checkTripleOrdering(x1, x2, x3);
+                    return PickChecker.checkTripleAdjacency(x1, x2, x3);
                 } else {
                     return false;
                 }
@@ -106,23 +106,7 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
         return true;
     }
 
-    /**
-     * This method checks that 3 coordinates are correctly ordered, either in ascending and descending
-     * order and that they are subsequent
-     * @param c1 the first coordinate
-     * @param c2 the second coordinate
-     * @param c3 the third coordinate
-     * @return c1"<"c2"<"c3 && c1+2==c2+1==c3 OR c3"<"c2"<"c1 && c3+2==c2+1==c1
-     */
-    private boolean checkTripleOrdering(int c1, int c2, int c3) {
-        if (c1 < c2 && c2 < c3) {
-            return c1 +1 == c2 && c2 +1 == c3;
-        } else if (c3 < c2 && c2 < c1) {
-            return c3 +1 == c2 && c2 +1 == c1;
-        }else {
-            return false;
-        }
-    }
+
 
     public static String getCommandLabel() {
         return commandLabel;

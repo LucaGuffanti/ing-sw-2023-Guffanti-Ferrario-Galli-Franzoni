@@ -1,0 +1,32 @@
+.bodyBgGame {
+    -fx-background-image: url("../images/misc/sfondo%20parquet.jpg");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.boardCell:border {
+    -fx-border-color: lime;
+    -fx-border-style: solid;
+    -fx-border-width: 10px;
+}
+
+.container {
+    -fx-background-color: #d6b990ff;
+}
+
+.test {
+    -fx-background-color: lime;
+}
+
+.boardCell:pressed {
+    -fx-border-color: red;
+}
+
+.shelfInPickOrWaiting {
+    -fx-background-image: url("../images/boards/bookshelf_orth.png");
+    -fx-background-size: 150 150;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

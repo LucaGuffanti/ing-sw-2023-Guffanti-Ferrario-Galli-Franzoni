@@ -19,7 +19,7 @@ public class GameAbortedView implements CliView{
                 "Please note that if nobody has made a move yet the game will not be saved\n");
         Printer.boldsSubtitle("If you are the admin of the game, and you want to reload the game, please\n" +
                 "recreate a game with the same number of players, then respond positively to the prompt when the lobby" +
-                "if filled.");
+                "is filled.");
         System.exit(1);
     }
 }
