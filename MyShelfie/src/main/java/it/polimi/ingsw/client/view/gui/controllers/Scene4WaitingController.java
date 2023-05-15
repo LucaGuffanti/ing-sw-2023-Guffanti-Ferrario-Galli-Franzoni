@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
+import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.utils.PickChecker;
 import it.polimi.ingsw.client.view.cli.Printer;
@@ -17,20 +18,20 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
-
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Scene4PickFromBoardController implements GameSceneController {
+public class Scene4WaitingController implements GameSceneController {
+    @FXML
+    private Label phaseDescription;
     @FXML
     private Label textError;
 
@@ -109,6 +110,8 @@ public class Scene4PickFromBoardController implements GameSceneController {
         Image pgImage = MediaManager.personalGoalToImage.get(state.getPersonalGoalCardId());
         personalGoal.setImage(pgImage);
 
+        phaseDescription.setText("It's "+ state.getActivePlayer()+"'s turn");
+
         // Displaying the board
         ObjectTypeEnum[][] board = state.getBoard();
         Printer.printBoard(board);
@@ -121,7 +124,6 @@ public class Scene4PickFromBoardController implements GameSceneController {
                     // the image is contained in a slightly bigger pane that
                     // permits the highlighting of the image when pressed.
 
-                    PseudoClass imageViewBorder = PseudoClass.getPseudoClass("border");
 
                     ImageView imgView = new ImageView(MediaManager.tileToImage.get(board[i][j]));
                     boardCells.add(imgView);
@@ -137,53 +139,6 @@ public class Scene4PickFromBoardController implements GameSceneController {
                     paneContainingImage.setMaxHeight(65.0);
                     paneContainingImage.setMinHeight(65.0);
                     paneContainingImage.setPrefHeight(65.0);
-
-                    paneContainingImage.getStyleClass().add("boardCell");
-                    BooleanProperty imageViewBorderActive = new SimpleBooleanProperty() {
-                        @Override
-                        protected void invalidated() {
-                            paneContainingImage.pseudoClassStateChanged(imageViewBorder, get());
-                        }
-                    };
-
-                    imageToClickedProperty.put(imgView, imageViewBorderActive);
-
-                    // set the event to be asynchronously invoked when the imageView is pressed
-                    imgView.setOnMouseClicked(event -> {
-
-                        // the border is set
-                        boolean selected = !imageViewBorderActive.get(); // if false the tile is unselected
-                        // retrieve the x,y coordinates of the clicked image by accessing the index in the linearized imageView list
-                        // and by calculating it
-                        // indexOfCurrentImage = 9*rowIndex + colIndex
-                        // <==> colIndex = indexOfCurrentImage % 9 and rowIndex = (indexOfCurrentImage-colIndex) / 9
-                        // example:
-                        //  current = 39
-                        //      colIndex = 39 % 9 = 3
-                        //      rowIndex = (39-3) / 9 = 4
-
-                        Coordinates coordsOfImage = getCoordinatesInBoardMatrix(imgView);
-
-
-                        if (selected) {
-                            System.out.println("Clicked Image on ("+coordsOfImage.getX()+", "+coordsOfImage.getY() + ")");
-                            if (checkCoordinateSelection(clicked, coordsOfImage)) {
-                                System.out.println("Valid selection");
-                                clicked.add(coordsOfImage);
-                                setLabelErrorMessage("");
-                                imageViewBorderActive.set(true);
-                            } else {
-                                System.out.println("Invalid selection");
-                                setLabelErrorMessage("You are trying to pick tiles in an incorrect way. Remember that you can pick tiles that have \n at least one free side before the pick "+
-                                        "and that all the tiles must be in a straight line");
-                            }
-                        } else {
-                            System.out.println("Unclicked Image on ("+coordsOfImage.getX()+", "+coordsOfImage.getY() + ")");
-                            clicked.remove(coordsOfImage);
-                            setLabelErrorMessage("");
-                            imageViewBorderActive.set(false);
-                        }
-                    });
 
                     gameBoard.add(paneContainingImage ,j, i);
                 } else {
