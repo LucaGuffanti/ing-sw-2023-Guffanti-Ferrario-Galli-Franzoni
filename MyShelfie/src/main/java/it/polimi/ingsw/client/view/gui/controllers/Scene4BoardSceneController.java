@@ -35,7 +35,6 @@ public class Scene4BoardSceneController implements GameSceneController {
     private Label phaseDescription;
     @FXML
     private Label textError;
-
     @FXML
     private VBox shelvesBox;
     @FXML

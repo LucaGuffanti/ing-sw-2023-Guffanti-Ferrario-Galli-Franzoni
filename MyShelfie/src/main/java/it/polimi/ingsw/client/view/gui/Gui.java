@@ -23,6 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * This class contains main info of GUI
@@ -114,6 +115,13 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             phaseToSceneMap.put(ClientPhasesEnum.WAITING_FOR_TURN, sWaitForTurn);
             phaseToControllerMap.put(ClientPhasesEnum.WAITING_FOR_TURN, loader.getController());
 
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/scene5FinalResults.fxml"));
+            Parent pFinalResults = loader.load();
+            Scene sFinalResults = new Scene(pFinalResults, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.FINAL_RESULTS_SHOW, sFinalResults);
+            phaseToControllerMap.put(ClientPhasesEnum.FINAL_RESULTS_SHOW, loader.getController());
+
             // GAME ABORTED SCENE
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/sceneGameAborted.fxml"));
@@ -133,6 +141,11 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             mGame.setOnEndOfMedia(() -> mGame.seek(Duration.ZERO));
             phaseToMusicMap.put(ClientPhasesEnum.PICK_FORM_BOARD, mGame);
             phaseToMusicMap.put(ClientPhasesEnum.WAITING_FOR_TURN, mGame);
+
+            sound = new Media(new File("src/main/resources/audio/BrazilianJazz.mp3").toURI().toString());
+            MediaPlayer mFinalResults = new MediaPlayer(sound);
+            mFinalResults.setOnEndOfMedia(() -> mFinalResults.seek(Duration.ZERO));
+            phaseToMusicMap.put(ClientPhasesEnum.FINAL_RESULTS_SHOW, mFinalResults);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,25 +171,43 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         }
         getStage().setScene(sceneToRender);
 
-        /*if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
-            if (getMediaPlayer() != null) {
-                getMediaPlayer().stop();
-            }
-            m.play();
-            setMediaPlayer(m);
-        }*/
-    }
-
-    public void renderCurrentScene() {
-        getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
-        /*MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
                 getMediaPlayer().stop();
             }
             m.play();
             setMediaPlayer(m);
-        }*/
+        }
+    }
+
+    public void renderCurrentScene() {
+        if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+            System.out.println("Drawing scene");
+            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+            System.out.println(controller);
+            controller.drawScene(stage);
+        }
+        else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+            System.out.println("Drawing scene");
+            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
+            System.out.println(controller);
+            controller.drawScene(stage);
+        } else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
+            System.out.println("Drawing scene");
+            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
+            System.out.println(controller);
+            controller.drawScene(stage);
+        }
+        getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
+
+        MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
+        if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
+            if (getMediaPlayer() != null) {
+                getMediaPlayer().stop();
+            }
+            m.play();
+            setMediaPlayer(m);
+        }
     }
 
     @Override
