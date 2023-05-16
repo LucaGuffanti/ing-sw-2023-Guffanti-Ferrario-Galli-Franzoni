@@ -130,6 +130,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             loader.setLocation(getClass().getResource("/fxml/sceneGameAborted.fxml"));
             Parent pGameAborted = loader.load();
             sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
+            phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
 
             // LOAD SOUNDS
             Media sound = new Media(new File("src/main/resources/audio/LocalForecast-Elevator.mp3").toURI().toString());
@@ -264,7 +265,12 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     @Override
     public void onGameAborted() {
         try {
-            Platform.runLater(()->getStage().setScene(sGameAborted));
+            Platform.runLater(()-> {
+                getStage().setScene(sGameAborted);
+                if (getMediaPlayer() != null) {
+                    phaseToControllerMap.get(ClientPhasesEnum.ABORTED_GAME).setSliderVolume(getMediaPlayer().getVolume());
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
