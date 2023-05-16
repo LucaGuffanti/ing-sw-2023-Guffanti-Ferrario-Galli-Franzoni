@@ -2,11 +2,13 @@ package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.LoginRequestMessage;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -21,11 +23,19 @@ public class Scene1LoginController implements SceneController, Initializable {
     private TextField textFieldNickname;
     @FXML
     private BorderPane borderPaneLogin;
+    @FXML
+    private Slider sliderVolume;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         borderPaneLogin.setOpacity(0);
         makeFadeIn();
+    }
+
+    @Override
+    public void setSliderVolume(double volume) {
+        sliderVolume.setValue(volume * 100);
+        sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
     private void makeFadeIn() {

@@ -1,34 +1,23 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
-import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.controller.utils.PickChecker;
-import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
 import it.polimi.ingsw.client.view.gui.Renderer;
-import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
-import it.polimi.ingsw.server.model.cells.Coordinates;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Scene4WaitingController implements GameSceneController {
@@ -36,7 +25,8 @@ public class Scene4WaitingController implements GameSceneController {
     private Label phaseDescription;
     @FXML
     private Label textError;
-
+    @FXML
+    private Slider sliderVolume;
     @FXML
     private VBox shelvesBox;
     @FXML
@@ -47,7 +37,6 @@ public class Scene4WaitingController implements GameSceneController {
     private ImageView cg_2_2;
     @FXML
     private ImageView cg_2_3;
-
     @FXML
     private ImageView cg_2_4;
     @FXML
@@ -65,6 +54,12 @@ public class Scene4WaitingController implements GameSceneController {
     @FXML
     private ImageView commonGoal2;
     private List<ImageView> boardCells = new ArrayList<>();
+
+    @Override
+    public void setSliderVolume(double volume) {
+        sliderVolume.setValue(volume * 100);
+        sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
+    }
     @Override
     public void drawScene(Stage stage) {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();

@@ -31,6 +31,7 @@ import java.util.Objects;
  * @author Marco Galli
  */
 public class Gui extends Application implements UserInterface, PropertyChangeListener {
+    public static Gui instance;
     private ClientNetworkHandler clientNetworkHandler;
     private StateContainer stateContainer;
     private HashMap<ClientPhasesEnum, Scene> phaseToSceneMap;
@@ -39,6 +40,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     private static Stage stage;
     private Scene scene;
     private MediaPlayer mediaPlayer;
+    private Scene sGameAborted;
 
     public static Stage getStage() {
         return stage;
@@ -127,9 +129,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/sceneGameAborted.fxml"));
             Parent pGameAborted = loader.load();
-            Scene sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
-            phaseToSceneMap.put(ClientPhasesEnum.ABORTED_GAME, sGameAborted);
-            phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
+            sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
 
             // LOAD SOUNDS
             Media sound = new Media(new File("src/main/resources/audio/LocalForecast-Elevator.mp3").toURI().toString());
@@ -174,15 +174,17 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             controller.drawScene(stage);
         }
         getStage().setScene(sceneToRender);
-        /*
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
                 getMediaPlayer().stop();
+                m.setVolume(getMediaPlayer().getVolume());
             }
-            m.play();
+            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(m.getVolume());
             setMediaPlayer(m);
+            m.play();
+        } else if (m == null && getMediaPlayer() != null && phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()) != null) {
+            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(getMediaPlayer().getVolume());
         }
-        */
     }
 
     public void renderCurrentScene() throws IOException {
@@ -206,17 +208,18 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             controller.drawScene(stage);
         }
         getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
-        /*
         MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
                 getMediaPlayer().stop();
+                m.setVolume(getMediaPlayer().getVolume());
             }
-            m.play();
+            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(m.getVolume());
             setMediaPlayer(m);
+            m.play();
+        } else if (m == null && getMediaPlayer() != null && phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()) != null) {
+            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(getMediaPlayer().getVolume());
         }
-
-         */
     }
 
     @Override
@@ -226,6 +229,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
 
     @Override
     public void start(Stage stage) throws Exception {
+        instance = this;
         ClientManager manager = ClientManager.getInstance();
         this.stateContainer = manager.getStateContainer();
         this.clientNetworkHandler = manager.getNetworkHandler();
@@ -259,7 +263,11 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
 
     @Override
     public void onGameAborted() {
-        // esce un messaggio "partita finita"
+        try {
+            Platform.runLater(()->getStage().setScene(sGameAborted));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

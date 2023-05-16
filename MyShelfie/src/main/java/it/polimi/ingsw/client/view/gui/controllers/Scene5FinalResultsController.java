@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
+import it.polimi.ingsw.client.view.gui.Gui;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -12,12 +14,20 @@ import java.util.ResourceBundle;
 
 public class Scene5FinalResultsController implements GameSceneController, Initializable {
     @FXML
-    BorderPane borderPaneFinalResults;
+    private BorderPane borderPaneFinalResults;
+    @FXML
+    private Slider sliderVolume;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         borderPaneFinalResults.setOpacity(0);
         makeFadeIn();
+    }
+
+    @Override
+    public void setSliderVolume(double volume) {
+        sliderVolume.setValue(volume * 100);
+        sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
     private void makeFadeIn() {

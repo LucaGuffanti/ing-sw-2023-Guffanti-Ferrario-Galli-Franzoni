@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.NumberOfPlayersSelectionMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
 public class Scene2LobbyCreationController implements SceneController {
@@ -11,10 +13,18 @@ public class Scene2LobbyCreationController implements SceneController {
     private Label labelErrorCreationLobby;
     @FXML
     private TextField textFieldNumberPlayers;
+    @FXML
+    private Slider sliderVolume;
 
     @Override
     public void setLabelErrorMessage(String message) {
         labelErrorCreationLobby.setText(message);
+    }
+
+    @Override
+    public void setSliderVolume(double volume) {
+        sliderVolume.setValue(volume * 100);
+        sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
     @FXML

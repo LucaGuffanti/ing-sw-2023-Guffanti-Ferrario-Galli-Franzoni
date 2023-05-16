@@ -3,31 +3,30 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
 import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.SelectColumnMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Scene4SelectColumnController implements GameSceneController {
+    @FXML
+    private Slider sliderVolume;
     @FXML
     private Button b0, b1, b2, b3, b4;
     @FXML
@@ -62,6 +61,12 @@ public class Scene4SelectColumnController implements GameSceneController {
     private ImageView commonGoal2;
     private List<ImageView> shelfCells = new ArrayList<>();
     private HashMap<ImageView, BooleanProperty> imageToClickedProperty = new HashMap<>();
+
+    @Override
+    public void setSliderVolume(double volume) {
+        sliderVolume.setValue(volume * 100);
+        sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
+    }
 
     @Override
     public void drawScene(Stage stage) {

@@ -18,8 +18,21 @@
       </ImageView>
    </top>
    <center>
-      <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="70.0">
+      <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="40.0">
          <children>
+            <Label fx:id="labelLogin" styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Welcome to My Shelfie!&#13;Please, type your name and login" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+               <font>
+                  <Font name="Times New Roman Bold Italic" size="24.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="textFieldNickname" layoutX="249.0" layoutY="211.0" prefHeight="33.0" prefWidth="141.0" promptText="Type your name">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </TextField>
             <Label fx:id="labelErrorLogin" layoutX="227.0" layoutY="164.0" textFill="RED" underline="true">
                <font>
                   <Font name="Algerian" size="20.0" />
@@ -28,11 +41,6 @@
                   <Insets top="10.0" />
                </padding>
             </Label>
-            <TextField fx:id="textFieldNickname" focusTraversable="false" layoutX="249.0" layoutY="211.0" prefHeight="33.0" prefWidth="141.0" promptText="Type your name">
-               <font>
-                  <Font name="Times New Roman" size="18.0" />
-               </font>
-            </TextField>
             <Button fx:id="buttonServerLogin" defaultButton="true" mnemonicParsing="false" onAction="#serverLogin" text="LOGIN">
                <font>
                   <Font name="System Bold Italic" size="20.0" />
@@ -41,4 +49,22 @@
          </children>
       </VBox>
    </center>
+   <bottom>
+      <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+               <font>
+                  <Font name="Times New Roman Bold Italic" size="14.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <Slider fx:id="sliderVolume" value="100.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
 </BorderPane>

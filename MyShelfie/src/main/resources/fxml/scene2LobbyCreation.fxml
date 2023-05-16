@@ -18,21 +18,29 @@
         </ImageView>
     </top>
     <center>
-      <VBox alignment="TOP_CENTER" fillWidth="false" spacing="70.0">
+      <VBox alignment="TOP_CENTER" fillWidth="false" spacing="40.0">
          <BorderPane.margin>
             <Insets top="40.0" />
          </BorderPane.margin>
          <children>
+             <Label fx:id="labelLobbyCreation" styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Insert the number of players from 2 to 4" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                 <font>
+                     <Font name="Times New Roman Bold Italic" size="24.0" />
+                 </font>
+                 <padding>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                 </padding>
+             </Label>
+             <TextField fx:id="textFieldNumberPlayers" layoutX="249.0" layoutY="211.0" prefHeight="34.0" prefWidth="197.0" promptText="Number of players (2-4)">
+                 <font>
+                     <Font name="Times New Roman" size="18.0" />
+                 </font>
+             </TextField>
              <Label fx:id="labelErrorCreationLobby" textFill="RED" underline="true">
                 <font>
                       <Font name="Algerian" size="20.0" />
                 </font>
              </Label>
-             <TextField fx:id="textFieldNumberPlayers" focusTraversable="false" layoutX="249.0" layoutY="211.0" prefHeight="34.0" prefWidth="197.0" promptText="Number of players (2-4)">
-                 <font>
-                     <Font name="Times New Roman" size="18.0" />
-                 </font>
-             </TextField>
              <Button fx:id="buttonCreateLobby" alignment="TOP_LEFT" defaultButton="true" mnemonicParsing="false" onAction="#createLobby" text="CREATE LOBBY">
                 <font>
                    <Font name="System Bold Italic" size="20.0" />
@@ -41,4 +49,22 @@
          </children>
       </VBox>
     </center>
+    <bottom>
+        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                  <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                      <font>
+                          <Font name="Times New Roman Bold Italic" size="14.0" />
+                      </font>
+                      <padding>
+                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                      </padding>
+                  </Label>
+                  <Slider fx:id="sliderVolume" />
+            </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+        </HBox>
+    </bottom>
 </BorderPane>

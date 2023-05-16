@@ -48,7 +48,11 @@ public class ClientManager {
 
 
     public void onDisconnection() {
-        userInterface.onGameAborted();
+        if (userInterface instanceof Gui) {
+            Gui.instance.onGameAborted();
+        } else {
+            userInterface.onGameAborted();
+        }
     }
 
     public StateContainer getStateContainer() {

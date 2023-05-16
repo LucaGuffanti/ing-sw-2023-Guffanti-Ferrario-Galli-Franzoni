@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane fx:id="borderPaneFinalResults" prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgGame" stylesheets="@../css/styleBgGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene5FinalResultsController">
     <top>
@@ -15,4 +17,103 @@
             </BorderPane.margin>
         </ImageView>
     </top>
+   <center>
+      <VBox alignment="TOP_CENTER" spacing="30.0">
+         <BorderPane.margin>
+            <Insets bottom="70.0" />
+         </BorderPane.margin>
+         <children>
+             <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="\@player WINS!" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                 <padding>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                 </padding>
+               <font>
+                  <Font name="Times New Roman Bold Italic" size="35.0" />
+               </font>
+             </Label>
+            <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="container" stylesheets="@../css/gamePhase.css">
+               <VBox.margin>
+                  <Insets left="250.0" right="250.0" />
+               </VBox.margin>
+               <children>
+                   <Label text="\@player SCORED: 00 points" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                       <padding>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                       </padding>
+                       <font>
+                           <Font name="Times New Roman Bold Italic" size="24.0" />
+                       </font>
+                   </Label>
+                   <Label text="\@player SCORED: 00 points" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                       <padding>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                       </padding>
+                       <font>
+                           <Font name="Times New Roman Bold Italic" size="24.0" />
+                       </font>
+                   </Label>
+                   <Label text="\@player SCORED: 00 points" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                       <padding>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                       </padding>
+                       <font>
+                           <Font name="Times New Roman Bold Italic" size="24.0" />
+                       </font>
+                   </Label>
+                   <Label text="\@player SCORED: 00 points" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                       <padding>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                       </padding>
+                       <font>
+                           <Font name="Times New Roman Bold Italic" size="24.0" />
+                       </font>
+                   </Label>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
+    <bottom>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="BOTTOM_LEFT" prefHeight="134.0" prefWidth="1415.0" spacing="10.0">
+                    <children>
+                        <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                            <font>
+                                <Font name="Times New Roman Bold Italic" size="14.0" />
+                            </font>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </Label>
+                        <Slider fx:id="sliderVolume" />
+                    </children>
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </HBox.margin>
+                </HBox>
+                <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="133.0" spacing="10.0" styleClass="container" stylesheets="@../css/gamePhase.css">
+                            <children>
+                                <Label text="CHAT MESSAGE" />
+                                <Label text="CHAT MESSAGE" />
+                                <Label text="CHAT MESSAGE" />
+                                <Label text="CHAT MESSAGE" />
+                            </children>
+                            <HBox.margin>
+                                <Insets bottom="10.0" />
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </HBox.margin>
+                </HBox>
+            </children>
+        </HBox>
+    </bottom>
 </BorderPane>
