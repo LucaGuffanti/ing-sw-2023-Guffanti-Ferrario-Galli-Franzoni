@@ -109,7 +109,11 @@ public class Game {
         gameInfo.setNPlayers(nPlayers);
     }
 
-
+    /**
+     * This method loads an already existing game, starting from a {@link SaveFileData} object containing
+     * data retrieved from disk.
+     * @param saveFileData the save data
+     */
     public void loadGame(SaveFileData saveFileData) {
         goalCardsDeck = GoalCardsDeckSingleton.getInstance();
         SimplifiedPlayer[] savedPlayers = saveFileData.getPlayers();

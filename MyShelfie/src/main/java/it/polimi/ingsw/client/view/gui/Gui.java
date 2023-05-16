@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.gui.controllers.*;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 
+import it.polimi.ingsw.server.controller.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -152,17 +153,20 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     }
 
     private void renderGui(Scene sceneToRender, MediaPlayer m) throws IOException {
+
         if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
             System.out.println(controller);
             controller.drawScene(stage);
+
         }
         else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
             System.out.println(controller);
             controller.drawScene(stage);
+
         } else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
@@ -170,7 +174,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             controller.drawScene(stage);
         }
         getStage().setScene(sceneToRender);
-
+        /*
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
                 getMediaPlayer().stop();
@@ -178,20 +182,23 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             m.play();
             setMediaPlayer(m);
         }
+        */
     }
 
-    public void renderCurrentScene() {
+    public void renderCurrentScene() throws IOException {
         if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
             System.out.println(controller);
             controller.drawScene(stage);
+
         }
         else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
             System.out.println(controller);
             controller.drawScene(stage);
+
         } else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
@@ -199,7 +206,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             controller.drawScene(stage);
         }
         getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
-
+        /*
         MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
@@ -208,6 +215,8 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             m.play();
             setMediaPlayer(m);
         }
+
+         */
     }
 
     @Override
@@ -286,10 +295,51 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             case "orderedPlayersNames" -> {
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     Platform.runLater(()->
-                        renderCurrentScene()
+                            {
+                                try {
+                                    renderCurrentScene();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
                     );
                 }
-            }/*
+            }
+            case "activePlayer" -> {
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                    Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
+                    Platform.runLater(g::renderName);
+                }
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                    Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+                    Platform.runLater(g::renderName);
+                }
+            }
+            case "board" -> {
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                    Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
+                    Platform.runLater(g::renderBoard);
+                }
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                    Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+                    Platform.runLater(g::renderPickableBoard);
+                }
+            }
+            case "activePlayerShelf" -> {
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                    Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
+                    Platform.runLater(g::renderShelves);
+                }
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                    Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+                    Platform.runLater(g::renderShelves);
+                }
+                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
+                    Scene4SelectColumnController g = (Scene4SelectColumnController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
+                    Platform.runLater(g::renderShelves);
+                }
+            }
+            /*
             case "lastChatMessage" -> {
                 if (cliView instanceof ChatView) {
                     ChatView cli = (ChatView) cliView;

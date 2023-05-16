@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.utils.PickChecker;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.MediaManager;
+import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
@@ -16,6 +17,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -63,9 +65,6 @@ public class Scene4WaitingController implements GameSceneController {
     @FXML
     private ImageView commonGoal2;
     private List<ImageView> boardCells = new ArrayList<>();
-    private List<Coordinates> clicked = new ArrayList<>();
-    private HashMap<ImageView, BooleanProperty> imageToClickedProperty = new HashMap<>();
-
     @Override
     public void drawScene(Stage stage) {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
@@ -113,8 +112,22 @@ public class Scene4WaitingController implements GameSceneController {
         phaseDescription.setText("It's "+ state.getActivePlayer()+"'s turn");
 
         // Displaying the board
-        ObjectTypeEnum[][] board = state.getBoard();
-        Printer.printBoard(board);
+        renderBoard();
+
+        // Displaying the shelves
+        renderShelves();
+
+    }
+
+    public void renderShelves() {
+        Renderer.renderShelves(shelvesBox);
+    }
+
+    public void renderBoard() {
+        // destroying the previously built board
+        gameBoard.getChildren().clear();
+        // Displaying the board
+        ObjectTypeEnum[][] board = ClientManager.getInstance().getStateContainer().getCurrentState().getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board[i][j] != null) {
@@ -146,175 +159,14 @@ public class Scene4WaitingController implements GameSceneController {
                 }
             }
         }
-
-        // Displaying the shelves
-        int numOfPlayers = state.getOrderedPlayersNames().size();
-        List<String> playerNames = state.getOrderedPlayersNames();
-        String firstToCompleteTheShelf = state.getFirstToCompleteShelf();
-
-        // =SHELVES RENDERING SCHEMA=
-        //  VBOX containing all the shelves
-        //      ->VBOX containing the single shelf, the name of player and the points made
-        //                  |                                   |
-        //       PANE with GRIDPANE with IMAGEVIEWS   HBOX with 3 IMAGEVIEWS and LABEL
-        // ===========SIZES==========
-        //  Single shelf -> 150x150 as seen in CSS
-        //  Gridpane containing cards -> 18x18 tiles with hgap = 6, vgap = 3, padding from below = 8
-        //  ImageViews for the object cards -> 18x18
-        //  ImageViews for the points ->
-
-        for (int player = 0; player < numOfPlayers; player++) {
-            System.out.println("SHELF FOR " + playerNames.get(player));
-            // building the GRIDPANE with IMAGEVIEWS
-            GridPane shelfGrid = new GridPane();
-            shelfGrid.setHgap(6);
-            shelfGrid.setVgap(3);
-            shelfGrid.setLayoutX(91.5);
-            shelfGrid.setLayoutY(9);
-
-            System.out.println("BUILDING SHELF");
-            ObjectTypeEnum[][] shelf = state.getShelves().get(player);
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    ImageView imageView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
-                    imageView.setFitWidth(18);
-                    imageView.setFitHeight(18);
-
-                    shelfGrid.add(imageView, j, i);
-                }
-            }
-
-            // building the pane containing the grid and setting its class to show the shelf as a background
-            Pane paneContainingShelf = new Pane(shelfGrid);
-            paneContainingShelf.setMinWidth(300);
-            paneContainingShelf.setPrefWidth(300);
-            paneContainingShelf.setMaxWidth(300);
-            paneContainingShelf.setMinHeight(150);
-            paneContainingShelf.setPrefHeight(150);
-            paneContainingShelf.setMaxHeight(150);
-
-            paneContainingShelf.getStyleClass().add("shelfInPickOrWaiting");
-            System.out.println("BUILT");
-
-            System.out.println("CHECKING ACHIEVEMENTS");
-            // building the label containing the name of the player
-            Label playerName = new Label();
-            playerName.setText(playerNames.get(player));
-            //playerName.setFont(); SETTING THE FONT, WILL BE DONE LATER
-
-            // based on the achievements, build appropriate imageviews
-            ImageView completedShelfPoint = null;
-            boolean completedShelf = false;
-            ImageView firstCommonPointImage = null;
-            boolean firstCommonPoint = false;
-            ImageView secondCommonPointImage = null;
-            boolean secondCommonPoint = false;
-
-            // checking if the player is the first completing the shelf
-            if (state.getUsername().equals(firstToCompleteTheShelf)) {
-                completedShelf = true;
-                completedShelfPoint = new ImageView(MediaManager.endOfGamePoint);
-                completedShelfPoint.setFitHeight(30);
-                completedShelfPoint.setFitWidth(30);
-            }
-            // checking if the player was awarded any first common goal points
-            if (state.getCommonGoalCards().get(0).getNickToEarnedPoints().get(playerNames.get(player)) != null) {
-                firstCommonPoint = true;
-                PointEnumeration point = state.getCommonGoalCards().get(0).getNickToEarnedPoints().get(playerNames.get(player)).getType();
-                firstCommonPointImage = new ImageView(MediaManager.pointToImage.get(point));
-                firstCommonPointImage.setFitHeight(30);
-                firstCommonPointImage.setFitWidth(30);
-            }
-            // checking if the player was awarded any second common goal points
-            if (state.getCommonGoalCards().get(1).getNickToEarnedPoints().get(playerNames.get(player)) != null) {
-                secondCommonPoint = true;
-                PointEnumeration point = state.getCommonGoalCards().get(1).getNickToEarnedPoints().get(playerNames.get(player)).getType();
-                secondCommonPointImage = new ImageView(MediaManager.pointToImage.get(point));
-                secondCommonPointImage.setFitHeight(30);
-                secondCommonPointImage.setFitWidth(30);
-            }
-            System.out.println("DONE");
-
-
-            System.out.println("FINAL TOUCHES");
-            // Setting the Hbox containing the label and the imageviews
-            HBox playerData = new HBox();
-            playerData.setSpacing(5);
-            playerData.setAlignment(Pos.CENTER);
-            if (completedShelf) {
-                playerData.getChildren().add(completedShelfPoint);
-            }
-            if (firstCommonPoint) {
-                playerData.getChildren().add(firstCommonPointImage);
-            }
-            if (secondCommonPoint) {
-                playerData.getChildren().add(secondCommonPointImage);
-            }
-            playerData.getChildren().add(playerName);
-
-            // finally building the vbox containing everything
-            VBox shelfAndPlayerData = new VBox();
-            shelfAndPlayerData.setSpacing(2);
-            shelfAndPlayerData.setAlignment(Pos.CENTER);
-            shelfAndPlayerData.getChildren().add(paneContainingShelf);
-            shelfAndPlayerData.getChildren().add(playerData);
-
-            // and adding this vbox to the external one containing all the shelves
-            shelvesBox.getChildren().add(shelfAndPlayerData);
-            System.out.println("DONE");
-        }
-
     }
-
-    private boolean checkCoordinateSelection(List<Coordinates> clicked, Coordinates coordsOfImage) {
-        ObjectTypeEnum[][] board = ClientManager.getInstance().getStateContainer().getCurrentState().getBoard();
-
-        int cx = coordsOfImage.getX();
-        int cy = coordsOfImage.getY();
-
-        if (!PickChecker.hasFreeSides(board, cx, cy)) {
-            return false;
-        }
-
-        return PickChecker.checkAdjacencies(clicked, coordsOfImage);
-    }
-
-
-    private Coordinates getCoordinatesInBoardMatrix(ImageView imgView) {
-        int indexOfCurrentImage = boardCells.indexOf(imgView);
-        int colIndex = indexOfCurrentImage % 9;
-        int rowIndex = (indexOfCurrentImage - colIndex) / 9;
-
-        return new Coordinates(colIndex, rowIndex);
-    }
-
 
     @Override
     public void setLabelErrorMessage(String message) {
         textError.setText(message);
     }
 
-    public void resetSelection() {
-        System.out.println(clicked.toString());
-        for (Coordinates i : clicked) {
-            int index = i.getY()*9 + i.getX();
-            ImageView imgView = boardCells.get(index);
-            imageToClickedProperty.get(imgView).set(false);
-        }
-        clicked.clear();
-        setLabelErrorMessage("");
-        System.out.println(clicked.toString());
+    public void renderName() {
+        phaseDescription.setText("It's " + ClientManager.getInstance().getStateContainer().getCurrentState().getActivePlayer() + "'s turn");
     }
-
-    public void submitSelection() {
-        String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
-        System.out.println("Submitting selection for "+ name);
-        ClientManager.getInstance().getNetworkHandler().sendMessage(
-                new PickFromBoardMessage(
-                        name,
-                        clicked
-                )
-        );
-    }
-
 }

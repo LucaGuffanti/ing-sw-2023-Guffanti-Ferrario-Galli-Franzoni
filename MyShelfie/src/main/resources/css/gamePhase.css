@@ -26,7 +26,14 @@
 
 .shelfInPickOrWaiting {
     -fx-background-image: url("../images/boards/bookshelf_orth.png");
-    -fx-background-size: 150 150;
+    -fx-background-size: 160 160;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.gameShelf {
+    -fx-background-image: url("../images/boards/bookshelf_orth.png");
+    -fx-background-size: 650 650;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
