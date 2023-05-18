@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="bodyBgGame" stylesheets="@../css/gamePhase.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene4SelectColumnController">
+<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="bodyBgGame" stylesheets="@../css/gamePhase.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene4SelectColumnController">
     <left>
         <VBox alignment="CENTER_LEFT" prefHeight="905.0" prefWidth="240.0" spacing="2.0">
             <children>
@@ -192,44 +200,41 @@
                                       <Font name="Comic Sans MS" size="18.0" />
                                   </font>
                               </Label>
-                        <VBox alignment="CENTER" styleClass="container">
+                        <VBox alignment="CENTER" spacing="10.0" styleClass="container">
                            <children>
-                              <GridPane fx:id="gameShelf" alignment="CENTER" gridLinesVisible="true" hgap="15.0" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" vgap="15.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="60.0" minHeight="60.0" percentHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="shelfColumn" alignment="CENTER" hgap="15.0" vgap="4.0">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <Pane prefWidth="659.0" styleClass="shelfInSelect">
                                  <children>
-                                    <Button fx:id="b0" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#submitSelection" prefHeight="103.0" prefWidth="196.0" text="0" textAlignment="CENTER" />
-                                    <Button fx:id="b1" mnemonicParsing="false" onAction="#submitSelection" prefHeight="96.0" prefWidth="137.0" text="1" GridPane.columnIndex="1" />
-                                    <Button fx:id="b2" mnemonicParsing="false" onAction="#submitSelection" prefHeight="191.0" prefWidth="234.0" text="2" GridPane.columnIndex="2" />
-                                    <Button fx:id="b3" mnemonicParsing="false" onAction="#submitSelection" prefHeight="170.0" prefWidth="172.0" text="3" GridPane.columnIndex="3" />
-                                    <Button fx:id="b4" mnemonicParsing="false" onAction="#submitSelection" prefHeight="98.0" prefWidth="157.0" text="4" GridPane.columnIndex="4" />
+                                    <GridPane fx:id="gameShelf" alignment="CENTER" hgap="20.0" layoutX="80.0" layoutY="-14.0" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" vgap="9.5">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="60.0" minHeight="60.0" percentHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="59.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="59.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                    </GridPane>
                                  </children>
-                              </GridPane>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Pane>
+                              <HBox alignment="CENTER" spacing="20.0">
+                                 <children>
+                                    <Button fx:id="b0" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#submitSelection" prefHeight="40.0" prefWidth="60.0" text="0" textAlignment="CENTER" />
+                                    <Button fx:id="b1" mnemonicParsing="false" onAction="#submitSelection" prefHeight="40.0" prefWidth="60.0" text="1" />
+                                    <Button fx:id="b2" mnemonicParsing="false" onAction="#submitSelection" prefHeight="40.0" prefWidth="60.0" text="2" />
+                                    <Button fx:id="b3" mnemonicParsing="false" onAction="#submitSelection" prefHeight="40.0" prefWidth="60.0" text="3" />
+                                    <Button fx:id="b4" mnemonicParsing="false" onAction="#submitSelection" prefHeight="40.0" prefWidth="60.0" text="4" />
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets bottom="20.0" />

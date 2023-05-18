@@ -37,3 +37,10 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
+.shelfInSelect {
+    -fx-background-image: url("../images/boards/bookshelf_orth.png");
+    -fx-background-size: 500 500;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
