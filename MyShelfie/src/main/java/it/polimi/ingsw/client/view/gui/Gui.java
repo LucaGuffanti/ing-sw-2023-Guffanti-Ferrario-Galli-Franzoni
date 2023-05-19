@@ -185,6 +185,8 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             m.play();
         } else if (m == null && getMediaPlayer() != null && phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()) != null) {
             phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(getMediaPlayer().getVolume());
+        } else if (m != null && getMediaPlayer() != null && Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource())) {
+            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(getMediaPlayer().getVolume());
         }
     }
 
