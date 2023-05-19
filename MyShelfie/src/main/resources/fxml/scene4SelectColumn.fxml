@@ -264,15 +264,19 @@
             <children>
                 <HBox alignment="BOTTOM_LEFT" prefHeight="134.0" prefWidth="1415.0" spacing="10.0">
                     <children>
-                        <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
-                            <font>
-                                <Font name="Times New Roman Bold Italic" size="14.0" />
-                            </font>
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </padding>
-                        </Label>
-                        <Slider fx:id="sliderVolume" />
+                  <VBox prefHeight="134.0" prefWidth="155.0" spacing="10.0">
+                     <children>
+                              <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                                  <font>
+                                      <Font name="Times New Roman Bold Italic" size="14.0" />
+                                  </font>
+                                  <padding>
+                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                  </padding>
+                              </Label>
+                              <Slider fx:id="sliderVolume" />
+                     </children>
+                  </VBox>
                     </children>
                     <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

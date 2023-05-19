@@ -12,6 +12,14 @@
     -fx-border-width: 10px;
 }
 
+.board {
+    -fx-background-image: url("../images/boards/livingroom.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center ;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
 .container {
     -fx-background-color: #d6b990ff;
 }

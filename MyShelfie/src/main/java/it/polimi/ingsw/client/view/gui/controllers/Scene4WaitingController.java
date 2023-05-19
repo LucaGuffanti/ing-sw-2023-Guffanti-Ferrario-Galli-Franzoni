@@ -53,7 +53,6 @@ public class Scene4WaitingController implements GameSceneController {
     private ImageView commonGoal1;
     @FXML
     private ImageView commonGoal2;
-    private List<ImageView> boardCells = new ArrayList<>();
 
     @Override
     public void setSliderVolume(double volume) {
@@ -65,40 +64,7 @@ public class Scene4WaitingController implements GameSceneController {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
 
         // Displaying personal goals and available points
-        SimplifiedCommonGoalCard cg1 = state.getCommonGoalCards().get(0);
-        SimplifiedCommonGoalCard cg2 = state.getCommonGoalCards().get(1);
 
-        Image cg1Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg1.getId()));
-        commonGoal1.setImage(cg1Image);
-
-        if(cg1.getPointCards().size()>=1) {
-            cg_1_1.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(0).getType()));
-        }
-        if(cg1.getPointCards().size()>=2) {
-            cg_1_2.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(1).getType()));
-        }
-        if(cg1.getPointCards().size()>=3) {
-            cg_1_3.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(2).getType()));
-        }
-        if(cg1.getPointCards().size()==4) {
-            cg_1_4.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(3).getType()));
-        }
-
-        Image cg2Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg2.getId()));
-        commonGoal2.setImage(cg2Image);
-
-        if(cg2.getPointCards().size()>=1) {
-            cg_2_1.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(0).getType()));
-        }
-        if(cg2.getPointCards().size()>=2) {
-            cg_2_2.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(1).getType()));
-        }
-        if(cg2.getPointCards().size()>=3) {
-            cg_2_3.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(2).getType()));
-        }
-        if(cg2.getPointCards().size()==4) {
-            cg_2_4.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(3).getType()));
-        }
 
         // Displaying the personal goal card
         Image pgImage = MediaManager.personalGoalToImage.get(state.getPersonalGoalCardId());
@@ -106,6 +72,7 @@ public class Scene4WaitingController implements GameSceneController {
 
         phaseDescription.setText("It's "+ state.getActivePlayer()+"'s turn");
 
+        renderCards();
         // Displaying the board
         renderBoard();
 
@@ -116,6 +83,20 @@ public class Scene4WaitingController implements GameSceneController {
 
     public void renderShelves() {
         Renderer.renderShelves(shelvesBox);
+    }
+
+    public void renderCards() {
+        Renderer.renderCards(commonGoal1,
+                cg_1_1,
+                cg_1_2,
+                cg_1_3,
+                cg_1_4,
+                commonGoal2,
+                cg_2_1,
+                cg_2_2,
+                cg_2_3,
+                cg_2_4
+        );
     }
 
     public void renderBoard() {
@@ -134,7 +115,6 @@ public class Scene4WaitingController implements GameSceneController {
 
 
                     ImageView imgView = new ImageView(MediaManager.tileToImage.get(board[i][j]));
-                    boardCells.add(imgView);
 
                     Pane paneContainingImage = new Pane(imgView);
                     imgView.setLayoutX(3);
@@ -148,9 +128,7 @@ public class Scene4WaitingController implements GameSceneController {
                     paneContainingImage.setMinHeight(65.0);
                     paneContainingImage.setPrefHeight(65.0);
 
-                    gameBoard.add(paneContainingImage ,j, i);
-                } else {
-                    boardCells.add(new ImageView());
+                    gameBoard.add(paneContainingImage, j, i);
                 }
             }
         }

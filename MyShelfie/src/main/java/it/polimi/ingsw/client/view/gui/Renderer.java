@@ -5,12 +5,14 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
+import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.css.PseudoClass;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -149,4 +151,51 @@ public class Renderer {
         }
     }
 
+    public static void renderCards(
+            ImageView commonGoal1,
+            ImageView cg_1_1,
+            ImageView cg_1_2,
+            ImageView cg_1_3,
+            ImageView cg_1_4,
+            ImageView commonGoal2,
+            ImageView cg_2_1,
+            ImageView cg_2_2,
+            ImageView cg_2_3,
+            ImageView cg_2_4
+    ) {
+        SimplifiedCommonGoalCard cg1 = ClientManager.getInstance().getStateContainer().getCurrentState().getCommonGoalCards().get(0);
+        SimplifiedCommonGoalCard cg2 = ClientManager.getInstance().getStateContainer().getCurrentState().getCommonGoalCards().get(1);
+
+        Image cg1Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg1.getId()));
+        commonGoal1.setImage(cg1Image);
+
+        if(cg1.getPointCards().size()>=1) {
+            cg_1_1.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(0).getType()));
+        }
+        if(cg1.getPointCards().size()>=2) {
+            cg_1_2.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(1).getType()));
+        }
+        if(cg1.getPointCards().size()>=3) {
+            cg_1_3.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(2).getType()));
+        }
+        if(cg1.getPointCards().size()==4) {
+            cg_1_4.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(3).getType()));
+        }
+
+        Image cg2Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg2.getId()));
+        commonGoal2.setImage(cg2Image);
+
+        if(cg2.getPointCards().size()>=1) {
+            cg_2_1.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(0).getType()));
+        }
+        if(cg2.getPointCards().size()>=2) {
+            cg_2_2.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(1).getType()));
+        }
+        if(cg2.getPointCards().size()>=3) {
+            cg_2_3.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(2).getType()));
+        }
+        if(cg2.getPointCards().size()==4) {
+            cg_2_4.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(3).getType()));
+        }
+    }
 }

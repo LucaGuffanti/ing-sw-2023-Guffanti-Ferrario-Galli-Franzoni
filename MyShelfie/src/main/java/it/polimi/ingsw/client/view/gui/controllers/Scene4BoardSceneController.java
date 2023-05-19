@@ -77,41 +77,7 @@ public class Scene4BoardSceneController implements GameSceneController {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
 
         // Displaying personal goals and available points
-        SimplifiedCommonGoalCard cg1 = state.getCommonGoalCards().get(0);
-        SimplifiedCommonGoalCard cg2 = state.getCommonGoalCards().get(1);
-
-        Image cg1Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg1.getId()));
-        commonGoal1.setImage(cg1Image);
-
-        if(cg1.getPointCards().size()>=1) {
-            cg_1_1.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(0).getType()));
-        }
-        if(cg1.getPointCards().size()>=2) {
-            cg_1_2.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(1).getType()));
-        }
-        if(cg1.getPointCards().size()>=3) {
-            cg_1_3.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(2).getType()));
-        }
-        if(cg1.getPointCards().size()==4) {
-            cg_1_4.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(3).getType()));
-        }
-
-        Image cg2Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg2.getId()));
-        commonGoal2.setImage(cg2Image);
-
-        if(cg2.getPointCards().size()>=1) {
-            cg_2_1.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(0).getType()));
-        }
-        if(cg2.getPointCards().size()>=2) {
-            cg_2_2.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(1).getType()));
-        }
-        if(cg2.getPointCards().size()>=3) {
-            cg_2_3.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(2).getType()));
-        }
-        if(cg2.getPointCards().size()==4) {
-            cg_2_4.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(3).getType()));
-        }
-
+        renderCards();
         // Displaying the personal goal card
         Image pgImage = MediaManager.personalGoalToImage.get(state.getPersonalGoalCardId());
         personalGoal.setImage(pgImage);
@@ -129,6 +95,20 @@ public class Scene4BoardSceneController implements GameSceneController {
 
     public void renderShelves() {
         Renderer.renderShelves(shelvesBox);
+    }
+
+    public void renderCards() {
+        Renderer.renderCards(commonGoal1,
+                cg_1_1,
+                cg_1_2,
+                cg_1_3,
+                cg_1_4,
+                commonGoal2,
+                cg_2_1,
+                cg_2_2,
+                cg_2_3,
+                cg_2_4
+        );
     }
 
     public void renderPickableBoard() {
