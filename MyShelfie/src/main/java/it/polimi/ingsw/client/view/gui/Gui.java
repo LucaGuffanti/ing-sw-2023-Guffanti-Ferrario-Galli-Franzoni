@@ -235,7 +235,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         this.stateContainer = manager.getStateContainer();
         this.clientNetworkHandler = manager.getNetworkHandler();
         Gui.stage = stage;
-        stateContainer.addPropertyChangeListener(this::propertyChange);
+        stateContainer.addPropertyChangeListener(this);
         try {
             phaseToSceneMap = new HashMap<>();
             phaseToControllerMap = new HashMap<>();
@@ -249,6 +249,9 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             stage.setTitle("My Shelfie");
             stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
             stage.setScene(scene);
+            stage.setOnCloseRequest(e -> {
+                System.exit(0);
+            });
             stage.show();
             stage.setFullScreen(true);
             stage.setFullScreen(false);
