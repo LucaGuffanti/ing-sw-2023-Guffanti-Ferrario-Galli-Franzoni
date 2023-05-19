@@ -25,5 +25,6 @@ public class SceneGameAbortedController implements SceneController {
     public void close(ActionEvent actionEvent) {
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
+        System.exit(0);
     }
 }

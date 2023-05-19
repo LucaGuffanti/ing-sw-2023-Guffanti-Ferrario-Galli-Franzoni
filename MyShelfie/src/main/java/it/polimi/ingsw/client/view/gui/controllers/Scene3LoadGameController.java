@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.view.gui.Gui;
+import it.polimi.ingsw.network.messages.FoundSavedGameResponseMessage;
+import it.polimi.ingsw.network.messages.LoginRequestMessage;
+import it.polimi.ingsw.network.messages.enums.ReloadGameChoice;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -24,9 +28,19 @@ public class Scene3LoadGameController implements SceneController {
     }
 
     public void yesLoad() {
-
+        ClientManager.getInstance().getNetworkHandler().sendMessage(
+                new FoundSavedGameResponseMessage(
+                        ClientManager.getInstance().getStateContainer().getCurrentState().getUsername(),
+                        ReloadGameChoice.ACCEPT_RELOAD
+                )
+        );
     }
     public void noLoad() {
-
+        ClientManager.getInstance().getNetworkHandler().sendMessage(
+                new FoundSavedGameResponseMessage(
+                        ClientManager.getInstance().getStateContainer().getCurrentState().getUsername(),
+                        ReloadGameChoice.DECLINE_RELOAD
+                )
+        );
     }
 }
