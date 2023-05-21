@@ -39,7 +39,9 @@ public class LoginCommandHandler extends CliCommandHandler{
         if(!super.checkAvailability(availablePhases, state)){
             throw new CommandNotAvailableInThisPhaseException();
         }
-        LoginRequestMessage msg = LoginMessageHandler.createMessage(parameters.get(0));
+
+        System.out.println(commandInput);
+        LoginRequestMessage msg = LoginMessageHandler.createMessage(commandInput);
 
         super.getCli().dispatchMessageToNetwork(msg);
     }
@@ -47,7 +49,7 @@ public class LoginCommandHandler extends CliCommandHandler{
     @Override
     protected boolean checkParameters(List<String> parameters) {
 
-        return parameters.size() == 1;
+        return parameters.size() >= 1;
 
     }
 

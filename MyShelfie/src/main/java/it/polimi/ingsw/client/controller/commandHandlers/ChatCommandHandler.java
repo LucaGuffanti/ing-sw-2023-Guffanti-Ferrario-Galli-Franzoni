@@ -65,7 +65,7 @@ public class ChatCommandHandler extends CliCommandHandler{
         int listIndex = 0;
         for(String s : parameters) {
             if(!s.equals(ChatCommandHandler.receiversTag)) {
-                builder.append(s+" ");
+                builder.append(s).append(" ");
                 listIndex++;
             } else {
                 break;
@@ -75,11 +75,22 @@ public class ChatCommandHandler extends CliCommandHandler{
 
         List<String> receivers = new ArrayList<>();
 
+        StringBuilder rec = new StringBuilder();
         if (listIndex != parameters.size()) {
             for (listIndex = listIndex+1; listIndex < parameters.size(); listIndex++) {
-                receivers.add(parameters.get(listIndex));
+                rec.append(parameters.get(listIndex)).append(" ");
             }
+            String receiver = rec.toString().trim();
+            receivers.add(receiver);
+        } else {
+
+            receivers = new ArrayList<>(clientState.getOrderedPlayersNames());
+            receivers.remove(clientState.getUsername());
         }
+
+
+
+        System.out.println("sending message to " + receivers);
 
         ChatMessage msg = new ChatMessage(body, clientState.getUsername(), LocalDateTime.now(ZoneId.systemDefault()), receivers);
         super.getCli().dispatchMessageToNetwork(msg);
@@ -87,23 +98,23 @@ public class ChatCommandHandler extends CliCommandHandler{
 
     /**
      * This method checks whether the parameters for the chat command are correct:
-     *  the command must be at least two tokens long (i.e. /send hello) and all the specified
-     *  private recipients of the message must be present in the game.
+     *  the command must be at least two tokens long (i.e. /send hello) and the recipient must be a logged in
+     *  player and must not be the sending player
      */
     @Override
     protected boolean checkParameters(List<String> parameters) {
+        StringBuilder recipient = new StringBuilder();
         if (parameters.size()<1) {
             return false;
         } else {
             if (parameters.contains(receiversTag)) {
                 int tagIndex = parameters.indexOf(receiversTag);
                 for (int i = tagIndex+1; i < parameters.size(); i++) {
-                    if (!clientState.getOrderedPlayersNames().contains(parameters.get(i))) {
-                        return false;
-                    }
-                    if (parameters.get(i).equals(clientState.getUsername())) {
-                        return false;
-                    }
+                    recipient.append(parameters.get(i)).append(" ");
+                }
+                String rec = recipient.toString().trim();
+                if (rec.equals(clientState.getUsername()) || !clientState.getOrderedPlayersNames().contains(rec)) {
+                    return false;
                 }
             }
         }

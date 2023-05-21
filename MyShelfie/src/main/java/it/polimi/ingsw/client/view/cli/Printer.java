@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
@@ -578,6 +579,7 @@ public class Printer {
 
     public static void printChatMessage(ChatMessage c, String ownUsername) {
         boolean isPrivate = c.getRecipients().size()>0;
+        int numOfOtherActivePlayers = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames().size()-1;
         StringBuilder builder = new StringBuilder();
         builder.append(PLAYER_NAME_COLOR+"["+c.getTime()+"]"+RESET);
         if (isPrivate) {
@@ -596,12 +598,20 @@ public class Printer {
                 } else {
                     people.append(c.getRecipients().get(0));
                 }
-                builder.append(RED_BOLD_BRIGHT+"[PRIVATE] "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+people+RESET);
+                if (c.getRecipients().size() > 1) {
+                    builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"all"+RESET);
+                } else {
+                    builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"peoples"+RESET);
+                }
             } else {
-                builder.append(RED_BOLD_BRIGHT+"[PRIVATE] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"you"+RESET);
+                if (c.getRecipients().size() == numOfOtherActivePlayers && numOfOtherActivePlayers != 1) {
+                    builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"all"+RESET);
+                } else {
+                    builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"you"+RESET);
+                }
             }
         } else {
-            builder.append(RED_BOLD_BRIGHT+"[ALL] "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET);
+            builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+c.getSenderUsername()+RESET);
         }
         builder.append(" : "+c.getBody());
         System.out.println(builder.toString());
