@@ -70,6 +70,11 @@
                    </Label>
                </children>
             </VBox>
+             <Label fx:id="labelErrorFinalResults" textFill="RED" underline="true">
+                 <font>
+                     <Font name="Algerian" size="20.0" />
+                 </font>
+             </Label>
          </children>
       </VBox>
    </center>

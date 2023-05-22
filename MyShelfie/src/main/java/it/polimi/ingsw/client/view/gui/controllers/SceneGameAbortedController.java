@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.gui.Gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 
@@ -12,6 +13,8 @@ public class SceneGameAbortedController implements SceneController {
     private Button buttonClose;
     @FXML
     private Slider sliderVolume;
+    @FXML
+    private Label labelErrorGameAborted;
 
     @Override
     public void setSliderVolume(double volume) {
@@ -20,7 +23,7 @@ public class SceneGameAbortedController implements SceneController {
     }
 
     @Override
-    public void setLabelErrorMessage(String message) {}
+    public void setLabelErrorMessage(String message) {labelErrorGameAborted.setText(message);}
 
     public void close(ActionEvent actionEvent) {
         Stage stage = (Stage) buttonClose.getScene().getWindow();

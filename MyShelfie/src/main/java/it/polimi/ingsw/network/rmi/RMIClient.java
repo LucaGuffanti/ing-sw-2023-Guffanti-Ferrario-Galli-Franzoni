@@ -47,11 +47,12 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
         try {
             server.receiveMessage(toSend, this);
             // WAIT FOR A TIMEOUT AND PING BACK THE SERVER if the message is a ping
-            if (!pingerActive && toSend.getType().equals(MessageType.PING_REQUEST)) {
+            if (!pingerActive) {
                 pingerActive = true;
                 System.out.println("Activating CALLBACK PINGER");
                 simplePinger = new RMIClientPinger(this);
                 Thread t = new Thread(simplePinger);
+                t.setDaemon(false);
                 t.start();
             }
         } catch (RemoteException e) {
@@ -100,6 +101,8 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
                     TimeUnit.MILLISECONDS.sleep(15000);
                 } catch (RemoteException e) {
                     onConnectionLost();
+                    Thread.currentThread().interrupt();
+                    break;
                 } catch (InterruptedException e) {
                     System.out.println("Could not wait");
                     Thread.currentThread().interrupt();

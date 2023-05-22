@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.gui.Gui;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -17,6 +18,8 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
     private BorderPane borderPaneFinalResults;
     @FXML
     private Slider sliderVolume;
+    @FXML
+    private Label labelErrorFinalResults;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,7 +43,7 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
     }
     @Override
     public void setLabelErrorMessage(String message) {
-
+        labelErrorFinalResults.setText(message);
     }
 
     @Override
