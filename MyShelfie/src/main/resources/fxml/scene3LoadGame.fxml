@@ -20,20 +20,12 @@
    <center>
       <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="40.0">
          <children>
-            <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Found a compatible saved game. Do you want to reload it?&#13;Otherwise, you will start a new game." textAlignment="CENTER" textFill="#ffedaa" underline="true">
+            <Label fx:id="labelLoadGame" styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Found a compatible saved game. Do you want to reload it?&#13;Otherwise, you will start a new game." textAlignment="CENTER" textFill="#ffedaa" underline="true">
                <font>
                   <Font name="Times New Roman Bold Italic" size="24.0" />
                </font>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <Label fx:id="labelErrorLoadGame" layoutX="227.0" layoutY="164.0" textFill="RED" underline="true">
-               <font>
-                  <Font name="Algerian" size="20.0" />
-               </font>
-               <padding>
-                  <Insets top="10.0" />
                </padding>
             </Label>
             <HBox spacing="300.0">
@@ -50,6 +42,14 @@
                   </Button>
                </children>
             </HBox>
+            <Label fx:id="labelErrorLoadGame" layoutX="227.0" layoutY="164.0" textFill="RED" underline="true">
+               <font>
+                  <Font name="Algerian" size="20.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
          </children>
       </VBox>
    </center>

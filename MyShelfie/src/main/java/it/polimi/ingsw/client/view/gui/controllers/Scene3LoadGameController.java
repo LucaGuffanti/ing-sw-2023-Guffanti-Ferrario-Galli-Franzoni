@@ -3,9 +3,9 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.FoundSavedGameResponseMessage;
-import it.polimi.ingsw.network.messages.LoginRequestMessage;
 import it.polimi.ingsw.network.messages.enums.ReloadGameChoice;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
@@ -14,6 +14,12 @@ public class Scene3LoadGameController implements SceneController {
     private Label labelErrorLoadGame;
     @FXML
     private Slider sliderVolume;
+    @FXML
+    private Button buttonYesLoadGame;
+    @FXML
+    private Button buttonNoLoadGame;
+    @FXML
+    private Label labelLoadGame;
 
     @Override
     public void setSliderVolume(double volume) {
@@ -34,6 +40,9 @@ public class Scene3LoadGameController implements SceneController {
                         ReloadGameChoice.ACCEPT_RELOAD
                 )
         );
+        buttonYesLoadGame.setDisable(true);
+        buttonNoLoadGame.setDisable(true);
+        labelLoadGame.setText("Loading...");
     }
     public void noLoad() {
         ClientManager.getInstance().getNetworkHandler().sendMessage(
@@ -42,5 +51,8 @@ public class Scene3LoadGameController implements SceneController {
                         ReloadGameChoice.DECLINE_RELOAD
                 )
         );
+        buttonYesLoadGame.setDisable(true);
+        buttonNoLoadGame.setDisable(true);
+        labelLoadGame.setText("Loading...");
     }
 }
