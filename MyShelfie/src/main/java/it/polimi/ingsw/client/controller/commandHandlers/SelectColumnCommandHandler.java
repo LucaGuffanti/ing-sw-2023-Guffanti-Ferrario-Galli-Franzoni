@@ -34,11 +34,11 @@ public class SelectColumnCommandHandler extends CliCommandHandler{
 
         List<String> parameters = super.splitAndTrimInput(commandInput);
 
-        if(!checkParameters(parameters)){
-            throw new BadlyFormattedParametersException();
-        }
         if(!super.checkAvailability(availablePhases, state)){
             throw new CommandNotAvailableInThisPhaseException();
+        }
+        if(!checkParameters(parameters)){
+            throw new BadlyFormattedParametersException();
         }
 
         SelectColumnMessage msg = new SelectColumnMessage(state.getUsername(), Integer.parseInt(parameters.get(0)));

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.commandHandlers.CliCommandHandler;
+import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.cli.cliviews.*;
@@ -21,6 +22,9 @@ public class Cli implements UserInterface, PropertyChangeListener {
     private StateContainer stateContainer;
     private ClientNetworkHandler networkHandler;
 
+    private boolean playersAlreadyPrinted = false;
+    private int numOfPlayers = 0;
+    private boolean firstTurn = true;
     private CommandPicker commandPicker;
     private CliView cliView = null;
 
@@ -92,27 +96,59 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        ClientPhasesEnum currentPhase = stateContainer.getCurrentState().getCurrentPhase();
         switch (evt.getPropertyName()) {
             // When currentPhase is changed, always render the default view for the new currentPhase
             case "currentPhase" -> {
                 CliView cliView = defaultViewsPerPhasesMap.get((ClientPhasesEnum) evt.getNewValue());
+
                 // this is done to prevent the double printing of the list of players that would otherwise
                 // be experienced by the player who creates the game
-                if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
+                if (currentPhase.equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                    Printer.boldsSubtitle(stateContainer.getCurrentState().getServerLastMessage());
+                }
+
+
+                // if the pick from board || waiting for turn is reached after the game starts, the list of players is printed.
+                if ((currentPhase.equals(ClientPhasesEnum.PICK_FORM_BOARD) || currentPhase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) &&
+                        (playersAlreadyPrinted || stateContainer.getCurrentState().getOrderedPlayersNames().size() == 2) && firstTurn) {
+                    firstTurn = false;
+                    Printer.title("ORDERED PLAYERS");
+                    for (String player : stateContainer.getCurrentState().getOrderedPlayersNames()) {
+                        if (player.equals(stateContainer.getCurrentState().getUsername())) {
+                            Printer.printHighlightedPlayerName(player + " <- that's you!");
+                        } else {
+                            Printer.printPlayerName(player);
+                        }
+                    }
+                    Printer.title("====================");
+                }
+
+                if (!(currentPhase.equals(ClientPhasesEnum.LOBBY) ||
+                        currentPhase.equals(ClientPhasesEnum.WAITING_FOR_TURN))) {
                     this.renderCliView(cliView);
                 }
             }
             case "serverErrorMessage" -> Printer.error((String) evt.getNewValue());
-            case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
             case "orderedPlayersNames" -> {
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
+                if (currentPhase.equals(ClientPhasesEnum.LOBBY) && (!playersAlreadyPrinted || numOfPlayers != stateContainer.getCurrentState().getOrderedPlayersNames().size())) {
+                    // this means that the orderedPlayers names changed in number
                     renderCurrentPhaseDefaultView();
+                    playersAlreadyPrinted = true;
+                    numOfPlayers = stateContainer.getCurrentState().getOrderedPlayersNames().size();
                 }
             }
             case "lastChatMessage" -> {
                 if (cliView instanceof ChatView) {
                     ChatView cli = (ChatView) cliView;
                     cli.updateRender(stateContainer.getCurrentState());
+                }
+            }
+            case "activePlayer" -> {
+                if (currentPhase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                    Printer.boldsSubtitle(stateContainer.getCurrentState().getServerLastMessage());
+                    WaitingForTurnView wView = (WaitingForTurnView) defaultViewsPerPhasesMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
+                    wView.render(stateContainer.getCurrentState());
                 }
             }
         }

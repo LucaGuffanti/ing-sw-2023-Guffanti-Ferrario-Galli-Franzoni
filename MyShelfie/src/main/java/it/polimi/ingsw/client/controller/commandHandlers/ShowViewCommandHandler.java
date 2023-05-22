@@ -62,15 +62,16 @@ public class ShowViewCommandHandler extends CliCommandHandler{
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
         List<String> parameters = super.splitAndTrimInput(commandInput);
-        if (!checkParameters(parameters)) {
-            throw new BadlyFormattedParametersException();
-        }
         String parameter = parameters.get(0);
-
 
         if(!availablePhases.get(parameter).contains(getCli().getStateContainer().getCurrentState().getCurrentPhase())) {
             throw new CommandNotAvailableInThisPhaseException();
         }
+        if (!checkParameters(parameters)) {
+            throw new BadlyFormattedParametersException();
+        }
+
+
 
         // check to see if
         CliView view = paramaterToAction.get(parameter);

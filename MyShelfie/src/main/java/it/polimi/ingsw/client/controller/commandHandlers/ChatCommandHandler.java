@@ -53,13 +53,13 @@ public class ChatCommandHandler extends CliCommandHandler{
         this.clientState = state;
         List<String> parameters = super.splitAndTrimInput(commandInput);
 
+        if(!super.checkAvailability(availablePhases, state)){
+            throw new CommandNotAvailableInThisPhaseException();
+        }
         if(!checkParameters(parameters)){
             throw new BadlyFormattedParametersException();
         }
 
-        if(!super.checkAvailability(availablePhases, state)){
-            throw new CommandNotAvailableInThisPhaseException();
-        }
 
         StringBuilder builder = new StringBuilder();
         int listIndex = 0;

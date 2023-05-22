@@ -33,13 +33,13 @@ public class PlayersNumberCommandHandler extends CliCommandHandler{
 
         List<String> parameters = super.splitAndTrimInput(commandInput);
 
+        if(!super.checkAvailability(availablePhases, state)){
+            throw new CommandNotAvailableInThisPhaseException();
+        }
         if(!checkParameters(parameters)){
             throw new BadlyFormattedParametersException();
         }
 
-        if(!super.checkAvailability(availablePhases, state)){
-            throw new CommandNotAvailableInThisPhaseException();
-        }
 
         NumberOfPlayersSelectionMessage msg = PlayersNumberSelectionMessageHandler.createMessage(state.getUsername(), Integer.parseInt(parameters.get(0)));
         super.getCli().dispatchMessageToNetwork(msg);

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
@@ -197,5 +198,45 @@ public class Renderer {
         if(cg2.getPointCards().size()==4) {
             cg_2_4.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(3).getType()));
         }
+    }
+
+    public static String printChatMessage(ChatMessage c, String ownUsername) {
+        boolean isPrivate = c.getRecipients().size() > 0;
+        int numOfOtherActivePlayers = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames().size() - 1;
+        StringBuilder builder = new StringBuilder();
+        builder.append("[" + c.getTime() + "]");
+        if (isPrivate) {
+            if (c.getSenderUsername().equals(ownUsername)) {
+                StringBuilder people = new StringBuilder();
+                if (c.getRecipients().size() > 1) {
+                    people.append("{ ");
+                    people.append(c.getRecipients().get(0) + ", ");
+                    for (int i = 1; i < c.getRecipients().size() - 1; i++) {
+                        people.append(c.getRecipients().get(i) + ", ");
+                    }
+                    people.append(c.getRecipients().get(c.getRecipients().size() - 1) + " ");
+                    if (c.getRecipients().size() > 1) {
+                        people.append("}");
+                    }
+                } else {
+                    people.append(c.getRecipients().get(0));
+                }
+                if (c.getRecipients().size() > 1) {
+                    builder.append(" you -> all");
+                } else {
+                    builder.append(" you -> " + people);
+                }
+            } else {
+                if (c.getRecipients().size() == numOfOtherActivePlayers && numOfOtherActivePlayers != 1) {
+                    builder.append(" " + c.getSenderUsername() + " -> all");
+                } else {
+                    builder.append(" " + c.getSenderUsername() + " -> you");
+                }
+            }
+        } else {
+            builder.append(" " + c.getSenderUsername());
+        }
+        builder.append(" : " + c.getBody());
+        return builder.toString();
     }
 }

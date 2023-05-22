@@ -422,7 +422,7 @@ public class GameController {
         game.awardTurnWisePoints(game.getPlayerByNick(orderedPlayersNicks.get(activePlayerIndex)));
         // the game board is refilled
         if (game.getBoard().shouldBeRefilled()) {
-            Logger.controllerInfo("the board won't be refilled");
+            Logger.controllerInfo("the board will be refilled");
             game.getBoard().refillBoard(game.getSack());
             messageDescription += ResponsesDescriptions.END_OF_TURN_REFILL_BOARD + "\n";
         }

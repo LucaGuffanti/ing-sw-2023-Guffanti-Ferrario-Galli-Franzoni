@@ -67,10 +67,12 @@ public class CommandPicker implements Runnable{
             try {
                 inputCommandMap.get(commandSubStrings[0]).execute(userInput.substring(commandSubStrings[0].length()).trim(), stateContainer.getCurrentState());
             } catch (BadlyFormattedParametersException e) {
-                Printer.error(userInput + " has badly formatted parameters");
+                Printer.error(userInput + " is an available command but it has badly formatted parameters");
                 Printer.error(inputCommandMap.get(commandSubStrings[0]).getCommandDescription());
             } catch (CommandNotAvailableInThisPhaseException e) {
                 Printer.error(userInput+ " is a command that can't be used in this phase ["+cli.getStateContainer().getCurrentState().getCurrentPhase()+"]");
+                Printer.error("Write /help to learn about every command");
+
             }
         }
 

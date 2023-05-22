@@ -25,7 +25,7 @@ public class ResponsesDescriptions {
     public static final String NEW_TURN = "A new turn has started.";
     public static final String GAME_STARTED = "The game has started.";
     public static final String GAME_ENDED = "The game has ended.";
-    public static final String LOGIN_SUCCESS = "You've successfully logged into the server";
+    public static final String LOGIN_SUCCESS = "You've successfully joined the game";
     public static final String RECONNECTION_SUCCESS = "You've successfully logged BACK into the server";
     public static final String LOGIN_FAILURE_ALREADY_TAKEN = "Your username was already taken";
     public static final String FOUND_COMPATIBLE_SAVED_GAME = "A compatible saved game was found. Do you want to reload it?";

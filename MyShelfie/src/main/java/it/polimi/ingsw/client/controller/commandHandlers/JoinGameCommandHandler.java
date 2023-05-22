@@ -35,11 +35,11 @@ public class JoinGameCommandHandler extends CliCommandHandler{
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
 
         List<String> parameters = super.splitAndTrimInput(commandInput);
-        if(!checkParameters(parameters)){
-            throw new BadlyFormattedParametersException();
-        }
         if(!super.checkAvailability(availablePhases, state)){
             throw new CommandNotAvailableInThisPhaseException();
+        }
+        if(!checkParameters(parameters)){
+            throw new BadlyFormattedParametersException();
         }
         JoinGameMessage msg = JoinGameMessageHandler.createMessage(state.getUsername());
 
