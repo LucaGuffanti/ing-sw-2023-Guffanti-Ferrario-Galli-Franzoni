@@ -20,7 +20,7 @@ public class LoginCommandHandler extends CliCommandHandler{
 
     public final static String commandLabel = "/login";
     public final static String commandDescription = "Login into a game.\n\n" +
-            "Usage: /login USERNAME";
+            "Usage: /login USERNAME   Remember that you can't use escape codes as a username (\\n is not permitted)";
 
 
     public LoginCommandHandler(Cli cli) {
@@ -49,7 +49,7 @@ public class LoginCommandHandler extends CliCommandHandler{
     @Override
     protected boolean checkParameters(List<String> parameters) {
 
-        return parameters.size() >= 1;
+        return parameters.size() >= 1 && parameters.get(0).charAt(0) != '\\';
 
     }
 

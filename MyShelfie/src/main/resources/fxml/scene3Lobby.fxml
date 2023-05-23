@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="bodyBgPreGame" stylesheets="@../css/styleBgPreGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LobbyController">
+<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="bodyBgPreGame" stylesheets="@../css/styleBgPreGame.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LobbyController">
     <top>
         <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <image>
@@ -18,7 +28,7 @@
         </ImageView>
     </top>
    <center>
-      <VBox alignment="TOP_CENTER" fillWidth="false" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="TOP_CENTER" fillWidth="false" prefWidth="1012.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -46,50 +56,56 @@
                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                        </padding>
                    </Label>
+                  <ListView fx:id="playerList" prefHeight="200.0" prefWidth="200.0" />
                </children></VBox>
          </children>
       </VBox>
    </center>
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="285.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="BOTTOM_LEFT" prefHeight="134.0" prefWidth="1415.0" spacing="10.0">
                <children>
-                   <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
-                       <font>
-                           <Font name="Times New Roman Bold Italic" size="14.0" />
-                       </font>
-                       <padding>
-                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                       </padding>
-                   </Label>
-                  <Slider fx:id="sliderVolume" />
-               </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </HBox>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="133.0" spacing="10.0" styleClass="container" stylesheets="@../css/gamePhase.css">
+                  <VBox alignment="CENTER_LEFT" prefHeight="266.0" prefWidth="155.0">
                      <children>
-                        <Label text="CHAT MESSAGE" />
-                        <Label text="CHAT MESSAGE" />
-                        <Label text="CHAT MESSAGE" />
-                        <Label text="CHAT MESSAGE" />
+                         <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
+                             <font>
+                                 <Font name="Times New Roman Bold Italic" size="14.0" />
+                             </font>
+                             <padding>
+                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                             </padding>
+                         </Label>
+                        <Slider fx:id="sliderVolume" />
                      </children>
-                     <HBox.margin>
-                        <Insets bottom="10.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
                   </VBox>
                </children>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </HBox>
+            <VBox>
+               <children>
+                  <MenuButton fx:id="recipientMenu" mnemonicParsing="false" text="Select a recipient">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                     </items></MenuButton>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="286.0" prefWidth="521.0" vbarPolicy="ALWAYS">
+                     <content>
+                        <VBox fx:id="messages" prefHeight="259.0" prefWidth="330.0" />
+                     </content>
+                  </ScrollPane>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="messageText" prefHeight="26.0" prefWidth="291.0" />
+                        <Button fx:id="sendButton" mnemonicParsing="false" prefHeight="4.0" prefWidth="50.0" text="Send" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" right="15.0" />
+               </padding>
+            </VBox>
          </children>
       </HBox>
    </bottom>
