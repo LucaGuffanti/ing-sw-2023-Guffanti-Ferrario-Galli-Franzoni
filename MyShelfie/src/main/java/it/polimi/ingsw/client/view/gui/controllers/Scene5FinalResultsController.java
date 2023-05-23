@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.view.gui.Gui;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,6 +49,11 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
 
     @Override
     public void drawScene(Stage stage) {
+
+    }
+
+    @Override
+    public void updateChat(ChatMessage chatMessage) {
 
     }
 }

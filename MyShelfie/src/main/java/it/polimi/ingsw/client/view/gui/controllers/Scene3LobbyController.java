@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Scene3LobbyController implements SceneController, Initializable {
+public class Scene3LobbyController implements SceneWithChatController, Initializable {
     @FXML
     private Button sendButton;
     @FXML
@@ -26,7 +26,7 @@ public class Scene3LobbyController implements SceneController, Initializable {
     @FXML
     private TextField messageText;
     @FXML
-    private VBox messages;
+    private ListView<Label> messages;
     @FXML
     private ListView<Label> playerList;
     @FXML
@@ -95,8 +95,8 @@ public class Scene3LobbyController implements SceneController, Initializable {
      */
     public void sendMessage() {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
-        if(players.size() > 1) {
-            String messageBody = messageText.getText();
+        String messageBody = messageText.getText().trim();
+        if(players.size() > 1 && messageRecipient != null && messageText.getText().trim().length() > 0) {
             String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
             List<String> recipients;
             if (messageRecipient.equals("all")) {
@@ -108,18 +108,22 @@ public class Scene3LobbyController implements SceneController, Initializable {
                 recipients.add(messageRecipient);
             }
 
-            ChatMessage c = new ChatMessage(messageBody,
+            ChatMessage chatMessage = new ChatMessage(messageBody,
                     name,
                     LocalDateTime.now(),
                     recipients);
 
             ClientManager.getInstance().getNetworkHandler().sendMessage(
-                    c
+                    chatMessage
             );
-            Label messageLabel = new Label(Renderer.printChatMessage(c, name));
+            Label messageLabel = new Label(Renderer.printChatMessage(chatMessage, name));
             messageLabel.setWrapText(true);
+            messageLabel.setMaxWidth(300);
+            messageText.setPrefWidth(300);
+
             messageText.setText("");
-            messages.getChildren().add(0, messageLabel);
+            messages.getItems().add(0, messageLabel);
+            System.out.println("printing chat message from inside");
         }
     }
 
@@ -134,5 +138,19 @@ public class Scene3LobbyController implements SceneController, Initializable {
                 sendMessage();
             }
         });
+    }
+
+
+    @Override
+    public void updateChat(ChatMessage chatMessage) {
+        String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
+        if (!chatMessage.getSenderUsername().equals(username)) {
+            Label messageText = new Label(Renderer.printChatMessage(chatMessage, username));
+            messageText.setWrapText(true);
+            messageText.setMaxWidth(300);
+            messageText.setPrefWidth(300);
+            messages.getItems().add(0, messageText);
+            System.out.println("printing chat message from outside");
+        }
     }
 }

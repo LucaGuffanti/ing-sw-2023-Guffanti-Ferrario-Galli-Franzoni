@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
+import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.gui.controllers.*;
@@ -283,12 +284,13 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        ClientState currentState = ClientManager.getInstance().getStateContainer().getCurrentState();
+        ClientPhasesEnum phase = currentState.getCurrentPhase();
         switch (evt.getPropertyName()) {
             // When currentPhase is changed, always render the default view for the new currentPhase
             case "currentPhase" -> {
                 Scene newScene = phaseToSceneMap.get((ClientPhasesEnum) evt.getNewValue());
                 MediaPlayer m = phaseToMusicMap.get((ClientPhasesEnum) evt.getNewValue());
-
 
                 try {
                     Platform.runLater(()-> {
@@ -308,11 +310,11 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             case "serverErrorMessage" ->
                 Platform.runLater(()->
                     phaseToControllerMap.get(
-                    ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase()
+                    currentState.getCurrentPhase()
                     ).setLabelErrorMessage((String) evt.getNewValue()));
             //case "serverLastMessage" -> Printer.boldsSubtitle((String) evt.getNewValue());
             case "orderedPlayersNames" -> {
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
+                if (phase.equals(ClientPhasesEnum.LOBBY)) {
                     Platform.runLater(()->
                             {
                                 Scene3LobbyController c= (Scene3LobbyController) phaseToControllerMap.get(ClientPhasesEnum.LOBBY);
@@ -322,46 +324,52 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                 }
             }
             case "activePlayer" -> {
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                if (phase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
                     Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
                     Platform.runLater(g::renderName);
                 }
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
                     Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
                     Platform.runLater(g::renderName);
                 }
             }
             case "board" -> {
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                if (phase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
                     Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
                     Platform.runLater(g::renderBoard);
                 }
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
                     Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
                     Platform.runLater(g::renderPickableBoard);
                 }
             }
             case "activePlayerShelf" -> {
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
+                if (phase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
                     Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
                     Platform.runLater(g::renderShelves);
                 }
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+                if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
                     Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
                     Platform.runLater(g::renderShelves);
                 }
-                if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
+                if (phase.equals(ClientPhasesEnum.SELECT_COLUMN)) {
                     Scene4SelectColumnController g = (Scene4SelectColumnController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
                     Platform.runLater(g::renderShelves);
                 }
             }
-            /*
             case "lastChatMessage" -> {
-                if (cliView instanceof ChatView) {
-                    ChatView cli = (ChatView) cliView;
-                    cli.updateRender(stateContainer.getCurrentState());
+                if (phase.equals(ClientPhasesEnum.LOBBY) ||
+                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD) ||
+                phase.equals(ClientPhasesEnum.WAITING_FOR_TURN) ||
+                phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
+                phase.equals(ClientPhasesEnum.SELECT_COLUMN) ||
+                phase.equals(ClientPhasesEnum.FINAL_RESULTS_SHOW)) {
+                    SceneWithChatController sceneController  = (SceneWithChatController) phaseToControllerMap.get(phase);
+                    Platform.runLater(()->{
+                        sceneController.updateChat(currentState.getLastChatMessage());
+                    });
                 }
-            }*/
+            }
         }
     }
 }

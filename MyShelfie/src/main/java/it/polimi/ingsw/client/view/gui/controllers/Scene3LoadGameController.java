@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.view.gui.Gui;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.network.messages.FoundSavedGameResponseMessage;
 import it.polimi.ingsw.network.messages.enums.ReloadGameChoice;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
-public class Scene3LoadGameController implements SceneController {
+public class Scene3LoadGameController implements SceneWithChatController {
     @FXML
     private Label labelErrorLoadGame;
     @FXML
@@ -54,5 +55,10 @@ public class Scene3LoadGameController implements SceneController {
         buttonYesLoadGame.setDisable(true);
         buttonNoLoadGame.setDisable(true);
         labelLoadGame.setText("Loading...");
+    }
+
+    @Override
+    public void updateChat(ChatMessage chatMessage) {
+
     }
 }

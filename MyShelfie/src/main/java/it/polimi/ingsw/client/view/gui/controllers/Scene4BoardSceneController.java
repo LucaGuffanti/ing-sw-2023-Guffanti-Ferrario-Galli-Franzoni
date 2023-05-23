@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
 import it.polimi.ingsw.client.view.gui.Renderer;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
@@ -270,4 +271,8 @@ public class Scene4BoardSceneController implements GameSceneController {
 
     }
 
+    @Override
+    public void updateChat(ChatMessage chatMessage) {
+
+    }
 }

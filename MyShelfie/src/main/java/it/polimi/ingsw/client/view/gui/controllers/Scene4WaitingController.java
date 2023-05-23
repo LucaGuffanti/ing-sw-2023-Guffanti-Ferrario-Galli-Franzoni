@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
 import it.polimi.ingsw.client.view.gui.Renderer;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.fxml.FXML;
@@ -146,5 +147,10 @@ public class Scene4WaitingController implements GameSceneController {
 
     public void renderName() {
         phaseDescription.setText("It's " + ClientManager.getInstance().getStateContainer().getCurrentState().getActivePlayer() + "'s turn");
+    }
+
+    @Override
+    public void updateChat(ChatMessage chatMessage) {
+
     }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
 import it.polimi.ingsw.client.view.gui.Renderer;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.network.messages.SelectColumnMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
@@ -181,5 +182,10 @@ public class Scene4SelectColumnController implements GameSceneController {
 
     public void renderName(String name) {
         phaseDescription.setText("It's " + name + "'s turn");
+    }
+
+    @Override
+    public void updateChat(ChatMessage chatMessage) {
+
     }
 }
