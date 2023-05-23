@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scene4WaitingController implements GameSceneController {
+
+    // Player's username displayed on top
+    @FXML
+    private Label usernameLabel;
     @FXML
     private Label phaseDescription;
     @FXML
@@ -71,6 +75,7 @@ public class Scene4WaitingController implements GameSceneController {
         personalGoal.setImage(pgImage);
 
         phaseDescription.setText("It's "+ state.getActivePlayer()+"'s turn");
+        usernameLabel.setText("Hi, "+state.getUsername());
 
         renderCards();
         // Displaying the board

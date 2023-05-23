@@ -1,3 +1,5 @@
+
+
 .bodyBgGame {
     -fx-background-image: url("../images/misc/sfondo%20parquet.jpg");
     -fx-background-size: 100% 100%;
@@ -35,6 +37,14 @@
 .shelfInPickOrWaiting {
     -fx-background-image: url("../images/boards/bookshelf_orth.png");
     -fx-background-size: 160 160;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+/* In testing */
+.ownShelfInPickOrWaiting {
+    -fx-background-image: url("../images/boards/bookshelf_orth.png");
+    -fx-background-size: 240 240;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }

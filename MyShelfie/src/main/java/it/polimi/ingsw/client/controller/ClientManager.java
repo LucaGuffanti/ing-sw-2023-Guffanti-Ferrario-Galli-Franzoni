@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.ClientNetworkHandler;
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.socket.SocketClient;
 
+import javax.swing.plaf.nimbus.State;
 import java.rmi.RemoteException;
 
 /**
@@ -41,6 +42,22 @@ public class ClientManager {
         networkHandler = new RMIClient(serviceName, serverIp , serverPort, stateContainer, this);
         userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
     }
+
+    // Constructor with initial state to init externally --------------------
+    public ClientManager(UIModesEnum uiMode, String serverIp, int serverPort, StateContainer stateContainer) throws RemoteException {
+        instance = this;
+        this.stateContainer = stateContainer;
+        networkHandler = new SocketClient(serverIp, serverPort, stateContainer, this);
+        userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
+    }
+
+    public ClientManager(UIModesEnum uiMode, String serverIp, String serviceName, int serverPort, StateContainer stateContainer) throws RemoteException {
+        instance = this;
+        this.stateContainer = stateContainer;
+        networkHandler = new RMIClient(serviceName, serverIp , serverPort, stateContainer, this);
+        userInterface = uiMode.equals(UIModesEnum.CLI) ? new Cli(stateContainer, networkHandler) : new Gui();
+    }
+    // ------------------------------------------------------------------------
 
     public void runUI(){
         userInterface.run();

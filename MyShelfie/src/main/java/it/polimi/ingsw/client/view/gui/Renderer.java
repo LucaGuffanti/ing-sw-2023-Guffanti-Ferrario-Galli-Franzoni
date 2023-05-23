@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
@@ -44,33 +45,71 @@ public class Renderer {
         //  ImageViews for the object cards -> 18x18
         //  ImageViews for the points ->
 
-        for (int player = 0; player < numOfPlayers; player++) {
-            System.out.println("SHELF FOR " + playerNames.get(player));
+        float zoom = 1.5f;
+
+        int shelfSide = 150;
+        int tileSide = 18;
+        int endOfGameCardSide = 30;
+        int commonFirstPointCardSize = 30;
+        int commonSecondPointCardSize = 30;
+
+        int hm = 6;
+        int vm = 3;
+        int gridLayoutX = 88;
+        int gridLayoutY = 5;
+
+
+        int playerIndex = 0;
+
+        for (String playerName: playerNames) {
+            System.out.println("SHELF FOR " + playerName);
+
+
+
+            int _tileSide = tileSide;
+            int _gridLayoutX = gridLayoutX;
+            int _gridLayoutY = gridLayoutY;
+            int _hm = hm;
+            int _vm = vm;
+
+            if(playerName.equals(state.getUsername())){
+                _tileSide = Math.round(tileSide*zoom);
+                _gridLayoutX = Math.round(gridLayoutX*zoom);
+                _gridLayoutY = Math.round(gridLayoutY*zoom);
+                _hm = Math.round(hm*zoom);
+                _vm = Math.round(vm*zoom);
+            }
+
             // building the GRIDPANE with IMAGEVIEWS
             GridPane shelfGrid = new GridPane();
-            shelfGrid.setHgap(6);
-            shelfGrid.setVgap(3);
-            shelfGrid.setLayoutX(88);
-            shelfGrid.setLayoutY(5);
+            shelfGrid.setHgap(_hm);
+            shelfGrid.setVgap(_vm);
+            shelfGrid.setLayoutX(_gridLayoutX);
+            shelfGrid.setLayoutY(_gridLayoutY);
 
-            ObjectTypeEnum[][] shelf = state.getShelves().get(player);
+            ObjectTypeEnum[][] shelf = state.getShelves().get(playerIndex);
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 5; j++) {
                     ImageView imageView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
+
                     // the shelf is badly drawn
+
+                    // j: Columns
                     if (j == 2) {
-                        imageView.setFitWidth(18);
+                        imageView.setFitWidth(_tileSide);
                     } else {
-                        imageView.setFitWidth(20);
+                        imageView.setFitWidth(_tileSide + Math.round(2*zoom));
                     }
 
+                    // i: Rows
                     if (i == 1 || i == 3) {
-                        imageView.setFitHeight(18);
+                        imageView.setFitHeight(_tileSide);
                     } else if (i == 4) {
-                        imageView.setFitHeight(19);
+                        imageView.setFitHeight(_tileSide + Math.round(1*zoom));
                     } else {
-                        imageView.setFitHeight(20);
+                        imageView.setFitHeight(_tileSide + Math.round(2*zoom));
                     }
+
 
                     shelfGrid.add(imageView, j, i);
                 }
@@ -78,17 +117,27 @@ public class Renderer {
 
             // building the pane containing the grid and setting its class to show the shelf as a background
             Pane paneContainingShelf = new Pane(shelfGrid);
-            paneContainingShelf.setMinWidth(300);
-            paneContainingShelf.setPrefWidth(300);
-            paneContainingShelf.setMaxWidth(300);
-            paneContainingShelf.setMinHeight(150);
-            paneContainingShelf.setPrefHeight(150);
-            paneContainingShelf.setMaxHeight(150);
 
+            int _shelfSide = shelfSide;
             paneContainingShelf.getStyleClass().add("shelfInPickOrWaiting");
+
+            if(playerName.equals(state.getUsername())){
+                _shelfSide = Math.round(shelfSide*zoom);
+                paneContainingShelf.getStyleClass().add("ownShelfInPickOrWaiting");
+            }
+            // Width
+            paneContainingShelf.setMinWidth(_shelfSide*2);
+            paneContainingShelf.setPrefWidth(_shelfSide*2);
+            paneContainingShelf.setMaxWidth(_shelfSide*2);
+
+            // Height
+            paneContainingShelf.setMinHeight(_shelfSide);
+            paneContainingShelf.setPrefHeight(_shelfSide);
+            paneContainingShelf.setMaxHeight(_shelfSide);
+
             // building the label containing the name of the player
-            Label playerName = new Label();
-            playerName.setText(playerNames.get(player));
+            Label playerNameLabel = new Label();
+            playerNameLabel.setText(playerName);
             //playerName.setFont(); SETTING THE FONT, WILL BE DONE LATER
 
             // based on the achievements, build appropriate imageviews
@@ -103,24 +152,24 @@ public class Renderer {
             if (state.getUsername().equals(firstToCompleteTheShelf)) {
                 completedShelf = true;
                 completedShelfPoint = new ImageView(MediaManager.endOfGamePoint);
-                completedShelfPoint.setFitHeight(30);
-                completedShelfPoint.setFitWidth(30);
+                completedShelfPoint.setFitHeight(endOfGameCardSide);
+                completedShelfPoint.setFitWidth(endOfGameCardSide);
             }
             // checking if the player was awarded any first common goal points
-            if (state.getCommonGoalCards().get(0).getNickToEarnedPoints().get(playerNames.get(player)) != null) {
+            if (state.getCommonGoalCards().get(0).getNickToEarnedPoints().get(playerName) != null) {
                 firstCommonPoint = true;
-                PointEnumeration point = state.getCommonGoalCards().get(0).getNickToEarnedPoints().get(playerNames.get(player)).getType();
+                PointEnumeration point = state.getCommonGoalCards().get(0).getNickToEarnedPoints().get(playerName).getType();
                 firstCommonPointImage = new ImageView(MediaManager.pointToImage.get(point));
-                firstCommonPointImage.setFitHeight(30);
-                firstCommonPointImage.setFitWidth(30);
+                firstCommonPointImage.setFitHeight(commonFirstPointCardSize);
+                firstCommonPointImage.setFitWidth(commonSecondPointCardSize);
             }
             // checking if the player was awarded any second common goal points
-            if (state.getCommonGoalCards().get(1).getNickToEarnedPoints().get(playerNames.get(player)) != null) {
+            if (state.getCommonGoalCards().get(1).getNickToEarnedPoints().get(playerName) != null) {
                 secondCommonPoint = true;
-                PointEnumeration point = state.getCommonGoalCards().get(1).getNickToEarnedPoints().get(playerNames.get(player)).getType();
+                PointEnumeration point = state.getCommonGoalCards().get(1).getNickToEarnedPoints().get(playerName).getType();
                 secondCommonPointImage = new ImageView(MediaManager.pointToImage.get(point));
-                secondCommonPointImage.setFitHeight(30);
-                secondCommonPointImage.setFitWidth(30);
+                secondCommonPointImage.setFitHeight(commonSecondPointCardSize);
+                secondCommonPointImage.setFitWidth(commonSecondPointCardSize);
             }
 
 
@@ -137,7 +186,7 @@ public class Renderer {
             if (secondCommonPoint) {
                 playerData.getChildren().add(secondCommonPointImage);
             }
-            playerData.getChildren().add(playerName);
+            playerData.getChildren().add(playerNameLabel);
 
             // finally building the vbox containing everything
             VBox shelfAndPlayerData = new VBox();
@@ -148,7 +197,9 @@ public class Renderer {
 
             // and adding this vbox to the external one containing all the shelves
             shelvesBox.getChildren().add(shelfAndPlayerData);
+            playerIndex ++;
         }
+
     }
 
     public static void renderCards(
@@ -197,5 +248,45 @@ public class Renderer {
         if(cg2.getPointCards().size()==4) {
             cg_2_4.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(3).getType()));
         }
+    }
+
+    public static String printChatMessage(ChatMessage c, String ownUsername) {
+        boolean isPrivate = c.getRecipients().size() > 0;
+        int numOfOtherActivePlayers = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames().size() - 1;
+        StringBuilder builder = new StringBuilder();
+        builder.append("[" + c.getTime() + "]");
+        if (isPrivate) {
+            if (c.getSenderUsername().equals(ownUsername)) {
+                StringBuilder people = new StringBuilder();
+                if (c.getRecipients().size() > 1) {
+                    people.append("{ ");
+                    people.append(c.getRecipients().get(0) + ", ");
+                    for (int i = 1; i < c.getRecipients().size() - 1; i++) {
+                        people.append(c.getRecipients().get(i) + ", ");
+                    }
+                    people.append(c.getRecipients().get(c.getRecipients().size() - 1) + " ");
+                    if (c.getRecipients().size() > 1) {
+                        people.append("}");
+                    }
+                } else {
+                    people.append(c.getRecipients().get(0));
+                }
+                if (c.getRecipients().size() > 1) {
+                    builder.append(" you -> all");
+                } else {
+                    builder.append(" you -> " + people);
+                }
+            } else {
+                if (c.getRecipients().size() == numOfOtherActivePlayers && numOfOtherActivePlayers != 1) {
+                    builder.append(" " + c.getSenderUsername() + " -> all");
+                } else {
+                    builder.append(" " + c.getSenderUsername() + " -> you");
+                }
+            }
+        } else {
+            builder.append(" " + c.getSenderUsername());
+        }
+        builder.append(" : " + c.getBody());
+        return builder.toString();
     }
 }
