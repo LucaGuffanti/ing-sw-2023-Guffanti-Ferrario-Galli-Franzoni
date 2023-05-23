@@ -66,7 +66,7 @@
          <children>
             <HBox alignment="BOTTOM_LEFT" prefHeight="134.0" prefWidth="1415.0" spacing="10.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="266.0" prefWidth="155.0">
+                  <VBox alignment="BOTTOM_LEFT" prefHeight="266.0" prefWidth="155.0">
                      <children>
                          <Label styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Music volume" textAlignment="CENTER" textFill="#ffedaa" underline="true">
                              <font>
@@ -92,7 +92,7 @@
                      </items></MenuButton>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="286.0" prefWidth="521.0" vbarPolicy="ALWAYS">
                      <content>
-                        <VBox fx:id="messages" prefHeight="259.0" prefWidth="330.0" />
+                        <ListView fx:id="messages" maxHeight="220.0" maxWidth="322.0" minHeight="220.0" minWidth="322.0" prefHeight="220.0" prefWidth="322.0" />
                      </content>
                   </ScrollPane>
                   <HBox>
