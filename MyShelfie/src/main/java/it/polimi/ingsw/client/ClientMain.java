@@ -26,31 +26,36 @@ public class ClientMain {
         UIModesEnum chosenUI;
 
         System.out.println("Welcome, please choose between GUI technology and CLI technology");
+        System.out.println("[1] GUI");
+        System.out.println("[2] CLI");
         do {
-            System.out.println("[1] GUI");
-            System.out.println("[2] CLI");
             System.out.print("Your Choice: ");
             choiceString = sc.nextLine().trim();
             try {
                 choice = Integer.parseInt(choiceString);
             } catch (NumberFormatException e) {
-                System.out.println("You inserted a string... Goodbye");
-                System.exit(1);
+                System.out.println("Oops, you inserted a string!");
+            }
+            if (!(choice == 1 || choice == 2)) {
+                System.out.println("Please, type [1] GUI or [2] CLI");
             }
         } while(!(choice == 1 || choice == 2));
         chosenUI = choice== 1 ? UIModesEnum.GUI : UIModesEnum.CLI;
 
+        choice = 0;
         System.out.println("Now please choose between Socket technology and RMI technology");
+        System.out.println("[1] Socket");
+        System.out.println("[2] RMI");
         do {
-            System.out.println("[1] Socket");
-            System.out.println("[2] RMI");
             System.out.print("Your Choice: ");
             choiceString = sc.nextLine().trim();
             try {
                 choice = Integer.parseInt(choiceString);
             } catch (NumberFormatException e) {
-                System.out.println("You inserted a string... Goodbye");
-                System.exit(1);
+                System.out.println("Oops, you inserted a string!");
+            }
+            if (!(choice == 1 || choice == 2)) {
+                System.out.println("Please, type [1] Socket or [2] RMI");
             }
         } while(!(choice == 1 || choice == 2));
 

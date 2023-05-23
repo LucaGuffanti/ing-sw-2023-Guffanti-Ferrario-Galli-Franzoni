@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="bodyBgPreGame" stylesheets="@../css/styleBgPreGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LoadGameController">
+<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="bodyBgPreGame" stylesheets="@../css/styleBgPreGame.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.Scene3LoadGameController">
    <top>
       <ImageView fitHeight="174.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
@@ -18,7 +18,7 @@
       </ImageView>
    </top>
    <center>
-      <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="40.0">
+      <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="732.0" spacing="40.0">
          <children>
             <Label fx:id="labelLoadGame" styleClass="bodyBox" stylesheets="@../css/styleBox.css" text="Found a compatible saved game. Do you want to reload it?&#13;Otherwise, you will start a new game." textAlignment="CENTER" textFill="#ffedaa" underline="true">
                <font>
@@ -54,7 +54,7 @@
       </VBox>
    </center>
    <bottom>
-      <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="BOTTOM_LEFT" prefHeight="285.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="BOTTOM_LEFT" prefHeight="134.0" prefWidth="1415.0" spacing="10.0">
                <children>
@@ -72,27 +72,34 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </HBox>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <VBox>
                <children>
-                  <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="133.0" spacing="10.0" styleClass="container" stylesheets="@../css/gamePhase.css">
+                  <MenuButton fx:id="recipientMenu" mnemonicParsing="false" text="Select player">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                     </items>
+                     <font>
+                        <Font name="Comic Sans MS" size="12.0" />
+                     </font></MenuButton>
+                  <ScrollPane hbarPolicy="NEVER" opacity="0.9" prefHeight="220.0" prefWidth="450.0" styleClass="listView" vbarPolicy="ALWAYS">
+                     <content>
+                        <ListView fx:id="messages" maxHeight="220.0" maxWidth="384.0" minHeight="220.0" minWidth="381.0" prefHeight="220.0" prefWidth="381.0" />
+                     </content>
+                  </ScrollPane>
+                  <HBox maxWidth="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="383.0">
                      <children>
-                        <Label text="CHAT MESSAGE" />
-                        <Label text="CHAT MESSAGE" />
-                        <Label text="CHAT MESSAGE" />
-                        <Label text="CHAT MESSAGE" />
+                        <TextField fx:id="messageText" prefHeight="26.0" prefWidth="333.0" />
+                        <Button fx:id="sendButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Send">
+                           <font>
+                              <Font name="Comic Sans MS" size="12.0" />
+                           </font></Button>
                      </children>
-                     <HBox.margin>
-                        <Insets bottom="10.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
+                  </HBox>
                </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </HBox>
+               <padding>
+                  <Insets bottom="15.0" right="15.0" />
+               </padding>
+            </VBox>
          </children>
       </HBox>
    </bottom>
