@@ -14,4 +14,5 @@ public class CommonGoalCardsView implements CliView {
         for(SimplifiedCommonGoalCard cg : state.getCommonGoalCards()) {
             Printer.printSimplifiedCommonGoal(cg);
         }
-    }}
+    }
+}

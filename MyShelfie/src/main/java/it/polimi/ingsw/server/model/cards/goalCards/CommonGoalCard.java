@@ -62,8 +62,7 @@ public abstract class CommonGoalCard extends GoalCard {
         }
 
         // Get the highest pointCard and remove it from the pile
-        PointCard highestPointCard = this.pointsCards.get(pointsCards.size()-1);
-        this.pointsCards.remove(pointsCards.size()-1);
+        PointCard highestPointCard = this.pointsCards.remove(pointsCards.size()-1);
 
         return highestPointCard.getPointsGiven();
 

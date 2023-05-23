@@ -112,6 +112,10 @@ public class GameObjectConverter {
 
         return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), nickToPoints);
     }
+
+    public static SimplifiedCommonGoalCard fromCommonGoalToSimplifiedPartialCommonGoal(CommonGoalCard goal) {
+        return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), null);
+    }
     public static SimplifiedPlayer[] fromPlayersToSimplifiedPlayers(ArrayList<Player> players) {
         return players.stream()
                 .map(p -> new SimplifiedPlayer(

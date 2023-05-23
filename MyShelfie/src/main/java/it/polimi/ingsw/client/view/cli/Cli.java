@@ -3,29 +3,47 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.commandHandlers.CliCommandHandler;
-import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.cli.cliviews.*;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.rmi.RMIClient;
+import it.polimi.ingsw.network.socket.SocketClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Cli implements UserInterface, PropertyChangeListener {
 
+    /**
+     * The container of the state of the client
+     */
+    private final StateContainer stateContainer;
 
-    private StateContainer stateContainer;
-    private ClientNetworkHandler networkHandler;
+    /**
+     * The network handler. {@link ClientNetworkHandler} is an abstract class that specializes as a {@link SocketClient}
+     * or as a {@link RMIClient}
+     */
+    private final ClientNetworkHandler networkHandler;
 
+    /**
+     * Boolean containing whether the list of the players has already been printed. Used for correctly printing the list
+     * of joined players
+     */
     private boolean playersAlreadyPrinted = false;
+
+    /**
+     * The number of players who joined the lobby. Used for correctly printing the list
+     * of joined players
+     */
     private int numOfPlayers = 0;
     private boolean firstTurn = true;
-    private CommandPicker commandPicker;
+    private final CommandPicker commandPicker;
     private CliView cliView = null;
 
 
@@ -96,9 +114,17 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         ClientPhasesEnum currentPhase = stateContainer.getCurrentState().getCurrentPhase();
+        List<String> players = stateContainer.getCurrentState().getOrderedPlayersNames();
+        String username = stateContainer.getCurrentState().getUsername();
+
+
         switch (evt.getPropertyName()) {
-            // When currentPhase is changed, always render the default view for the new currentPhase
+            // When the current phase changes the cli view should not be rendered by default. Instead
+            // the last server message (containing the result of the previously ended turn) is displayed and
+            // if the pick from board or wait for turn phase is reached for the first time the ORDERED LIST OF
+            // PLAYERS is printed.
             case "currentPhase" -> {
                 CliView cliView = defaultViewsPerPhasesMap.get((ClientPhasesEnum) evt.getNewValue());
 
@@ -111,11 +137,11 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
                 // if the pick from board || waiting for turn is reached after the game starts, the list of players is printed.
                 if ((currentPhase.equals(ClientPhasesEnum.PICK_FORM_BOARD) || currentPhase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) &&
-                        (playersAlreadyPrinted || stateContainer.getCurrentState().getOrderedPlayersNames().size() == 2) && firstTurn) {
+                        (playersAlreadyPrinted || players.size() == 2) && firstTurn) {
                     firstTurn = false;
                     Printer.title("ORDERED PLAYERS");
-                    for (String player : stateContainer.getCurrentState().getOrderedPlayersNames()) {
-                        if (player.equals(stateContainer.getCurrentState().getUsername())) {
+                    for (String player : players) {
+                        if (player.equals(username)) {
                             Printer.printHighlightedPlayerName(player + " <- that's you!");
                         } else {
                             Printer.printPlayerName(player);
@@ -129,21 +155,28 @@ public class Cli implements UserInterface, PropertyChangeListener {
                     this.renderCliView(cliView);
                 }
             }
+            // A server error message change event is caught and has the maximum priority to be displayed.
             case "serverErrorMessage" -> Printer.error((String) evt.getNewValue());
+            // The players list can change in two ways: either the number logged players increases (in which case the
+            // players list in the lobby is displayed) or the order of players changes (this means that the game has started,
+            // and the list of ORDERED PLAYERS will be printed when the change of phase is caught)
             case "orderedPlayersNames" -> {
-                if (currentPhase.equals(ClientPhasesEnum.LOBBY) && (!playersAlreadyPrinted || numOfPlayers != stateContainer.getCurrentState().getOrderedPlayersNames().size())) {
+                if (currentPhase.equals(ClientPhasesEnum.LOBBY) && (!playersAlreadyPrinted || numOfPlayers != players.size())) {
                     // this means that the orderedPlayers names changed in number
                     renderCurrentPhaseDefaultView();
                     playersAlreadyPrinted = true;
-                    numOfPlayers = stateContainer.getCurrentState().getOrderedPlayersNames().size();
+                    numOfPlayers = players.size();
                 }
             }
+            // When a chat message is received, if the chat view is being shown, only the last chat message
+            // is displayed
             case "lastChatMessage" -> {
                 if (cliView instanceof ChatView) {
                     ChatView cli = (ChatView) cliView;
                     cli.updateRender(stateContainer.getCurrentState());
                 }
             }
+            // The active player changed, an apposite message is prompted.
             case "activePlayer" -> {
                 if (currentPhase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
                     Printer.boldsSubtitle(stateContainer.getCurrentState().getServerLastMessage());
@@ -170,7 +203,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
      * Called after a Command handler execution
      * or a state update that require a view change.
      *
-     * @param view
+     * @param view the view that will be rendered
      * @see CliCommandHandler
      * @see StateContainer
      */

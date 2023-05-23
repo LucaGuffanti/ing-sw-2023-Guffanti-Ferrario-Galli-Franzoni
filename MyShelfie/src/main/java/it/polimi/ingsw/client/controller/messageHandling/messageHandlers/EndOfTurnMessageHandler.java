@@ -7,8 +7,12 @@ import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Handles the reception of the message representing
@@ -40,8 +44,10 @@ public class EndOfTurnMessageHandler extends Reducer {
                 endOfTurnMessage.getActivePlayerShelf()
         );
 
+        List<SimplifiedCommonGoalCard> cgNew = new ArrayList<>(endOfTurnMessage.getClientCommonGoalCards());
+
         state.setCommonGoalCards(
-                endOfTurnMessage.getClientCommonGoalCards()
+                cgNew
         );
 
         state.setHasCompletedFirstCommonGoal(

@@ -64,11 +64,11 @@ public class ShowViewCommandHandler extends CliCommandHandler{
         List<String> parameters = super.splitAndTrimInput(commandInput);
         String parameter = parameters.get(0);
 
-        if(!availablePhases.get(parameter).contains(getCli().getStateContainer().getCurrentState().getCurrentPhase())) {
-            throw new CommandNotAvailableInThisPhaseException();
-        }
         if (!checkParameters(parameters)) {
             throw new BadlyFormattedParametersException();
+        }
+        if(!availablePhases.get(parameter).contains(getCli().getStateContainer().getCurrentState().getCurrentPhase())) {
+            throw new CommandNotAvailableInThisPhaseException();
         }
 
 

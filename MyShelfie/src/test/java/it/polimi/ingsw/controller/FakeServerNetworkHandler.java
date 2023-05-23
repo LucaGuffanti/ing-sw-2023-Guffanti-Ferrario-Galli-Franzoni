@@ -1,8 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.ClientConnection;
 import it.polimi.ingsw.network.ServerNetworkHandler;
+import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.utils.Logger;
 import it.polimi.ingsw.server.controller.GameController;
 import jdk.jfr.Label;
@@ -27,6 +30,11 @@ public class FakeServerNetworkHandler extends ServerNetworkHandler {
     public void broadcastToAll(Message message) {
         currentMessage = message;
         Logger.networkInfo("broadcast a " + message.getType() + " message");
+        if (message.getType().equals(MessageType.END_OF_TURN)) {
+            EndOfTurnMessage e = (EndOfTurnMessage) message;
+            Printer.printSimplifiedCommonGoal(e.getClientCommonGoalCards().get(0));
+            Printer.printSimplifiedCommonGoal(e.getClientCommonGoalCards().get(1));
+        }
     }
 
     @Label("DEBUG")

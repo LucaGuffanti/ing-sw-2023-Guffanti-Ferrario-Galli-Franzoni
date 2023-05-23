@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
 import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
@@ -51,9 +53,10 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         exampleCard.setPointsCards(points);
 
-
+        Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(exampleCard));
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
-
+        assertEquals(3, exampleCard.getPointsCards().size());
+        Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(exampleCard));
     }
 
     @Test

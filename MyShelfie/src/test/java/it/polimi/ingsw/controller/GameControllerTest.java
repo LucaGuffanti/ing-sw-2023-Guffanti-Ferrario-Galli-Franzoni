@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.MessageType;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameStatusEnum;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
+import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
 import it.polimi.ingsw.server.model.utils.MatrixUtils;
@@ -530,6 +532,8 @@ public class GameControllerTest {
             }
             assertEquals(gameController.getGame().getGameInfo().getNPlayers(), gameController.getGame().getPlayers().size());
             assertEquals(GameStatusEnum.STARTED, gameController.getGameStatus());
+            Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(gameController.getGame().getGameInfo().getCommonGoals().get(0)));
+            Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(gameController.getGame().getGameInfo().getCommonGoals().get(1)));
 
             assertEquals(0, gameController.getActivePlayerIndex());
             assertNotNull(gameController.getTurnPhase());
