@@ -123,16 +123,18 @@ public class Scene4WaitingController implements GameSceneController {
                     ImageView imgView = new ImageView(MediaManager.tileToImage.get(board[i][j]));
 
                     Pane paneContainingImage = new Pane(imgView);
-                    imgView.setLayoutX(3);
-                    imgView.setLayoutY(3);
+                    imgView.setLayoutX(1);
+                    imgView.setLayoutY(1);
 
-                    paneContainingImage.setMaxWidth(65.0);
-                    paneContainingImage.setMinWidth(65.0);
-                    paneContainingImage.setPrefWidth(65.0);
+                    imgView.setFitWidth(40);
+                    imgView.setFitHeight(40);
+                    paneContainingImage.setMaxWidth(42);
+                    paneContainingImage.setMinWidth(42);
+                    paneContainingImage.setPrefWidth(42);
 
-                    paneContainingImage.setMaxHeight(65.0);
-                    paneContainingImage.setMinHeight(65.0);
-                    paneContainingImage.setPrefHeight(65.0);
+                    paneContainingImage.setMaxHeight(42);
+                    paneContainingImage.setMinHeight(42);
+                    paneContainingImage.setPrefHeight(42);
 
                     gameBoard.add(paneContainingImage, j, i);
                 }

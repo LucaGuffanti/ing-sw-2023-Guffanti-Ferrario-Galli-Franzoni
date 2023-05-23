@@ -141,16 +141,18 @@ public class Scene4BoardSceneController implements GameSceneController {
                     boardCells.add(imgView);
 
                     Pane paneContainingImage = new Pane(imgView);
-                    imgView.setLayoutX(3);
-                    imgView.setLayoutY(3);
+                    imgView.setLayoutX(1);
+                    imgView.setLayoutY(1);
+                    imgView.setFitHeight(40);
+                    imgView.setFitWidth(40);
 
-                    paneContainingImage.setMaxWidth(65.0);
-                    paneContainingImage.setMinWidth(65.0);
-                    paneContainingImage.setPrefWidth(65.0);
+                    paneContainingImage.setMaxWidth(42);
+                    paneContainingImage.setMinWidth(42);
+                    paneContainingImage.setPrefWidth(42);
 
-                    paneContainingImage.setMaxHeight(65.0);
-                    paneContainingImage.setMinHeight(65.0);
-                    paneContainingImage.setPrefHeight(65.0);
+                    paneContainingImage.setMaxHeight(42);
+                    paneContainingImage.setMinHeight(42);
+                    paneContainingImage.setPrefHeight(42);
 
                     // if the scene is for the pick from board phase, set the property regarding the
                     // clicking of the image.

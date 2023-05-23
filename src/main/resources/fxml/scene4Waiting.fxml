@@ -199,34 +199,34 @@
                         <Font name="Comic Sans MS" size="18.0" />
                      </font>
                   </Label>
-                  <GridPane fx:id="gameBoard" alignment="CENTER" hgap="4.0" layoutX="8.0" maxHeight="657.0" maxWidth="674.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="674.0" styleClass="board" vgap="3.0">
+                  <GridPane fx:id="gameBoard" alignment="CENTER" hgap="3.0" layoutX="8.0" maxHeight="450.0" maxWidth="450.0" minHeight="450.0" minWidth="450.0" prefHeight="450.0" prefWidth="450.0" styleClass="board" vgap="3.0">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="42.0" prefWidth="42.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <VBox.margin>
                         <Insets top="-5.0" />
                      </VBox.margin>
                      <padding>
-                        <Insets left="-2.0" right="5.0" top="2.0" />
+                        <Insets left="-2.0" right="4.0" top="2.0" />
                      </padding>
                   </GridPane>
                </children>
