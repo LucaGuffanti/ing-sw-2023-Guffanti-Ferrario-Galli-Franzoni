@@ -30,6 +30,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Scene4BoardSceneController implements GameSceneController {
+
+    // Player's username displayed on top
+    @FXML
+    private Label usernameLabel;
     @FXML
     private Slider sliderVolume;
     @FXML
@@ -83,6 +87,7 @@ public class Scene4BoardSceneController implements GameSceneController {
         personalGoal.setImage(pgImage);
 
         phaseDescription.setText("It's your turn");
+        usernameLabel.setText("Hi, "+state.getUsername());
 
 
         // Displaying the board
