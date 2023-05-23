@@ -2,30 +2,30 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-MyShelfie/.idea/**/workspace.xml
-MyShelfie/.idea/**/tasks.xml
-MyShelfie/.idea/**/usage.statistics.xml
-MyShelfie/.idea/**/dictionaries
-MyShelfie/.idea/**/shelf
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
 # AWS User-specific
-MyShelfie/.idea/**/aws.xml
+.idea/**/aws.xml
 
 # Generated files
-MyShelfie/.idea/**/contentModel.xml
+.idea/**/contentModel.xml
 
 # Sensitive or high-churn files
-MyShelfie/.idea/**/dataSources/
-MyShelfie/.idea/**/dataSources.ids
-MyShelfie/.idea/**/dataSources.local.xml
-MyShelfie/.idea/**/sqlDataSources.xml
-MyShelfie/.idea/**/dynamic.xml
-MyShelfie/.idea/**/uiDesigner.xml
-MyShelfie/.idea/**/dbnavigator.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
 
 # Gradle
-MyShelfie/.idea/**/gradle.xml
-MyShelfie/.idea/**/libraries
+.idea/**/gradle.xml
+.idea/**/libraries
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
@@ -41,66 +41,66 @@ MyShelfie/.idea/**/libraries
 # *.ipr
 
 # CMake
-MyShelfie/cmake-build-*/
+cmake-build-*/
 
 # Mongo Explorer plugin
-MyShelfie/.idea/**/mongoSettings.xml
+.idea/**/mongoSettings.xml
 
 # File-based project format
-MyShelfie/*.iws
+*.iws
 
 # IntelliJ
-MyShelfie/out/
+out/
 
 # mpeltonen/sbt-idea plugin
-MyShelfie/.idea_modules/
+.idea_modules/
 
 # JIRA plugin
-MyShelfie/atlassian-ide-plugin.xml
+atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
-MyShelfie/.idea/replstate.xml
+.idea/replstate.xml
 
 # SonarLint plugin
-MyShelfie/.idea/sonarlint/
+.idea/sonarlint/
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
-MyShelfie/com_crashlytics_export_strings.xml
-MyShelfie/crashlytics.properties
-MyShelfie/crashlytics-build.properties
-MyShelfie/fabric.properties
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
 
 # Editor-based Rest Client
-MyShelfie/.idea/httpRequests
+.idea/httpRequests
 
 # Android studio 3.1+ serialized cache file
-MyShelfie/.idea/caches/build_file_checksums.ser
+.idea/caches/build_file_checksums.ser
 
 # Copyrighted assets
-MyShelfie//
+/
 
 # target folder
-MyShelfie/target/
+target/
 
 # misc.xml in .idea folder
-MyShelfie/.idea/misc.xml
+.idea/misc.xml
 
-# .idea outside MyShelfie folder
+# .idea outside folder
 .idea
 
 # iml of the project
-MyShelfie/PSP17.iml
+PSP17.iml
 
 # complier.xml in .idea folder
-MyShelfie/.idea/compiler.xml
-
-MyShelfie/src/main/resources/images/boards
-MyShelfie/src/main/resources/images/common goal cards
-MyShelfie/src/main/resources/images/item tiles
-MyShelfie/src/main/resources/images/misc
-MyShelfie/src/main/resources/images/personal goal cards
-MyShelfie/src/main/resources/images/Publisher material
-MyShelfie/src/main/resources/images/scoring tokens
-MyShelfie/src/main/assets/savedGames/savefile.json
-MyShelfie/src/test/resources/saveTEST/testSave.json
-MyShelfie/config/serverInfo.json
+.idea/compiler.xml
+.idea/
+src/main/resources/images/boards
+src/main/resources/images/common goal cards
+src/main/resources/images/item tiles
+src/main/resources/images/misc
+src/main/resources/images/personal goal cards
+src/main/resources/images/Publisher material
+src/main/resources/images/scoring tokens
+src/main/assets/savedGames/savefile.json
+src/test/resources/saveTEST/testSave.json
+config/serverInfo.json
