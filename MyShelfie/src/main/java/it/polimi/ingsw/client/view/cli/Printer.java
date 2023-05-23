@@ -101,6 +101,7 @@ public class Printer {
     public static final String DARK_BROWN_BACKGROUND_BRIGHT = "\033[48;5;94m";
 
     public static final String PLAYER_NAME_COLOR = "\033[38;5;228m";
+    public static final String PLAYER_NAME_HIGHLIGHTED = GREEN_BOLD;
 
 
 
@@ -488,10 +489,10 @@ public class Printer {
         }
         System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+"   "+RESET);
         System.out.print("\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"COORDINATE SYSTEM:          "+RESET+"\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"╔══x      With y increasing "+RESET+"\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"║y        going through the "+RESET+"\n");
-        System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"          rows              "+RESET+"\n");
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"COORDINATE SYSTEM:                        "+RESET+"\n");
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"╔══x      y increases                     "+RESET+"\n");
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"║y        going through the               "+RESET+"\n");
+        System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"          rows                            "+RESET+"\n");
     }
     public static void printCommonGoalCard(String id) {
         System.out.println(commonIdToRender.get(jsonCardIdToResourceCardId.get(id)));
@@ -531,6 +532,10 @@ public class Printer {
     public static void printPlayerName(String username) {
         System.out.println(PLAYER_NAME_COLOR+username+RESET);
     }
+
+    public static void printHighlightedPlayerName(String username) {
+        System.out.println(PLAYER_NAME_HIGHLIGHTED+username+RESET);
+    }
     @Label("DEBUG")
     public static void main(String[] args) throws Exception {
         String s = "src/test/resources/shelfTEST/endGameShelfCheck_full.csv";
@@ -563,10 +568,11 @@ public class Printer {
         SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points, null);
         printSimplifiedCommonGoal(simpl);
         printInfo(CLIMessages.NOT_JOINED);
-        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()), "Luca");
-        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu")), "Luca");
-        printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu", "testttt")), "Luca");
+        //printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), new ArrayList<String>()), "Luca");
+        //printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu")), "Luca");
+        //printChatMessage(new ChatMessage("ciao", "Luca", LocalDateTime.now(), List.of("eeeeendriu", "testttt")), "Luca");
         printWinner("luca");
+        printHighlightedPlayerName("luca");
     }
 
     public static void printInfo(String s) {
@@ -601,7 +607,7 @@ public class Printer {
                 if (c.getRecipients().size() > 1) {
                     builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"all"+RESET);
                 } else {
-                    builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+"peoples"+RESET);
+                    builder.append(RED_BOLD_BRIGHT+" "+RESET+PLAYER_NAME_COLOR+"you"+RESET+RED_BOLD_BRIGHT+" -> "+RESET+PLAYER_NAME_COLOR+people+RESET);
                 }
             } else {
                 if (c.getRecipients().size() == numOfOtherActivePlayers && numOfOtherActivePlayers != 1) {

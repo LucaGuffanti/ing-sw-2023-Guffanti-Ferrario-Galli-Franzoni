@@ -223,7 +223,17 @@ public class ServerNetworkHandler {
             }
         }
         synchronized (controllerLock) {
-            controller.onPlayerDisconnection();
+            if (controller != null) {
+                controller.onPlayerDisconnection();
+            } else {
+                // this means that the game hasn't been created yet
+                for (String player : temp.keySet()) {
+                    if (temp.get(player).isConnected()) {
+                        sendToPlayer(player, new AbortedGameMessage(ServerNetworkHandler.HOSTNAME));
+                    }
+                }
+                System.exit(0);
+            }
         }
 
     }

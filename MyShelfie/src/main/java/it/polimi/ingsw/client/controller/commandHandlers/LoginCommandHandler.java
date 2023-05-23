@@ -33,11 +33,11 @@ public class LoginCommandHandler extends CliCommandHandler{
 
         List<String> parameters = super.splitAndTrimInput(commandInput);
 
-        if(!checkParameters(parameters)){
-            throw new BadlyFormattedParametersException();
-        }
         if(!super.checkAvailability(availablePhases, state)){
             throw new CommandNotAvailableInThisPhaseException();
+        }
+        if(!checkParameters(parameters)){
+            throw new BadlyFormattedParametersException();
         }
 
         System.out.println(commandInput);

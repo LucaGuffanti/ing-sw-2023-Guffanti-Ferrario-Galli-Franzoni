@@ -288,22 +288,22 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             case "currentPhase" -> {
                 Scene newScene = phaseToSceneMap.get((ClientPhasesEnum) evt.getNewValue());
                 MediaPlayer m = phaseToMusicMap.get((ClientPhasesEnum) evt.getNewValue());
-                // this is done to prevent the double printing of the list of players that would otherwise
-                // be experienced by the player who creates the game
-                if (!stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
-                    try {
-                        Platform.runLater(()-> {
-                            try {
-                                this.renderGui(newScene, m);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+
+
+                try {
+                    Platform.runLater(()-> {
+                        try {
+                            this.renderGui(newScene, m);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
+
+
             }
             case "serverErrorMessage" ->
                 Platform.runLater(()->
@@ -315,11 +315,8 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                 if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.LOBBY)) {
                     Platform.runLater(()->
                             {
-                                try {
-                                    renderCurrentScene();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                Scene3LobbyController c= (Scene3LobbyController) phaseToControllerMap.get(ClientPhasesEnum.LOBBY);
+                                c.renderLoggedPlayers();
                             }
                     );
                 }
