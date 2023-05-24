@@ -51,7 +51,7 @@ public class GuiTests {
         state.setActivePlayer(user1);
         state.setOrderedPlayersNames(Arrays.stream(new String []{user1, user2, user3, user4}).toList());
         state.setActivePlayer(user1);
-        state.setCurrentPhase(ClientPhasesEnum.PICK_FORM_BOARD);
+        state.setCurrentPhase(ClientPhasesEnum.SELECT_COLUMN); // phase's scene to render
         ArrayList<PointCard> pointCards = new ArrayList<>();
         HashMap<String, PointCard> nickToPointCard = new HashMap<>();
         nickToPointCard.put(user1, null);

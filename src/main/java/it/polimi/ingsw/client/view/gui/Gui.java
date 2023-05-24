@@ -155,26 +155,18 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     }
 
     private void renderGui(Scene sceneToRender, MediaPlayer m) throws IOException {
-
-        if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+        ClientPhasesEnum phase = ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase();
+        if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
+                phase.equals(ClientPhasesEnum.WAITING_FOR_TURN) ||
+                phase.equals(ClientPhasesEnum.SELECT_COLUMN) ||
+                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD)) {
             System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(phase);
             System.out.println(controller);
             controller.drawScene(stage);
 
         }
-        else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
-            System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
-            System.out.println(controller);
-            controller.drawScene(stage);
 
-        } else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
-            System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
-            System.out.println(controller);
-            controller.drawScene(stage);
-        }
         getStage().setScene(sceneToRender);
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
@@ -192,25 +184,18 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     }
 
     public void renderCurrentScene() throws IOException {
-        if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
+        ClientPhasesEnum phase = ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase();
+        if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
+                phase.equals(ClientPhasesEnum.WAITING_FOR_TURN) ||
+                phase.equals(ClientPhasesEnum.SELECT_COLUMN) ||
+                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD)) {
             System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
+            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(phase);
             System.out.println(controller);
             controller.drawScene(stage);
 
         }
-        else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
-            System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
-            System.out.println(controller);
-            controller.drawScene(stage);
 
-        } else if (stateContainer.getCurrentState().getCurrentPhase().equals(ClientPhasesEnum.SELECT_COLUMN)) {
-            System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(ClientPhasesEnum.SELECT_COLUMN);
-            System.out.println(controller);
-            controller.drawScene(stage);
-        }
         getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
         MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {

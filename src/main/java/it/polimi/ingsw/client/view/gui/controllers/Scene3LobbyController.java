@@ -33,7 +33,6 @@ public class Scene3LobbyController implements SceneWithChatController, Initializ
     private Label labelErrorStartGame;
     @FXML
     private Slider sliderVolume;
-
     private ArrayList<MenuItem> recipients = new ArrayList<>();
     private String messageRecipient;
 

@@ -58,7 +58,16 @@
 
 .shelfInSelect {
     -fx-background-image: url("../images/boards/bookshelf_orth.png");
-    -fx-background-size: 500 500;
+    -fx-background-size: 420 420;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+.listView {
+    -fx-control-inner-background: #d6b990ff;
+}
+
+.containershadow {
+    -fx-background-color: #d6b990ff;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }

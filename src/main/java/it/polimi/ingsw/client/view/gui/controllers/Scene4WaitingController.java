@@ -9,20 +9,33 @@ import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class Scene4WaitingController implements GameSceneController {
-
+public class Scene4WaitingController implements GameSceneController, Initializable {
+    @FXML
+    private MenuButton recipientMenu;
+    @FXML
+    private ListView messages;
+    @FXML
+    private TextField messageText;
+    @FXML
+    private Button sendButton;
+    private ArrayList<MenuItem> recipients = new ArrayList<>();
+    private String messageRecipient;
     // Player's username displayed on top
     @FXML
     private Label usernameLabel;
@@ -85,6 +98,33 @@ public class Scene4WaitingController implements GameSceneController {
         // Displaying the shelves
         renderShelves();
 
+        List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
+
+        recipients.clear();
+
+        recipientMenu.getItems().clear();
+
+        for (String player : players) {
+            if (!player.equals(ClientManager.getInstance().getStateContainer().getCurrentState().getUsername())) {
+                MenuItem playerLabelItem = new MenuItem(player);
+                playerLabelItem.setOnAction((e)-> {
+                    messageRecipient = player;
+                    System.out.println("selected " + player);
+                    recipientMenu.setText(player);
+                });
+                recipientMenu.getItems().add(playerLabelItem);
+            }
+        }
+
+        MenuItem allPlayers = new MenuItem("all");
+        recipients.add(allPlayers);
+        recipientMenu.getItems().add(allPlayers);
+
+        allPlayers.setOnAction(e->{
+            messageRecipient = "all";
+            System.out.println("selected all");
+            recipientMenu.setText("all");
+        });
     }
 
     public void renderShelves() {
@@ -153,6 +193,61 @@ public class Scene4WaitingController implements GameSceneController {
 
     @Override
     public void updateChat(ChatMessage chatMessage) {
+        String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
+        if (!chatMessage.getSenderUsername().equals(username)) {
+            Label messageText = new Label(Renderer.printChatMessage(chatMessage, username));
+            messageText.setWrapText(true);
+            messageText.setMaxWidth(300);
+            messageText.setPrefWidth(300);
+            messages.getItems().add(0, messageText);
+            System.out.println("printing chat message from outside");
+        }
+    }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        sendButton.setOnMouseClicked(e->{
+            sendMessage();
+        });
+
+        messageText.setOnKeyPressed(e->{
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                sendMessage();
+            }
+        });
+    }
+
+    public void sendMessage() {
+        List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
+        String messageBody = messageText.getText().trim();
+        if(players.size() > 1 && messageRecipient != null && messageText.getText().trim().length() > 0) {
+            String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
+            List<String> recipients;
+            if (messageRecipient.equals("all")) {
+                recipients = new ArrayList<>(players);
+                recipients.remove(name);
+
+            } else {
+                recipients = new ArrayList<>();
+                recipients.add(messageRecipient);
+            }
+
+            ChatMessage chatMessage = new ChatMessage(messageBody,
+                    name,
+                    LocalDateTime.now(),
+                    recipients);
+
+            ClientManager.getInstance().getNetworkHandler().sendMessage(
+                    chatMessage
+            );
+            Label messageLabel = new Label(Renderer.printChatMessage(chatMessage, name));
+            messageLabel.setWrapText(true);
+            messageLabel.setMaxWidth(300);
+            messageText.setPrefWidth(300);
+
+            messageText.setText("");
+            messages.getItems().add(0, messageLabel);
+            System.out.println("printing chat message from inside");
+        }
     }
 }
