@@ -11,14 +11,13 @@ import it.polimi.ingsw.server.model.cells.Coordinates;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.css.PseudoClass;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +27,6 @@ public class Renderer {
 
     public static void renderShelves(VBox shelvesBox) {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
-        int numOfPlayers = state.getOrderedPlayersNames().size();
         List<String> playerNames = state.getOrderedPlayersNames();
         String firstToCompleteTheShelf = state.getFirstToCompleteShelf();
 
@@ -74,7 +72,7 @@ public class Renderer {
 
             if(playerName.equals(state.getUsername())){
                 _tileSide = Math.round(tileSide*zoom);
-                _gridLayoutX = Math.round(gridLayoutX*zoom);
+                _gridLayoutX = Math.round(gridLayoutX/zoom);
                 _gridLayoutY = Math.round(gridLayoutY*zoom);
                 _hm = Math.round(hm*zoom);
                 _vm = Math.round(vm*zoom);
@@ -117,18 +115,19 @@ public class Renderer {
 
             // building the pane containing the grid and setting its class to show the shelf as a background
             Pane paneContainingShelf = new Pane(shelfGrid);
-
             int _shelfSide = shelfSide;
-            paneContainingShelf.getStyleClass().add("shelfInPickOrWaiting");
 
             if(playerName.equals(state.getUsername())){
                 _shelfSide = Math.round(shelfSide*zoom);
                 paneContainingShelf.getStyleClass().add("ownShelfInPickOrWaiting");
+            }else{
+                paneContainingShelf.getStyleClass().add("shelfInPickOrWaiting");
             }
+
             // Width
-            paneContainingShelf.setMinWidth(_shelfSide*2);
-            paneContainingShelf.setPrefWidth(_shelfSide*2);
-            paneContainingShelf.setMaxWidth(_shelfSide*2);
+            paneContainingShelf.setMinWidth(shelfSide*2);
+            paneContainingShelf.setPrefWidth(shelfSide*2);
+            paneContainingShelf.setMaxWidth(shelfSide*2);
 
             // Height
             paneContainingShelf.setMinHeight(_shelfSide);
