@@ -21,7 +21,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO ADD PINGING FROM THE CLIENT TO THE SERVER
 
 /**
  * The client network handler is responsible for the server-client interactions.

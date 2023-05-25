@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import jdk.jfr.Label;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class PickChecker {
@@ -19,14 +20,26 @@ public class PickChecker {
      * @param c3 the third coordinate
      * @return c1"<"c2"<"c3 && c1+2==c2+1==c3 OR c3"<"c2"<"c1 && c3+2==c2+1==c1
      */
+
+
+    /**
+     *
+     *
+     *
+     * @param c1 first coordinate
+     * @param c2 second coordinate
+     * @param c3 third coordinate
+     * @return
+     */
     public static boolean checkTripleAdjacency(int c1, int c2, int c3) {
-        if (c1 < c2 && c2 < c3) {
-            return c1 +1 == c2 && c2 +1 == c3;
-        } else if (c3 < c2 && c2 < c1) {
-            return c3 +1 == c2 && c2 +1 == c1;
-        }else {
-            return false;
-        }
+        int[] arr = new int[3];
+        arr[0] = c1;
+        arr[1] = c2;
+        arr[2] = c3;
+
+        arr = Arrays.stream(arr).sorted().toArray();
+
+        return arr[0]+1 == arr[1] && arr[0]+2 == arr[2];
     }
 
     public static boolean checkTripleOrdering(Coordinates first, Coordinates second, Coordinates newChoice) {
@@ -86,38 +99,21 @@ public class PickChecker {
     }
 
 
-    public static boolean checkAdjacencies(List<Coordinates> clicked, Coordinates coordsOfImage) {
-        if (clicked.size() == 0) {
+    public static boolean checkAdjacencies(List<Coordinates> clicked) {
+        if (clicked.size() == 1) {
             // this means that the chosen tile would be the first one.
             return true;
-        } else if (clicked.size() == 1) {
-            // this means that the chosen tile would be the second one
-            return checkDoubleOrdering(clicked.get(0), coordsOfImage);
         } else if (clicked.size() == 2) {
-            // this means that the chosen tile would be the third one
-            return checkTripleOrdering(clicked.get(0), clicked.get(1), coordsOfImage);
+            // this means that the chosen tile would be the second one
+            return checkDoubleOrdering(clicked.get(0), clicked.get(1));
         } else if (clicked.size() == 3) {
-            // this means that the chose tile would be the fourth and that is not permitted
-            return false;
+            // this means that the chosen tile would be the third one
+            return checkTripleOrdering(clicked.get(0), clicked.get(1), clicked.get(2));
         } else {
             Printer.error("UNEXPECTED CASE - RETURNING FALSE ");
             return false;
         }
     }
 
-    @Label("DEBUG")
-    public static void main(String[] args) {
-        Sack s = new Sack();
-        Board b = new Board(3, s);
-        ObjectTypeEnum[][] board = GameObjectConverter.fromBoardToMatrix(b);
 
-        Printer.printBoard(board);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] != null) {
-                    System.out.println("("+j+", "+i+")->"+PickChecker.hasFreeSides(board, i , j));
-                }
-            }
-        }
-    }
 }

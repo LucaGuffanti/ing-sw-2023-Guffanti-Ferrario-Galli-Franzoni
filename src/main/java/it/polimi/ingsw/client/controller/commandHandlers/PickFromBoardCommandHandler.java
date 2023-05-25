@@ -22,7 +22,7 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
     public final static String commandDescription = "Pick Form Board Command\n\n" +
             "Usage: "+commandLabel+" x1 y1 [x2 y2 x3 y3] with xi yi being the coordinates of the cards you want to pick.\n" +
             "Remember that the tiles you pick must be adjacent on either the horizontal or vertical axis, and that you can't pick\n" +
-            "the same tiles";
+            "the same tiles. The tiles you pick can be in any order, and they'll be put in the shelf from left to right";
 
 
     public PickFromBoardCommandHandler(Cli cli) {

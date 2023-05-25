@@ -230,14 +230,14 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
 
                         if (selected) {
                             System.out.println("Clicked Image on (" + coordsOfImage.getX() + ", " + coordsOfImage.getY() + ")");
-                            if (checkCoordinateSelection(clicked, coordsOfImage)) {
+                            if (clicked.size()<3) {
                                 System.out.println("Valid selection");
                                 clicked.add(coordsOfImage);
                                 setLabelErrorMessage("");
                                 imageViewBorderActive.set(true);
                             } else {
                                 System.out.println("Invalid selection");
-                                setLabelErrorMessage("You are trying to pick tiles in an incorrect way.");
+                                setLabelErrorMessage("You can't pick more than 3 tiles at a time");
                             }
                         } else {
                             System.out.println("Unclicked Image on (" + coordsOfImage.getX() + ", " + coordsOfImage.getY() + ")");
@@ -254,22 +254,6 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
             }
         }
     }
-
-
-
-    private boolean checkCoordinateSelection(List<Coordinates> clicked, Coordinates coordsOfImage) {
-        ObjectTypeEnum[][] board = ClientManager.getInstance().getStateContainer().getCurrentState().getBoard();
-        System.out.println(clicked);
-        int cx = coordsOfImage.getX();
-        int cy = coordsOfImage.getY();
-
-        if (!PickChecker.hasFreeSides(board, cx, cy)) {
-            return false;
-        }
-
-        return PickChecker.checkAdjacencies(clicked, coordsOfImage);
-    }
-
 
     private Coordinates getCoordinatesInBoardMatrix(ImageView imgView) {
         int indexOfCurrentImage = boardCells.indexOf(imgView);
@@ -303,15 +287,23 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
     public void submitSelection() {
         String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
         System.out.println("Submitting selection for "+ name);
-        ArrayList<Coordinates> c = new ArrayList<>(clicked);
-        clicked.clear();
-        System.out.println(c);
-        ClientManager.getInstance().getNetworkHandler().sendMessage(
-                new PickFromBoardMessage(
-                        name,
-                        c
-                )
-        );
+
+        if (PickChecker.checkAdjacencies(clicked)) {
+            ArrayList<Coordinates> c = new ArrayList<>(clicked);
+            clicked.clear();
+            System.out.println(c);
+            ClientManager.getInstance().getNetworkHandler().sendMessage(
+                    new PickFromBoardMessage(
+                            name,
+                            c
+                    )
+            );
+            System.out.println("correctly submitted");
+        } else {
+            setLabelErrorMessage("The selection is invalid");
+            System.out.println("Invalid selection");
+            clicked.clear();
+        }
 
     }
 
