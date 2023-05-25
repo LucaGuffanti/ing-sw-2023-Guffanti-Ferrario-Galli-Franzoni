@@ -213,6 +213,9 @@ public class Renderer {
             ImageView cg_2_3,
             ImageView cg_2_4
     ) {
+
+        ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
+
         SimplifiedCommonGoalCard cg1 = ClientManager.getInstance().getStateContainer().getCurrentState().getCommonGoalCards().get(0);
         SimplifiedCommonGoalCard cg2 = ClientManager.getInstance().getStateContainer().getCurrentState().getCommonGoalCards().get(1);
 
