@@ -43,6 +43,10 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     private MediaPlayer mediaPlayer;
     private Scene sGameAborted;
 
+    public HashMap<ClientPhasesEnum, SceneController> getPhaseToControllerMap() {
+        return phaseToControllerMap;
+    }
+
     public static Stage getStage() {
         return stage;
     }

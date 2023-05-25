@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.utils.PickChecker;
+import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
@@ -84,6 +85,11 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
     private List<ImageView> boardCells = new ArrayList<>();
     private List<Coordinates> clicked = new ArrayList<>();
     private HashMap<ImageView, BooleanProperty> imageToClickedProperty = new HashMap<>();
+    private List<ObjectTypeEnum> lastPickedTiles = new ArrayList<>();
+
+    public List<ObjectTypeEnum> getLastPickedTiles() {
+        return lastPickedTiles;
+    }
 
     @Override
     public void setSliderVolume(double volume) {
@@ -287,15 +293,19 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
     public void submitSelection() {
         String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
         System.out.println("Submitting selection for "+ name);
-
         if (PickChecker.checkAdjacencies(clicked)) {
-            ArrayList<Coordinates> c = new ArrayList<>(clicked);
+            ArrayList<Coordinates> coordinates = new ArrayList<>(clicked);
+            // Setting last picked tiles from coordinates
+            ObjectTypeEnum[][] board = ClientManager.getInstance().getStateContainer().getCurrentState().getBoard();
+            for (Coordinates c : coordinates) {
+                lastPickedTiles.add(board[c.getY()][c.getX()]);
+            }
             clicked.clear();
-            System.out.println(c);
+            System.out.println(coordinates);
             ClientManager.getInstance().getNetworkHandler().sendMessage(
                     new PickFromBoardMessage(
                             name,
-                            c
+                            coordinates
                     )
             );
             System.out.println("correctly submitted");

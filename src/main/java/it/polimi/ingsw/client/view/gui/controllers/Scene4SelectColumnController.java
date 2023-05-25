@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
+import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.Gui;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.network.messages.SelectColumnMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.beans.property.BooleanProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,10 +25,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Scene4SelectColumnController implements GameSceneController, Initializable {
     @FXML
@@ -75,8 +74,9 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
     private ImageView commonGoal1;
     @FXML
     private ImageView commonGoal2;
+    @FXML
+    private GridPane selectedTiles;
     private List<ImageView> shelfCells = new ArrayList<>();
-    private HashMap<ImageView, BooleanProperty> imageToClickedProperty = new HashMap<>();
 
     @Override
     public void setSliderVolume(double volume) {
@@ -86,6 +86,15 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
 
     @Override
     public void drawScene(Stage stage) {
+        // Drawing picked tiles
+        List<ObjectTypeEnum> pickedTiles = ((Scene4BoardSceneController)Gui.instance.getPhaseToControllerMap().get(ClientPhasesEnum.PICK_FORM_BOARD)).getLastPickedTiles();
+        Collections.reverse(pickedTiles);
+        int x = 0;
+        for (ObjectTypeEnum tile : pickedTiles) {
+            ImageView imgView = new ImageView(MediaManager.tileToImage.get(tile));
+            selectedTiles.add(imgView, 0, x);
+            x++;
+        }
 
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
 
@@ -140,14 +149,10 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
             for (int j = 0; j < 5; j++) {
                 if (shelf[i][j] != null) {
                     System.out.println(shelf[i][j]);
-
                     // Dynamically generate an ImageView
 
                     ImageView imgView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
                     shelfCells.add(imgView);
-
-                    // if the scene is for the pick from board phase, set the property regarding the
-                    // clicking of the image.
 
                     gameShelf.add(imgView ,j, i);
                 } else {
@@ -193,7 +198,7 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         Renderer.renderShelves(shelvesBox);
     }
 
-    public void submitSelection(javafx.event.ActionEvent actionEvent) {
+    public void submitSelection(ActionEvent actionEvent) {
         int col;
         String buttonId = ((Button) actionEvent.getSource()).getText();
         System.out.println(buttonId);
@@ -216,6 +221,17 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
                         col
                 )
         );
+        // Removing picked tiles
+        ((Scene4BoardSceneController)Gui.instance.getPhaseToControllerMap().get(ClientPhasesEnum.PICK_FORM_BOARD)).getLastPickedTiles().clear();
+        selectedTiles.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 0
+                        && node instanceof ImageView);
+        selectedTiles.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 1
+                        && node instanceof ImageView);
+        selectedTiles.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 2
+                        && node instanceof ImageView);
     }
 
     @Override
