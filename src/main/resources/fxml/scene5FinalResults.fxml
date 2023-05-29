@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -117,11 +116,7 @@
                           <Font name="Comic Sans MS" size="12.0" />
                       </font>
                   </MenuButton>
-                  <ScrollPane hbarPolicy="NEVER" opacity="0.9" prefHeight="218.0" prefWidth="385.0" styleClass="listView" vbarPolicy="ALWAYS">
-                      <content>
-                          <ListView fx:id="messages" maxHeight="220.0" maxWidth="384.0" minHeight="220.0" minWidth="381.0" prefHeight="220.0" prefWidth="381.0" styleClass="listView" stylesheets="@../css/gamePhase.css" />
-                      </content>
-                  </ScrollPane>
+                    <ListView fx:id="messages" maxHeight="-Infinity" prefHeight="250.0" styleClass="listView" stylesheets="@../css/gamePhase.css" />
                   <HBox>
                       <children>
                           <TextField fx:id="messageText" HBox.hgrow="ALWAYS" />

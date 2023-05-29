@@ -86,6 +86,17 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
 
     @Override
     public void drawScene(Stage stage) {
+        textError.setText("");
+        // Removing previous picked tiles if they are present
+        selectedTiles.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 0
+                        && node instanceof ImageView);
+        selectedTiles.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 1
+                        && node instanceof ImageView);
+        selectedTiles.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 2
+                        && node instanceof ImageView);
         // Drawing picked tiles
         List<ObjectTypeEnum> pickedTiles = ((Scene4BoardSceneController)Gui.instance.getPhaseToControllerMap().get(ClientPhasesEnum.PICK_FORM_BOARD)).getLastPickedTiles();
         Collections.reverse(pickedTiles);
@@ -223,17 +234,7 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
                         col
                 )
         );
-        // Removing picked tiles
-        ((Scene4BoardSceneController)Gui.instance.getPhaseToControllerMap().get(ClientPhasesEnum.PICK_FORM_BOARD)).getLastPickedTiles().clear();
-        selectedTiles.getChildren().removeIf(node ->
-                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 0
-                        && node instanceof ImageView);
-        selectedTiles.getChildren().removeIf(node ->
-                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 1
-                        && node instanceof ImageView);
-        selectedTiles.getChildren().removeIf(node ->
-                GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 2
-                        && node instanceof ImageView);
+        ((Scene4BoardSceneController) Gui.instance.getPhaseToControllerMap().get(ClientPhasesEnum.PICK_FORM_BOARD)).getLastPickedTiles().clear();
     }
 
     @Override

@@ -160,33 +160,29 @@
          <right>
             <BorderPane BorderPane.alignment="CENTER">
                <bottom>
-                      <VBox BorderPane.alignment="CENTER">
-                          <children>
-                              <MenuButton fx:id="recipientMenu" mnemonicParsing="false" text="Select player">
-                                  <items>
-                                      <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                  </items>
-                                  <font>
-                                      <Font name="Comic Sans MS" size="12.0" />
-                                  </font>
-                              </MenuButton>
-                              <ScrollPane hbarPolicy="NEVER" opacity="0.9" prefHeight="218.0" prefWidth="385.0" styleClass="listView" vbarPolicy="ALWAYS">
-                                  <content>
-                                      <ListView fx:id="messages" maxHeight="220.0" maxWidth="384.0" minHeight="220.0" minWidth="381.0" prefHeight="220.0" prefWidth="381.0" />
-                                  </content>
-                              </ScrollPane>
-                              <HBox>
-                                  <children>
-                                      <TextField fx:id="messageText" HBox.hgrow="ALWAYS" />
-                                      <Button fx:id="sendButton" mnemonicParsing="false" text="Send">
-                                          <font>
-                                              <Font name="Comic Sans MS" size="12.0" />
-                                          </font>
-                                      </Button>
-                                  </children>
-                              </HBox>
-                          </children>
-                      </VBox>
+                   <VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="390.0" BorderPane.alignment="CENTER">
+                       <children>
+                           <MenuButton fx:id="recipientMenu" mnemonicParsing="false" text="Select player">
+                               <items>
+                                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                               </items>
+                               <font>
+                                   <Font name="Comic Sans MS" size="12.0" />
+                               </font>
+                           </MenuButton>
+                           <ListView fx:id="messages" maxHeight="-Infinity" opacity="0.9" prefHeight="250.0" styleClass="listView" />
+                           <HBox>
+                               <children>
+                                   <TextField fx:id="messageText" HBox.hgrow="ALWAYS" />
+                                   <Button fx:id="sendButton" mnemonicParsing="false" text="Send">
+                                       <font>
+                                           <Font name="Comic Sans MS" size="12.0" />
+                                       </font>
+                                   </Button>
+                               </children>
+                           </HBox>
+                       </children>
+                   </VBox>
                </bottom>
                <center>
                   <Label fx:id="phaseDescription" alignment="CENTER" prefWidth="206.0" textAlignment="CENTER" underline="true" wrapText="true" BorderPane.alignment="CENTER">
