@@ -125,6 +125,8 @@ public class Scene4WaitingController implements GameSceneController, Initializab
             System.out.println("selected all");
             recipientMenu.setText("all");
         });
+
+        Renderer.renderMessages(messages, state.getUsername());
     }
 
     public void renderShelves() {

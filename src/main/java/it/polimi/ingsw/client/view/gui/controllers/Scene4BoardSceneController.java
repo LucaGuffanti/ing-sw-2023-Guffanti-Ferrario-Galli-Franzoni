@@ -145,6 +145,7 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
             recipientMenu.setText("all");
         });
 
+        Renderer.renderMessages(messages, state.getUsername());
     }
 
     public void renderShelves() {
@@ -310,9 +311,9 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
             );
             System.out.println("correctly submitted");
         } else {
+            resetSelection();
             setLabelErrorMessage("The selection is invalid");
             System.out.println("Invalid selection");
-            clicked.clear();
         }
 
     }

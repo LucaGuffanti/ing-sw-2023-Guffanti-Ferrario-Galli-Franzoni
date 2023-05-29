@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
+import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
@@ -138,6 +139,7 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
     @Override
     public void drawScene(Stage stage) {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
+        ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
 
         recipients.clear();
 
@@ -164,5 +166,7 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
             System.out.println("selected all");
             recipientMenu.setText("all");
         });
+
+        Renderer.renderMessages(messages, state.getUsername());
     }
 }

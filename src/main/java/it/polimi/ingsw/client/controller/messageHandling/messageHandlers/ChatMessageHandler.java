@@ -30,8 +30,9 @@ public class ChatMessageHandler extends Reducer implements Creator {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
-
-        state.addToChatHistory(chatMessage);
+        synchronized (state.getChatHistory()) {
+            state.addToChatHistory(chatMessage);
+        }
         state.setLastChatMessage(chatMessage);
         return state;
     }

@@ -192,6 +192,8 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
             System.out.println("selected all");
             recipientMenu.setText("all");
         });
+
+        Renderer.renderMessages(messages, state.getUsername());
     }
 
     public void renderShelves() {

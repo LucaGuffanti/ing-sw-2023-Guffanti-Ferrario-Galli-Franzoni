@@ -14,6 +14,7 @@ import javafx.css.PseudoClass;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -290,5 +291,21 @@ public class Renderer {
         }
         builder.append(" : " + c.getBody());
         return builder.toString();
+    }
+
+    public static void renderMessages(ListView<Label> messages, String username) {
+        List<ChatMessage> messageList;
+        List<ChatMessage> chat = ClientManager.getInstance().getStateContainer().getCurrentState().getChatHistory();
+        synchronized (chat) {
+            messageList = new ArrayList<>(chat);
+        }
+
+        for(ChatMessage msg : messageList) {
+            Label messageText = new Label(Renderer.printChatMessage(msg, username));
+            messageText.setWrapText(true);
+            messageText.setMaxWidth(300);
+            messageText.setPrefWidth(300);
+            messages.getItems().add(0, messageText);
+        }
     }
 }
