@@ -471,7 +471,7 @@ public class GameController {
         completedShelf = false;
 
         // at last the game may end, or a new turn starts
-        if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && activePlayerIndex == 3) {
+        if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && activePlayerIndex == orderedPlayersNicks.size()-1) {
             gameStatus = GameStatusEnum.ENDED;
             endGame();
         } else {

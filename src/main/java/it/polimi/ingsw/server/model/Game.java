@@ -120,7 +120,7 @@ public class Game {
         ObjectTypeEnum[][] savedBoard = saveFileData.getBoard();
         SimplifiedGameInfo savedGameInfo = saveFileData.getGameInfo();
         Sack savedSack = saveFileData.getSack();
-
+        endOfGameCard = new EndOfGameCard();
         sack = new Sack();
         // setting the sack
         sack.setCards(savedSack.getCards());

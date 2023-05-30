@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.EndOfGameHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.GameStartMessageHandler;
 import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
 import it.polimi.ingsw.network.messages.enums.MessageType;
@@ -43,7 +44,7 @@ public class EndOfGameMessage extends Message{
 
     @Override
     public MessagesHandler getHandlerForClient() {
-        return new GameStartMessageHandler();
+        return new EndOfGameHandler();
     }
     public HashMap<String, Integer> getNameToPointsMap() {
         return nameToPointsMap;
