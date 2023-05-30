@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.utils.PickChecker;
-import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.MediaManager;
@@ -11,7 +10,6 @@ import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.network.messages.PickFromBoardMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -34,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.zip.InflaterInputStream;
 
 public class Scene4BoardSceneController implements GameSceneController, Initializable {
     @FXML
@@ -293,8 +290,14 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
 
     public void submitSelection() {
         String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
+        int currentPlayerIndex = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames().indexOf(name);
+        ObjectTypeEnum[][] activePlayerShelf = ClientManager.getInstance().getStateContainer().getCurrentState().getShelves().get(currentPlayerIndex);
         System.out.println("Submitting selection for "+ name);
-        if (PickChecker.checkAdjacencies(clicked)) {
+        if (activePlayerShelf != null && PickChecker.shelfIsFull(activePlayerShelf, clicked.size())) {
+            resetSelection();
+            setLabelErrorMessage("The selection is invalid, you don't have enough space in your shelf");
+            System.out.println("Invalid selection");
+        } else if (PickChecker.checkAdjacencies(clicked)) {
             ArrayList<Coordinates> coordinates = new ArrayList<>(clicked);
             // Setting last picked tiles from coordinates
             ObjectTypeEnum[][] board = ClientManager.getInstance().getStateContainer().getCurrentState().getBoard();

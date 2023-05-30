@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.commandHandlers;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
@@ -7,7 +8,9 @@ import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PickFro
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.utils.PickChecker;
 import it.polimi.ingsw.client.view.cli.Cli;
+import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.PickFromBoardMessage;
+import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 
 import java.util.*;
@@ -32,7 +35,6 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
 
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
-
         List<String> parameters = super.splitAndTrimInput(commandInput);
 
         if(!super.checkAvailability(availablePhases, state)){
@@ -41,7 +43,14 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
         if(!checkParameters(parameters)){
             throw new BadlyFormattedParametersException();
         }
-
+        // check if there's enough space in player's shelf
+        String name = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
+        int currentPlayerIndex = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames().indexOf(name);
+        ObjectTypeEnum[][] activePlayerShelf = ClientManager.getInstance().getStateContainer().getCurrentState().getShelves().get(currentPlayerIndex);
+        if (PickChecker.shelfIsFull(activePlayerShelf, parameters.size() / 2)) {
+            Printer.error("The selection is invalid, you don't have enough space in your shelf. Try again.");
+            return;
+        }
 
         List<Coordinates> coordinates = new ArrayList<Coordinates>();
 
@@ -105,8 +114,6 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
         }
         return true;
     }
-
-
 
     public static String getCommandLabel() {
         return commandLabel;

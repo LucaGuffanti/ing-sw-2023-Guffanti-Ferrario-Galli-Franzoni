@@ -1,12 +1,9 @@
 package it.polimi.ingsw.client.controller.utils;
 
 import it.polimi.ingsw.client.view.cli.Printer;
-import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.Sack;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cells.Coordinates;
-import jdk.jfr.Label;
+import it.polimi.ingsw.server.model.utils.Constants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,5 +112,27 @@ public class PickChecker {
         }
     }
 
-
+    public static boolean shelfIsFull(ObjectTypeEnum[][] shelf, int dim) {
+        boolean isFull = false;
+        int freeCells = 0;
+        int tmpFreeCells;
+        for (int j = 0; j < Constants.SHELF_LENGTH; j++) {
+            tmpFreeCells = Constants.SHELF_HEIGHT;
+            for (int i = Constants.SHELF_HEIGHT-1; i >= 0; i--, tmpFreeCells--) {
+                if (shelf[i][j] == null) {
+                    break;
+                }
+            }
+            if (freeCells < tmpFreeCells) {
+                freeCells = tmpFreeCells;
+            }
+            if (freeCells > 2) {
+                break;
+            }
+        }
+        if (freeCells < dim) {
+            isFull = true;
+        }
+        return isFull;
+    }
 }
