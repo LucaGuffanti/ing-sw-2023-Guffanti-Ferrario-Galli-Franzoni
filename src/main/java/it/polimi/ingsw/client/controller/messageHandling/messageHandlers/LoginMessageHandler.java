@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
@@ -42,7 +43,12 @@ public class LoginMessageHandler extends Reducer implements Creator {
             state.setCurrentPhase(ClientPhasesEnum.NOT_JOINED);
             state.setChatHistory(new ArrayList<>());
         }else{
-            state.setServerErrorMessage(m.getDescription());
+            String previousErrorBody = state.getServerErrorMessage();
+            if (previousErrorBody != null && previousErrorBody.equals(loginMessage.getDescription())) {
+                ClientManager.getInstance().getUserInterface().printErrorMessage(loginMessage.getDescription());
+            } else {
+                state.setServerErrorMessage(loginMessage.getDescription());
+            }
         }
         state.setServerLastMessage(loginMessage.getDescription());
         return state;

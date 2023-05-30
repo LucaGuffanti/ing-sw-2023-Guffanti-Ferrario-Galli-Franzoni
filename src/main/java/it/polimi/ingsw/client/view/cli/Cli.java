@@ -101,6 +101,11 @@ public class Cli implements UserInterface, PropertyChangeListener {
         cli.render(null);
     }
 
+    @Override
+    public void printErrorMessage(String msg) {
+        Printer.error(msg);
+    }
+
     /**
      * PropertyChangeListener overrode method.
      *

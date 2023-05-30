@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
@@ -38,7 +39,12 @@ public class JoinGameMessageHandler extends Reducer implements Creator {
             state.setCurrentPhase(ClientPhasesEnum.LOBBY);
             state.setOrderedPlayersNames(accessResultMessage.getPlayersUsernames());
         }else{
-            state.setServerErrorMessage(accessResultMessage.getDescription());
+            String previousErrorBody = state.getServerErrorMessage();
+            if (previousErrorBody != null && previousErrorBody.equals(accessResultMessage.getDescription())) {
+                ClientManager.getInstance().getUserInterface().printErrorMessage(accessResultMessage.getDescription());
+            } else {
+                state.setServerErrorMessage(accessResultMessage.getDescription());
+            }
         }
         return state;
     }

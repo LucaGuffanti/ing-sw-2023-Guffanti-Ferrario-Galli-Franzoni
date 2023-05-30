@@ -7,4 +7,6 @@ public interface UserInterface {
     public abstract void run();
 
     void onGameAborted();
+
+    void printErrorMessage(String msg);
 }

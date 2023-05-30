@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
@@ -40,7 +41,12 @@ public class PickFromBoardMessageHandler extends Reducer implements Creator {
             state.setCurrentPhase(ClientPhasesEnum.SELECT_COLUMN);
         }else {
             // Se the error message
-            state.setServerErrorMessage(resultMessage.getDescription());
+            String previousErrorBody = state.getServerErrorMessage();
+            if (previousErrorBody != null && previousErrorBody.equals(resultMessage.getDescription())) {
+                ClientManager.getInstance().getUserInterface().printErrorMessage(resultMessage.getDescription());
+            } else {
+                state.setServerErrorMessage(resultMessage.getDescription());
+            }
         }
         return state;
     }

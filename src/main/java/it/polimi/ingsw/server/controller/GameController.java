@@ -18,6 +18,7 @@ import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
 
@@ -295,13 +296,18 @@ public class GameController {
                 .map(Player::getGoal)
                 .map(GameObjectConverter::fromPersonalGoalToString)
                 .toList());
+        for(String player : orderedPlayersNicks) {
+            Printer.printPlayerName(player);
+            Printer.printShelf(GameObjectConverter.fromShelfToMatrix(game.getPlayerByNick(player).getShelf()));
+        }
+        List<Shelf> shelves = orderedPlayersNicks.stream().map(p->game.getPlayerByNick(p).getShelf()).toList();
 
         serverNetworkHandler.broadcastToAll(
                 new GameStartMessage(
                         ServerNetworkHandler.HOSTNAME,
                         ResponsesDescriptions.GAME_STARTED,
                         GameObjectConverter.fromBoardToMatrix(game.getBoard()),
-                        GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
+                        GameObjectConverter.fromShelvesToMatrices(shelves),
                         personalGoals,
                         orderedPlayersNicks,
                         common,
@@ -345,12 +351,14 @@ public class GameController {
         Logger.controllerInfo("the game started");
         Logger.controllerInfo("Players order: "+ orderedPlayersNicks.toString());
 
+        List<Shelf> shelves = orderedPlayersNicks.stream().map(p->game.getPlayerByNick(p).getShelf()).toList();
+
         serverNetworkHandler.broadcastToAll(
                 new GameStartMessage(
                         ServerNetworkHandler.HOSTNAME,
                         ResponsesDescriptions.GAME_STARTED,
                         GameObjectConverter.fromBoardToMatrix(game.getBoard()),
-                        GameObjectConverter.fromShelvesToMatrices(game.getPlayersShelves()),
+                        GameObjectConverter.fromShelvesToMatrices(shelves),
                         personalGoals,
                         orderedPlayersNicks,
                         common,

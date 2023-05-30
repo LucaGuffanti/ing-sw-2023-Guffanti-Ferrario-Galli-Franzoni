@@ -272,6 +272,13 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
     }
 
     @Override
+    public void printErrorMessage(String msg) {
+        Platform.runLater(()->{
+            phaseToControllerMap.get(ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase()).setLabelErrorMessage(msg);
+        });
+    }
+
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         ClientState currentState = ClientManager.getInstance().getStateContainer().getCurrentState();
         ClientPhasesEnum phase = currentState.getCurrentPhase();

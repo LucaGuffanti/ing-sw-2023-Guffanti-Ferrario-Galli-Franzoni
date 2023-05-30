@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
@@ -45,7 +46,12 @@ public class SelectColumnMessageHandler extends Reducer implements Creator {
         if(MessageHandlersUtils.isSuccessful(selectColumnResultMessage)){
             state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_TURN);
         }else {
-            state.setServerErrorMessage(selectColumnResultMessage.getDescription());
+            String previousErrorBody = state.getServerErrorMessage();
+            if (previousErrorBody != null && previousErrorBody.equals(selectColumnResultMessage.getDescription())) {
+                ClientManager.getInstance().getUserInterface().printErrorMessage(selectColumnResultMessage.getDescription());
+            } else {
+                state.setServerErrorMessage(selectColumnResultMessage.getDescription());
+            }
         }
 
 

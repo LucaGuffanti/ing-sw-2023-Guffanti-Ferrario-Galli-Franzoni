@@ -63,8 +63,6 @@ public class Renderer {
         for (String playerName: playerNames) {
             System.out.println("SHELF FOR " + playerName);
 
-
-
             int _tileSide = tileSide;
             int _gridLayoutX = gridLayoutX;
             int _gridLayoutY = gridLayoutY;
@@ -149,7 +147,7 @@ public class Renderer {
             boolean secondCommonPoint = false;
 
             // checking if the player is the first completing the shelf
-            if (state.getUsername().equals(firstToCompleteTheShelf)) {
+            if (playerName.equals(firstToCompleteTheShelf)) {
                 completedShelf = true;
                 completedShelfPoint = new ImageView(MediaManager.endOfGamePoint);
                 completedShelfPoint.setFitHeight(endOfGameCardSide);
