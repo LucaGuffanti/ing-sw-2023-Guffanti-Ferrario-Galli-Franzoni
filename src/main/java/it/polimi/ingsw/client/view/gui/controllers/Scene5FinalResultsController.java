@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Scene5FinalResultsController implements GameSceneController, Initializable {
+    @FXML
+    private Button buttonClose;
     @FXML
     private MenuButton recipientMenu;
     @FXML
@@ -70,6 +73,12 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
     @Override
     public void setLabelErrorMessage(String message) {
         labelErrorFinalResults.setText(message);
+    }
+
+    public void close(ActionEvent actionEvent) {
+        Stage stage = (Stage) buttonClose.getScene().getWindow();
+        stage.close();
+        System.exit(0);
     }
 
     @Override
