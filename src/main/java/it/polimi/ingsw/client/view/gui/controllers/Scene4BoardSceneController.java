@@ -96,6 +96,7 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
 
     @Override
     public void drawScene(Stage stage) {
+        setLabelErrorMessage("");
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
 
         // Displaying personal goals and available points

@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.*;
 
 import java.util.ArrayList;
@@ -45,7 +46,11 @@ public class LoginMessageHandler extends Reducer implements Creator {
         }else{
             String previousErrorBody = state.getServerErrorMessage();
             if (previousErrorBody != null && previousErrorBody.equals(loginMessage.getDescription())) {
-                ClientManager.getInstance().getUserInterface().printErrorMessage(loginMessage.getDescription());
+                if (Gui.instance != null) {
+                    Gui.instance.printErrorMessage(loginMessage.getDescription());
+                } else {
+                    ClientManager.getInstance().getUserInterface().printErrorMessage(loginMessage.getDescription());
+                }
             } else {
                 state.setServerErrorMessage(loginMessage.getDescription());
             }

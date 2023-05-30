@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 
@@ -43,7 +44,11 @@ public class PickFromBoardMessageHandler extends Reducer implements Creator {
             // Se the error message
             String previousErrorBody = state.getServerErrorMessage();
             if (previousErrorBody != null && previousErrorBody.equals(resultMessage.getDescription())) {
-                ClientManager.getInstance().getUserInterface().printErrorMessage(resultMessage.getDescription());
+                if (Gui.instance != null) {
+                    Gui.instance.printErrorMessage(resultMessage.getDescription());
+                } else {
+                    ClientManager.getInstance().getUserInterface().printErrorMessage(resultMessage.getDescription());
+                }
             } else {
                 state.setServerErrorMessage(resultMessage.getDescription());
             }

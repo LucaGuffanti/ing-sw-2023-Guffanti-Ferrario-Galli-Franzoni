@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
+import it.polimi.ingsw.client.view.cli.Cli;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SelectColumnMessage;
 import it.polimi.ingsw.network.messages.SelectColumnResultMessage;
@@ -48,7 +50,11 @@ public class SelectColumnMessageHandler extends Reducer implements Creator {
         }else {
             String previousErrorBody = state.getServerErrorMessage();
             if (previousErrorBody != null && previousErrorBody.equals(selectColumnResultMessage.getDescription())) {
-                ClientManager.getInstance().getUserInterface().printErrorMessage(selectColumnResultMessage.getDescription());
+                if (Gui.instance != null) {
+                    Gui.instance.printErrorMessage(selectColumnResultMessage.getDescription());
+                } else {
+                    ClientManager.getInstance().getUserInterface().printErrorMessage(selectColumnResultMessage.getDescription());
+                }
             } else {
                 state.setServerErrorMessage(selectColumnResultMessage.getDescription());
             }

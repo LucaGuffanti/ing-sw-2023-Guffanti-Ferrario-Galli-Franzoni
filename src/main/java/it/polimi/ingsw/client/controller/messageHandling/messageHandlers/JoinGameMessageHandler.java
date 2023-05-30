@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
+import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.*;
 
 /**
@@ -41,7 +42,11 @@ public class JoinGameMessageHandler extends Reducer implements Creator {
         }else{
             String previousErrorBody = state.getServerErrorMessage();
             if (previousErrorBody != null && previousErrorBody.equals(accessResultMessage.getDescription())) {
-                ClientManager.getInstance().getUserInterface().printErrorMessage(accessResultMessage.getDescription());
+                if (Gui.instance != null) {
+                    Gui.instance.printErrorMessage(accessResultMessage.getDescription());
+                } else {
+                    ClientManager.getInstance().getUserInterface().printErrorMessage(accessResultMessage.getDescription());
+                }
             } else {
                 state.setServerErrorMessage(accessResultMessage.getDescription());
             }

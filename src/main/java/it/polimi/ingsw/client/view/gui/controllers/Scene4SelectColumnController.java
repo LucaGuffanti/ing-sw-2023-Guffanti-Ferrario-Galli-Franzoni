@@ -86,7 +86,7 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
 
     @Override
     public void drawScene(Stage stage) {
-        textError.setText("");
+        setLabelErrorMessage("");
         // Removing previous picked tiles if they are present
         selectedTiles.getChildren().removeIf(node ->
                 GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == 0
