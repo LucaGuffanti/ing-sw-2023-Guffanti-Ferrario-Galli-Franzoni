@@ -163,12 +163,12 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
                 phase.equals(ClientPhasesEnum.WAITING_FOR_TURN) ||
                 phase.equals(ClientPhasesEnum.SELECT_COLUMN) ||
-                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD)) {
+                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD) ||
+                phase.equals(ClientPhasesEnum.FINAL_RESULTS_SHOW)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(phase);
             System.out.println(controller);
             controller.drawScene(stage);
-
         }
 
         getStage().setScene(sceneToRender);
@@ -192,12 +192,12 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
                 phase.equals(ClientPhasesEnum.WAITING_FOR_TURN) ||
                 phase.equals(ClientPhasesEnum.SELECT_COLUMN) ||
-                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD)) {
+                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD) ||
+                phase.equals(ClientPhasesEnum.FINAL_RESULTS_SHOW)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(phase);
             System.out.println(controller);
             controller.drawScene(stage);
-
         }
 
         getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));

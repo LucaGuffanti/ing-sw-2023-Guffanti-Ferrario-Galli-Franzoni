@@ -351,6 +351,7 @@ public class Game {
         HashMap<String, Integer> nickToPoints = new HashMap<>();
         winnerNickName = players.get(0).getNickname();
         winnerPoints = calculateFinalPoints(players.get(0));
+        nickToPoints.put(players.get(0).getNickname(), winnerPoints);
 
         // the player who has more points wins the game. if more players
         // have the same amount of points, the player that's the furthest (moving clockwise) from the starting

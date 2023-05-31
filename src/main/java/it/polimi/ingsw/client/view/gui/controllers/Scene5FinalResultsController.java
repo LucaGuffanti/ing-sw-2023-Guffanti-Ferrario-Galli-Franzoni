@@ -9,19 +9,25 @@ import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Scene5FinalResultsController implements GameSceneController, Initializable {
+    @FXML
+    private Label winner;
+    @FXML
+    private GridPane playerList;
     @FXML
     private Button buttonClose;
     @FXML
@@ -130,6 +136,34 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
 
     @Override
     public void drawScene(Stage stage) {
+        String winnerName = ClientManager.getInstance().getStateContainer().getCurrentState().getWinnerUserName();
+        winner.setText("WINNER: " + winnerName);
+        // sorting players by their final score
+        HashMap<String, Integer> playersResults = ClientManager.getInstance().getStateContainer().getCurrentState().getNameToPointMap();
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(playersResults.entrySet());
+        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        LinkedHashMap<String, Integer> playersResultsOrdered = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : list) {
+            playersResultsOrdered.put(entry.getKey(), entry.getValue());
+        }
+        // displaying players with their score
+        int x = 0;
+        for (Map.Entry<String, Integer> entry : playersResultsOrdered.entrySet()) {
+            String player = entry.getKey();
+            Integer points = entry.getValue();
+            Label label = new Label(player + " scored: " + points);
+            Font font = Font.font("Times New Roman", 20);
+            String style = "-fx-font-style: italic; -fx-font-weight: bold;";
+            Color color = Color.web("#ffedaa");
+            String colorStyle = String.format("-fx-text-fill: #%02x%02x%02x;", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255));
+            Insets padding = new Insets(10);
+            label.setPadding(padding);
+            label.setStyle(style + colorStyle);
+            label.setFont(font);
+            playerList.add(label, 0, x);
+            x++;
+        }
+
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
         recipients.clear();
