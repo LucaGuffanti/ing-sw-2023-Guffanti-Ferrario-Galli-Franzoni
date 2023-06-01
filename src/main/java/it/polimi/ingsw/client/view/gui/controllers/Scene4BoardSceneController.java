@@ -274,6 +274,7 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
 
     @Override
     public void setLabelErrorMessage(String message) {
+        //resetSelection();
         textError.setText(message);
     }
 
@@ -305,7 +306,8 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
             for (Coordinates c : coordinates) {
                 lastPickedTiles.add(board[c.getY()][c.getX()]);
             }
-            clicked.clear();
+            resetSelection();
+            //clicked.clear();
             System.out.println(coordinates);
             ClientManager.getInstance().getNetworkHandler().sendMessage(
                     new PickFromBoardMessage(

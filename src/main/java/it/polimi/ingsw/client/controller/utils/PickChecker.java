@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.controller.utils;
 
+import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cells.Coordinates;
@@ -97,6 +98,13 @@ public class PickChecker {
 
 
     public static boolean checkAdjacencies(List<Coordinates> clicked) {
+        for (Coordinates coord : clicked) {
+            if (!PickChecker.hasFreeSides(ClientManager.getInstance().getStateContainer().getCurrentState().getBoard(),
+                    coord.getX(),
+                    coord.getY())) {
+                return false;
+            }
+        }
         if (clicked.size() == 1) {
             // this means that the chosen tile would be the first one.
             return true;
