@@ -10,8 +10,6 @@ import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.network.messages.SelectColumnMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
-import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,21 +51,9 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
     @FXML
     private GridPane gameShelf;
     @FXML
-    private ImageView cg_2_1;
+    private GridPane cg1Points;
     @FXML
-    private ImageView cg_2_2;
-    @FXML
-    private ImageView cg_2_3;
-    @FXML
-    private ImageView cg_2_4;
-    @FXML
-    private ImageView cg_1_1;
-    @FXML
-    private ImageView cg_1_2;
-    @FXML
-    private ImageView cg_1_3;
-    @FXML
-    private ImageView cg_1_4;
+    private GridPane cg2Points;
     @FXML
     private ImageView personalGoal;
     @FXML
@@ -109,7 +95,6 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
 
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
         // Displaying personal goals and available points
-        renderCards();
         // Displaying the personal goal card
         Image pgImage = MediaManager.personalGoalToImage.get(state.getPersonalGoalCardId());
         personalGoal.setImage(pgImage);
@@ -171,23 +156,12 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
 
         Renderer.renderMessages(messages, state.getUsername());
     }
-
-    public void renderCards() {
-        Renderer.renderCards(commonGoal1,
-                cg_1_1,
-                cg_1_2,
-                cg_1_3,
-                cg_1_4,
-                commonGoal2,
-                cg_2_1,
-                cg_2_2,
-                cg_2_3,
-                cg_2_4
-        );
-    }
-
     public void renderShelves() {
-        Renderer.renderShelves(shelvesBox);
+        Renderer.renderShelvesAndCards(shelvesBox,
+                cg1Points,
+                cg2Points,
+                commonGoal1,
+                commonGoal2);
     }
 
     public void submitSelection(ActionEvent actionEvent) {

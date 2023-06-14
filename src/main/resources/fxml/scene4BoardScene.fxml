@@ -41,12 +41,6 @@
                             <rowConstraints>
                                 <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
                             </rowConstraints>
-                            <children>
-                                <ImageView fx:id="cg_1_1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="cg_1_2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                                <ImageView fx:id="cg_1_3" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                                <ImageView fx:id="cg_1_4" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                            </children>
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
@@ -68,7 +62,7 @@
                                     </HBox.margin></ImageView>
                             </children>
                         </HBox>
-                        <GridPane alignment="CENTER" hgap="2.0" vgap="2.0">
+                        <GridPane fx:id="cg2Points" alignment="CENTER" hgap="2.0" vgap="2.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="100.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="100.0" />
@@ -81,12 +75,6 @@
                             <padding>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
-                            <children>
-                                <ImageView fx:id="cg_2_1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="cg_2_2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                                <ImageView fx:id="cg_2_3" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                                <ImageView fx:id="cg_2_4" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                            </children>
                         </GridPane>
                     </children>
                     <VBox.margin>

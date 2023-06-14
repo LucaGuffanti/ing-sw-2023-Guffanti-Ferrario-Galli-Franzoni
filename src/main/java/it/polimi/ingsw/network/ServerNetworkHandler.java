@@ -225,6 +225,18 @@ public class ServerNetworkHandler {
         synchronized (controllerLock) {
             if (controller != null) {
                 controller.onPlayerDisconnection();
+                // if there is no other player online, terminate
+                boolean shouldStop = true;
+                for (String p : temp.keySet()) {
+                    if (temp.get(p).isConnected()) {
+                        shouldStop = false;
+                        break;
+                    }
+                }
+
+                if (shouldStop) {
+                    System.exit(0);
+                }
             } else {
                 // this means that the game hasn't been created yet
                 for (String player : temp.keySet()) {

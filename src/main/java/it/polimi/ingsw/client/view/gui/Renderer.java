@@ -2,31 +2,38 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
-import it.polimi.ingsw.server.model.cells.Coordinates;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.css.PseudoClass;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
+import javax.print.attribute.standard.Media;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Renderer {
 
-    public static void renderShelves(VBox shelvesBox) {
+    public static Map<Integer, List<PointEnumeration>> nPlayersToPoints =
+            Map.of(
+                    2, List.of(PointEnumeration.FOUR_POINTS, PointEnumeration.EIGHT_POINTS),
+                    3, List.of(PointEnumeration.FOUR_POINTS, PointEnumeration.SIX_POINTS, PointEnumeration.EIGHT_POINTS),
+                    4, List.of(PointEnumeration.TWO_POINTS, PointEnumeration.FOUR_POINTS, PointEnumeration.SIX_POINTS, PointEnumeration.EIGHT_POINTS)
+            );
+
+    public static void renderShelvesAndCards(VBox shelvesBox,
+                                             GridPane cg1Points,
+                                             GridPane cg2Points,
+                                             ImageView cg1View,
+                                             ImageView cg2View) {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
         List<String> playerNames = state.getOrderedPlayersNames();
         String firstToCompleteTheShelf = state.getFirstToCompleteShelf();
@@ -198,19 +205,16 @@ public class Renderer {
             playerIndex ++;
         }
 
+
+
+        renderCards(cg1Points, cg2Points, cg1View, cg2View);
     }
 
     public static void renderCards(
+            GridPane cg1Points,
+            GridPane cg2Points,
             ImageView commonGoal1,
-            ImageView cg_1_1,
-            ImageView cg_1_2,
-            ImageView cg_1_3,
-            ImageView cg_1_4,
-            ImageView commonGoal2,
-            ImageView cg_2_1,
-            ImageView cg_2_2,
-            ImageView cg_2_3,
-            ImageView cg_2_4
+            ImageView commonGoal2
     ) {
 
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
@@ -218,37 +222,67 @@ public class Renderer {
         SimplifiedCommonGoalCard cg1 = ClientManager.getInstance().getStateContainer().getCurrentState().getCommonGoalCards().get(0);
         SimplifiedCommonGoalCard cg2 = ClientManager.getInstance().getStateContainer().getCurrentState().getCommonGoalCards().get(1);
 
+        // clearing the view
+        cg1Points.getChildren().clear();
+        cg2Points.getChildren().clear();
+
+        System.out.println(cg1.getNickToEarnedPoints().toString());
+        System.out.println(cg2.getNickToEarnedPoints().toString());
+
+        // calculating the number of points made with every card
+        int cg1MadePoints = 0;
+        for (String player : cg1.getNickToEarnedPoints().keySet()) {
+            if (cg1.getNickToEarnedPoints().get(player) != null) {
+                cg1MadePoints++;
+            }
+        }
+        System.out.println("cg1 made:" + cg1MadePoints);
+        int cg2MadePoints = 0;
+        for (String player : cg2.getNickToEarnedPoints().keySet()) {
+            if (cg2.getNickToEarnedPoints().get(player) != null) {
+                cg2MadePoints++;
+            }
+        }
+        System.out.println("cg2 made:" + cg2MadePoints);
+
+        int nPlayers = cg1.getNickToEarnedPoints().size();
+
+        int cg1RemainingPoints = nPlayers - cg1MadePoints;
+        int cg2RemainingPoints = nPlayers - cg2MadePoints;
+
+        System.out.println("cg1:" + cg1RemainingPoints);
+        System.out.println("cg2:" + cg2RemainingPoints);
+
+        List<PointEnumeration> cg1AssignablePoints = nPlayersToPoints.get(nPlayers);
+        List<PointEnumeration> cg2AssignablePoints = nPlayersToPoints.get(nPlayers);
+
+        for (int i = 0; i < cg1RemainingPoints; i++) {
+            Pane p = new Pane();
+            ImageView imageView = new ImageView(MediaManager.pointToImage.get(cg1AssignablePoints.get(i)));
+            imageView.setFitWidth(60);
+            imageView.setFitHeight(60);
+            p.getChildren().add(imageView);
+            cg1Points.add(p, i, 0);
+        }
+
+
+        for (int i = 0; i < cg2RemainingPoints; i++) {
+            Pane p = new Pane();
+            ImageView imageView = new ImageView(MediaManager.pointToImage.get(cg2AssignablePoints.get(i)));
+            imageView.setFitWidth(60);
+            imageView.setFitHeight(60);
+            p.getChildren().add(imageView);
+            cg2Points.add(p, i, 0);
+        }
+
+        // displaying the image of the common goals
+
         Image cg1Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg1.getId()));
         commonGoal1.setImage(cg1Image);
-
-        if(cg1.getPointCards().size()>=1) {
-            cg_1_1.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(0).getType()));
-        }
-        if(cg1.getPointCards().size()>=2) {
-            cg_1_2.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(1).getType()));
-        }
-        if(cg1.getPointCards().size()>=3) {
-            cg_1_3.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(2).getType()));
-        }
-        if(cg1.getPointCards().size()==4) {
-            cg_1_4.setImage(MediaManager.pointToImage.get(cg1.getPointCards().get(3).getType()));
-        }
 
         Image cg2Image = MediaManager.commonGoalToImage.get(MediaManager.jsonCommonGoalIdToResourceId.get(cg2.getId()));
         commonGoal2.setImage(cg2Image);
 
-        if(cg2.getPointCards().size()>=1) {
-            cg_2_1.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(0).getType()));
-        }
-        if(cg2.getPointCards().size()>=2) {
-            cg_2_2.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(1).getType()));
-        }
-        if(cg2.getPointCards().size()>=3) {
-            cg_2_3.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(2).getType()));
-        }
-        if(cg2.getPointCards().size()==4) {
-            cg_2_4.setImage(MediaManager.pointToImage.get(cg2.getPointCards().get(3).getType()));
-        }
     }
 
     public static String printChatMessage(ChatMessage c, String ownUsername) {
@@ -297,6 +331,8 @@ public class Renderer {
         synchronized (chat) {
             messageList = new ArrayList<>(chat);
         }
+
+        messages.getItems().clear();
 
         for(ChatMessage msg : messageList) {
             Label messageText = new Label(Renderer.printChatMessage(msg, username));

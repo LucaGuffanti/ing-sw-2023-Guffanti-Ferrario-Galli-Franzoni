@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.cards.PointCard;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * A simplified version of a common Goal card, consisting only in id and list of point cards
@@ -40,5 +41,25 @@ public class SimplifiedCommonGoalCard implements Serializable {
                 ", pointCards=" + pointCards +
                 ", nickToEarnedPoints=" + nickToEarnedPoints.toString() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SimplifiedCommonGoalCard that = (SimplifiedCommonGoalCard) o;
+
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(pointCards, that.pointCards)) return false;
+        return Objects.equals(nickToEarnedPoints, that.nickToEarnedPoints);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (pointCards != null ? pointCards.hashCode() : 0);
+        result = 31 * result + (nickToEarnedPoints != null ? nickToEarnedPoints.hashCode() : 0);
+        return result;
     }
 }

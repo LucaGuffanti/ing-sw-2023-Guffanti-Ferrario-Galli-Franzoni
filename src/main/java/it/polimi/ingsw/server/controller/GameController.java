@@ -513,12 +513,14 @@ public class GameController {
      *
      */
     public synchronized void onPlayerDisconnection() {
-        serverNetworkHandler.broadcastToAll(
-                new AbortedGameMessage(
-                        ServerNetworkHandler.HOSTNAME
-                )
-        );
-        System.exit(1);
+        if (!gameStatus.equals(GameStatusEnum.ENDED)) {
+            serverNetworkHandler.broadcastToAll(
+                    new AbortedGameMessage(
+                            ServerNetworkHandler.HOSTNAME
+                    )
+            );
+            System.exit(1);
+        }
     }
 
     /**

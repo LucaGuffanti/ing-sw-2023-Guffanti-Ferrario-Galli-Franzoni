@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.gui.MediaManager;
 import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -50,21 +49,9 @@ public class Scene4WaitingController implements GameSceneController, Initializab
     @FXML
     private GridPane gameBoard;
     @FXML
-    private ImageView cg_2_1;
+    private GridPane cg1Points;
     @FXML
-    private ImageView cg_2_2;
-    @FXML
-    private ImageView cg_2_3;
-    @FXML
-    private ImageView cg_2_4;
-    @FXML
-    private ImageView cg_1_1;
-    @FXML
-    private ImageView cg_1_2;
-    @FXML
-    private ImageView cg_1_3;
-    @FXML
-    private ImageView cg_1_4;
+    private GridPane cg2Points;
     @FXML
     private ImageView personalGoal;
     @FXML
@@ -91,7 +78,6 @@ public class Scene4WaitingController implements GameSceneController, Initializab
         phaseDescription.setText("It's "+ state.getActivePlayer()+"'s turn");
         usernameLabel.setText("Hi, "+state.getUsername());
 
-        renderCards();
         // Displaying the board
         renderBoard();
 
@@ -130,23 +116,12 @@ public class Scene4WaitingController implements GameSceneController, Initializab
     }
 
     public void renderShelves() {
-        Renderer.renderShelves(shelvesBox);
+        Renderer.renderShelvesAndCards(shelvesBox,
+                cg1Points,
+                cg2Points,
+                commonGoal1,
+                commonGoal2);
     }
-
-    public void renderCards() {
-        Renderer.renderCards(commonGoal1,
-                cg_1_1,
-                cg_1_2,
-                cg_1_3,
-                cg_1_4,
-                commonGoal2,
-                cg_2_1,
-                cg_2_2,
-                cg_2_3,
-                cg_2_4
-        );
-    }
-
     public void renderBoard() {
         // destroying the previously built board
         gameBoard.getChildren().clear();

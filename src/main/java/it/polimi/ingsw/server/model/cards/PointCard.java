@@ -27,6 +27,21 @@ public class PointCard implements Serializable {
         this.pointsGiven = pointsGiven;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        PointCard pointCard = (PointCard) o;
 
+        if (pointsGiven != pointCard.pointsGiven) return false;
+        return type == pointCard.type;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + pointsGiven;
+        return result;
+    }
 }
