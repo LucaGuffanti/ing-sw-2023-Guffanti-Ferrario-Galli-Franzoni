@@ -54,13 +54,13 @@ public class Renderer {
         float zoom = 1.5f;
 
         int shelfSide = 150;
-        int tileSide = 18;
+        int tileSide = 19;
         int endOfGameCardSide = 30;
         int commonFirstPointCardSize = 30;
         int commonSecondPointCardSize = 30;
 
-        int hm = 6;
-        int vm = 3;
+        int hm = 5;
+        int vm = 2;
         int gridLayoutX = 88;
         int gridLayoutY = 5;
 
@@ -70,53 +70,89 @@ public class Renderer {
         for (String playerName: playerNames) {
             System.out.println("SHELF FOR " + playerName);
 
-            int _tileSide = tileSide;
-            int _gridLayoutX = gridLayoutX;
-            int _gridLayoutY = gridLayoutY;
-            int _hm = hm;
-            int _vm = vm;
+            int _tileSide;
+            int _gridLayoutX;
+            int _gridLayoutY;
+            int _hm;
+            int _vm;
 
+            GridPane shelfGrid = new GridPane();
             if(playerName.equals(state.getUsername())){
                 _tileSide = Math.round(tileSide*zoom);
                 _gridLayoutX = Math.round(gridLayoutX/zoom);
                 _gridLayoutY = Math.round(gridLayoutY*zoom);
-                _hm = Math.round(hm*zoom);
-                _vm = Math.round(vm*zoom);
-            }
+                _hm = Math.round((hm*zoom)+1);
+                _vm = Math.round((vm*zoom)+1);
 
-            // building the GRIDPANE with IMAGEVIEWS
-            GridPane shelfGrid = new GridPane();
-            shelfGrid.setHgap(_hm);
-            shelfGrid.setVgap(_vm);
-            shelfGrid.setLayoutX(_gridLayoutX);
-            shelfGrid.setLayoutY(_gridLayoutY);
+                // building the GRIDPANE with IMAGEVIEWS
+                shelfGrid.setHgap(_hm);
+                shelfGrid.setVgap(_vm);
+                shelfGrid.setLayoutX(_gridLayoutX);
+                shelfGrid.setLayoutY(_gridLayoutY);
 
-            ObjectTypeEnum[][] shelf = state.getShelves().get(playerIndex);
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    ImageView imageView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
-
-                    // the shelf is badly drawn
-
-                    // j: Columns
-                    if (j == 2) {
+                ObjectTypeEnum[][] shelf = state.getShelves().get(playerIndex);
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        ImageView imageView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
                         imageView.setFitWidth(_tileSide);
-                    } else {
-                        imageView.setFitWidth(_tileSide + Math.round(2*zoom));
-                    }
-
-                    // i: Rows
-                    if (i == 1 || i == 3) {
                         imageView.setFitHeight(_tileSide);
-                    } else if (i == 4) {
-                        imageView.setFitHeight(_tileSide + Math.round(1*zoom));
-                    } else {
-                        imageView.setFitHeight(_tileSide + Math.round(2*zoom));
+                        if (i == 4) {
+                            imageView.setFitHeight(_tileSide-1);
+                        }
+                        shelfGrid.add(imageView, j, i);
                     }
-
-
-                    shelfGrid.add(imageView, j, i);
                 }
+            } else {
+                _tileSide = tileSide;
+                _gridLayoutX = gridLayoutX;
+                _gridLayoutY = gridLayoutY;
+                _hm = hm;
+                _vm = vm;
+
+                // building the GRIDPANE with IMAGEVIEWS
+                shelfGrid.setHgap(_hm+1);
+                shelfGrid.setVgap(_vm);
+                shelfGrid.setLayoutX(_gridLayoutX);
+                shelfGrid.setLayoutY(_gridLayoutY);
+
+                ObjectTypeEnum[][] shelf = state.getShelves().get(playerIndex);
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        ImageView imageView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
+                        imageView.setFitWidth(_tileSide+1);
+                        imageView.setFitHeight(_tileSide+1);
+                        if (j == 2 || j == 3) {
+                            Pane paneContainingImage = new Pane(imageView);
+                            imageView.setLayoutX(-1);
+
+                            paneContainingImage.setMaxWidth(_tileSide + 1);
+                            paneContainingImage.setMinWidth(_tileSide + 1);
+                            paneContainingImage.setPrefWidth(_tileSide + 1);
+
+                            paneContainingImage.setMaxHeight(_tileSide + 1);
+                            paneContainingImage.setMinHeight(_tileSide + 1);
+                            paneContainingImage.setPrefHeight(_tileSide + 1);
+
+                            shelfGrid.add(paneContainingImage, j, i);
+                        } else if (j == 4) {
+                            Pane paneContainingImage = new Pane(imageView);
+                            imageView.setLayoutX(-2);
+
+                            paneContainingImage.setMaxWidth(_tileSide + 1);
+                            paneContainingImage.setMinWidth(_tileSide + 1);
+                            paneContainingImage.setPrefWidth(_tileSide + 1);
+
+                            paneContainingImage.setMaxHeight(_tileSide + 1);
+                            paneContainingImage.setMinHeight(_tileSide + 1);
+                            paneContainingImage.setPrefHeight(_tileSide + 1);
+
+                            shelfGrid.add(paneContainingImage, j, i);
+                        } else {
+                            shelfGrid.add(imageView, j, i);
+                        }
+                    }
+                }
+
             }
 
             // building the pane containing the grid and setting its class to show the shelf as a background

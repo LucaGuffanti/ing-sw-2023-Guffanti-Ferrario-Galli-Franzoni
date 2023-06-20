@@ -17,7 +17,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -113,6 +115,24 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
                     // Dynamically generate an ImageView
 
                     ImageView imgView = new ImageView(MediaManager.tileToImage.get(shelf[i][j]));
+                    imgView.setFitHeight(49);
+                    imgView.setFitWidth(49);
+                    if (i == 0) {
+                        imgView.setFitHeight(51);
+                    } else if (i == 1) {
+                        imgView.setFitHeight(51);
+                    } else if (i == 2) {
+                        imgView.setFitHeight(50);
+                    }
+                    if (j == 0) {
+                        imgView.setFitWidth(50);
+                    } else if (j == 1) {
+                        imgView.setFitWidth(50);
+                    } else if (j == 3) {
+                        imgView.setFitWidth(50);
+                    } else if (j == 4) {
+                        imgView.setFitWidth(52);
+                    }
                     shelfCells.add(imgView);
 
                     gameShelf.add(imgView ,j, i);
