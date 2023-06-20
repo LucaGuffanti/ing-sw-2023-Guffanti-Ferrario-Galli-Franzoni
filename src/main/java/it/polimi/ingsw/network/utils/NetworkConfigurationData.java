@@ -44,21 +44,33 @@ public class NetworkConfigurationData {
                 System.out.println("> SOCKER PORT   : "+ d.getServerPort());
                 System.out.println("> REGISTRY NAME : "+ d.getServerRMIRegistry());
                 System.out.println("> RMI PORT      : "+ d.getRmiPort());
-                System.out.println("\n\nWould you like to use this configuration?");
+                System.out.println("\nWould you like to use this configuration?");
                 System.out.println("[1] Yes");
                 System.out.println("[2] No");
-                System.out.print("Choice: ");
+                int choice = 0;
+                String choiceString;
                 Scanner sc = new Scanner(System.in);
-                int choice = sc.nextInt();
-                if (choice != 1) {
-                    return requestNetworkData(path);
-                } else {
+                do {
+                    System.out.print("Your Choice: ");
+                    choiceString = sc.nextLine().trim();
+                    try {
+                        choice = Integer.parseInt(choiceString);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Oops, you inserted a string!");
+                    }
+                    if (!(choice == 1 || choice == 2)) {
+                        System.out.println("Please, type [1] Yes or [2] No");
+                    }
+                } while(!(choice == 1 || choice == 2));
+                if (choice == 1) {
                     return d;
+                } else {
+                    return requestNetworkData(path);
                 }
 
             }
         } catch (Exception e) {
-            System.out.println("It seems like you don't have a network configuration file. Let me prepare it" +
+            System.out.println("It seems like you don't have a network configuration file. Let me prepare it " +
                     "for you");
             return requestNetworkData(path);
         }
@@ -66,24 +78,41 @@ public class NetworkConfigurationData {
     }
 
     private NetworkConfigurationData requestNetworkData(String path) {
-
         Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Please choose the ip of the server               : ");
+        boolean flag;
+        System.out.print("Please choose the ip of the server (192.168.xxx.xxx)         : ");
         serverIP = scanner.nextLine().trim();
-        System.out.print("Please choose the name of the rmi registry       : ");
+        do {
+            System.out.print("Please choose the port of the socket connection (5000)       : ");
+            flag = false;
+            String serverPortString = scanner.nextLine().trim();
+            try {
+                serverPort = Integer.parseInt(serverPortString);
+            } catch (NumberFormatException e) {
+                System.out.println("Oops, you inserted a string!");
+                flag = true;
+            }
+        } while (flag);
+        System.out.print("Please choose the name of the rmi registry (MyShelfieServer) : ");
         serverRMIRegistry = scanner.nextLine();
-        System.out.print("Please choose the port of the socket connection  : ");
-        serverPort = scanner.nextInt();
-        System.out.print("Please choose the port of the rmi registry       : ");
-        rmiPort = scanner.nextInt();
+        do {
+            System.out.print("Please choose the port of the rmi registry (1099)            : ");
+            flag = false;
+            String rmiPortString = scanner.nextLine().trim();
+            try {
+                rmiPort = Integer.parseInt(rmiPortString);
+            } catch (NumberFormatException e) {
+                System.out.println("Oops, you inserted a string!");
+                flag = true;
+            }
+        } while (flag);
 
-        System.out.println("==========RECAP==========");
+        System.out.println("==============RECAP==============");
         System.out.println("> SERVER IP     : "+ serverIP);
         System.out.println("> SOCKER PORT   : "+ serverPort);
         System.out.println("> REGISTRY NAME : "+ serverRMIRegistry);
         System.out.println("> RMI PORT      : "+ rmiPort);
-        System.out.println("=========================");
+        System.out.println("=================================");
 
 
         File f = new File(path);
