@@ -60,6 +60,11 @@ public class GameController {
      * Whether a player has completed its board in his turn
      */
     private boolean completedShelf;
+
+    /**
+     * The index of the first player who has completed his shelf.
+     */
+    private int firstPlayerIndexToCompleteShelf;
     /**
      * The coordinates chosen by a player during the turn
      */
@@ -284,7 +289,6 @@ public class GameController {
         Logger.controllerInfo(orderedPlayersNicks.get((activePlayerIndex+1)%game.getGameInfo().getNPlayers())+" will start playing");
         game.loadGame(saveFileData);
 
-        gameStatus = GameStatusEnum.STARTED;
         Logger.controllerInfo("GAME IS READY");
 
 
@@ -301,6 +305,13 @@ public class GameController {
             Printer.printShelf(GameObjectConverter.fromShelfToMatrix(game.getPlayerByNick(player).getShelf()));
         }
         List<Shelf> shelves = orderedPlayersNicks.stream().map(p->game.getPlayerByNick(p).getShelf()).toList();
+
+        if(game.getGameInfo().getFirstToCompleteTheShelf() != null){
+            gameStatus = GameStatusEnum.FINAL_TURNS;
+            firstPlayerIndexToCompleteShelf = orderedPlayersNicks.indexOf(game.getGameInfo().getFirstToCompleteTheShelf());
+        }else{
+            gameStatus = GameStatusEnum.STARTED;
+        }
 
         serverNetworkHandler.broadcastToAll(
                 new GameStartMessage(
@@ -473,16 +484,22 @@ public class GameController {
                 )
         );
 
-        // after game points have been assigned the information is reset
-        firstCommonGoalCompletedByActivePlayer = false;
-        secondCommonGoalCompletedByActivePlayer = false;
-        completedShelf = false;
 
-        // at last the game may end, or a new turn starts
-        if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && activePlayerIndex == orderedPlayersNicks.size()-1) {
-            gameStatus = GameStatusEnum.ENDED;
-            endGame();
+
+        // Check if on final turns
+        if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && (activePlayerIndex+1)%orderedPlayersNicks.size() == firstPlayerIndexToCompleteShelf) {
+
+            // Being "player X" the player who has completed the shelf before everyone else,
+            // continue the game until the player at the right of the player X has completed his turn, or if the player X is the first player.
+            if((activePlayerIndex+1)%orderedPlayersNicks.size() == firstPlayerIndexToCompleteShelf || (activePlayerIndex+1)%orderedPlayersNicks.size() == 0){
+                gameStatus = GameStatusEnum.ENDED;
+                endGame();
+            }
         } else {
+            // after game points have been assigned the information is reset
+            firstCommonGoalCompletedByActivePlayer = false;
+            secondCommonGoalCompletedByActivePlayer = false;
+            completedShelf = false;
             beginTurn();
         }
     }
