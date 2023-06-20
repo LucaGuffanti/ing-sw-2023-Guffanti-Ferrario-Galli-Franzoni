@@ -30,7 +30,7 @@
       "maxDifferentTypes": 1
     },
     "shouldRotate": true,
-    "admitsAdjacency": false,
+    "admitsAdjacency": true,
     "minNumberOfOccurrences": 1,
     "patternsShareSameColor": false
 
@@ -48,7 +48,7 @@
       "maxDifferentTypes": 1
     },
     "shouldRotate": false,
-    "admitsAdjacency": false,
+    "admitsAdjacency": true,
     "minNumberOfOccurrences": 1,
     "patternsShareSameColor": false
 
@@ -71,8 +71,7 @@
     "patternsShareSameColor": false
 
 
-  }
-,
+  },
   {
     "id": 5,
     
@@ -166,7 +165,7 @@
       "maxDifferentTypes": 1
     },
     "shouldRotate": false,
-    "admitsAdjacency": false,
+    "admitsAdjacency": true,
     "minNumberOfOccurrences": 1,
     "patternsShareSameColor": false
 

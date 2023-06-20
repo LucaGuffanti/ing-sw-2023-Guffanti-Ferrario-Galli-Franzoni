@@ -41,7 +41,7 @@ public class PickFromBoardMessageHandler extends Reducer implements Creator {
         if(MessageHandlersUtils.isSuccessful(resultMessage)){
             state.setCurrentPhase(ClientPhasesEnum.SELECT_COLUMN);
         }else {
-            // Se the error message
+            // See the error message
             String previousErrorBody = state.getServerErrorMessage();
             if (previousErrorBody != null && previousErrorBody.equals(resultMessage.getDescription())) {
                 if (Gui.instance != null) {

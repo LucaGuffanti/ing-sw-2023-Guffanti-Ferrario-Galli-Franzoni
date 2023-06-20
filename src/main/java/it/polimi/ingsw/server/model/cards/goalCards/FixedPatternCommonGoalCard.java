@@ -119,9 +119,6 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
             return 0;
         }
 
-        // If there are no more pointsCards, don't compute the pattern matching algorithm
-        // @TODO: Maybe rise an exception
-
         // Start pattern matching algorithm
         int patternsFound = checkPattern(player);
 
@@ -156,10 +153,11 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         // Counter of every pattern we find
         int totalSubPatternsFound = 0;
 
-        // Counter for every pattern we find indexed by their type.
-        HashMap<ObjectTypeEnum, Integer> numSubPatternsByType = new HashMap<>();
+        // Counter for every pattern with we find indexed by their only type.
+        // ex [ {Cat, 2}, {Plant, 1}, ... ] => 2 patterns with Cat tiles only and 1 pattern of Plant tiles only
+        HashMap<ObjectTypeEnum, Integer> numSubPatternsByCommonType = new HashMap<>();
         for (ObjectTypeEnum objectType: ObjectTypeEnum.values()) {
-            numSubPatternsByType.put(objectType, 0);
+            numSubPatternsByCommonType.put(objectType, 0);
         }
 
 
@@ -183,9 +181,10 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
                         totalSubPatternsFound += 1;
 
                         // If the pattern we found contains only one type, we count it in the hashMap.
+                        // Used for cards where groups of tiles with the same type are required.
                         if (result.getCommonType().isPresent()) {
                             ObjectTypeEnum key = result.getCommonType().get();
-                            numSubPatternsByType.put(key, numSubPatternsByType.get(key) + 1);
+                            numSubPatternsByCommonType.put(key, numSubPatternsByCommonType.get(key) + 1);
                         }
 
                     }
@@ -203,7 +202,7 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
         // If the patterns should share the same color, pick the number of occurrences
         // relative to the most frequent color/type
         if(patternsShareSameColor){
-            maxValidPatternsFound= Collections.max(numSubPatternsByType.values());
+            maxValidPatternsFound= Collections.max(numSubPatternsByCommonType.values());
         }else{
             // Else, pick every pattern found
             maxValidPatternsFound = totalSubPatternsFound;
@@ -218,15 +217,23 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
      *
      * @param pattern               The pattern to match
      * @param shelf                 The player's shelf.
-     * @param oldFoundCellsMatrix   A matrix representing the cells which has been found being part of a pattern in previous iteration.
+     * @param oldFoundCellsMatrix   A matrix representing the cells which has been found being part of a pattern in a previous iteration.
      * @param shelfX                X coordinate of the shelf portion
      * @param shelfY                Y coordinate of the shelf portion
-     * @return An object containing a "pattern found" flag and an optional ObjectType which every ShelfCell in the pattern share.
+     * @return An object containing a "pattern found" flag and the optional ObjectType which every ShelfCell in the pattern share.
      */
     private CheckShelfPortionResult checkShelfPortion(Pattern pattern, Shelf shelf, boolean[][] oldFoundCellsMatrix, int shelfX, int shelfY){
 
+        // There can be a common type between the found tiles
         Optional<ObjectTypeEnum> commonColor = Optional.empty();
+
+        // This is the matrix that contains the cells we found compatible with the pattern in this and the previous algorithm iteration.
         boolean[][] foundCellsMatrix = MatrixUtils.clone(oldFoundCellsMatrix);
+
+        // This is the matrix that contains flags for the position of pattern cells and its adjacent ones.
+        // It's used to check weather or not there is at least one adjacent cell containing a tile
+        // with the same common type as the one of the pattern.
+        boolean[][] adjacentPatternCellsMatrix = new boolean[SHELF_HEIGHT][SHELF_LENGTH];
 
         int sHeight = pattern.getHeight();
         int sLength = pattern.getLength();
@@ -257,37 +264,71 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
             ObjectCard oc = sc.getCellCard().get();
             diffColors.add(oc.getType());
 
-            //Marking the shelf cell (and its adjacent if necessary)
+            //Marking the shelf cell
             foundCellsMatrix[absY][absX] = true;
+
             if(!admitsAdjacency) {
                 if (absX + 1 < SHELF_LENGTH)
-                    foundCellsMatrix[absY][absX + 1] = true;
+                    adjacentPatternCellsMatrix[absY][absX + 1] = true;
                 if (absY + 1 < SHELF_HEIGHT)
-                    foundCellsMatrix[absY + 1][absX] = true;
+                    adjacentPatternCellsMatrix[absY + 1][absX] = true;
                 if (absX - 1 >= 0)
-                    foundCellsMatrix[absY][absX - 1] = true;
+                    adjacentPatternCellsMatrix[absY][absX - 1] = true;
                 if (absY - 1 >= 0)
-                    foundCellsMatrix[absY - 1][absX] = true;
+                    adjacentPatternCellsMatrix[absY - 1][absX] = true;
             }
-            /*
-            System.out.println("x: "+absY+", y: "+ absY);
-            MatrixUtils.printMatrix(foundCellsMatrix);
-            */
         }
 
 
         // If the subpattern cells contains more different colors than requested
         if(diffColors.size() > pattern.getMaxDifferentTypes() || diffColors.size() < pattern.getMinDifferentTypes())
             return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
-            // If the pattern share only one color
+
+        // If the pattern share only one color
         else if(diffColors.size() == 1){
             commonColor = Optional.of(shelf.getCell(shelfX, shelfY).getCellCard().get().getType());
+
+            // If the patterns should be separated, no cells adjacent to pattern has to contain a tile with the same color.
+            // This implies that if there are more cells with the same tile type in the adjacentMatrix than the ones covered
+            // with the pattern, then the criteria is not met.
+            if(!admitsAdjacency){
+
+                int sameTypeTilesCount = 0;
+                int max = pattern.getCoveredCells().size(); //
+                for(int j = 0; j<SHELF_HEIGHT; j++){
+                    for(int i=0; i<SHELF_LENGTH; i++){
+                        if(adjacentPatternCellsMatrix[j][i]){
+
+                            Optional<ObjectCard> cardOpt = shelf.getCell(i, j).getCellCard();
+                            ObjectCard card;
+
+
+                            if(cardOpt.isPresent()){
+                                card = cardOpt.get();
+                                if(card.getType().equals(commonColor.get())){
+                                    sameTypeTilesCount +=1;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                // This means that in a neighborhood of the pattern cells, there is at least one
+                // cell with a tile of the same type.
+                if(sameTypeTilesCount != max)
+                    return new CheckShelfPortionResult(false, commonColor, oldFoundCellsMatrix);
+
+            }
+
         }
 
         // If each criterion is met, also return the updated matrix with the new cells found
         return new CheckShelfPortionResult(true, commonColor, foundCellsMatrix);
 
     }
+
+
 
     /**
      * Performs a 90° counter-clockwise rotation of the cells of the subpattern, adjusting some parameters (length, height).
