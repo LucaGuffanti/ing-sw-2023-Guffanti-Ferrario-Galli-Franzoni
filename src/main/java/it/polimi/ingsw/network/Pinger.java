@@ -35,7 +35,6 @@ public class Pinger extends Thread {
             nickToConnection = retrieveNicksAndConnections();
             if (nickToConnection.size() != 0) {
                 for (String nick : nickToConnection.keySet()) {
-                    //TODO test if this works, restricting to rmi the pinging as it's async.
                     if (nickToConnection.get(nick).isConnected() && nickToConnection.get(nick) instanceof RMIClientConnection) {
                         synchronized (nickToConnection.get(nick)) {
                             Logger.pingerInfo("Pinging "+nick);

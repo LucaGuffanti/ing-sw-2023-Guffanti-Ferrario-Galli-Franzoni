@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.constants.UIModesEnum;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
-import it.polimi.ingsw.network.utils.ClientNetworkConfigurationData;
+import it.polimi.ingsw.network.utils.NetworkConfigurationData;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
@@ -20,9 +20,9 @@ public class GuiTests {
     @Test
     public void scene4_test() throws RemoteException {
         // Network
-        ClientNetworkConfigurationData clientNetworkConfigurationData = new ClientNetworkConfigurationData().get();
-        String serverIp = clientNetworkConfigurationData.getServerIP();
-        int serverPort = clientNetworkConfigurationData.getServerPort();
+        NetworkConfigurationData networkConfigurationData = new NetworkConfigurationData().get();
+        String serverIp = networkConfigurationData.getServerIP();
+        int serverPort = networkConfigurationData.getServerPort();
 
         // State
         StateContainer sc = new StateContainer(createPickFromBoardState());

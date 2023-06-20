@@ -2,11 +2,9 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.constants.UIModesEnum;
-import it.polimi.ingsw.client.view.gui.Gui;
-import it.polimi.ingsw.network.utils.ClientNetworkConfigurationData;
+import it.polimi.ingsw.network.utils.NetworkConfigurationData;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.Scanner;
 
 /**
@@ -20,7 +18,7 @@ public class ClientMain {
     public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
-        ClientNetworkConfigurationData clientNetworkConfigurationData = new ClientNetworkConfigurationData().get();
+        NetworkConfigurationData networkConfigurationData = new NetworkConfigurationData().get();
         String choiceString;
         int choice = 0;
         UIModesEnum chosenUI;
@@ -62,9 +60,9 @@ public class ClientMain {
         ClientManager clientManager;
 
         if (choice == 1) {
-            clientManager = new ClientManager(chosenUI, clientNetworkConfigurationData.getServerIP(), clientNetworkConfigurationData.getServerPort());
+            clientManager = new ClientManager(chosenUI, networkConfigurationData.getServerIP(), networkConfigurationData.getServerPort());
         } else {
-            clientManager = new ClientManager(chosenUI, clientNetworkConfigurationData.getServerIP(), clientNetworkConfigurationData.getServerRMIRegistry(), clientNetworkConfigurationData.getRMIPort());
+            clientManager = new ClientManager(chosenUI, networkConfigurationData.getServerIP(), networkConfigurationData.getServerRMIRegistry(), networkConfigurationData.getRmiPort());
         }
 
         clientManager.runUI();

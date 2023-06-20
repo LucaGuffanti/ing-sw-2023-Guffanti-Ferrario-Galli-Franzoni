@@ -1,18 +1,12 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.client.controller.ClientManager;
-import it.polimi.ingsw.client.controller.messageHandling.Reducer;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.MessagesHandler;
-import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.MessageType;
-import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.socket.SocketClient;
-import it.polimi.ingsw.network.utils.ClientNetworkConfigurationData;
-import it.polimi.ingsw.network.utils.ConnectionTypeEnum;
 import it.polimi.ingsw.network.utils.Logger;
 
 import java.io.Serializable;

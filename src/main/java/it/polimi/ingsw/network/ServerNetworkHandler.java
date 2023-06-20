@@ -10,6 +10,8 @@ import it.polimi.ingsw.network.utils.ResponsesDescriptions;
 import it.polimi.ingsw.network.utils.ServerConfigurationData;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameStatusEnum;
+import it.polimi.ingsw.server.controller.save.SaveFileData;
+import it.polimi.ingsw.server.controller.save.SaveFileManager;
 import jdk.jfr.Label;
 
 import java.io.IOException;
@@ -28,22 +30,65 @@ import java.util.List;
  */
 public class ServerNetworkHandler {
 
+    /**
+     * The name of the server as seen in messages
+     */
     public static final String HOSTNAME = "SERVER";
+    /**
+     * The name of the rmi service
+     */
     private String RMIServiceName;
+    /**
+     * Ip address of the socket server
+     */
     private String socketIP;
+    /**
+     * Port of the socket connection
+     */
     private int socketPort;
+    /**
+     * Port used for rmi communication
+     */
     private int RMIPort;
+    /**
+     * The RMI Server
+     */
     private RMIServer rmiServer;
+    /**
+     * The SOCKET server
+     */
     private SocketServer socketServer;
+    /**
+     * Map containing data regarding players and their connection status and info
+     */
     private final HashMap<String, ClientConnection> nickToConnectionMap;
+    /**
+     * Set of reconnected users : basis of the reconnection subsystem.
+     */
     private final HashSet<String> allReconnectedUsers;
-    private final Object clientStauts = new Object();
+    /**
+     * Pinger used to check for RMI clients connection asynchronously
+     */
     private Pinger pinger;
+    /**
+     * Boolean containing whether a lobby is being created
+     */
     private Boolean creatingLobby = false;
+    /**
+    * Lock on creatingLobby (see previous)
+    */
     private final Object creatingLobbyLock = new Object();
-
+    /**
+     * List of connected players that are waiting to join the lobby
+     */
     private List<String> waitingForLobby;
+    /**
+     * The game controller, which contains game execution logic
+     */
     private GameController controller = null;
+    /**
+     * Lock on the game controller used for multithreading (see previous)
+     */
     private final Object controllerLock = new Object();
 
     /**
@@ -102,12 +147,19 @@ public class ServerNetworkHandler {
 
     @Label("DEBUG")
     private Message currentMessage;
+
+    /**
+     * This method send a message to a player, if the player is actually connected
+     * @param recipient the player that will receive the message
+     * @param message the message to be sent
+     */
     public void sendToPlayer(String recipient, Message message) {
         HashMap<String, ClientConnection> ntcCopy;
         synchronized (nickToConnectionMap) {
             ntcCopy = new HashMap<>(nickToConnectionMap);
         }
 
+        // send the message only if the player is actually connected
         currentMessage = message;
         Logger.networkInfo("sent a " + message.getType() + " private message to "+ recipient);
         synchronized (ntcCopy.get(recipient)) {
@@ -117,6 +169,13 @@ public class ServerNetworkHandler {
         }
     }
 
+    /**
+     * Used to broadcast to everyone but who sent the message in the first place.
+     * @param sender sender of the message
+     * @param message the message to be broadcast
+     */
+    @Deprecated
+    @SuppressWarnings("all")
     public void broadcastToAllButSender(String sender, Message message) {
         HashMap<String, ClientConnection> ntcCopy;
         HashMap<String, Boolean> ntbCopy;
@@ -135,9 +194,12 @@ public class ServerNetworkHandler {
         }
     }
 
+    /**
+     * Broadcast a message to every logged-in user
+     * @param message the message to be broadcast
+     */
     public void broadcastToAll(Message message) {
         HashMap<String, ClientConnection> ntcCopy;
-        HashMap<String, Boolean> ntbCopy;
         synchronized (nickToConnectionMap) {
             ntcCopy = new HashMap<>(nickToConnectionMap);
         }
@@ -172,7 +234,7 @@ public class ServerNetworkHandler {
      * If the nickname is unavailable the client is simply notified
      * @param name the name the new client requests
      * @param connection the connection with the client.
-     * @return
+     * @return the result of the login of type {@link LoginResult}
      */
     public LoginResult onLoginRequest(String name, ClientConnection connection) {
         Logger.networkInfo("A new client is trying to log in");
@@ -183,10 +245,12 @@ public class ServerNetworkHandler {
 
         synchronized (nickToConnectionMap) {
                 if (!nickToConnectionMap.containsKey(name)) {
+                    // a user may be new
                     nickToConnectionMap.put(name, connection);
                     Logger.networkInfo(name+ " logged in");
                     logged = true;
                 } else {
+                    // a user may be known
                     if (!nickToConnectionMap.get(name).isConnected()) {
                         nickToConnectionMap.get(name).setConnected(true);
                         Logger.networkInfo(name+ " is a known user");
@@ -197,21 +261,36 @@ public class ServerNetworkHandler {
                             allReconnectedUsers.add(name);
                         }
                     } else {
+                        // or a user may be trying to log in with an already taken username.
                         Logger.networkWarning(name+ " is already taken");
-                        logged = false;
                     }
                 }
 
             }
         return new LoginResult(logged, reconnecting);
     }
+
+    /**
+     * This method manages the disconnection of a client.
+     * <ol>
+     *     <li>If a client disconnects before the login nothing useful happens</li>
+     *     <li>If a client disconnects before or during a game, every other client is notified and the process stops</li>
+     *     <li>If a client disconnects after the game's ended there is no impact, and the server remains capable
+     *     of distributing chat messages until there's at least one player. When all the players have disconnected,
+     *     the server stops</li>
+     * </ol>
+     * Thanks to the save file system ({@link SaveFileManager}, {@link SaveFileData}, {@link GameController})
+     * the state of the game is safely stored on the disk so that the game can resume when the server is restarted and all
+     * the players have joined
+     * @param connection the connection of the specific client that will be updated.
+     */
     public void onDisconnection(ClientConnection connection) {
         Logger.networkWarning("Disconnecting client");
         HashMap<String, ClientConnection> temp;
         synchronized (nickToConnectionMap) {
             temp = new HashMap<>(nickToConnectionMap);
             if (temp.containsValue(connection)) {
-                String nickname = "";
+                String nickname;
                 for (String nick : temp.keySet()) {
                     if (temp.get(nick).equals(connection)) {
                         nickname = nick;
@@ -280,18 +359,6 @@ public class ServerNetworkHandler {
                     }
                 }
             }
-            case REJOIN_GAME -> {
-                HashSet<String> aruCopy;
-                synchronized (allReconnectedUsers) {
-                    aruCopy = new HashSet<>(allReconnectedUsers);
-                }
-                // preventing already joined players to rejoin
-                if (aruCopy.contains(m.getSenderUsername())) {
-//                    synchronized (controllerLock) {
-//                        controller.onPlayerReconnection(m.getSenderUsername());
-//                    }
-                }
-            }
             case PICK_FROM_BOARD -> {
                 synchronized (controllerLock) {
                     PickFromBoardMessage p = (PickFromBoardMessage) m;
@@ -304,9 +371,7 @@ public class ServerNetworkHandler {
                     controller.onGameMessageReceived(s);
                 }
             }
-            case PING_REQUEST -> {
-                pinger.addMessage(m);
-            }
+            case PING_REQUEST -> pinger.addMessage(m);
             case CHAT_MESSAGE -> {
                 ChatMessage c = (ChatMessage) m;
                 List<String> users = c.getRecipients();
@@ -332,9 +397,7 @@ public class ServerNetworkHandler {
                     }
                 }
             }
-            default -> {
-                Logger.networkCritical(m.getType()+" management is not yet implemented.");
-            }
+            default -> Logger.networkCritical(m.getType()+" management is not yet implemented.");
         }
     }
 
@@ -346,6 +409,13 @@ public class ServerNetworkHandler {
         return temp;
     }
 
+    /**
+     * This method manages the login of a new player. The first logged-in player is prompted to
+     * choose the number of players in order to create the lobby. Other logged-in players are prompted to wait
+     * while the first player chooses the dimension of the lobby or are granted access to the lobby if everything
+     * is ready.
+     * @param username the username of the newly logged-in player
+     */
     public void onNewLogin(String username) {
         synchronized (controllerLock) {
             if (controller != null) {
