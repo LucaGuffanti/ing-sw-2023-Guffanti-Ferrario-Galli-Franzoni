@@ -130,6 +130,13 @@ public class Printer {
 
     public static final Map<String, String> jsonCardIdToResourceCardId = new HashMap<>();
 
+    public static final Map<Integer, List<Integer>> playersToAssignedPoints =
+            Map.of(
+                    2, List.of(4, 8),
+                    3, List.of(4, 6, 8),
+                    4, List.of(2, 4, 6, 8)
+            );
+
     public static final String cg1 = "" +
             WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
             WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
@@ -336,21 +343,21 @@ public class Printer {
             WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
             WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n";
 
-    private static final String pc4 = "" +
-            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ "+RESET+"\n"+
-            RED_BACKGROUND+BLACK_BOLD+" │  2  │ │  4  │ │  6  │ │  8  │ "+RESET+"\n"+
-            RED_BACKGROUND+BLACK_BOLD+" └─────┘ └─────┘ └─────┘ └─────┘ "+RESET+"\n";
-    private static final String pc3 = "" +
-            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ ┌─────┐ ┌─────┐ "+RESET+"\n"+
-            RED_BACKGROUND+BLACK_BOLD+" │  2  │ │  4  │ │  6  │ "+RESET+"\n"+
-            RED_BACKGROUND+BLACK_BOLD+" └─────┘ └─────┘ └─────┘ "+RESET+"\n";
     private static final String pc2 = "" +
-            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ ┌─────┐ "+RESET+"\n"+
-            RED_BACKGROUND+BLACK_BOLD+" │  2  │ │  4  │ "+RESET+"\n"+
-            RED_BACKGROUND+BLACK_BOLD+" └─────┘ └─────┘ "+RESET+"\n";
-    private static final String pc1 = "" +
             RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ "+RESET+"\n"+
             RED_BACKGROUND+BLACK_BOLD+" │  2  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ "+RESET+"\n";
+    private static final String pc4 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  4  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ "+RESET+"\n";
+    private static final String pc6 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  6  │ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" └─────┘ "+RESET+"\n";
+    private static final String pc8 = "" +
+            RED_BACKGROUND+BLACK_BOLD+" ┌─────┐ "+RESET+"\n"+
+            RED_BACKGROUND+BLACK_BOLD+" │  8  │ "+RESET+"\n"+
             RED_BACKGROUND+BLACK_BOLD+" └─────┘ "+RESET+"\n";
 
 
@@ -405,10 +412,10 @@ public class Printer {
         commonIdToRender.put("11", cg11);
         commonIdToRender.put("12", cg12);
 
-        pointCardToRender.put(1, pc1);
         pointCardToRender.put(2, pc2);
-        pointCardToRender.put(3, pc3);
         pointCardToRender.put(4, pc4);
+        pointCardToRender.put(6, pc6);
+        pointCardToRender.put(8, pc8);
     }
 
     public static void log(String s) {
@@ -516,13 +523,29 @@ public class Printer {
         System.out.print("\n");
     }
 
-    public static void printGoalCardPoints(ArrayList<PointCard> pointCards) {
-        System.out.println(pointCardToRender.get(pointCards.size()));
+    public static void printGoalCardPoints(int remainingPoints, int nPlayers) {
+        List<Integer> assignablePoints = playersToAssignedPoints.get(nPlayers);
+        for (int i = 0; i < remainingPoints; i++) {
+            System.out.println(pointCardToRender.get(assignablePoints.get(i)));
+        }
     }
     public static void printSimplifiedCommonGoal(SimplifiedCommonGoalCard simpl) {
         printCommonGoalCard(simpl.getId());
+        ArrayList<Integer> remainingPoints;
+
+        int nPlayers = simpl.getNickToEarnedPoints().size();
+
+        int cg1MadePoints = 0;
+        for (String player : simpl.getNickToEarnedPoints().keySet()) {
+            if (simpl.getNickToEarnedPoints().get(player) != null) {
+                cg1MadePoints++;
+            }
+        }
+
+        int cgRemainingPoints = nPlayers - cg1MadePoints;
+
         title("REMAINING POINTS");
-        printGoalCardPoints(simpl.getPointCards());
+        printGoalCardPoints(cgRemainingPoints, nPlayers);
     }
 
     public static void printName() {
@@ -564,7 +587,7 @@ public class Printer {
         points.add(new PointCard(PointEnumeration.FOUR_POINTS, 4));
         points.add(new PointCard(PointEnumeration.SIX_POINTS, 6));
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
-        printGoalCardPoints(points);
+        printGoalCardPoints(4, 4);
         SimplifiedCommonGoalCard simpl = new SimplifiedCommonGoalCard("5", points, null);
         printSimplifiedCommonGoal(simpl);
         printInfo(CLIMessages.NOT_JOINED);
