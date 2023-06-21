@@ -490,7 +490,7 @@ public class GameController {
         if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && (activePlayerIndex+1)%orderedPlayersNicks.size() == firstPlayerIndexToCompleteShelf) {
 
             // Being "player X" the player who has completed the shelf before everyone else,
-            // continue the game until the player at the right of the player X has completed his turn, or if the player X is the first player.
+            // continue the game until the player at the right of the player X has completed his turn, or directly if the player X is the first player.
             if((activePlayerIndex+1)%orderedPlayersNicks.size() == firstPlayerIndexToCompleteShelf || (activePlayerIndex+1)%orderedPlayersNicks.size() == 0){
                 gameStatus = GameStatusEnum.ENDED;
                 endGame();
