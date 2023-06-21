@@ -280,31 +280,43 @@ public class GameController {
      * the ordered list of players and the index of the last playing player)
      */
     public void reloadExistingGame() {
+
         Logger.controllerInfo("RESUMING GAME");
+
+        // Load player infos
         this.orderedPlayersNicks = new ArrayList<>(saveFileData.getOrderedPlayers());
         this.activePlayerIndex = saveFileData.getActivePlayerIndex();
+
+
 
         Logger.controllerInfo("The players will play in the following order");
         Logger.controllerInfo(orderedPlayersNicks.toString());
         Logger.controllerInfo(orderedPlayersNicks.get((activePlayerIndex+1)%game.getGameInfo().getNPlayers())+" will start playing");
+
         game.loadGame(saveFileData);
 
         Logger.controllerInfo("GAME IS READY");
 
-
+        // Load common goal cards
         ArrayList<SimplifiedCommonGoalCard> common = new ArrayList<>(game.getGameInfo().getSelectedCommonGoals().stream()
                 .map(s->GameObjectConverter.fromCommonGoalToSimplifiedCommonGoal(s, game, game.getGameInfo().getSelectedCommonGoals().indexOf(s))).toList());
 
+        // Load personal goal cards
         ArrayList<String> personalGoals = new ArrayList<>(orderedPlayersNicks.parallelStream()
                 .map(o -> game.getPlayerByNick(o))
                 .map(Player::getGoal)
                 .map(GameObjectConverter::fromPersonalGoalToString)
                 .toList());
+
+        // Load shelves
+        List<Shelf> shelves = orderedPlayersNicks.stream().map(p->game.getPlayerByNick(p).getShelf()).toList();
+
         for(String player : orderedPlayersNicks) {
             Printer.printPlayerName(player);
             Printer.printShelf(GameObjectConverter.fromShelfToMatrix(game.getPlayerByNick(player).getShelf()));
         }
-        List<Shelf> shelves = orderedPlayersNicks.stream().map(p->game.getPlayerByNick(p).getShelf()).toList();
+
+
 
         if(game.getGameInfo().getFirstToCompleteTheShelf() != null){
             gameStatus = GameStatusEnum.FINAL_TURNS;
@@ -380,23 +392,35 @@ public class GameController {
     }
 
     /**
-     * This method advances the index referring to the active player (it skips a player if the player is
+     *
+     * If the game status is set on final turns and everyone has completed the same amount of turns,
+     * it will directly call endGame and not begin a new turn.
+     *
+     * Otherwise, this method advances the index referring to the active player (it skips a player if the player is
      * disconnected), produces the
      * message describing the beginning of a new turn that will be broadcast to every player and
-     * sets the turn phase to {@link PickFromBoardPhase}, starting to accept game messages from the players
+     * sets the turn phase to {@link PickFromBoardPhase}, starting to accept game messages from the players.
      */
     public synchronized void beginTurn() {
+
         activePlayerIndex = (activePlayerIndex+1)%orderedPlayersNicks.size();
 
-        Logger.controllerInfo("New turn: " + orderedPlayersNicks.get(activePlayerIndex) + " with player index " + activePlayerIndex);
-        serverNetworkHandler.broadcastToAll(
-                new BeginningOfTurnMessage(
-                        ServerNetworkHandler.HOSTNAME,
-                        ResponsesDescriptions.NEW_TURN,
-                        orderedPlayersNicks.get(activePlayerIndex)
-                )
-        );
-        turnPhase = new PickFromBoardPhase(game, this);
+        // If on final turns and the active player is the first on the list ( id = 0 ),
+        // end the game since everyone have done the same amount of turns.
+        if(gameStatus.equals(GameStatusEnum.FINAL_TURNS) && activePlayerIndex == 0){
+            endGame();
+        }else{
+            Logger.controllerInfo("New turn: " + orderedPlayersNicks.get(activePlayerIndex) + " with player index " + activePlayerIndex);
+            serverNetworkHandler.broadcastToAll(
+                    new BeginningOfTurnMessage(
+                            ServerNetworkHandler.HOSTNAME,
+                            ResponsesDescriptions.NEW_TURN,
+                            orderedPlayersNicks.get(activePlayerIndex)
+                    )
+            );
+            turnPhase = new PickFromBoardPhase(game, this);
+        }
+
     }
 
     /**
@@ -415,8 +439,6 @@ public class GameController {
      *     </li>
      *     <li>if required, the board gets be refilled</li>
      *     <li>it builds the message describing the end of the turn
-     *     <li>if the game has to finish, it sets the state to ended and calls the endGame() method</li>
-     *     that will be broadcast to every player</li>
      * </ol>
      */
     public synchronized void endTurn() {
@@ -484,24 +506,12 @@ public class GameController {
                 )
         );
 
+        // after game points have been assigned the information is reset
+        firstCommonGoalCompletedByActivePlayer = false;
+        secondCommonGoalCompletedByActivePlayer = false;
+        completedShelf = false;
+        beginTurn();
 
-
-        // Check if on final turns
-        if (gameStatus.equals(GameStatusEnum.FINAL_TURNS) && (activePlayerIndex+1)%orderedPlayersNicks.size() == firstPlayerIndexToCompleteShelf) {
-
-            // Being "player X" the player who has completed the shelf before everyone else,
-            // continue the game until the player at the right of the player X has completed his turn, or directly if the player X is the first player.
-            if((activePlayerIndex+1)%orderedPlayersNicks.size() == firstPlayerIndexToCompleteShelf || (activePlayerIndex+1)%orderedPlayersNicks.size() == 0){
-                gameStatus = GameStatusEnum.ENDED;
-                endGame();
-            }
-        } else {
-            // after game points have been assigned the information is reset
-            firstCommonGoalCompletedByActivePlayer = false;
-            secondCommonGoalCompletedByActivePlayer = false;
-            completedShelf = false;
-            beginTurn();
-        }
     }
 
     /**
@@ -509,6 +519,9 @@ public class GameController {
      * player.
      */
     public synchronized void endGame() {
+
+        gameStatus = GameStatusEnum.ENDED;
+
         Logger.controllerInfo("The game ended");
         GameCheckout gameCheckout = game.endGame(orderedPlayersNicks);
 
