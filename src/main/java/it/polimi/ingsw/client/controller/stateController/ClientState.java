@@ -19,9 +19,17 @@ import java.util.Map;
  * @author Daniele Ferrario
  */
 public class ClientState implements Cloneable {
+    /**
+     * username of the player
+     */
     private String username;
+    /**
+     * active user interface
+     */
     private UserInterface userInterface;
-
+    /**
+     * username of the winner
+     */
     private String winnerUserName;
 
     private HashMap <String, Integer> nameToPointMap;

@@ -12,7 +12,6 @@ import it.polimi.ingsw.network.messages.Message;
  * Handles the reception of the message representing
  * the end of the game
 
- * @see
  * @author Davide Franzoni
  */
 public class EndOfGameHandler extends Reducer {

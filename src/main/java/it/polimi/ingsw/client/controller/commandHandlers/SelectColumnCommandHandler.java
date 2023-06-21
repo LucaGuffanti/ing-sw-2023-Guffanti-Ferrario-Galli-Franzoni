@@ -13,6 +13,10 @@ import it.polimi.ingsw.server.model.cells.Coordinates;
 
 import java.util.*;
 
+/**
+ * This handler manages the command regarding the selection of the column after tiles are picked from the board
+ * @author Daniele Ferrario
+ */
 public class SelectColumnCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.SELECT_COLUMN

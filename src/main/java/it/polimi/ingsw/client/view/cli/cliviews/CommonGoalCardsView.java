@@ -7,6 +7,11 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
 import java.util.List;
 
+/**
+ * The common goal card view displays all the common goal cards
+ * with the relative points.
+ * @author Luca Guffanti
+ */
 public class CommonGoalCardsView implements CliView {
     @Override
     public void render(ClientState state) {

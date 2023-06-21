@@ -14,6 +14,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * This handler manages the decision of reloading a saved game when found.
+ * @author Luca Guffanti
+ */
 public class ReloadGameCommandHandler extends CliCommandHandler {
 
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(

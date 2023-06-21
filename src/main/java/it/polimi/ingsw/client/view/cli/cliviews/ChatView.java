@@ -7,6 +7,12 @@ import it.polimi.ingsw.server.model.Board;
 
 import java.util.List;
 
+/**
+ * The chat view is accessed when the user wants to display chat messages.
+ * It's important to notice that it's still possible to send chat messages when not in this particular
+ * view.
+ * @author Luca Guffanti
+ */
 public class ChatView implements CliView {
     @Override
     public void render(ClientState state) {

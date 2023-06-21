@@ -4,6 +4,12 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
+/**
+ * The pick from board view displays a prompt to the user reminding it to pick a tile from the board.
+ * The board and the shelf of the player is displayed. This view is shown to only one player at a time as all the
+ * players, whilst being free execute commands, cannot make a pick from the board.
+ * @author Luca Guffanti
+ */
 public class PickFromBoardView implements CliView {
 
     @Override

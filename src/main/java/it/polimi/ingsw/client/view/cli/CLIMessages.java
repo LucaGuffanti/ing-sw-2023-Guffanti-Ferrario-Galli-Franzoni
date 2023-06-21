@@ -27,9 +27,6 @@ public class CLIMessages {
             \nIf the game hasn't been created yet, write\n\n\t\t""" + PlayersNumberCommandHandler.commandLabel + """ 
              numberOfPlayers
             """;
-    public static final String END_OF_TURN = """
-            THE TURN ENDED!
-            """;
 
     public static final String RELOAD_DECISION = """
             To reload the saved game, please write\n\n\t\t""" + ReloadGameCommandHandler.commandLabel +""" 

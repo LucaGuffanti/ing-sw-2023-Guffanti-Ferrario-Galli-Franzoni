@@ -6,6 +6,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
 
 import java.util.HashMap;
 
+/**
+ * The help view is used to present the user all the usable commands.
+ * @author Luca Guffanti
+ */
 public class HelpView implements CliView {
     private static final HashMap<String, String> inputCommandMapToDescription = new HashMap<>();
 

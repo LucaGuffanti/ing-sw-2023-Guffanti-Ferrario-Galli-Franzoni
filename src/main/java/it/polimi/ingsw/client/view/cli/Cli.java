@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is the CLI of the game. It has attributes and methods that allow the player to correctly play the game
+ * and to correctly display various messages and data based on the local state of the game.
+ * @author Luca Guffanti, Daniele Ferrario
+ */
 public class Cli implements UserInterface, PropertyChangeListener {
 
     /**
@@ -46,7 +51,9 @@ public class Cli implements UserInterface, PropertyChangeListener {
     private final CommandPicker commandPicker;
     private CliView cliView = null;
 
-
+    /**
+     * Mapping between the state of game (as seen in {@link ClientPhasesEnum}) and the view that should be displayed
+     */
     private Map<ClientPhasesEnum, CliView> defaultViewsPerPhasesMap;
 
     public Cli(StateContainer stateContainer, ClientNetworkHandler networkHandler) {
@@ -107,8 +114,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
     }
 
     /**
-     * PropertyChangeListener overrode method.
-     *
+     * PropertyChangeListener overridden method.
      * It this application, the method is only called when the ClientState in the StateContainer is updated.
      * Here, the cli will render a view depending on which attribute has been updated.
      *
@@ -116,7 +122,6 @@ public class Cli implements UserInterface, PropertyChangeListener {
      *          and the property that has changed.
      * @see StateContainer
      */
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
@@ -126,10 +131,10 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
 
         switch (evt.getPropertyName()) {
-            // When the current phase changes the cli view should not be rendered by default. Instead
+            // When the current phase changes the cli view should not be rendered by default.
             // the last server message (containing the result of the previously ended turn) is displayed and
             // if the pick from board or wait for turn phase is reached for the first time the ORDERED LIST OF
-            // PLAYERS is printed.
+            // PLAYERS is printed instead.
             case "currentPhase" -> {
                 CliView cliView = defaultViewsPerPhasesMap.get((ClientPhasesEnum) evt.getNewValue());
 

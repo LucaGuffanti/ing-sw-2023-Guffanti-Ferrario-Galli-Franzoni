@@ -21,7 +21,8 @@ import java.util.Map;
 
 /**
  * This class implements methods and contains attributes useful for
- * printing game objects and messages.
+ * printing game objects and messages in the text interface.
+ * @author Luca Guffanti, Davide Franzoni
  */
 public class Printer {
 
@@ -130,6 +131,7 @@ public class Printer {
 
     public static final Map<String, String> jsonCardIdToResourceCardId = new HashMap<>();
 
+
     public static final Map<Integer, List<Integer>> playersToAssignedPoints =
             Map.of(
                     2, List.of(4, 8),
@@ -137,6 +139,7 @@ public class Printer {
                     4, List.of(2, 4, 6, 8)
             );
 
+    // COMMON GOAL CARDS
     public static final String cg1 = "" +
             WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
             WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"                                       "+RESET+LIGHT_BROWN_BACKGROUND_BRIGHT+BLACK_BOLD+"         "+RESET+"\n"+
@@ -361,6 +364,7 @@ public class Printer {
             RED_BACKGROUND+BLACK_BOLD+" └─────┘ "+RESET+"\n";
 
 
+    // STATIC INITIALIZATION OF THE DATA STRUCTURES
     static {
         objectTypeToRender.put(ObjectTypeEnum.CAT, GREEN_BACKGROUND_BRIGHT+" "+RESET);
         objectTypeToRender.put(ObjectTypeEnum.TROPHY, CYAN_BACKGROUND_BRIGHT+" "+RESET);
@@ -418,6 +422,7 @@ public class Printer {
         pointCardToRender.put(8, pc8);
     }
 
+
     public static void log(String s) {
         System.out.println(s);
     }
@@ -433,6 +438,10 @@ public class Printer {
         System.out.println(RED_BOLD+s+RESET);
     }
 
+    /**
+     * This method prints the shelf starting from a matrix
+     * @param shelf the shelf to be printed
+     */
     public static void printShelf(ObjectTypeEnum[][] shelf) {
         System.out.println(DARK_BROWN_BACKGROUND_BRIGHT+"        MY SHELFIE        "+RESET);
         int wantedWidth = 3;
@@ -466,6 +475,10 @@ public class Printer {
 
     }
 
+    /**
+     * This method prints the board
+     * @param board board matrix to be printed
+     */
     public static void printBoard(ObjectTypeEnum[][] board) {
         int wantedWidth = 3;
         System.out.print(LIGHT_BROWN_BACKGROUND_BRIGHT+"   "+RESET);
@@ -501,6 +514,11 @@ public class Printer {
         System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"║y        going through the               "+RESET+"\n");
         System.out.print(WHITE_BACKGROUND_BRIGHT+BLACK_BOLD+"          rows                            "+RESET+"\n");
     }
+
+    /**
+     * Based on the common goal card id, the correct graphic is printed.
+     * @param id the id of the common goal card
+     */
     public static void printCommonGoalCard(String id) {
         System.out.println(commonIdToRender.get(jsonCardIdToResourceCardId.get(id)));
     }
@@ -572,14 +590,14 @@ public class Printer {
         Board b = new Board(4, sack);
         Printer.printBoard(GameObjectConverter.fromBoardToMatrix(b));
 
-        for (Integer i = 1; i <= 12; i++) {
-            System.out.println("ID: "+i.toString());
-            printPersonalGoalCard(i.toString());
+        for (int i = 1; i <= 12; i++) {
+            System.out.println("ID: "+ Integer.toString(i));
+            printPersonalGoalCard(Integer.toString(i));
         }
 
-        for (Integer i = 0; i < 12; i++) {
-            System.out.println("ID: "+i.toString());
-            printCommonGoalCard(i.toString());
+        for (int i = 0; i < 12; i++) {
+            System.out.println("ID: "+ Integer.toString(i));
+            printCommonGoalCard(Integer.toString(i));
         }
         printName();
         ArrayList<PointCard> points = new ArrayList<>();
@@ -684,5 +702,12 @@ public class Printer {
                 "| |_ | | | ||  __/  \\ V  V / | || | | || | | ||  __/| |    | |\\__ \\\n" +
                 " \\__||_| |_| \\___|   \\_/\\_/  |_||_| |_||_| |_| \\___||_|    |_||___/\n");
         System.out.println(WHITE_BACKGROUND_BRIGHT+YELLOW_BOLD+w+RESET);
+
+    }
+
+    public static void printPlayerPoints(HashMap<String, Integer> nameToPointMap) {
+        for (String p : nameToPointMap.keySet()) {
+            printPlayerName(p+": "+nameToPointMap.get(p));
+        }
     }
 }

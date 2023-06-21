@@ -3,6 +3,11 @@ package it.polimi.ingsw.client.view.cli.cliviews;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 
+/**
+ * This view shows the player its own shelf and displays a message requesting the insertion of the column in which
+ * to put the picked cards
+ * @author Luca Guffanti, Daniele Ferrario
+ */
 public class SelectColumnView implements CliView {
 
     @Override

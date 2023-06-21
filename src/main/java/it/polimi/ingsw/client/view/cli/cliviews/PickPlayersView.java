@@ -4,6 +4,10 @@ import it.polimi.ingsw.client.controller.commandHandlers.PlayersNumberCommandHan
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 
+/**
+ * This view is used to prompt the player who's creating the lobby to insert the wanted number of players.
+ * @author Luca Guffanti
+ */
 public class PickPlayersView implements CliView{
 
     @Override

@@ -3,6 +3,10 @@ package it.polimi.ingsw.client.view.cli.cliviews;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 
+/**
+ * This view is shown to logged in player who haven't joined a lobby yet as it's being created.
+ * @author Luca Guffanti
+ */
 public class WaitingForLobbyView implements CliView{
 
     @Override

@@ -48,7 +48,6 @@ public class JoinGameCommandHandler extends CliCommandHandler{
 
     @Override
     protected boolean checkParameters(List<String> parameters) {
-
         return parameters.get(0).equals("");
     }
 

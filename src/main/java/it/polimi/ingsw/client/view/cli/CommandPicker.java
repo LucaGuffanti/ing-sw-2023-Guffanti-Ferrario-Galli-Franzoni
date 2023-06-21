@@ -16,9 +16,22 @@ import java.util.Scanner;
  */
 public class CommandPicker implements Runnable{
 
+    /**
+     * Instance of the cli
+     */
     private Cli cli;
+    /**
+     * The state of the game
+     */
     private StateContainer stateContainer;
+    /**
+     * Input stream used to take inputs
+     */
     private InputStream inputStream;
+
+    /**
+     * Map between the input command and the appropriate command handler
+     */
     private final HashMap<String, CliCommandHandler> inputCommandMap;
     public CommandPicker(Cli cli, InputStream inputStream) {
         this.cli = cli;
@@ -44,13 +57,11 @@ public class CommandPicker implements Runnable{
     }
 
     /**
-     * Evaluate the user input, finds the correct CommandHandler for it
+     * This method evaluates the user input, finds the correct CommandHandler for it
      * and execute the command.
      * Ex. "/pb 3 4 3 8" --> PickFromBoardCommandHandler
-     *
      * The parameters will be checked in the handler
      *
-     * @todo: use Exception messages
      * @see CliCommandHandler
      * @param userInput User inserted input representing the desired command.
      */
@@ -78,7 +89,10 @@ public class CommandPicker implements Runnable{
 
     }
 
-    // @todo: use Map.of
+    /**
+     * This method loads the command map with the correct handler. When a new command is added this method
+     * must be updated.
+     */
     private void loadCommandMap() {
         inputCommandMap.put(LoginCommandHandler.commandLabel, new LoginCommandHandler(cli));
         inputCommandMap.put(JoinGameCommandHandler.commandLabel, new JoinGameCommandHandler(cli));

@@ -3,6 +3,10 @@ package it.polimi.ingsw.client.view.cli.cliviews;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 
+/**
+ * This view displays the shelf of each player
+ * @author Luca Guffanti
+ */
 public class MultipleShelvesView implements CliView{
     @Override
     public void render(ClientState state) {

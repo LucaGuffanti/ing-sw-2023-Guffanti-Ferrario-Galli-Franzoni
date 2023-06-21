@@ -4,6 +4,10 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
+/**
+ * This view is used to show the points made by each player
+ * @author Luca Guffanti
+ */
 public class PointsView implements CliView{
     @Override
     public void render(ClientState state) {

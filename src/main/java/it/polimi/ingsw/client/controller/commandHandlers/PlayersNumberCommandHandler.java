@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * This handler manages the selection of the number of players: if the number is acceptable a message is sent to the server
+ * @author Daniele Ferrario
+ */
 public class PlayersNumberCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.PICK_PLAYERS

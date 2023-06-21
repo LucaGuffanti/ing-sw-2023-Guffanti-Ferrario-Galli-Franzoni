@@ -15,6 +15,11 @@ import it.polimi.ingsw.server.model.cells.Coordinates;
 
 import java.util.*;
 
+/**
+ * This object handles the pick from board command, by executing a check regarding the inserted coordinates
+ * and by sending a message to the server if the check is successful
+ * @author Daniele Ferrario, Luca Guffanti
+ */
 public class PickFromBoardCommandHandler extends CliCommandHandler{
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.PICK_FORM_BOARD
@@ -67,6 +72,11 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
         super.getCli().dispatchMessageToNetwork(msg);
     }
 
+    /**
+     * This method checks that the coordinates follow the rules of the game.
+     * @param parameters the list of parameters after the command.
+     * @return whether parameters are correct
+     */
     @Override
     protected boolean checkParameters(List<String> parameters) {
         ArrayList<String> temp = new ArrayList<>(parameters);

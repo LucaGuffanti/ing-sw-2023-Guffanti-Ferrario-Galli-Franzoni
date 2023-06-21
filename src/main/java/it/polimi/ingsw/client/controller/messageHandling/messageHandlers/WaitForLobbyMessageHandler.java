@@ -6,6 +6,11 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.AccessResultMessage;
 import it.polimi.ingsw.network.messages.Message;
 
+/**
+ * This handler manages the receiving of a Wait for lobby message by setting the phase of the client to
+ * WAITING FOR LOBBY
+ * @author Luca Guffanti
+ */
 public class WaitForLobbyMessageHandler extends Reducer {
 
     @Override
