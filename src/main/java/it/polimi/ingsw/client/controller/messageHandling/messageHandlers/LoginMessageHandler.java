@@ -28,7 +28,7 @@ public class LoginMessageHandler extends Reducer implements Creator {
     }
 
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state;
         LoginResponseMessage loginMessage = (LoginResponseMessage) m;
 

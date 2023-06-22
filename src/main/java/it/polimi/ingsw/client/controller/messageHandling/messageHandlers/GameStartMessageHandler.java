@@ -25,7 +25,7 @@ public class GameStartMessageHandler extends Reducer {
      * @return The next state of the app.
      */
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
         GameStartMessage gameStartMessage = (GameStartMessage) m;
 

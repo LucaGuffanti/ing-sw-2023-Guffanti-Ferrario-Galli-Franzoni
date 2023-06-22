@@ -25,7 +25,7 @@ public class JoinGameMessageHandler extends Reducer implements Creator {
     }
 
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state;
         AccessResultMessage accessResultMessage = (AccessResultMessage) m;
 

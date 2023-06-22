@@ -14,7 +14,7 @@ import it.polimi.ingsw.network.messages.Message;
 public class WaitForLobbyMessageHandler extends Reducer {
 
     @Override
-    protected ClientState executeReduce(ClientState oldState, Message m) {
+    public ClientState reduce(ClientState oldState, Message m) {
         ClientState state;
 
         try {

@@ -18,7 +18,7 @@ import it.polimi.ingsw.network.messages.Message;
 public class BeginningOfTurnMessageHandler extends Reducer {
 
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
 
         ClientState state = null;
         BeginningOfTurnMessage beginningOfTurnMessage = (BeginningOfTurnMessage) m;

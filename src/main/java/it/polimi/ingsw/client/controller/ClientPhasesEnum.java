@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.controller;
 
 /**
- * All the phases in which the Client can be found.
+ * All the phases the client goes through during a game.
  * @author Daniele Ferrario
  */
 public enum ClientPhasesEnum {

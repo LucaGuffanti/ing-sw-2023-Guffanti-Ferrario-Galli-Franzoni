@@ -12,7 +12,7 @@ import it.polimi.ingsw.network.messages.Message;
  */
 public class FoundSavedGameMessageHandler extends Reducer {
     @Override
-    protected ClientState executeReduce(ClientState oldState, Message m) {
+    public ClientState reduce(ClientState oldState, Message m) {
         ClientState state = null;
 
         try {

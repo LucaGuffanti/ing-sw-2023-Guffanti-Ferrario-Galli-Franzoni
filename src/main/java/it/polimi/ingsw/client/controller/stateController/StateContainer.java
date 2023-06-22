@@ -10,13 +10,21 @@ import java.util.*;
 
 /**
  * A StateContainer is an object which holds the application's state,
- * which can be acquired or updated through the StateContainer supplied method (dispatch).
- * @see StateContainer#dispatch(Message)
+ * which can be acquired or updated through the apposite StateContainer supplied methods.
+ * @see StateContainer#updateState(Message)
  */
 public class StateContainer {
 
     private List<ClientState> statesHistory;
+
+    /**
+     * Application notifier, triggered on state update.
+     */
     private final PropsChangesNotifier<ClientState> notifier;
+
+    /**
+     * The reference support for the notifier.
+     */
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public StateContainer(ClientState initialState) {
@@ -31,15 +39,22 @@ public class StateContainer {
     }
 
     /**
-     * Dispatch methods are the only way to request a state update to the StateContainer.
-     * The new state will be calculated based on the message payload.
+     * UpdateState is the method which handles the state update requests.
+     * The new state will be calculated based on the message payload through the
+     * appropriate Reducer.
+     *
      * The updated attributes of the state will be notified to the listeners.
-     * @param message
+     * @param message Message object containing the payload.
      */
-    public void dispatch(Message message){
-        // Transform current status in the next one and add it to the statesHistory
+    public void updateState(Message message){
+
+        // Get the right handler for the message.
+        Reducer handler = (Reducer) message.getHandlerForClient();
+
+        // Transform the current state in the next one and add it to the states History
         ClientState oldState = statesHistory.get(statesHistory.size()-1);
-        ClientState newState = Reducer.reduce(this.getCurrentState(), message);
+        ClientState newState = handler.reduce(this.getCurrentState(), message);
+
         statesHistory.add(newState);
         try {
             notifier.checkAndNotify(oldState, newState, propertyChangeSupport);

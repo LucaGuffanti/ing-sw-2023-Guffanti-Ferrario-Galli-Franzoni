@@ -61,7 +61,7 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
             );
         } else {
             // Reduce current state with message payload
-            stateContainer.dispatch(received);
+            stateContainer.updateState(received);
         }
     }
 

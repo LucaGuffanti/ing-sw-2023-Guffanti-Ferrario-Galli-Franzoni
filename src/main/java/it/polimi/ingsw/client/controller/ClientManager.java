@@ -15,6 +15,8 @@ import java.rmi.RemoteException;
 /**
  * The ClientManager acts as a controller layer above the UserInterface. Here
  * there are the methods to initialize the different UIs.
+ *
+ * @author Daniele Ferrario, Luca Guffanti
  */
 public class ClientManager {
     public static ClientManager instance;

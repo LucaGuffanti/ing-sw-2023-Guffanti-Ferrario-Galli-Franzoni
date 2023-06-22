@@ -17,7 +17,7 @@ import it.polimi.ingsw.network.messages.Message;
 public class EndOfGameHandler extends Reducer {
 
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
 
 
         ClientState state = null;

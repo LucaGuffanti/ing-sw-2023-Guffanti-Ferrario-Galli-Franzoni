@@ -26,7 +26,7 @@ public class NewPlayerJoinedMessageHandler extends Reducer  {
      * @return
      */
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
         NewPlayerMessage newPlayerMessage = (NewPlayerMessage) m;
 

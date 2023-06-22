@@ -24,7 +24,7 @@ import java.util.List;
 public class EndOfTurnMessageHandler extends Reducer {
 
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
         EndOfTurnMessage endOfTurnMessage = (EndOfTurnMessage) m;
 

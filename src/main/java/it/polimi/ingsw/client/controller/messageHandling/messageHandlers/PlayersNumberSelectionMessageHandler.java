@@ -23,7 +23,7 @@ public class PlayersNumberSelectionMessageHandler extends Reducer implements Cre
     }
 
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
         PickNumberOfPlayersMessage pickNumberOfPlayersMessage = (PickNumberOfPlayersMessage) m;
 

@@ -29,13 +29,13 @@ public class SelectColumnMessageHandler extends Reducer implements Creator {
     }
 
     /**
-     * Get if the column request has been validated by the server.
+     * Check if the column selection request has been validated by the server.
      * @param oldClientState
      * @param m
      * @return
      */
     @Override
-    protected ClientState executeReduce(ClientState oldClientState, Message m){
+    public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
         SelectColumnResultMessage selectColumnResultMessage = (SelectColumnResultMessage) m;
 
