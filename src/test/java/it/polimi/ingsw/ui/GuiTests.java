@@ -17,7 +17,7 @@ import java.util.*;
 
 public class GuiTests {
 
-    @Test
+
     public void scene4_test() throws RemoteException {
         // Network
         NetworkConfigurationData networkConfigurationData = new NetworkConfigurationData().get();

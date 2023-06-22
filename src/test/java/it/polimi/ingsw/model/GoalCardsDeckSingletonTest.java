@@ -3,9 +3,12 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
+import it.polimi.ingsw.server.model.utils.JsonFixedPatternGoalCardsParser;
 import it.polimi.ingsw.server.model.utils.exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongPointCardsValueGivenException;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,4 +69,34 @@ class GoalCardsDeckSingletonTest {
         }
 
     }
+
+    /**
+     * Checks the pick of the requested cards.
+     * @throws WrongPointCardsValueGivenException
+     * @throws WrongNumberOfPlayersException
+     * @throws IOException
+     */
+    @Test
+    void getPersonalCardByIds() {
+        for (int i = 1; i <= 11; i++) {
+            String idStr = Integer.toString(i);
+            assertEquals(GoalCardsDeckSingleton.getInstance().getPersonalGoalCardById(idStr).getId(), idStr);
+        }
+
+    }
+
+    /**
+     * Check the correct exception throw on incorrect inputs.
+     */
+    @Test
+    void pickPersonalGoalsWrongPlayers_expectedInvalid()  {
+        Throwable exception = assertThrows(WrongNumberOfPlayersException.class, () -> GoalCardsDeckSingleton.getInstance().pickPersonalGoals(5));
+        assertEquals("Got " + 5 + " players. It should be between 2 and 4", exception.getMessage());
+    }
+
+    /**
+    @Test
+    void correctCardsLoadingTest(){
+        assertDoesNotThrow(GoalCardsDeckSingleton::getInstance);
+    }*/
 }

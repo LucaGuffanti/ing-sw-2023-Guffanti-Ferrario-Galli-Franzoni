@@ -11,16 +11,20 @@ import it.polimi.ingsw.server.controller.GameStatusEnum;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
+import it.polimi.ingsw.server.model.GameCheckout;
 import it.polimi.ingsw.server.model.cells.Coordinates;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
 import it.polimi.ingsw.server.model.utils.MatrixUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -567,6 +571,46 @@ public class GameControllerTest {
             assertTrue(gameController.getTurnPhase() instanceof PickFromBoardPhase);
         }
     }
+
+
+    /**
+     * Testing if the user is recognized as winner, being the one who has completed the shelf.
+     * (No other points given to other players)
+     * @throws Exception
+     */
+    @Test
+    public void gameCheckoutTest() throws Exception {
+        String user = "TestUser13";
+        int id = 0;
+
+        for (int numPlayers = 2; numPlayers <= 4; numPlayers++) {
+            gameController.createGame(user, numPlayers, id);
+
+            for (int joiningPlayerID = 1; joiningPlayerID < numPlayers; joiningPlayerID++) {
+                String joiningPlayerName = user + joiningPlayerID;
+                gameController.onPlayerJoin(joiningPlayerName);
+
+                if (handler.getCurrentMessage().getType().equals(MessageType.ACCESS_RESULT)) {
+                    AccessResultMessage msg = (AccessResultMessage) handler.getCurrentMessage();
+                    assertEquals(ResponseResultType.SUCCESS, msg.getResultType());
+                }
+
+                if (handler.getCurrentMessage().getType().equals(MessageType.NEW_PLAYER)) {
+                    NewPlayerMessage msg = (NewPlayerMessage) handler.getCurrentMessage();
+                    assertEquals(joiningPlayerName, msg.getJoinedPlayer());
+                }
+
+            }
+
+        }
+
+        gameController.getGame().getPlayers().get(1).getAchievements().setFirstToFinish(true);
+        List<Player> players = gameController.getGame().getPlayers();
+        GameCheckout gameCheckout = gameController.getGame().endGame(players.stream().map(Player::getNickname).collect(Collectors.toList()));
+        assertEquals("TestUser13"+1, gameCheckout.getWinner());
+    }
+
+
     //TODO ADD JAVADOC
     //TODO ADD TEST CASE FOR THE END OF THE GAME (GAME FOR 2 PLAYERS, WITH THE SECOND PLAYER WITH SHELF FILLED WITH
     // ONLY AN EMPTY SPACE)

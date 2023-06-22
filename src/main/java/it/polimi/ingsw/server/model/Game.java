@@ -399,7 +399,7 @@ public class Game {
      * so the number of maximum players is reached, an exception is thrown.
      * @param nickname the nickname of the player to be added
      * @throws MaxPlayersException when the number of players decided by the host is reached
-     */
+     *
     public void addPlayer(String nickname) throws MaxPlayersException {
         if (players.size() == gameInfo.getNPlayers()) {
             throw new MaxPlayersException("The game is full");
@@ -410,7 +410,7 @@ public class Game {
         if (players.size() == gameInfo.getNPlayers()) {
             controller.startGame();
         }
-    }
+    }*/
 
 
     /**
