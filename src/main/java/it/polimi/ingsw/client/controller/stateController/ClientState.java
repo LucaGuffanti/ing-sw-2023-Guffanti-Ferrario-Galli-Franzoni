@@ -13,52 +13,99 @@ import java.util.Map;
 
 /**
  * A class which represents a state of the client.
- * A ClientState object should be updated ONLY with reducers methods
- * supplied by the StateContainer.
+ *
  * @see StateContainer
  * @author Daniele Ferrario
  */
 public class ClientState implements Cloneable {
+
     /**
-     * username of the player
+     * Username of the player
      */
     private String username;
     /**
-     * active user interface
+     * Active user interface ( GUI / CLI )
      */
     private UserInterface userInterface;
     /**
-     * username of the winner
+     * Username of the winner
      */
     private String winnerUserName;
 
+    /**
+     * The map which associates the players' nicknames to their points.
+     */
     private HashMap <String, Integer> nameToPointMap;
 
-    // Username of the active player
+    /**
+     * Username of the active player
+     */
     private String activePlayer;
-
-    // Ordered players
+    /**
+     * The list of players' nicknames ordered by their turn.
+     */
     private List<String> orderedPlayersNames;
+    /**
+     * Flag which indicates if the player has completed
+     * The first common goal.
+     */
     private boolean hasCompletedFirstCommonGoal;
+
+    /**
+     * Flag which indicates if the player has completed
+     * The second common goal.
+     */
     private boolean hasCompletedSecondCommonGoal;
+
+    /**
+     * The list containing the chat messages history.
+     */
     private List<ChatMessage> chatHistory;
 
+    /**
+     * The last chat message that has been sent.
+     */
     private ChatMessage lastChatMessage;
 
-    private Map<Player, Integer> scores; // @TODO: is player list redundant?
-
+    /**
+     * The current state of the board.
+     */
     private ObjectTypeEnum[][] board;
 
-    // Ordered players' shelfs
-
+    /**
+     * The active player's shelf.
+     */
     private ObjectTypeEnum[][] activePlayerShelf;
+
+    /**
+     * Players' shelves.
+     */
     private List<ObjectTypeEnum[][]> shelves;
+
+    /**
+     * The flag which represents that the player has completed the
+     * shelf before everyone else.
+     */
     private String firstToCompleteShelf;
+
+    /**
+     * The id of the personal goal card assigned to the player.
+     */
     private String personalGoalCardId;
 
+    /**
+     * The current game common goals.
+     */
     private List<SimplifiedCommonGoalCard> commonGoalCards;
 
+    /**
+     * The last server error message.
+     */
     private String serverErrorMessage;
+
+    /**
+     * The current phase of the game.
+     */
     private ClientPhasesEnum currentPhase;
 
     public void addToChatHistory(ChatMessage message){
@@ -177,14 +224,6 @@ public class ClientState implements Cloneable {
         this.chatHistory = chatHistory;
     }
 
-    public Map<Player, Integer> getScores() {
-        return scores;
-    }
-
-    public void setScores(Map<Player, Integer> scores) {
-        this.scores = scores;
-    }
-
     public ObjectTypeEnum[][] getBoard() {
         return board;
     }
@@ -239,6 +278,4 @@ public class ClientState implements Cloneable {
     public void setFirstToCompleteShelf(String firstToCompleteShelf) {
         this.firstToCompleteShelf = firstToCompleteShelf;
     }
-
-    // @TODO: TO ADD EVENTUAL OTHERS PROPS FOR THE VIEW
 }

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
 /**
- * Marking interface implemented by classes which handles the creation and the creation of the next state
- * based on the in coming Message object from server.
+ * Marking interface implemented by classes which handles the creation of messages to dispatch to server
+ * and the update of the client state based on the incoming Message objects from server.
  */
 public interface MessagesHandler {
 

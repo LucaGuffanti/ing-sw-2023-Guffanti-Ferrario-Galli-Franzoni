@@ -10,7 +10,8 @@ import java.util.*;
 
 /**
  * A StateContainer is an object which holds the application's state,
- * which can be acquired or updated through the supplied methods.
+ * which can be acquired or updated through the StateContainer supplied method (dispatch).
+ * @see StateContainer#dispatch(Message)
  */
 public class StateContainer {
 

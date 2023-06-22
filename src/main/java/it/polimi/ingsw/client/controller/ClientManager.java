@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.controller;
 
-import it.polimi.ingsw.client.controller.constants.ConnectionModesEnum;
 import it.polimi.ingsw.client.controller.constants.UIModesEnum;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
@@ -11,7 +10,6 @@ import it.polimi.ingsw.network.ClientNetworkHandler;
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.socket.SocketClient;
 
-import javax.swing.plaf.nimbus.State;
 import java.rmi.RemoteException;
 
 /**
