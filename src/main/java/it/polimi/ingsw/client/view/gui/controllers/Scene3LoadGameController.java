@@ -19,40 +19,98 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for load game scene
+ * @author Marco Galli
+ */
 public class Scene3LoadGameController implements GameSceneController, Initializable {
+    /**
+     * The button for player selection in chat
+     */
     @FXML
     private MenuButton recipientMenu;
+
+    /**
+     * The list of messages in chat
+     */
     @FXML
     private ListView messages;
+
+    /**
+     * The text field in chat where a player writes a message
+     */
     @FXML
     private TextField messageText;
+
+    /**
+     * The button which sends the message in chat
+     */
     @FXML
     private Button sendButton;
+
+    /**
+     * The label for error messages
+     */
     @FXML
     private Label labelErrorLoadGame;
+
+    /**
+     * The volume slider
+     */
     @FXML
     private Slider sliderVolume;
+
+    /**
+     * The button for loading the saved game
+     */
     @FXML
     private Button buttonYesLoadGame;
+
+    /**
+     * The button for not loading the saved game
+     */
     @FXML
     private Button buttonNoLoadGame;
+
+    /**
+     * The label containing info of this scene
+     */
     @FXML
     private Label labelLoadGame;
+
+    /**
+     * List of players that can be selected in chat
+     */
     private ArrayList<MenuItem> recipients = new ArrayList<>();
+
+    /**
+     * Generic player that can be selected in chat
+     */
     private String messageRecipient;
 
+    /**
+     * This method allows the volume slider to be set
+     * @param volume the media player volume
+     */
     @Override
     public void setSliderVolume(double volume) {
         sliderVolume.setValue(volume * 100);
         sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
-
+    /**
+     * This method sets the error message in the label for error messages
+     * @param message the error message
+     */
     @Override
     public void setLabelErrorMessage(String message) {
         labelErrorLoadGame.setText(message);
     }
 
+    /**
+     * This method sends a found saved game response message to the network handler with the player's choice,
+     * if the reload is accepted
+     */
     public void yesLoad() {
         ClientManager.getInstance().getNetworkHandler().sendMessage(
                 new FoundSavedGameResponseMessage(
@@ -64,6 +122,11 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
         buttonNoLoadGame.setDisable(true);
         labelLoadGame.setText("Loading...");
     }
+
+    /**
+     * This method sends a found saved game response message to the network handler with the player's choice,
+     * if the reload is refused
+     */
     public void noLoad() {
         ClientManager.getInstance().getNetworkHandler().sendMessage(
                 new FoundSavedGameResponseMessage(
@@ -76,6 +139,10 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
         labelLoadGame.setText("Loading...");
     }
 
+    /**
+     * This method receives chat messages
+     * @param chatMessage the chat message
+     */
     @Override
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
@@ -89,12 +156,14 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
         }
     }
 
+    /**
+     * This method initializes the scene, in particular the send button and the ENTER key for sending chat messages
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sendButton.setOnMouseClicked(e->{
             sendMessage();
         });
-
         messageText.setOnKeyPressed(e->{
             if (e.getCode().equals(KeyCode.ENTER)) {
                 sendMessage();
@@ -102,6 +171,10 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
         });
     }
 
+    /**
+     * This method sends a message in the chat when the "enter" button is pressed while inserting the message
+     * or when the "send" button is pressed.
+     */
     public void sendMessage() {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
         String messageBody = messageText.getText().trim();
@@ -136,6 +209,10 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
         }
     }
 
+    /**
+     * This method draws the scene, in particular previous chat messages
+     * @param stage the stage of gui
+     */
     @Override
     public void drawScene(Stage stage) {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();

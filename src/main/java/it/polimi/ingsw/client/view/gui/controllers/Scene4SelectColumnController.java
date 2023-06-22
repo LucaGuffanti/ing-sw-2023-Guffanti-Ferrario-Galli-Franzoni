@@ -17,9 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -27,51 +25,131 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Controller for select column scene
+ * @author Marco Galli
+ */
 public class Scene4SelectColumnController implements GameSceneController, Initializable {
+    /**
+     * The label where the message "Hi, username" is displayed
+     */
     @FXML
     private Label usernameLabel;
+
+    /**
+     * The button for player selection in chat
+     */
     @FXML
     private MenuButton recipientMenu;
+
+    /**
+     * The list of messages in chat
+     */
     @FXML
     private ListView messages;
+
+    /**
+     * The text field in chat where a player writes a message
+     */
     @FXML
     private TextField messageText;
+
+    /**
+     * The button which sends the message in chat
+     */
     @FXML
     private Button sendButton;
+
+    /**
+     * List of players that can be selected in chat
+     */
     private ArrayList<MenuItem> recipients = new ArrayList<>();
+
+    /**
+     * Generic player that can be selected in chat
+     */
     private String messageRecipient;
+
+    /**
+     * The volume slider
+     */
     @FXML
     private Slider sliderVolume;
-    @FXML
-    private Button b0, b1, b2, b3, b4;
-    @FXML
-    private Label phaseDescription;
+
+    /**
+     * The label for error messages
+     */
     @FXML
     private Label textError;
+
+    /**
+     * The container which contains players' shelves
+     */
     @FXML
     private VBox shelvesBox;
+
+    /**
+     * The container of the current player's shelf
+     */
     @FXML
     private GridPane gameShelf;
+
+    /**
+     * The points of the first common goal
+     */
     @FXML
     private GridPane cg1Points;
+
+    /**
+     * The points of the second common goal
+     */
     @FXML
     private GridPane cg2Points;
+
+    /**
+     * The image of the personal goal card
+     */
     @FXML
     private ImageView personalGoal;
+
+    /**
+     * The image of the first common goal card
+     */
     @FXML
     private ImageView commonGoal1;
+
+    /**
+     * The image of the second common goal card
+     */
     @FXML
     private ImageView commonGoal2;
+
+    /**
+     * The container of tiles that have been picked
+     */
     @FXML
     private GridPane selectedTiles;
+
+    /**
+     * List of shelf cells which contains images tiles
+     */
     private List<ImageView> shelfCells = new ArrayList<>();
 
+    /**
+     * This method allows the volume slider to be set
+     * @param volume the media player volume
+     */
     @Override
     public void setSliderVolume(double volume) {
         sliderVolume.setValue(volume * 100);
         sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
+    /**
+     * This method draws the shelf, the last picked tiles, the personal goal card, the shelves,
+     * the common goal cards with their points, the username label and previous messages
+     * @param stage the stage of gui
+     */
     @Override
     public void drawScene(Stage stage) {
         setLabelErrorMessage("");
@@ -101,7 +179,6 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         Image pgImage = MediaManager.personalGoalToImage.get(state.getPersonalGoalCardId());
         personalGoal.setImage(pgImage);
 
-        phaseDescription.setText("Select a column");
         usernameLabel.setText("Hi, "+state.getUsername());
 
         gameShelf.getChildren().clear();
@@ -177,6 +254,10 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         Renderer.renderMessages(messages, state.getUsername());
         messageText.clear();
     }
+
+    /**
+     * This method renders shelves and common goal cards with their points
+     */
     public void renderShelves() {
         Renderer.renderShelvesAndCards(shelvesBox,
                 cg1Points,
@@ -185,6 +266,10 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
                 commonGoal2);
     }
 
+    /**
+     * This method sends a select column message to the network handler with player username and the selected column
+     * @param actionEvent the action event that is triggered by clicking on a button which refers to a column
+     */
     public void submitSelection(ActionEvent actionEvent) {
         int col;
         String buttonId = ((Button) actionEvent.getSource()).getText();
@@ -211,15 +296,19 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         ((Scene4BoardSceneController) Gui.instance.getPhaseToControllerMap().get(ClientPhasesEnum.PICK_FORM_BOARD)).getLastPickedTiles().clear();
     }
 
+    /**
+     * This method sets the error message in the label for error messages
+     * @param message the error message
+     */
     @Override
     public void setLabelErrorMessage(String message) {
         textError.setText(message);
     }
 
-    public void renderName(String name) {
-        phaseDescription.setText("It's " + name + "'s turn");
-    }
-
+    /**
+     * This method receives chat messages
+     * @param chatMessage the chat message
+     */
     @Override
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
@@ -233,12 +322,14 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         }
     }
 
+    /**
+     * This method initializes the scene, in particular the send button and the ENTER key for sending chat messages
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sendButton.setOnMouseClicked(e->{
             sendMessage();
         });
-
         messageText.setOnKeyPressed(e->{
             if (e.getCode().equals(KeyCode.ENTER)) {
                 sendMessage();
@@ -246,6 +337,10 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         });
     }
 
+    /**
+     * This method is called when the "enter" button is pressed while inserting the message
+     * or when the "send" button is pressed.
+     */
     public void sendMessage() {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
         String messageBody = messageText.getText().trim();

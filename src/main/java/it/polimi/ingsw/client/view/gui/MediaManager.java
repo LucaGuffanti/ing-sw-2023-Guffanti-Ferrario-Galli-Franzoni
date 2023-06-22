@@ -2,28 +2,50 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.view.cli.Printer;
 
-import java.io.FileInputStream;
 import java.util.HashMap;
 
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelBuffer;
 
 /**
  * This object contains all the resources that are useful for the gui.
  * @author Luca Guffanti
  */
 public class MediaManager {
+    /**
+     *  The map which contains personal goal ID mapped to their relative image.
+     */
     public static HashMap<String, Image> personalGoalToImage = new HashMap<>();
+
+    /**
+     *  The map which contains common goal ID mapped to their relative image.
+     */
     public static HashMap<String, Image> commonGoalToImage = new HashMap<>();
+
+    /**
+     *  The map which contains our local common goal ID mapped to their correct ID as found in resources.
+     */
     public static HashMap<String, String> jsonCommonGoalIdToResourceId = new HashMap<>();
+
+    /**
+     *  The map which contains tiles ID mapped to their relative image.
+     */
     public static HashMap<ObjectTypeEnum, Image> tileToImage = new HashMap<>();
+
+    /**
+     *  The map which contains point cards ID mapped to their relative image.
+     */
     public static HashMap<PointEnumeration, Image> pointToImage = new HashMap<>();
 
+    /**
+     * The card point of end game.
+     */
     public static Image endOfGamePoint;
 
+    /**
+     * Compiling map jsonCommonGoalIdToResourceId.
+     */
     static {
         jsonCommonGoalIdToResourceId.put("0", "4");
         jsonCommonGoalIdToResourceId.put("1", "11");
@@ -127,9 +149,5 @@ public class MediaManager {
             Printer.error("COULD NOT LOAD GRAPHIC RESOURCES");
             System.exit(1);
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(personalGoalToImage.get("1"));
     }
 }

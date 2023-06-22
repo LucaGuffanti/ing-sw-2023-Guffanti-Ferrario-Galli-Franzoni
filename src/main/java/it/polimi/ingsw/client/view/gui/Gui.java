@@ -8,6 +8,8 @@ import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.gui.controllers.*;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 
+import it.polimi.ingsw.network.rmi.RMIClient;
+import it.polimi.ingsw.network.socket.SocketClient;
 import it.polimi.ingsw.server.controller.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -28,37 +30,99 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * This class contains main info of GUI
- * @author Marco Galli
+ * This class is the Gui of the game. It has attributes and methods that allow the player to correctly play the game
+ * and to correctly display various messages and data based on the local state of the game.
+ * @author Marco Galli, Luca Guffanti
  */
 public class Gui extends Application implements UserInterface, PropertyChangeListener {
+    /**
+     * The instance of the Gui. It is useful to have this reference in order to have access to Gui info from
+     * other classes.
+     */
     public static Gui instance;
+
+    /**
+     * The network handler. {@link ClientNetworkHandler} is an abstract class that specializes as a {@link SocketClient}
+     * or as a {@link RMIClient}
+     */
     private ClientNetworkHandler clientNetworkHandler;
+
+    /**
+     * The container of the state of the client
+     */
     private StateContainer stateContainer;
+
+    /**
+     * The map which contains FXML scenes mapped to game phases.
+     */
     private HashMap<ClientPhasesEnum, Scene> phaseToSceneMap;
+
+    /**
+     * The map which contains scene controllers mapped to game phases.
+     */
     private HashMap<ClientPhasesEnum, SceneController> phaseToControllerMap;
+
+    /**
+     * The map which contains musics mapped to game phases.
+     */
     private HashMap<ClientPhasesEnum, MediaPlayer> phaseToMusicMap;
+
+    /**
+     * The stage of the Gui
+     */
     private static Stage stage;
+
+    /**
+     * The scene of the Gui
+     */
     private Scene scene;
+
+    /**
+     * The media player of the Gui
+     */
     private MediaPlayer mediaPlayer;
+
+    /**
+     * The scene of game aborted
+     */
     private Scene sGameAborted;
 
+
+    /**
+     * This method returns the attribute phaseToControllerMap
+     * @return phaseToControllerMap
+     */
     public HashMap<ClientPhasesEnum, SceneController> getPhaseToControllerMap() {
         return phaseToControllerMap;
     }
 
+    /**
+     * This method returns the attribute stage
+     * @return stage
+     */
     public static Stage getStage() {
         return stage;
     }
 
+    /**
+     * This method returns the attribute mediaPlayer
+     * @return mediaPlayer
+     */
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
+    /**
+     * This method sets the attribute mediaPlayer
+     */
     public void setMediaPlayer(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
     }
 
+    /**
+     * This method initializes the Gui. During initialization, scenes, controllers and musics are loaded
+     * in their relative maps, in order to limit loading time during the game.
+     */
     private void initGui(){
         try {
             // LOAD SCENES AND CONTROLLERS
@@ -98,9 +162,9 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             phaseToControllerMap.put(ClientPhasesEnum.LOBBY, loader.getController());
 
             // GAME CYCLE SCENES:
-            //  PICK FROM BOARD
-            //  SELECT COLUMN
-            //  WAIT FOR TURN
+            // PICK FROM BOARD
+            // SELECT COLUMN
+            // WAIT FOR TURN
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene4BoardScene.fxml"));
@@ -158,6 +222,13 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         }
     }
 
+    /**
+     * This method renders gui scenes when the game phase changes. First, in certain game phases the scene
+     * have to be set according to precedent events, then the scene is rendered and the media player is handled
+     * @param sceneToRender is the scene to render
+     * @param m is the gui media player
+     * @throws IOException if there are problems in rendering the scene
+     */
     private void renderGui(Scene sceneToRender, MediaPlayer m) throws IOException {
         ClientPhasesEnum phase = ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase();
         if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
@@ -172,6 +243,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         }
 
         getStage().setScene(sceneToRender);
+
         if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
             if (getMediaPlayer() != null) {
                 getMediaPlayer().stop();
@@ -187,39 +259,19 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         }
     }
 
-    public void renderCurrentScene() throws IOException {
-        ClientPhasesEnum phase = ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase();
-        if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD) ||
-                phase.equals(ClientPhasesEnum.WAITING_FOR_TURN) ||
-                phase.equals(ClientPhasesEnum.SELECT_COLUMN) ||
-                phase.equals(ClientPhasesEnum.DECIDING_FOR_RELOAD) ||
-                phase.equals(ClientPhasesEnum.FINAL_RESULTS_SHOW)) {
-            System.out.println("Drawing scene");
-            GameSceneController controller = (GameSceneController) phaseToControllerMap.get(phase);
-            System.out.println(controller);
-            controller.drawScene(stage);
-        }
-
-        getStage().setScene(phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase()));
-        MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
-        if (m != null && (getMediaPlayer() == null || !Objects.equals(m.getMedia().getSource(), getMediaPlayer().getMedia().getSource()))) {
-            if (getMediaPlayer() != null) {
-                getMediaPlayer().stop();
-                m.setVolume(getMediaPlayer().getVolume());
-            }
-            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(m.getVolume());
-            setMediaPlayer(m);
-            m.play();
-        } else if (m == null && getMediaPlayer() != null && phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()) != null) {
-            phaseToControllerMap.get(stateContainer.getCurrentState().getCurrentPhase()).setSliderVolume(getMediaPlayer().getVolume());
-        }
-    }
-
+    /**
+     * This method launches the Gui.
+     */
     @Override
     public void run() {
         Application.launch();
     }
 
+    /**
+     * This method starts the Gui. Initialization starts, stage is created and the scene is rendered.
+     * @param stage the main stage
+     * @throws Exception if there are problems on starting gui
+     */
     @Override
     public void start(Stage stage) throws Exception {
         instance = this;
@@ -254,9 +306,14 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         } catch (Exception e) {
             e.printStackTrace();
         }
-        renderCurrentScene();
+        Scene sceneToRender = phaseToSceneMap.get(stateContainer.getCurrentState().getCurrentPhase());
+        MediaPlayer m = phaseToMusicMap.get((stateContainer.getCurrentState().getCurrentPhase()));
+        renderGui(sceneToRender, m);
     }
 
+    /**
+     * This method renders the game aborted scene.
+     */
     @Override
     public void onGameAborted() {
         try {
@@ -271,6 +328,10 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         }
     }
 
+    /**
+     * This method sets a message error label in gui.
+     * @param msg the error message to display
+     */
     @Override
     public void printErrorMessage(String msg) {
         Platform.runLater(()->{
@@ -278,6 +339,15 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
         });
     }
 
+    /**
+     * PropertyChangeListener overridden method.
+     * It this application, the method is only called when the ClientState in the StateContainer is updated.
+     * Here, the gui will render a scene depending on which attribute has been updated.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     * @see StateContainer
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         ClientState currentState = ClientManager.getInstance().getStateContainer().getCurrentState();
@@ -322,10 +392,6 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             case "activePlayer" -> {
                 if (phase.equals(ClientPhasesEnum.WAITING_FOR_TURN)) {
                     Scene4WaitingController g = (Scene4WaitingController) phaseToControllerMap.get(ClientPhasesEnum.WAITING_FOR_TURN);
-                    Platform.runLater(g::renderName);
-                }
-                if (phase.equals(ClientPhasesEnum.PICK_FORM_BOARD)) {
-                    Scene4BoardSceneController g = (Scene4BoardSceneController) phaseToControllerMap.get(ClientPhasesEnum.PICK_FORM_BOARD);
                     Platform.runLater(g::renderName);
                 }
             }

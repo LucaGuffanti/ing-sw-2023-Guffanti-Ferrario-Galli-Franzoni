@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.geometry.Pos;
@@ -14,14 +13,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
-import javax.print.attribute.standard.Media;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class contains methods that render gui elements.
+ * @author Luca Guffanti, Marco Galli
+ */
 public class Renderer {
-
+    /**
+     *  The map which contains list of point enumeration mapped to number of players.
+     */
     public static Map<Integer, List<PointEnumeration>> nPlayersToPoints =
             Map.of(
                     2, List.of(PointEnumeration.FOUR_POINTS, PointEnumeration.EIGHT_POINTS),
@@ -29,6 +32,15 @@ public class Renderer {
                     4, List.of(PointEnumeration.TWO_POINTS, PointEnumeration.FOUR_POINTS, PointEnumeration.SIX_POINTS, PointEnumeration.EIGHT_POINTS)
             );
 
+    /**
+     * This method renders shelves and calls the method that renders common goal cards with their points
+     * located on the left side of the window.
+     * @param shelvesBox the container where shelves are rendered
+     * @param cg1Points the container of points for the first common goal
+     * @param cg2Points the container of points for the second common goal
+     * @param cg1View the image of the first common goal
+     * @param cg2View the image of the second common goal
+     */
     public static void renderShelvesAndCards(VBox shelvesBox,
                                              GridPane cg1Points,
                                              GridPane cg2Points,
@@ -246,6 +258,13 @@ public class Renderer {
         renderCards(cg1Points, cg2Points, cg1View, cg2View);
     }
 
+    /**
+     * This method renders the common goal cards and their relative points.
+     * @param cg1Points the container of points for the first common goal
+     * @param cg2Points the container of points for the second common goal
+     * @param commonGoal1 the image of the first common goal
+     * @param commonGoal2 the image of the second common goal
+     */
     public static void renderCards(
             GridPane cg1Points,
             GridPane cg2Points,
@@ -321,6 +340,12 @@ public class Renderer {
 
     }
 
+    /**
+     * This method prints chat messages.
+     * @param c the chat message
+     * @param ownUsername username of the player
+     * @return
+     */
     public static String printChatMessage(ChatMessage c, String ownUsername) {
         boolean isPrivate = c.getRecipients().size() > 0;
         int numOfOtherActivePlayers = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames().size() - 1;
@@ -361,6 +386,11 @@ public class Renderer {
         return builder.toString();
     }
 
+    /**
+     * Prints previous messages when changing between scenes.
+     * @param messages chat container
+     * @param username username of player
+     */
     public static void renderMessages(ListView<Label> messages, String username) {
         List<ChatMessage> messageList;
         List<ChatMessage> chat = ClientManager.getInstance().getStateContainer().getCurrentState().getChatHistory();

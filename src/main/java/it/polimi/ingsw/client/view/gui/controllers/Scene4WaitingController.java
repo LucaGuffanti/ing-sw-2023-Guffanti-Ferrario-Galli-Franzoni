@@ -24,46 +24,128 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for waiting scene
+ * @author Luca Guffanti, Marco Galli
+ */
 public class Scene4WaitingController implements GameSceneController, Initializable {
+    /**
+     * The button for player selection in chat
+     */
     @FXML
     private MenuButton recipientMenu;
+
+    /**
+     * The list of messages in chat
+     */
     @FXML
     private ListView messages;
+
+    /**
+     * The text field in chat where a player writes a message
+     */
     @FXML
     private TextField messageText;
+
+    /**
+     * The button which sends the message in chat
+     */
     @FXML
     private Button sendButton;
+
+    /**
+     * List of players that can be selected in chat
+     */
     private ArrayList<MenuItem> recipients = new ArrayList<>();
+
+    /**
+     * Generic player that can be selected in chat
+     */
     private String messageRecipient;
     // Player's username displayed on top
+
+    /**
+     * The label where the message "Hi, username" is displayed
+     */
     @FXML
     private Label usernameLabel;
+
+    /**
+     * A small description of this phase
+     */
     @FXML
     private Label phaseDescription;
+
+    /**
+     * The label for error messages
+     */
     @FXML
     private Label textError;
+
+    /**
+     * The volume slider
+     */
     @FXML
     private Slider sliderVolume;
+
+    /**
+     * The container which contains players' shelves
+     */
     @FXML
     private VBox shelvesBox;
+
+    /**
+     * The board of the game
+     */
     @FXML
     private GridPane gameBoard;
+
+    /**
+     * The points of the first common goal
+     */
     @FXML
     private GridPane cg1Points;
+
+    /**
+     * The points of the second common goal
+     */
     @FXML
     private GridPane cg2Points;
+
+    /**
+     * The image of the personal goal card
+     */
     @FXML
     private ImageView personalGoal;
+
+    /**
+     * The image of the first common goal card
+     */
     @FXML
     private ImageView commonGoal1;
+
+    /**
+     * The image of the second common goal card
+     */
     @FXML
     private ImageView commonGoal2;
 
+    /**
+     * This method allows the volume slider to be set
+     * @param volume the media player volume
+     */
     @Override
     public void setSliderVolume(double volume) {
         sliderVolume.setValue(volume * 100);
         sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
+
+    /**
+     * This method draws the board, the personal goal card, the shelves,
+     * the common goal cards with their points, the username label,
+     * the phase description and previous messages
+     * @param stage the stage of gui
+     */
     @Override
     public void drawScene(Stage stage) {
         ClientState state = ClientManager.getInstance().getStateContainer().getCurrentState();
@@ -116,6 +198,9 @@ public class Scene4WaitingController implements GameSceneController, Initializab
         messageText.clear();
     }
 
+    /**
+     * This method renders shelves and common goal cards with their points
+     */
     public void renderShelves() {
         Renderer.renderShelvesAndCards(shelvesBox,
                 cg1Points,
@@ -123,6 +208,10 @@ public class Scene4WaitingController implements GameSceneController, Initializab
                 commonGoal1,
                 commonGoal2);
     }
+
+    /**
+     * This method renders the game board
+     */
     public void renderBoard() {
         // destroying the previously built board
         gameBoard.getChildren().clear();
@@ -160,15 +249,26 @@ public class Scene4WaitingController implements GameSceneController, Initializab
         }
     }
 
+    /**
+     * This method sets the error message in the label for error messages
+     * @param message the error message
+     */
     @Override
     public void setLabelErrorMessage(String message) {
         textError.setText(message);
     }
 
+    /**
+     * This method renders the current player's name
+     */
     public void renderName() {
         phaseDescription.setText("It's " + ClientManager.getInstance().getStateContainer().getCurrentState().getActivePlayer() + "'s turn");
     }
 
+    /**
+     * This method receives chat messages
+     * @param chatMessage the chat message
+     */
     @Override
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
@@ -182,12 +282,14 @@ public class Scene4WaitingController implements GameSceneController, Initializab
         }
     }
 
+    /**
+     * This method initializes the scene, in particular the send button and the ENTER key for sending chat messages
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sendButton.setOnMouseClicked(e->{
             sendMessage();
         });
-
         messageText.setOnKeyPressed(e->{
             if (e.getCode().equals(KeyCode.ENTER)) {
                 sendMessage();
@@ -195,6 +297,10 @@ public class Scene4WaitingController implements GameSceneController, Initializab
         });
     }
 
+    /**
+     * This method is called when the "enter" button is pressed while inserting the message
+     * or when the "send" button is pressed.
+     */
     public void sendMessage() {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
         String messageBody = messageText.getText().trim();

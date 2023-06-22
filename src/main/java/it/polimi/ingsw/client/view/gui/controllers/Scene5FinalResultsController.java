@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -23,38 +22,93 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Controller for final results scene
+ * @author Marco Galli
+ */
 public class Scene5FinalResultsController implements GameSceneController, Initializable {
+    /**
+     * The label of the winner name player
+     */
     @FXML
     private Label winner;
+
+    /**
+     * The list of players
+     */
     @FXML
     private GridPane playerList;
+
+    /**
+     * The close button that closes the window
+     */
     @FXML
     private Button buttonClose;
+
+    /**
+     * The button for player selection in chat
+     */
     @FXML
     private MenuButton recipientMenu;
+
+    /**
+     * The list of messages in chat
+     */
     @FXML
     private ListView messages;
+
+    /**
+     * The text field in chat where a player writes a message
+     */
     @FXML
     private TextField messageText;
+
+    /**
+     * The button which sends the message in chat
+     */
     @FXML
     private Button sendButton;
+
+    /**
+     * List of players that can be selected in chat
+     */
     private ArrayList<MenuItem> recipients = new ArrayList<>();
+
+    /**
+     * Generic player that can be selected in chat
+     */
     private String messageRecipient;
+
+    /**
+     * The container of final results which contains players' names and their points
+     */
     @FXML
     private BorderPane borderPaneFinalResults;
+
+    /**
+     * The volume slider
+     */
     @FXML
     private Slider sliderVolume;
+
+    /**
+     * The label for error messages
+     */
     @FXML
     private Label labelErrorFinalResults;
 
+    /**
+     * This method initializes the scene, in particular the send button and the ENTER key for sending chat messages.
+     * Also, a fade-in effect is displayed
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         borderPaneFinalResults.setOpacity(0);
         makeFadeIn();
+
         sendButton.setOnMouseClicked(e->{
             sendMessage();
         });
-
         messageText.setOnKeyPressed(e->{
             if (e.getCode().equals(KeyCode.ENTER)) {
                 sendMessage();
@@ -62,12 +116,19 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
         });
     }
 
+    /**
+     * This method allows the volume slider to be set
+     * @param volume the media player volume
+     */
     @Override
     public void setSliderVolume(double volume) {
         sliderVolume.setValue(volume * 100);
         sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
+    /**
+     * Fade-in effect for initialization
+     */
     private void makeFadeIn() {
         FadeTransition fadeTransition = new FadeTransition();
         fadeTransition.setDuration(Duration.millis(2000));
@@ -76,17 +137,29 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
         fadeTransition.setToValue(1);
         fadeTransition.play();
     }
+
+    /**
+     * This method sets the error message in the label for error messages
+     * @param message the error message
+     */
     @Override
     public void setLabelErrorMessage(String message) {
         labelErrorFinalResults.setText(message);
     }
 
-    public void close(ActionEvent actionEvent) {
+    /**
+     * The method that is invoked when the close button is pressed
+     */
+    public void close() {
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
         System.exit(0);
     }
 
+    /**
+     * This method receives chat messages
+     * @param chatMessage the chat message
+     */
     @Override
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
@@ -100,6 +173,10 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
         }
     }
 
+    /**
+     * This method sends a message in the chat when the "enter" button is pressed while inserting the message
+     * or when the "send" button is pressed.
+     */
     public void sendMessage() {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
         String messageBody = messageText.getText().trim();
@@ -134,6 +211,11 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
         }
     }
 
+    /**
+     * This method draws the scene, in particular the winner name, the list of players with their points
+     * and previous chat messages
+     * @param stage the stage of gui
+     */
     @Override
     public void drawScene(Stage stage) {
         String winnerName = ClientManager.getInstance().getStateContainer().getCurrentState().getWinnerUserName();

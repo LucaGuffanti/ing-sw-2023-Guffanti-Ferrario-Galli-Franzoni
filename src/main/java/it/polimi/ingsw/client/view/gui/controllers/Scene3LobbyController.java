@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.controller.ClientManager;
-import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.client.view.gui.Renderer;
 import it.polimi.ingsw.network.messages.ChatMessage;
@@ -9,44 +8,92 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 
-import javax.swing.text.LabelView;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for lobby scene
+ * @author Luca Guffanti, Marco Galli
+ */
 public class Scene3LobbyController implements SceneWithChatController, Initializable {
+    /**
+     * The button which sends the message in chat
+     */
     @FXML
     private Button sendButton;
+
+    /**
+     * The button for player selection in chat
+     */
     @FXML
     private MenuButton recipientMenu;
+
+    /**
+     * The text field in chat where a player writes a message
+     */
     @FXML
     private TextField messageText;
+
+    /**
+     * The list of messages in chat
+     */
     @FXML
     private ListView<Label> messages;
+
+    /**
+     * The list of players connected to the lobby
+     */
     @FXML
     private ListView<Label> playerList;
+
+    /**
+     * The label for error messages
+     */
     @FXML
     private Label labelErrorStartGame;
+
+    /**
+     * The volume slider
+     */
     @FXML
     private Slider sliderVolume;
+
+    /**
+     * List of players that can be selected in chat
+     */
     private ArrayList<MenuItem> recipients = new ArrayList<>();
+
+    /**
+     * Generic player that can be selected in chat
+     */
     private String messageRecipient;
 
+    /**
+     * This method sets the error message in the label for error messages
+     * @param message the error message
+     */
     @Override
     public void setLabelErrorMessage(String message) {
         labelErrorStartGame.setText(message);
     }
 
+    /**
+     * This method allows the volume slider to be set
+     * @param volume the media player volume
+     */
     @Override
     public void setSliderVolume(double volume) {
         sliderVolume.setValue(volume * 100);
         sliderVolume.valueProperty().addListener(observable -> Gui.instance.getMediaPlayer().setVolume(sliderVolume.getValue() / 100));
     }
 
+    /**
+     * This method renders the logged players in ListView playerList in the middle of the screen
+     */
     public void renderLoggedPlayers() {
         List<String> players = ClientManager.getInstance().getStateContainer().getCurrentState().getOrderedPlayersNames();
 
@@ -89,7 +136,7 @@ public class Scene3LobbyController implements SceneWithChatController, Initializ
     }
 
     /**
-     * This method is called when the "enter" button is pressed while inserting the message
+     * This method sends a message in the chat when the "enter" button is pressed while inserting the message
      * or when the "send" button is pressed.
      */
     public void sendMessage() {
@@ -126,12 +173,14 @@ public class Scene3LobbyController implements SceneWithChatController, Initializ
         }
     }
 
+    /**
+     * This method initializes the scene, in particular the send button and the ENTER key for sending chat messages
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sendButton.setOnMouseClicked(e->{
             sendMessage();
         });
-
         messageText.setOnKeyPressed(e->{
             if (e.getCode().equals(KeyCode.ENTER)) {
                 sendMessage();
@@ -139,7 +188,10 @@ public class Scene3LobbyController implements SceneWithChatController, Initializ
         });
     }
 
-
+    /**
+     * This method receives chat messages
+     * @param chatMessage the chat message
+     */
     @Override
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
