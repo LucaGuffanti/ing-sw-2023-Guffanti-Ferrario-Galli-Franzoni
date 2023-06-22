@@ -175,6 +175,7 @@ public class Scene4SelectColumnController implements GameSceneController, Initia
         });
 
         Renderer.renderMessages(messages, state.getUsername());
+        messageText.clear();
     }
     public void renderShelves() {
         Renderer.renderShelvesAndCards(shelvesBox,

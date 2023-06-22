@@ -98,7 +98,7 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
                             "NOT IMPORTANT", ServerNetworkHandler.HOSTNAME),
                             rmiClientInterface
                     );
-                    TimeUnit.MILLISECONDS.sleep(15000);
+                    TimeUnit.MILLISECONDS.sleep(5000);
                 } catch (RemoteException e) {
                     onConnectionLost();
                     Thread.currentThread().interrupt();

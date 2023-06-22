@@ -131,6 +131,7 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
         });
 
         Renderer.renderMessages(messages, state.getUsername());
+        messageText.clear();
     }
 
     public void renderShelves() {

@@ -113,6 +113,7 @@ public class Scene4WaitingController implements GameSceneController, Initializab
         });
 
         Renderer.renderMessages(messages, state.getUsername());
+        messageText.clear();
     }
 
     public void renderShelves() {
