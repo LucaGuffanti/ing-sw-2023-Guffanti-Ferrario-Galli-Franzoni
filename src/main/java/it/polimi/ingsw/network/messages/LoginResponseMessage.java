@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
 
 /**
- * A login response is sent after a login request is reached, and indicates that the login failed or happened with
+ * A login response is sent after a login request is received, and indicates that the login failed or happened with
  * success.
  * @author Luca Guffanti
  */

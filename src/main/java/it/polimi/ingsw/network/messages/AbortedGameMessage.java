@@ -5,7 +5,9 @@ import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.Message
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
- *
+ * This message is sent from the server to connected clients when a connection error between a client and the server
+ * occurs
+ * @author Luca Guffanti
  */
 public class AbortedGameMessage extends Message{
     public AbortedGameMessage(String senderUsername) {

@@ -31,6 +31,9 @@ import java.util.ArrayList;
  *     <li>
  *         Boolean flag that marks whether the user has completed the shelf
  *     </li>
+ *     <li>
+ *         The username of the player who last played
+ *     </li>
  * </ol>
  *
  * This message is sent to every connected client.

@@ -22,6 +22,7 @@ import java.util.Map;
 
 /**
  * The RMI server. it can be called by each client.
+ * @author Luca Guffanti
  */
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface{
     ServerNetworkHandler serverNetworkHandler;
@@ -38,6 +39,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         return serverNetworkHandler;
     }
 
+    /**
+     * Method remotely called by a client to send a non-ping message to the server
+     * @param message message sent by the client
+     * @param rmiClientInterface interface of the client
+     * @throws RemoteException thrown if there are connection issues
+     */
     @Override
     public void receiveMessage(Message message, RMIClientInterface rmiClientInterface) throws RemoteException {
         if (message.getType().equals(MessageType.LOGIN_REQUEST)) {
@@ -47,16 +54,28 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         serverNetworkHandler.onMessageReceived(message);
     }
 
+    /**
+     * This message is called by the client to check that the server is online.
+     * @param message ping message sent from the client
+     * @param rmiClientInterface the interface of the client
+     * @throws RemoteException thrown if there are connection issues
+     */
     @Override
     public void incomingPing(Message message, RMIClientInterface rmiClientInterface) throws RemoteException {
         Logger.pingerInfo("Getting a ping from RMI Client");
     }
 
-
+    /**
+     * This method is called when a client wants to log into the server. A login request can yield a positive or negative
+     * result, which is sent to the client.
+     * @param username the requested username
+     * @param rmiClientInterface the client interface used for callback operations
+     * @throws RemoteException thrown if there are connection issues
+     */
     public void login(String username, RMIClientInterface rmiClientInterface) throws RemoteException {
         LoginResult result;
         Logger.networkInfo("Logging client from  RMI");
-        result = serverNetworkHandler.onLoginRequest(username, new RMIClientConnection(rmiClientInterface));
+        result = serverNetworkHandler.onLoginRequest(username, new RMIClientConnection(rmiClientInterface, serverNetworkHandler));
         Logger.networkInfo("Calling message from server for the new client");
 
         if (result.isLogged() && !result.isReconnecting()) {

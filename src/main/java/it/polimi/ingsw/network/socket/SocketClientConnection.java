@@ -16,11 +16,26 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * This class is used by the server to communicate with a client via a particular connection
+ * @author Luca Guffanti
+ */
 public class SocketClientConnection extends ClientConnection implements Runnable{
-
+    /**
+     * The socket
+     */
     private final Socket socket;
+    /**
+     * The socket server
+     */
     private final SocketServer socketServer;
+    /**
+     * The stream towards the client
+     */
     private  ObjectOutputStream out;
+    /**
+     * The stream from the client to the server
+     */
     private ObjectInputStream in;
 
 

@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.Players
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
- * this message is sent by the client as a response to the PickNumberOfPlayers message. It contains
+ * This message is sent by the client as a response to the PickNumberOfPlayers message. It contains
  * the number of players of the game that the client is creating.
  * @author Luca Guffanti
  */

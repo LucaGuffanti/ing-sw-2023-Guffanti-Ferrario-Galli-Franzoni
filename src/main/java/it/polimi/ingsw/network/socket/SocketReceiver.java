@@ -17,8 +17,17 @@ import java.util.List;
  * @author Luca Guffanti
  */
 public class SocketReceiver extends Thread {
+    /**
+     * Socket used to establish the connection
+     */
     Socket socket;
+    /**
+     * Stream from the server towards the client
+     */
     ObjectInputStream in;
+    /**
+     * Network side handler of the client
+     */
     ClientNetworkHandler clientNetworkHandler;
 
     public SocketReceiver(Socket socket, ObjectInputStream in, ClientNetworkHandler clientNetworkHandler) {
@@ -35,10 +44,6 @@ public class SocketReceiver extends Thread {
                 Message received = (Message) in.readObject();
                 // System.out.println(received.getType());
                 clientNetworkHandler.handleIncomingMessage(received);
-                /*synchronized (clientNetworkHandler.getMessageQueue()) {
-                    clientNetworkHandler.getMessageQueue().add(received);
-                    clientNetworkHandler.getMessageQueue().notifyAll();
-                }*/
             } catch (IOException e) {
                 //e.printStackTrace();
                 System.out.println("Lost connection with the server!");

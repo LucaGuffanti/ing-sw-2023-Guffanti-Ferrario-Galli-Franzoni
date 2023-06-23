@@ -15,8 +15,17 @@ import java.net.Socket;
  * @author Luca Guffanti
  */
 public class SocketSender {
+    /**
+     * The socket used to establish the connection
+     */
     Socket socket;
+    /**
+     * The stream towards the server
+     */
     ObjectOutputStream out;
+    /**
+     * Network side handler of the client
+     */
     ClientNetworkHandler clientNetworkHandler;
 
     public SocketSender(Socket socket, ObjectOutputStream out, ClientNetworkHandler clientNetworkHandler) {

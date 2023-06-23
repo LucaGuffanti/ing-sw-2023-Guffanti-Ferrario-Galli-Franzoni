@@ -18,17 +18,41 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * The network interface of the client based on the socket technology
+ * The implementation of the network-side of the client used for socket-based communication
  * @author Luca Guffanti
  */
 public class SocketClient extends ClientNetworkHandler {
+    /**
+     * The socket on which the connection is based
+     */
     private Socket socket;
+    /**
+     * Executor service used to send messages
+     */
     private ExecutorService executorService;
+    /**
+     * Stream towards the server
+     */
     private ObjectOutputStream out;
+    /**
+     * Stream from the server to the client
+     */
     private ObjectInputStream in;
+    /**
+     * The ip address of the server
+     */
     private final String serverIP;
+    /**
+     * The port of the server
+     */
     private final int serverPort;
+    /**
+     * Object that sends messages via socket
+     */
     private SocketSender sender;
+    /**
+     * Object that receives messages via socket
+     */
     private SocketReceiver receiver;
 
     public SocketClient(String serverIP, int serverPort, StateContainer stateContainer, ClientManager manager) throws RemoteException {
@@ -40,7 +64,7 @@ public class SocketClient extends ClientNetworkHandler {
     }
 
     /**
-     * This method initializes the socket connection and
+     * This method initializes the socket connection, the input streams and correctly acts in case of problems.
      */
     @Override
     public void init() {
@@ -78,6 +102,11 @@ public class SocketClient extends ClientNetworkHandler {
         receiver.start();
         sender = new SocketSender(socket, out, this);
     }
+
+    /**
+     * This method calls the executor service to send a message to the server via a {@link SocketSender}
+     * @param toSend the message to be sent to the server
+     */
     @Override
     public void sendMessage(Message toSend) {
         executorService.submit(()->sender.sendMessage(toSend));

@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.Players
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
- * this message is sent when a client tries to join a game that doesn't exist yet:
+ * This message is sent when a client tries to join a game that doesn't exist yet:
  * the client becomes the admin and creator of the game, and has to decide the number of player
  * the game will have.
  * @author Luca Guffanti

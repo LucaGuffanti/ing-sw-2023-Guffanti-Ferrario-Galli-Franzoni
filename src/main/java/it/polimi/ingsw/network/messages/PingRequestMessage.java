@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.PingMes
 import it.polimi.ingsw.network.messages.enums.MessageType;
 
 /**
- * This message is sent to each client by the server. It's used to ping the client and check for it being connected.
+ * This message is sent to each client by the server. It's used to ping clients and check for them being connected.
  * @author Luca Guffanti
  */
 public class PingRequestMessage extends Message{

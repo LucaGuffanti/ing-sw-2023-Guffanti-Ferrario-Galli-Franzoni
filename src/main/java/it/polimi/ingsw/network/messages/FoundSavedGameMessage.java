@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.enums.MessageType;
  *     <li>The number of logged in players is equal to the number of logged in players from the previous game</li>
  *     <li>All the names of the players match the names of the players of the previous game</li>
  * </ul>
+ * There's no need to have the same admin.
  * @author Luca Guffanti
  */
 public class FoundSavedGameMessage extends Message{

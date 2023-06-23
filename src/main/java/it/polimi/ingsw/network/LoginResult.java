@@ -6,7 +6,13 @@ package it.polimi.ingsw.network;
  * @author Luca Guffanti
  */
 public class LoginResult {
+    /**
+     * Whether a client has successfully logged in
+     */
     private boolean logged;
+    /**
+     * Whether a client is trying to reconnect
+     */
     private boolean reconnecting;
 
     public LoginResult(boolean logged, boolean reconnecting) {

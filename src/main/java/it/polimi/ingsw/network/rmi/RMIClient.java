@@ -17,13 +17,32 @@ import java.util.concurrent.TimeUnit;
 /**
  * The RMI Client is a client that uses the RMI (Remote Method Invocation) technology to communicate
  * with the game server.
+ * @author Luca Guffanti
  */
 public class RMIClient extends ClientNetworkHandler implements RMIClientInterface {
+    /**
+     * The name of the service registry
+     */
     private final String serviceName;
+    /**
+     * The ip address of the server
+     */
     private final String serverIP;
+    /**
+     * The RMI port on the server
+     */
     private final int serverPort;
+    /**
+     * Server interface used to access remote methods
+     */
     private RMIServerInterface server;
+    /**
+     * Pinger subsystem used by the client to check if the server is online
+     */
     private RMIClientPinger simplePinger;
+    /**
+     * Whether the pinger {@link RMIClient#simplePinger} is active
+     */
     private boolean pingerActive;
     public RMIClient(String serviceName, String serverIP, int serverPort, StateContainer stateContainer, ClientManager manager) throws RemoteException {
         super(stateContainer, manager);
@@ -77,11 +96,19 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
         }
     }
 
+    /**
+     * This method is remotely called by the server to send a message to the client.
+     * @param message the message sent by the server
+     * @throws RemoteException thrown if there are connection issues
+     */
     @Override
     public void messageFromServer(Message message) throws RemoteException {
         handleIncomingMessage(message);
     }
 
+    /**
+     * Pinger subsystem used to check that the server is online
+     */
     private class RMIClientPinger implements Runnable {
 
         private RMIClientInterface rmiClientInterface;
@@ -89,11 +116,14 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
         public RMIClientPinger(RMIClientInterface rmiClientInterface) {
             this.rmiClientInterface = rmiClientInterface;
         }
+
+        /**
+         * The client starts pinging the server with a regular time interval
+         */
         @Override
         public void run() {
             while(!Thread.currentThread().isInterrupted()) {
                 try {
-                    //System.out.println("Spontaneous pinging from the client");
                     server.incomingPing(new PingRequestMessage(
                             "NOT IMPORTANT", ServerNetworkHandler.HOSTNAME),
                             rmiClientInterface

@@ -4,7 +4,12 @@ import it.polimi.ingsw.network.messages.Message;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class representing the server-side state of a client connected to the server.
+ * @author Luca Guffanti
+ */
 public abstract class ClientConnection implements Serializable {
+
     private boolean isConnected;
     private String name;
     public abstract void sendMessage(Message m);

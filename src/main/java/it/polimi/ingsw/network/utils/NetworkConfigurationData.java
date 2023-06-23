@@ -12,13 +12,26 @@ import java.util.Scanner;
 
 /**
  * Class that retrieves information regarding the network-related configuration of the client (
- * socket of the server and rmi interface)
+ * socket of the server and rmi interface) by either reading an apposite file or by requesting the user to insert
+ * network data
  * @author Luca Guffanti
  */
 public class NetworkConfigurationData {
+    /**
+     * Ip address of the server
+     */
     private String serverIP;
+    /**
+     * Port of the server
+     */
     private int serverPort;
+    /**
+     * The rmi registry service name
+     */
     private String serverRMIRegistry;
+    /**
+     * The rmi port
+     */
     private int rmiPort;
 
     public NetworkConfigurationData(NetworkConfigurationData data) {
@@ -31,6 +44,10 @@ public class NetworkConfigurationData {
     public NetworkConfigurationData(){
     }
 
+    /**
+     * This method generates network configuration data
+     * @return data regarding a network configuration
+     */
     public NetworkConfigurationData get() {
         final String path = "config/serverInfo.json";
         Gson g = new Gson();
@@ -77,6 +94,11 @@ public class NetworkConfigurationData {
         return null;
     }
 
+    /**
+     * This method asks the user to insert network-related data (ip, ports, service name) and saves them to a file.
+     * @param path path to a file in which to save the data requested to the user
+     * @return the network data
+     */
     private NetworkConfigurationData requestNetworkData(String path) {
         Scanner scanner = new Scanner(System.in);
         boolean flag;
