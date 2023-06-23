@@ -21,6 +21,7 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
+import jdk.jfr.Label;
 
 import java.io.File;
 import java.util.*;
@@ -31,7 +32,14 @@ import java.util.*;
  * @author Luca Guffanti
  */
 public class GameController {
+
     public static final String NAME = "CONTROLLER";
+
+    /**
+     * Save File path
+     */
+    private String saveFilePath = "src/main/assets/savedGames/savefile.json";
+
     /**
      * The game instance
      */
@@ -56,6 +64,9 @@ public class GameController {
      * Whether a player has completed the second common goal in his turn
      */
     private boolean secondCommonGoalCompletedByActivePlayer;
+
+
+
     /**
      * Whether a player has completed its board in his turn
      */
@@ -90,6 +101,11 @@ public class GameController {
      */
     public GameController(ServerNetworkHandler serverNetworkHandler) {
         this.serverNetworkHandler = serverNetworkHandler;
+    }
+
+    public GameController(ServerNetworkHandler serverNetworkHandler, String alternativeSaveFilePath) {
+        this.serverNetworkHandler = serverNetworkHandler;
+        saveFilePath = alternativeSaveFilePath;
     }
 
     /**
@@ -220,14 +236,13 @@ public class GameController {
 
     /**
      * This method is called when the selected number of logged in players is reached. <br>
-     *     If there exists a saved game with the same number of players, with all the players having the same
+     *     If a saved game already exists with the same number of players, with all the players having the same
      *     nickname as the players from the previously saved game, the admin has to decide whether he wants
      *     to reload the previously ended game.
      */
     public synchronized void startGame() {
 
-        File saveFile = new File("src/main/assets/savedGames/savefile.json");
-
+        File saveFile = new File(saveFilePath);
         boolean existingFile = saveFile.exists() && !saveFile.isDirectory();
         if (existingFile) {
             Logger.controllerInfo("A SAVED GAME EXISTS");
@@ -235,6 +250,7 @@ public class GameController {
         } else {
             newGameNoReload();
         }
+
     }
 
     /**
@@ -469,7 +485,7 @@ public class GameController {
         }
 
         // the state is saved after all the points have been assigned
-        SaveFileManager.saveGameState(getGame(), this, "src/main/assets/savedGames/savefile.json");
+        SaveFileManager.saveGameState(getGame(), this, saveFilePath);
 
         if (completedShelf) {
             Logger.controllerInfo("the player completed the shelf");
@@ -626,5 +642,20 @@ public class GameController {
 
     public synchronized ServerNetworkHandler getNetworkHandler() {
         return serverNetworkHandler;
+    }
+
+    @Label("DEBUG")
+    public void setCompletedShelf(boolean completedShelf) {
+        this.completedShelf = completedShelf;
+    }
+    @Label("DEBUG")
+
+    public void setFirstCommonGoalCompletedByActivePlayer(boolean firstCommonGoalCompletedByActivePlayer) {
+        this.firstCommonGoalCompletedByActivePlayer = firstCommonGoalCompletedByActivePlayer;
+    }
+    @Label("DEBUG")
+
+    public void setSecondCommonGoalCompletedByActivePlayer(boolean secondCommonGoalCompletedByActivePlayer) {
+        this.secondCommonGoalCompletedByActivePlayer = secondCommonGoalCompletedByActivePlayer;
     }
 }

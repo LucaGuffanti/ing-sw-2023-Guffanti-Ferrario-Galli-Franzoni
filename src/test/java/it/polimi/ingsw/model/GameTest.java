@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.GameCheckout;
-import it.polimi.ingsw.server.model.Sack;
-import it.polimi.ingsw.server.model.cards.ObjectCard;
-import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
+import it.polimi.ingsw.controller.FakeServerNetworkHandler;
+import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.cards.goalCards.FixedPatternCommonGoalCard;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GameTest {
@@ -166,6 +165,79 @@ public class GameTest {
 
 
         game.moveCardsToPlayerShelf(player, testCellsCoordinates, 0);
+    }
+
+    /**
+     *
+     * @throws WrongNumberOfPlayersException
+     */
+    @Test
+    void awardPointCardTest() throws WrongNumberOfPlayersException {
+        int PLAYERS_NUMBER = 2;
+        Game game = new Game(new Player("admin"),PLAYERS_NUMBER, 0);
+        Player player = new Player("Daniele");
+        game.addPlayerDEBUG(player);
+
+        ArrayList<CommonGoalCard> cards = new ArrayList<>();
+
+        cards.add(GoalCardsDeckSingleton.getInstance().getCommonGoalCardById("1"));
+        cards.add(GoalCardsDeckSingleton.getInstance().getCommonGoalCardById("2"));
+
+        ArrayList<PointCard> pointCards = new ArrayList<>();
+        pointCards.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
+
+        cards.get(0).setPointsCards(pointCards);
+        cards.get(1).setPointsCards(pointCards);
+
+        game.getGameInfo().setSelectedCommonGoals(cards);
+
+        player.getAchievements().setCompletedFirstCommonGoal(false);
+        player.getAchievements().setCompletedSecondCommonGoal(false);
+        game.awardTurnWisePoints(player);
+    }
+
+    /**
+     * Exceptions handling
+     */
+
+    @Test
+    void playersNumberExceptions() throws WrongNumberOfPlayersException, MaxPlayersException {
+        int PLAYERS_NUMBER = 3;
+        List<Coordinates> testCellsCoordinates = new ArrayList<>();
+        testCellsCoordinates.add(new Coordinates(0,5));
+        testCellsCoordinates.add(new Coordinates(1,5));
+
+
+        try {
+            Game game = new Game(new Player("admin"), 0, 0);
+
+        }
+        catch (Exception ex){
+            assertEquals(new WrongNumberOfPlayersException(0).getMessage(), ex.getMessage());
+        }
+
+        GameController controller = new GameController(new FakeServerNetworkHandler());
+
+        Game game = new Game(new Player("admin"), PLAYERS_NUMBER, 0, controller);
+
+        game.addPlayer(new Player(null, "Daniele"));
+        game.addPlayer(new Player(null, "Armando"));
+
+        try{
+            game.addPlayer(new Player(null, "Davide"));
+
+        }catch (Exception ex){
+            assertEquals(new MaxPlayersException("The game is full").getMessage(), ex.getMessage());
+
+        }
+
+        try{
+            game.getGameInfo().setNPlayers(5);
+            game.initGame();
+        }catch (Exception ex){
+            assertEquals(new WrongNumberOfPlayersException(5).getMessage(), ex.getMessage());
+        }
+
     }
 
 

@@ -11,7 +11,10 @@ import it.polimi.ingsw.server.controller.GameStatusEnum;
 import it.polimi.ingsw.server.controller.turn.PickFromBoardPhase;
 import it.polimi.ingsw.server.controller.turn.PutInShelfPhase;
 import it.polimi.ingsw.server.controller.utils.GameObjectConverter;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.GameCheckout;
+import it.polimi.ingsw.server.model.Sack;
 import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
@@ -536,8 +539,6 @@ public class GameControllerTest {
             }
             assertEquals(gameController.getGame().getGameInfo().getNPlayers(), gameController.getGame().getPlayers().size());
             assertEquals(GameStatusEnum.STARTED, gameController.getGameStatus());
-            Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(gameController.getGame().getGameInfo().getCommonGoals().get(0)));
-            Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(gameController.getGame().getGameInfo().getCommonGoals().get(1)));
 
             assertEquals(0, gameController.getActivePlayerIndex());
             assertNotNull(gameController.getTurnPhase());
@@ -610,6 +611,24 @@ public class GameControllerTest {
         assertEquals("TestUser13"+1, gameCheckout.getWinner());
     }
 
+    /**
+     * Here goes the tests which aims to cover every possible event
+     * in the methods in a more specific way
+     */
+
+
+    /**
+     * End Turn method
+     */
+    @Test
+    public void endTurnFullMessageCreation() {
+
+        GameController gameController1 = new GameController(new FakeServerNetworkHandler());
+        gameController1.createGame("Daniele", 2, 0);
+        gameController1.onPlayerJoin("Luca");
+        gameController1.reloadExistingGame();
+        gameController1.endTurn();
+    }
 
     //TODO ADD JAVADOC
     //TODO ADD TEST CASE FOR THE END OF THE GAME (GAME FOR 2 PLAYERS, WITH THE SECOND PLAYER WITH SHELF FILLED WITH

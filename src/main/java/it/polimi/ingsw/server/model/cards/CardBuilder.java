@@ -35,9 +35,8 @@ public class CardBuilder {
      *
       * @param playersNumber the number of players in the current game
      * @return a list of PointCards based on the players number.
-     * @throws WrongNumberOfPlayersException
      */
-    public static ArrayList<PointCard> generatePointsCards(int playersNumber) throws WrongNumberOfPlayersException, WrongPointCardsValueGivenException {
+    public static ArrayList<PointCard> generatePointsCards(int playersNumber) throws WrongNumberOfPlayersException {
 
         if (playersNumber < 2 || playersNumber > 4)
             throw new WrongNumberOfPlayersException(playersNumber);
@@ -61,10 +60,9 @@ public class CardBuilder {
         return list;
     }
 
-    public static PointCard generatePointCardFromPointsGiven(int pointsGiven) throws WrongPointCardsValueGivenException {
+    public static PointCard generatePointCardFromPointsGiven(int pointsGiven){
         switch (pointsGiven){
-            case 0:
-                return new PointCard(PointEnumeration.ZERO_POINTS, 0);
+
             case 2:
                 return new PointCard(PointEnumeration.TWO_POINTS, 2);
             case 4:
@@ -74,7 +72,7 @@ public class CardBuilder {
             case 8:
                 return new PointCard(PointEnumeration.EIGHT_POINTS, 8);
             default:
-                throw new WrongPointCardsValueGivenException(pointsGiven);
+                return new PointCard(PointEnumeration.ZERO_POINTS, 0);
         }
 
     }

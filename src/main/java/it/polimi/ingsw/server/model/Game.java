@@ -81,6 +81,7 @@ public class Game {
      * @throws WrongNumberOfPlayersException if the number of players isn't between 2 and 4
      */
     public Game(Player admin, int nPlayers, int gameID) throws WrongNumberOfPlayersException{
+
         if (nPlayers < 2 || nPlayers > 4) {
             throw new WrongNumberOfPlayersException(nPlayers);
         }
@@ -94,10 +95,9 @@ public class Game {
         gameInfo.setNPlayers(nPlayers);
     }
 
+    // For Debugging purposes
     public Game(Player admin, int nPlayers, int gameID, GameController controller) throws WrongNumberOfPlayersException{
-        if (nPlayers < 2 || nPlayers > 4) {
-            throw new WrongNumberOfPlayersException(nPlayers);
-        }
+
 
         players = new ArrayList<>();
         players.add(admin);
@@ -146,9 +146,6 @@ public class Game {
         return board;
     }
 
-    public GoalCardsDeckSingleton getGoalCardsDeck() {
-        return goalCardsDeck;
-    }
 
     /**
      * This method is called when the number of wanted players is reached.
@@ -182,13 +179,8 @@ public class Game {
             }
         } catch (WrongNumberOfPlayersException e) {
             e.printStackTrace();
-        } catch (WrongPointCardsValueGivenException e) {
-            e.printStackTrace();
         }
-
-
         gameInfo.setSelectedCommonGoals(commonGoalCards);
-
         // then the personalGoalCards are taken from the deck and given to every player
         ArrayList<PersonalGoalCard> personalGoalCards;
         try{
@@ -210,10 +202,7 @@ public class Game {
      * the game controller
      */
     @Label("DEBUG")
-    public void addPlayerDEBUG(String nickname) throws MaxPlayersException {
-        if (players.size() == gameInfo.getNPlayers()) {
-            throw new MaxPlayersException("The game is full");
-        }
+    public void addPlayerDEBUG(String nickname)  {
 
         Player player = new Player(nickname);
         players.add(player);
@@ -225,10 +214,8 @@ public class Game {
      * the game controller
      */
     @Label("DEBUG")
-    public void addPlayerDEBUG(Player player) throws MaxPlayersException {
-        if (players.size() == gameInfo.getNPlayers()) {
-            throw new MaxPlayersException("The game is full");
-        }
+    public void addPlayerDEBUG(Player player)  {
+
         players.add(player);
     }
 
@@ -258,33 +245,25 @@ public class Game {
         if (!completedFirst) {
             toBeChecked = gameInfo.getSelectedCommonGoals().get(0);
 
-            try {
-                pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
-                pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
-                awardPointCard(currentPlayer, pointCardToBeAwarded, 1);
+            pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
 
-                if(currentPlayer.getAchievements().isCompletedFirstCommonGoal()) {
-                    controller.onCommonGoalCompletion(1);
-                }
+            pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
+            awardPointCard(currentPlayer, pointCardToBeAwarded, 1);
+
+            if(currentPlayer.getAchievements().isCompletedFirstCommonGoal()) {
+                controller.onCommonGoalCompletion(1);
             }
-            catch(WrongPointCardsValueGivenException ex){
-                ex.printStackTrace();
-            }
+
 
         }
         if(!completedSecond) {
             toBeChecked = gameInfo.getSelectedCommonGoals().get(1);
-            try {
-                pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
-                pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
-                awardPointCard(currentPlayer, pointCardToBeAwarded, 2);
+            pointsToBeAwarded = toBeChecked.calculatePoints(currentPlayer);
+            pointCardToBeAwarded = CardBuilder.generatePointCardFromPointsGiven(pointsToBeAwarded);
+            awardPointCard(currentPlayer, pointCardToBeAwarded, 2);
 
-                if(currentPlayer.getAchievements().isCompletedSecondCommonGoal()) {
-                    controller.onCommonGoalCompletion(2);
-                }
-            }
-            catch(WrongPointCardsValueGivenException ex){
-                ex.printStackTrace();
+            if(currentPlayer.getAchievements().isCompletedSecondCommonGoal()) {
+                controller.onCommonGoalCompletion(2);
             }
 
         }
@@ -432,9 +411,6 @@ public class Game {
         return players;
     }
 
-    public List<Shelf> getPlayersShelves(){
-        return players.stream().map(Player::getShelf).collect(Collectors.toList());
-    }
 
     /**
      * This method moves cards to a player's shelf. More specifically, it commands the execution of the equivalent

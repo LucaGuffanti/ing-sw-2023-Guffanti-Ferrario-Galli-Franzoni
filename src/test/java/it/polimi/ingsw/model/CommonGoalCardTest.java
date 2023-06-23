@@ -339,10 +339,8 @@ public class CommonGoalCardTest {
         points.add(new PointCard(PointEnumeration.EIGHT_POINTS, 8));
         exampleCard.setPointsCards(points);
 
-        Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(exampleCard));
         assertEquals(EXPECTED_VALUE, exampleCard.calculatePoints(player));
         assertEquals(3, exampleCard.getPointsCards().size());
-        Printer.printSimplifiedCommonGoal(GameObjectConverter.fromCommonGoalToSimplifiedPartialCommonGoal(exampleCard));
     }
 
     @Test

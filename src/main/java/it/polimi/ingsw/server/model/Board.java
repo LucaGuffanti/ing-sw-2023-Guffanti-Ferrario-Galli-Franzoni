@@ -191,4 +191,21 @@ public class Board {
         this.cells = cells;
     }
 
+    public int getHeightInCells() {
+        return heightInCells;
+    }
+
+    public int getLengthInCells() {
+        return lengthInCells;
+    }
+
+    public boolean isToBeRefilled() {
+        return toBeRefilled;
+    }
+
+    public void setToBeRefilled(boolean toBeRefilled) {
+        this.toBeRefilled = toBeRefilled;
+    }
+
+
 }
