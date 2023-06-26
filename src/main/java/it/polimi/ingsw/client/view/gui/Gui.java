@@ -131,7 +131,9 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             Parent pLogin = loader.load();
             Scene sLogin = new Scene(pLogin, scene.getWidth(), scene.getHeight());
             phaseToSceneMap.put(ClientPhasesEnum.LOGIN, sLogin);
+            phaseToSceneMap.put(ClientPhasesEnum.NOT_JOINED, sLogin);
             phaseToControllerMap.put(ClientPhasesEnum.LOGIN, loader.getController());
+            phaseToControllerMap.put(ClientPhasesEnum.NOT_JOINED, loader.getController());
 
             loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/scene2LobbyCreation.fxml"));

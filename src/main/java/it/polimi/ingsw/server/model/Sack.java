@@ -17,6 +17,9 @@ import java.util.Collections;
  * @author Luca Guffanti
  * */
 public class Sack {
+    /**
+     * The tiles that will be put on the board
+     */
     private ArrayList<ObjectCard> cards;
 
     public Sack() {

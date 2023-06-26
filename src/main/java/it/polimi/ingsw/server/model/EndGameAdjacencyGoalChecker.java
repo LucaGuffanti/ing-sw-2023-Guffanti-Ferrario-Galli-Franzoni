@@ -10,12 +10,9 @@ import java.util.Map;
 /**
  * This class contains the methods used to calculate the points that can be earned
  * by inserting adjacent object cars into the shelf. <br>
- *
- *
  * @author Luca Guffanti
  */
 public class EndGameAdjacencyGoalChecker {
-
     /**
      * Map that associates the total dimension of a group of adjacent equal object cards to the points that will
      * be earned by the player.
@@ -74,5 +71,4 @@ public class EndGameAdjacencyGoalChecker {
 
         return totalPoints;
     }
-
 }

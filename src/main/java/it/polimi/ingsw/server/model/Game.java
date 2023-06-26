@@ -15,13 +15,11 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.*;
-import it.polimi.ingsw.server.model.utils.exceptions.*;
 import jdk.jfr.Label;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The main game class. <br>
@@ -56,17 +54,40 @@ import java.util.stream.Collectors;
  * @see GameInfo
  * @see GoalCardsDeckSingleton
  */
-
-
 public class Game {
-
+    /**
+     * The board of the game
+     */
     private Board board;
+
+    /**
+     * The sack where tiles are picked
+     */
     private Sack sack;
+
+    /**
+     * The card point that is assigned to the first player who completes the shelf
+     */
     private EndOfGameCard endOfGameCard;
+
+    /**
+     * The list of players
+     */
     private ArrayList<Player> players;
+
+    /**
+     * The information of the game
+     */
     private GameInfo gameInfo;
 
+    /**
+     * The game controller
+     */
     private GameController controller;
+
+    /**
+     * The deck of personal and common goal cards
+     */
     private GoalCardsDeckSingleton goalCardsDeck;
 
     /**
@@ -138,14 +159,22 @@ public class Game {
         // setting every player
         players = GameObjectConverter.fromSimplifiedPlayerToPlayer(savedPlayers);
     }
+
+    /**
+     * This method sets the board of the game
+     * @param board the board of the game
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * This method returns the board of the game
+     * @return the board of the game
+     */
     public Board getBoard() {
         return board;
     }
-
 
     /**
      * This method is called when the number of wanted players is reached.
@@ -375,25 +404,6 @@ public class Game {
     }
 
     /**
-     * This method adds a player to the game, given the nickname of the player. If the game is full,
-     * so the number of maximum players is reached, an exception is thrown.
-     * @param nickname the nickname of the player to be added
-     * @throws MaxPlayersException when the number of players decided by the host is reached
-     *
-    public void addPlayer(String nickname) throws MaxPlayersException {
-        if (players.size() == gameInfo.getNPlayers()) {
-            throw new MaxPlayersException("The game is full");
-        }
-
-        Player player = new Player(nickname);
-        players.add(player);
-        if (players.size() == gameInfo.getNPlayers()) {
-            controller.startGame();
-        }
-    }*/
-
-
-    /**
      * This method adds a player to the game. If the game is full,
      * so the number of maximum players is reached, an exception is thrown.
      * @param player
@@ -406,7 +416,6 @@ public class Game {
             controller.setGameStatus(GameStatusEnum.STARTED);
         }
     }
-
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -432,6 +441,13 @@ public class Game {
 
     }
 
+    /**
+     * This method checks if the selection of the picked tiles is correct
+     * @param targetShelf the shelf where tiles would be put
+     * @param tilesCoordinates coordinates of tiles
+     * @throws IllegalBoardCellsPickException if tiles can't be picked
+     * @throws NoSpaceEnoughInShelfException if there isn't enough space in the target shelf
+     */
     public void checkBoardPickValidity(Shelf targetShelf, List<Coordinates> tilesCoordinates) throws IllegalBoardCellsPickException, NoSpaceEnoughInShelfException {
         // Check if the tiles number exceed the total available number of free cells in the shelf
         checkIfEnoughSpaceInShelf(targetShelf, tilesCoordinates.size());
@@ -440,22 +456,48 @@ public class Game {
         this.board.checkBoardPickValidity(tilesCoordinates);
     }
 
+    /**
+     * This method checks if there is enough space in the shelf for tiles
+     * @param shelf the player shelf
+     * @param numberOfTiles the number of tiles
+     * @throws NoSpaceEnoughInShelfException if there is not enough space in the shelf for the tiles
+     */
     public void checkIfEnoughSpaceInShelf(Shelf shelf, int numberOfTiles) throws NoSpaceEnoughInShelfException {
         shelf.checkIfEnoughSpace(numberOfTiles);
     }
 
+    /**
+     * Checks if there is enough space in the column of the shelf
+     * @param shelf the player shelf
+     * @param numberOfTiles the number of tiles
+     * @param targetColumn the target column
+     * @throws NoSpaceEnoughInShelfColumnException if there is not enough space in the shelf column
+     */
     public void checkIfEnoughSpaceInColumn(Shelf shelf, int numberOfTiles, int targetColumn) throws NoSpaceEnoughInShelfColumnException {
         shelf.checkIfEnoughSpaceInColumn(numberOfTiles, targetColumn);
     }
 
+    /**
+     * This method returns the game sack which contains tiles
+     * @return the sack of the game
+     */
     public Sack getSack() {
         return sack;
     }
 
+    /**
+     * This method returns the game info
+     * @return the game info
+     */
     public GameInfo getGameInfo() {
         return gameInfo;
     }
 
+    /**
+     * This method returns the player according to the nickname received
+     * @param nick the nickname of the player
+     * @return the corresponding player
+     */
     public Player getPlayerByNick(String nick) {
         for (Player p : players) {
             if(p.getNickname().equals(nick)) {

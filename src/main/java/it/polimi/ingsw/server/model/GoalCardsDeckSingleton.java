@@ -27,8 +27,19 @@ import java.util.*;
  * @see Game
  */
 public class GoalCardsDeckSingleton {
+    /**
+     * The class instance
+     */
     public static GoalCardsDeckSingleton instance = null;
+
+    /**
+     * The list of personal goal cards
+     */
     private ArrayList<PersonalGoalCard> personalGoals;
+
+    /**
+     * The list of common goal cards
+     */
     private ArrayList<CommonGoalCard> commonGoals;
 
     private GoalCardsDeckSingleton() {
@@ -52,6 +63,11 @@ public class GoalCardsDeckSingleton {
         return instance;
     }
 
+    /**
+     * This method returns the common goal card by the ID received
+     * @param id the ID of the common goal card
+     * @return the common goal card related to the ID
+     */
     public CommonGoalCard getCommonGoalCardById(String id) {
         CommonGoalCard toBeReturned = null;
         for (CommonGoalCard card : commonGoals) {
@@ -62,7 +78,11 @@ public class GoalCardsDeckSingleton {
         return toBeReturned;
     }
 
-
+    /**
+     * This method returns the personal goal card by the ID received
+     * @param id the ID of the personal goal card
+     * @return the personal goal card related to the ID
+     */
     public PersonalGoalCard getPersonalGoalCardById(String id) {
         PersonalGoalCard toBeReturned = null;
         for (PersonalGoalCard card : personalGoals) {
@@ -72,6 +92,7 @@ public class GoalCardsDeckSingleton {
         }
         return toBeReturned;
     }
+
     /**
      * This method shuffles the personalGoals list and returns the first nPlayers elements as an arrayList
      * @param nPlayers the number of players

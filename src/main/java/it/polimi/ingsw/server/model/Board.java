@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.cells.Coordinates;
 import it.polimi.ingsw.server.model.utils.Constants;
 import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
 import it.polimi.ingsw.server.model.utils.exceptions.*;
-import it.polimi.ingsw.server.model.utils.exceptions.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,15 +15,33 @@ import static it.polimi.ingsw.server.model.utils.Constants.BOARD_DIMENSION;
 
 /**
  * This class contains elements and methods which can manipulate the board.
- * @author Marco Galli
+ * @author Daniele Ferrario, Luca Guffanti, Marco Galli
  * @see BoardCell
  */
 public class Board {
-
+    /**
+     * The path to the CSV file containing the board configuration depending on the player number
+     */
     private static final String pathToCsvFile = "/assets/board/cellTypeConfiguration.csv";
+
+    /**
+     * The height of the board
+     */
     private final int heightInCells;
+
+    /**
+     * The length of the board
+     */
     private final int lengthInCells;
+
+    /**
+     * A matrix which contains board cells
+     */
     private BoardCell[][] cells;
+
+    /**
+     * A boolean which indicates if the board has to be refilled
+     */
     private boolean toBeRefilled;
 
     public Board() {
@@ -88,7 +105,10 @@ public class Board {
 
     }
 
-
+    /**
+     * This method checks if the board has to be refilled
+     * @return a boolean value that indicates if the board has to be refilled
+     */
     public boolean shouldBeRefilled() {
         boolean found = false;
         for (int i = 0; i < BOARD_DIMENSION && !found; i++) {
@@ -121,10 +141,20 @@ public class Board {
         return toBeRefilled;
     }
 
+    /**
+     * This method returns a single board cell given the coordinates
+     * @param x coordinate
+     * @param y coordinate
+     * @return the cell
+     */
     public BoardCell getCell(int x, int y) {
         return cells[y][x];
     }
 
+    /**
+     * This method returns the matrix of the board cells
+     * @return the cells of the board
+     */
     public BoardCell[][] getCells() {
         return cells;
     }
@@ -186,26 +216,11 @@ public class Board {
 
     }
 
-
+    /**
+     * This method sets the matrix of board cells
+     * @param cells the matrix of board cells
+     */
     public void setCells(BoardCell[][] cells) {
         this.cells = cells;
     }
-
-    public int getHeightInCells() {
-        return heightInCells;
-    }
-
-    public int getLengthInCells() {
-        return lengthInCells;
-    }
-
-    public boolean isToBeRefilled() {
-        return toBeRefilled;
-    }
-
-    public void setToBeRefilled(boolean toBeRefilled) {
-        this.toBeRefilled = toBeRefilled;
-    }
-
-
 }

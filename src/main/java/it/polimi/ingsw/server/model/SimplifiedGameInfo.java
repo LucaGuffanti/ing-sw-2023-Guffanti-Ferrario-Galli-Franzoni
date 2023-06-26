@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
-import it.polimi.ingsw.server.model.cards.goalCards.PersonalGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
-import it.polimi.ingsw.server.model.player.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,14 +11,42 @@ import java.util.ArrayList;
  * In a simplifiedGameInfo there's the number of player, the name of the admin, the id of the game,
  * a list of simplifiedCommonGoals and a list of ids of personal goals
  * @author Luca Guffanti
+ * @see SimplifiedCommonGoalCard
  */
 public class SimplifiedGameInfo implements Serializable {
+    /**
+     * The nickname of the player who created the lobby
+     */
     private String admin;
+
+    /**
+     * The number of the players
+     */
     private int nPlayers;
+
+    /**
+     * The username of the winner player
+     */
     private String winner;
+
+    /**
+     * The nickname of the fist player who completes the shelf
+     */
     private String firstToCompleteTheShelf;
+
+    /**
+     * The ID of the game
+     */
     private int gameID;
+
+    /**
+     * The list of simplified common goal cards
+     */
     private ArrayList<SimplifiedCommonGoalCard> commonGoals = new ArrayList<>();
+
+    /**
+     * The list of personal goal cards ID
+     */
     private ArrayList<String> personalGoals = new ArrayList<>();
 
     /**
@@ -86,20 +111,20 @@ public class SimplifiedGameInfo implements Serializable {
         return commonGoals;
     }
 
-    public void setCommonGoals(ArrayList<SimplifiedCommonGoalCard> commonGoals) {
-        this.commonGoals = commonGoals;
-    }
-
     public ArrayList<String> getPersonalGoals() {
         return personalGoals;
     }
 
-    public void setPersonalGoals(ArrayList<String> personalGoals) {
-        this.personalGoals = personalGoals;
-    }
-
     public String getFirstToCompleteTheShelf() {
         return firstToCompleteTheShelf;
+    }
+
+    public void setCommonGoals(ArrayList<SimplifiedCommonGoalCard> commonGoals) {
+        this.commonGoals = commonGoals;
+    }
+
+    public void setPersonalGoals(ArrayList<String> personalGoals) {
+        this.personalGoals = personalGoals;
     }
 
     public void setFirstToCompleteTheShelf(String firstToCompleteTheShelf) {

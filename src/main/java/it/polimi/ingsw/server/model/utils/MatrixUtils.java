@@ -6,7 +6,17 @@ import it.polimi.ingsw.server.model.cells.ShelfCell;
 
 import java.util.Optional;
 
+/**
+ * This class contains useful methods for displaying and manipulating a matrix
+ * @author Daniele Ferrario, Luca Guffanti
+ */
 public class MatrixUtils {
+    /**
+     * This method clones the status of the matrix, in particular it is useful in research algorithms to check if a cell
+     * is already visited or not
+     * @param src the source matrix
+     * @return the cloned matrix
+     */
     public static boolean[][] clone(boolean[][] src) {
         boolean[][] destination = new boolean[src.length][];
 
@@ -17,11 +27,15 @@ public class MatrixUtils {
         }
 
         return destination;
-
     }
 
+    // For debugging
+    /**
+     * Prints status of a matrix
+     * @param m the source matrix
+     * @return a string representing the matrix
+     */
     public static String printMatrix(boolean[][] m){
-        // For debugging
         String s = "";
         String tmp;
         // Printing the founded cells
@@ -38,8 +52,13 @@ public class MatrixUtils {
         return s;
     }
 
+    // For debugging
+    /**
+     * Prints a matrix, in particular the shelf
+     * @param m the source matrix
+     * @return a string representing the matrix
+     */
     public static String printMatrix(ShelfCell[][] m){
-        // For debugging
         String s = "";
         String tmp;
         // Printing the founded cells
@@ -56,8 +75,13 @@ public class MatrixUtils {
         return s;
     }
 
+    // For debugging
+    /**
+     * Prints a matrix, in particular the board
+     * @param m the source matrix
+     * @return a string representing the matrix
+     */
     public static String printMatrix(BoardCell[][] m){
-        // For debugging
         String s = "";
         String tmp;
         // Printing the founded cells
@@ -74,6 +98,12 @@ public class MatrixUtils {
         return s;
     }
 
+    /**
+     * This method creates a matrix containing false in every cell
+     * @param l length
+     * @param h height
+     * @return the matrix
+     */
     public static boolean[][] createEmptyMatrix(int l, int h){
         boolean[][] cells = new boolean[h][l];
 
@@ -86,6 +116,12 @@ public class MatrixUtils {
         return cells;
     }
 
+    /**
+     * This method creates a matrix containing empty cells
+     * @param l length
+     * @param h height
+     * @return the matrix
+     */
     public static ShelfCell[][] emptyShelfCellMatrixInit(int l, int h){
         ShelfCell[][] cells = new ShelfCell[h][l];
         for (int row = 0; row < h; row++) {
@@ -107,7 +143,7 @@ public class MatrixUtils {
      * @param type the type to match
      * @param x x coordinate of the cell from which the algorithm starts
      * @param y y coordinate of the cell from which the algorithm starts
-     * @param highestOccupiedCell
+     * @param highestOccupiedCell the highest occupied cell
      * @return the dimension of a group of adjacent object cards of type "type", starting from the point (x,y).
      */
     public static int calculateAdjacentShelfCardsGroupDimension(ShelfCell[][] matrix, int length, int height, boolean[][] referenceMatrix, ObjectTypeEnum type, int x, int y, int[] highestOccupiedCell){
@@ -133,6 +169,10 @@ public class MatrixUtils {
         return count;
     }
 
+    /**
+     * Prints the type configuration of the board cells
+     * @param matrix the source matrix
+     */
     public static void printBoardCellTypesConfigurationMatrix(BoardCell[][] matrix) {
         for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
             for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {
@@ -142,6 +182,10 @@ public class MatrixUtils {
         }
     }
 
+    /**
+     * Prints the cards configuration of the board cells
+     * @param matrix the source matrix
+     */
     public static void printBoardCardsConfigurationMatrix(BoardCell[][] matrix) {
         for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
             for (int x = 0; x < Constants.BOARD_DIMENSION; x++) {

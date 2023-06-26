@@ -2,21 +2,37 @@ package it.polimi.ingsw.server.model.player;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import it.polimi.ingsw.server.model.cards.PointCard;
 
 /**
  * This class contains a player's achievements
- * @author Marco Galli
+ * @author Marco Galli, Luca Guffanti
  * @see PointCard
  */
 public class PlayerAchievements implements Serializable {
+    /**
+     * A boolean which indicates if the first common goal card is completed
+     */
     private boolean completedFirstCommonGoal;
+
+    /**
+     * A boolean which indicates if the second common goal card is completed
+     */
     private boolean completedSecondCommonGoal;
+
+    /**
+     * The map of point cards and their relative value
+     */
     private HashMap<Integer, PointCard> pointCardsEarned;
+
+    /**
+     * A boolean which indicates if the player is the first to complete the shelf
+     */
     private boolean firstToFinish;
 
+    /**
+     * A boolean which indicates if the shelf is completed
+     */
     private boolean completedShelf;
 
     public PlayerAchievements() {

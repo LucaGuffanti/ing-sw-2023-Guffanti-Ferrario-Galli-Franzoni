@@ -17,15 +17,44 @@ import java.util.ArrayList;
  *     <tr><td><b>gameStatus</b></td><td> is the current status of the game</td></tr>
  * </table>
  * @author Luca Guffanti
+ * @see Player
+ * @see CommonGoalCard
+ * @see PersonalGoalCard
  */
 public class GameInfo {
-
+    /**
+     * The username of the player who created the lobby
+     */
     private String admin;
+
+    /**
+     * The number of players
+     */
     private int nPlayers;
+
+    /**
+     * The winner of the game
+     */
     private Player winner;
+
+    /**
+     * The nickname of the first player who completes the shelf
+     */
     private String firstToCompleteTheShelf;
+
+    /**
+     * The game ID
+     */
     private int gameID;
+
+    /**
+     * The common goal cards
+     */
     private ArrayList<CommonGoalCard> commonGoals = new ArrayList<>();
+
+    /**
+     * The personal goal cards
+     */
     private ArrayList<PersonalGoalCard> personalGoals = new ArrayList<>();
 
 
@@ -51,6 +80,10 @@ public class GameInfo {
 
     public void setWinner(Player winner) {
         this.winner = winner;
+    }
+
+    public void setCommonGoals(ArrayList<CommonGoalCard> commonGoals) {
+        this.commonGoals = commonGoals;
     }
 
     public int getGameID() {
@@ -79,10 +112,6 @@ public class GameInfo {
 
     public ArrayList<CommonGoalCard> getCommonGoals() {
         return commonGoals;
-    }
-
-    public void setCommonGoals(ArrayList<CommonGoalCard> commonGoals) {
-        this.commonGoals = commonGoals;
     }
 
     public ArrayList<PersonalGoalCard> getPersonalGoals() {

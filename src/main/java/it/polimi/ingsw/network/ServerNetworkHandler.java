@@ -286,10 +286,10 @@ public class ServerNetworkHandler {
     public void onDisconnection(ClientConnection connection) {
         Logger.networkWarning("Disconnecting client");
         HashMap<String, ClientConnection> temp;
+        String nickname = "";
         synchronized (nickToConnectionMap) {
             temp = new HashMap<>(nickToConnectionMap);
             if (temp.containsValue(connection)) {
-                String nickname;
                 for (String nick : temp.keySet()) {
                     if (temp.get(nick).equals(connection)) {
                         nickname = nick;
@@ -298,11 +298,13 @@ public class ServerNetworkHandler {
                         break;
                     }
                 }
+            } else {
+                return;
             }
         }
         synchronized (controllerLock) {
             if (controller != null) {
-                controller.onPlayerDisconnection();
+                controller.onPlayerDisconnection(nickname);
                 // if there is no other player online, terminate
                 boolean shouldStop = true;
                 for (String p : temp.keySet()) {

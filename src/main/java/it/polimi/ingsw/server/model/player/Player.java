@@ -8,15 +8,35 @@ import java.util.List;
 
 /**
  * This class contains main player info and methods which manipulate points and shelf.
+ * @author Marco Galli, Luca Guffanti, Daniele Ferrario
  * @see Shelf
  * @see PlayerAchievements
  * @see PersonalGoalCard
  */
 public class Player {
-    private String nickname;
+    /**
+     * The nickname of the player
+     */
+    private final String nickname;
+
+    /**
+     * The status of player, active or not active
+     */
     private boolean isActive;
+
+    /**
+     * The player shelf
+     */
     private Shelf shelf;
+
+    /**
+     * The player achievements
+     */
     private PlayerAchievements achievements;
+
+    /**
+     * The personal goal card of the player
+     */
     private PersonalGoalCard goal;
 
     public String getNickname() {
@@ -51,6 +71,10 @@ public class Player {
         this.goal = goal;
     }
 
+    public void setAchievements(PlayerAchievements achievements) {
+        this.achievements = achievements;
+    }
+
     public Player(String nickname) {
         this.nickname = nickname;
         isActive = true;
@@ -74,16 +98,12 @@ public class Player {
         return isActive;
     }
 
-
-
     /**
      * This method adds cards which a player picks on his turn to the player's shelf.
      * @param cards the cards you pick in your turn
      * @param column column where a player wants to insert his object cards into the shelf
      * @return whether a card has been successfully added
      */
-
-
     public boolean addCardsToShelf(List<ObjectCard> cards, int column) {
 
         try {
@@ -101,9 +121,5 @@ public class Player {
         }
 
         return true;
-    }
-
-    public void setAchievements(PlayerAchievements achievements) {
-        this.achievements = achievements;
     }
 }

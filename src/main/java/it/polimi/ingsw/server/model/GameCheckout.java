@@ -7,7 +7,14 @@ import java.util.HashMap;
  * @author Luca Guffanti
  */
 public class GameCheckout {
+    /**
+     * The username of the winner player
+     */
     private String winner;
+
+    /**
+     * The points mapped to the players
+     */
     private HashMap<String, Integer> nickToPoints;
 
     public GameCheckout(String winner, HashMap<String, Integer> nickToPoints) {
@@ -15,6 +22,10 @@ public class GameCheckout {
         this.nickToPoints = nickToPoints;
     }
 
+    /**
+     * This method returns the winner's nickname of the game
+     * @return the winner's nickname
+     */
     public String getWinner() {
         return winner;
     }
@@ -25,9 +36,5 @@ public class GameCheckout {
 
     public HashMap<String, Integer> getNickToPoints() {
         return nickToPoints;
-    }
-
-    public void setNickToPoints(HashMap<String, Integer> nickToPoints) {
-        this.nickToPoints = nickToPoints;
     }
 }

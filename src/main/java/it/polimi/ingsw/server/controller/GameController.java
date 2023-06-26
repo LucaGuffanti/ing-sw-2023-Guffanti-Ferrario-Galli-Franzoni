@@ -568,7 +568,11 @@ public class GameController {
      * ended without calculating the points, and the next turn starts.
      *
      */
-    public synchronized void onPlayerDisconnection() {
+    public synchronized void onPlayerDisconnection(String name) {
+        if (!game.getPlayers().contains(name)) {
+            Logger.controllerInfo("Didn't stop the game because " + name + " wasn't playing");
+            return;
+        }
         if (!gameStatus.equals(GameStatusEnum.ENDED)) {
             serverNetworkHandler.broadcastToAll(
                     new AbortedGameMessage(

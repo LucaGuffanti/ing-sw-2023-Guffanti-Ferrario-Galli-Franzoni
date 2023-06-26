@@ -14,9 +14,24 @@ import java.io.Serializable;
  * @author Luca Guffanti
  */
 public class SimplifiedPlayer implements Serializable {
+    /**
+     * The player username
+     */
     private String name;
+
+    /**
+     * The player shelf
+     */
     private ObjectTypeEnum[][] shelf;
+
+    /**
+     * The player achievements
+     */
     private PlayerAchievements achievements;
+
+    /**
+     * The personal goal ID
+     */
     private String personalGoalId;
 
     public SimplifiedPlayer(String name, ObjectTypeEnum[][] shelf, PlayerAchievements achievements, String personalGoalId) {
