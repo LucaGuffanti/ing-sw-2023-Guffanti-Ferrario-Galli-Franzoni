@@ -224,7 +224,6 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
         });
 
         Renderer.renderMessages(messages, state.getUsername());
-        messageText.clear();
     }
 
     /**
@@ -479,6 +478,46 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
             messageText.setText("");
             messages.getItems().add(0, messageLabel);
             System.out.println("printing chat message from inside");
+        }
+    }
+
+    /**
+     * This method gets the message that was being typed before the change of the scene
+     * @return the message
+     */
+    @Override
+    public String getTypedMessage() {
+        return messageText.getText();
+    }
+
+    /**
+     * This method returns the username of the player that a player was chatting with
+     * @return the player's username
+     */
+    @Override
+    public String getChatPlayer() {
+        return recipientMenu.getText();
+    }
+
+    /**
+     * This method sets the message that was being typed and the player
+     * who a player was chatting with before the change of the scene
+     */
+    @Override
+    public void setTypedMessagePlayer(String message, String player) {
+        messageText.setText(message);
+        recipientMenu.setText(player);
+        int i = 0;
+        boolean found = false;
+        for (MenuItem p : recipientMenu.getItems()) {
+            if (p.getText().equals(player)) {
+                found = true;
+                break;
+            }
+            i++;
+        }
+        if (found) {
+            recipientMenu.getItems().get(i).fire();
         }
     }
 }

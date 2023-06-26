@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.ClientNetworkHandler;
 
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.socket.SocketClient;
-import it.polimi.ingsw.server.controller.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +23,9 @@ import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -240,8 +239,21 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
                 phase.equals(ClientPhasesEnum.FINAL_RESULTS_SHOW)) {
             System.out.println("Drawing scene");
             GameSceneController controller = (GameSceneController) phaseToControllerMap.get(phase);
-            System.out.println(controller);
             controller.drawScene(stage);
+        }
+
+        List<ClientState> statesHistory = ClientManager.getInstance().getStateContainer().getStatesHistory();
+        if (statesHistory.size() > 1) {
+            ClientPhasesEnum precPhase = statesHistory.get(statesHistory.size() - 2).getCurrentPhase();
+            if (!(precPhase.equals(ClientPhasesEnum.LOGIN) ||
+                    precPhase.equals(ClientPhasesEnum.NOT_JOINED) ||
+                    precPhase.equals(ClientPhasesEnum.PICK_PLAYERS) ||
+                    precPhase.equals(ClientPhasesEnum.WAITING_FOR_LOBBY) ||
+                    phase.equals(ClientPhasesEnum.ABORTED_GAME))) {
+                SceneWithChatController precController = (SceneWithChatController) phaseToControllerMap.get(precPhase);
+                SceneWithChatController currController = (SceneWithChatController) phaseToControllerMap.get(phase);
+                currController.setTypedMessagePlayer(precController.getTypedMessage(), precController.getChatPlayer());
+            }
         }
 
         getStage().setScene(sceneToRender);

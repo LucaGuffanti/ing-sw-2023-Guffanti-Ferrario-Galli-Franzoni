@@ -14,7 +14,9 @@ import java.util.*;
  * @see StateContainer#updateState(Message)
  */
 public class StateContainer {
-
+    /**
+     * The history of the states
+     */
     private List<ClientState> statesHistory;
 
     /**
@@ -36,6 +38,10 @@ public class StateContainer {
 
     public ClientState getCurrentState() {
         return this.statesHistory.get(statesHistory.size()-1);
+    }
+
+    public List<ClientState> getStatesHistory() {
+        return statesHistory;
     }
 
     /**
@@ -70,7 +76,4 @@ public class StateContainer {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
-
-
-
 }

@@ -18,15 +18,16 @@ import java.util.Map;
  * @author Daniele Ferrario
  */
 public class ClientState implements Cloneable {
-
     /**
      * Username of the player
      */
     private String username;
+
     /**
      * Active user interface ( GUI / CLI )
      */
     private UserInterface userInterface;
+
     /**
      * Username of the winner
      */
@@ -41,10 +42,12 @@ public class ClientState implements Cloneable {
      * Username of the active player
      */
     private String activePlayer;
+
     /**
      * The list of players' nicknames ordered by their turn.
      */
     private List<String> orderedPlayersNames;
+
     /**
      * Flag which indicates if the player has completed
      * The first common goal.
@@ -108,6 +111,11 @@ public class ClientState implements Cloneable {
      */
     private ClientPhasesEnum currentPhase;
 
+    /**
+     * The last server message
+     */
+    private String serverLastMessage;
+
     public void addToChatHistory(ChatMessage message){
         chatHistory.add(message);
     }
@@ -119,7 +127,6 @@ public class ClientState implements Cloneable {
     public void setServerLastMessage(String serverLastMessage) {
         this.serverLastMessage = serverLastMessage;
     }
-    private String serverLastMessage;
 
     public String getUsername() {
         return username;
@@ -145,7 +152,6 @@ public class ClientState implements Cloneable {
         this.serverErrorMessage = serverErrorMessage;
     }
 
-
     public ClientPhasesEnum getCurrentPhase() {
         return currentPhase;
     }
@@ -161,8 +167,6 @@ public class ClientState implements Cloneable {
     public void setUserInterface(UserInterface userInterface) {
         this.userInterface = userInterface;
     }
-
-
 
     public List<String> getOrderedPlayersNames() {
         return orderedPlayersNames;
