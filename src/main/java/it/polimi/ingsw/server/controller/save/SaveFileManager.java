@@ -12,6 +12,8 @@ import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,9 +22,14 @@ import java.util.Scanner;
  */
 public class SaveFileManager {
 
-    public static void saveGameState(Game g, GameController controller, String pathToFile) {
+    public static void saveGameState(Game g, GameController controller, String pathToDir, String pathToFile) {
         try {
             Logger.controllerInfo("SAVING GAME STATE");
+
+            Path path = Path.of(pathToDir);
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            }
 
             SimplifiedPlayer[] players = GameObjectConverter.fromPlayersToSimplifiedPlayers(g.getPlayers());
             ObjectTypeEnum[][] board = GameObjectConverter.fromBoardToMatrix(g.getBoard());

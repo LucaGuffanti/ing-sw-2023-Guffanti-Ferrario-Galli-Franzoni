@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,11 +50,24 @@ public class NetworkConfigurationData {
      * @return data regarding a network configuration
      */
     public NetworkConfigurationData get() {
-        final String path = "config/serverInfo.json";
+        final String directoryPath = "./MyShelfieClientData/";
+        final String configFilePath = "./MyShelfieClientData/config.json";
+
         Gson g = new Gson();
         String data = null;
+
+        // checking if the directory exists
         try {
-            data = Files.readString(Path.of(path));
+            if (!Files.exists(Path.of(directoryPath))) {
+                Files.createDirectories(Path.of(directoryPath));
+            }
+        } catch (IOException e) {
+            System.out.println("Could not create directory for the configuration file");
+            System.exit(1);
+        }
+
+        try {
+            data = Files.readString(Path.of(configFilePath));
             NetworkConfigurationData d = g.fromJson(data, NetworkConfigurationData.class);
             if (data != null) {
                 System.out.println("Found existing network configuration data");
@@ -82,14 +96,14 @@ public class NetworkConfigurationData {
                 if (choice == 1) {
                     return d;
                 } else {
-                    return requestNetworkData(path);
+                    return requestNetworkData(configFilePath);
                 }
 
             }
         } catch (Exception e) {
             System.out.println("It seems like you don't have a network configuration file. Let me prepare it " +
                     "for you");
-            return requestNetworkData(path);
+            return requestNetworkData(configFilePath);
         }
         return null;
     }

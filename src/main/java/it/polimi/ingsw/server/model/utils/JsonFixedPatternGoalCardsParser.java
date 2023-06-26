@@ -13,7 +13,7 @@ import it.polimi.ingsw.server.model.cards.Pattern;
 import it.polimi.ingsw.server.model.cards.PatternCell;
 import it.polimi.ingsw.server.model.cards.goalCards.FixedPatternShapedCard;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,7 +76,14 @@ public class JsonFixedPatternGoalCardsParser {
             return result;
         };
 
-        String jsonData = Files.readString(Path.of(path));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(JsonFixedPatternGoalCardsParser.class.getResourceAsStream(path)));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+
+        String jsonData = stringBuilder.toString();
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         Type classType = new TypeToken<ArrayList<CommonGoalCard>>(){}.getType();
@@ -84,6 +91,7 @@ public class JsonFixedPatternGoalCardsParser {
 
         gsonBuilder.registerTypeAdapter(classType, deserializer);
         Gson customGson = gsonBuilder.create();
+        reader.close();
         return customGson.fromJson(jsonData, classType);
     }
 
@@ -143,15 +151,22 @@ public class JsonFixedPatternGoalCardsParser {
             return result;
         };
 
-        String jsonData = Files.readString(Path.of(path));
-        GsonBuilder gsonBuilder = new GsonBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(JsonFixedPatternGoalCardsParser.class.getResourceAsStream(path)));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
 
+        String jsonData = stringBuilder.toString();
         Type classType = new TypeToken<ArrayList<PersonalGoalCard>>() {
         }.getType();
 
 
+        GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(classType, deserializer);
         Gson customGson = gsonBuilder.create();
+        reader.close();
         return customGson.fromJson(jsonData, classType);
     }
 

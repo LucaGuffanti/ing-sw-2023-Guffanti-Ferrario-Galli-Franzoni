@@ -374,18 +374,18 @@ public class Printer {
         objectTypeToRender.put(ObjectTypeEnum.PLANT, PURPLE_BACKGROUND_BRIGHT+" "+RESET);
 
         try {
-            personalIdToRender.put("1", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/1.csv"));
-            personalIdToRender.put("2", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/2.csv"));
-            personalIdToRender.put("3", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/3.csv"));
-            personalIdToRender.put("4", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/4.csv"));
-            personalIdToRender.put("5", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/5.csv"));
-            personalIdToRender.put("6", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/6.csv"));
-            personalIdToRender.put("7", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/7.csv"));
-            personalIdToRender.put("8", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/8.csv"));
-            personalIdToRender.put("9", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/9.csv"));
-            personalIdToRender.put("10", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/10.csv"));
-            personalIdToRender.put("11", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/11.csv"));
-            personalIdToRender.put("12", CsvToShelfParser.simpleConvert("src/main/assets/cards/personalGoalCSV/12.csv"));
+            personalIdToRender.put("1", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/1.csv"));
+            personalIdToRender.put("2", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/2.csv"));
+            personalIdToRender.put("3", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/3.csv"));
+            personalIdToRender.put("4", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/4.csv"));
+            personalIdToRender.put("5", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/5.csv"));
+            personalIdToRender.put("6", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/6.csv"));
+            personalIdToRender.put("7", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/7.csv"));
+            personalIdToRender.put("8", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/8.csv"));
+            personalIdToRender.put("9", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/9.csv"));
+            personalIdToRender.put("10", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/10.csv"));
+            personalIdToRender.put("11", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/11.csv"));
+            personalIdToRender.put("12", CsvToShelfParser.simpleConvert("/assets/cards/personalGoalCSV/12.csv"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

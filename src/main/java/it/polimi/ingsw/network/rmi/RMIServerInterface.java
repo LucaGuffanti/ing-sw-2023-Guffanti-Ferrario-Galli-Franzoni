@@ -26,4 +26,6 @@ public interface RMIServerInterface extends Remote {
      * @throws RemoteException thrown if there are connection issues
      */
     void incomingPing(Message message, RMIClientInterface rmiClientInterface) throws RemoteException;
+
+    void onClientDisconnection(String name, RMIClientInterface rmiClientInterface) throws RemoteException;
 }

@@ -294,6 +294,11 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> {
+                if (ClientManager.getInstance().getNetworkHandler() instanceof RMIClient) {
+                    ((RMIClient)ClientManager.getInstance().getNetworkHandler()).requireDisconnection(
+                            ClientManager.getInstance().getStateContainer().getCurrentState().getUsername()
+                    );
+                }
                 System.exit(0);
             });
             stage.show();

@@ -79,6 +79,14 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
         }
     }
 
+    public void requireDisconnection(String userName) {
+        try {
+            server.onClientDisconnection(userName,this);
+        } catch (RemoteException e) {
+            System.out.println("Server already offline!");
+        }
+    }
+
     @Override
     public void init() {
         try {

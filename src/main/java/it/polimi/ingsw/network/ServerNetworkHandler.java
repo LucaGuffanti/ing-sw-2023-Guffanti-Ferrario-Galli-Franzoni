@@ -174,7 +174,6 @@ public class ServerNetworkHandler {
      * @param sender sender of the message
      * @param message the message to be broadcast
      */
-    @Deprecated
     @SuppressWarnings("all")
     public void broadcastToAllButSender(String sender, Message message) {
         HashMap<String, ClientConnection> ntcCopy;

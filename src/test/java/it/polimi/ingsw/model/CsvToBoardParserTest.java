@@ -9,8 +9,11 @@ import it.polimi.ingsw.server.model.utils.CsvToBoardParser;
 import it.polimi.ingsw.server.model.utils.MatrixUtils;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -36,16 +39,16 @@ public class CsvToBoardParserTest {
      */
     @Test
     public void CsvToBoardParserTypeConfigurationTest() {
-        String pathToFile = "src/main/assets/board/cellTypeConfiguration.csv";
+        String pathToFile = "/assets/board/cellTypeConfiguration.csv";
 
         for (int numPlayers = Constants.MIN_PLAYER; numPlayers <= Constants.MAX_PLAYER; numPlayers++) {
             System.out.println("Checking csv parsing with "+numPlayers+" players");
             BoardCell[][] boardCell = CsvToBoardParser.parseBoardCellTypeConfiguration(pathToFile, numPlayers);
             MatrixUtils.printBoardCellTypesConfigurationMatrix(boardCell);
             assertNotNull(boardCell);
-            String pathToResult = "src/test/resources/boardTEST/expectedCellType_"+numPlayers+"players.csv";
+            String pathToResult = "/boardTEST/expectedCellType_"+numPlayers+"players.csv";
             try {
-                Reader r = Files.newBufferedReader(Path.of(pathToResult));
+                Reader r = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(pathToResult)));
                 CSVReader csvReader = new CSVReader(r);
                 BoardCell[][] result = new BoardCell[Constants.BOARD_DIMENSION][Constants.BOARD_DIMENSION];
                 for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
@@ -76,8 +79,8 @@ public class CsvToBoardParserTest {
     public void CsvToBoardParserObjectCardsConfigurationTest() {
         for (int numPlayers = Constants.MIN_PLAYER; numPlayers <= Constants.MAX_PLAYER; numPlayers++ ) {
             System.out.println("Checking csv parsing with "+numPlayers+" players");
-            String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_"+numPlayers+"players.csv";
-            String pathToObjectCardFile = "src/test/resources/boardTEST/expectedCellObjectCard_"+numPlayers+"players.csv";
+            String pathToTypeFile = "/boardTEST/expectedCellType_"+numPlayers+"players.csv";
+            String pathToObjectCardFile = "/boardTEST/expectedCellObjectCard_"+numPlayers+"players.csv";
 
             BoardCell[][] boardCell = CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2);
             MatrixUtils.printBoardCardsConfigurationMatrix(boardCell);

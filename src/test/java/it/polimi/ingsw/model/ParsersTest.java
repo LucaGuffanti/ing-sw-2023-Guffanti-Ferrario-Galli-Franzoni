@@ -24,7 +24,7 @@ public class ParsersTest {
     @Test
     public void jsonParserPrint(){
         try {
-            assertNotNull(JsonFixedPatternGoalCardsParser.parseFixedPatternCommonGoals("src/main/assets/cards/fixedPatternShapedCommonGoalCards.json"));
+            assertNotNull(JsonFixedPatternGoalCardsParser.parseFixedPatternCommonGoals("/assets/cards/fixedPatternShapedCommonGoalCards.json"));
         }catch (Exception ex){
             ex.printStackTrace();
         }

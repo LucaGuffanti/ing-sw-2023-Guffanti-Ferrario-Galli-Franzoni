@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.client.view.cli.Printer;
+import it.polimi.ingsw.client.view.cli.cliviews.GameAbortedView;
 import it.polimi.ingsw.network.ServerNetworkHandler;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.network.messages.enums.ResponseResultType;
@@ -21,6 +22,7 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.player.SimplifiedPlayer;
 import it.polimi.ingsw.server.model.utils.exceptions.MaxPlayersException;
+import it.polimi.ingsw.server.model.utils.exceptions.WrongNumberOfPlayersException;
 import jdk.jfr.Label;
 
 import java.io.File;
@@ -38,8 +40,11 @@ public class GameController {
     /**
      * Save File path
      */
-    private String saveFilePath = "src/main/assets/savedGames/savefile.json";
-
+    private String saveFilePath = "./MyShelfieServerData/savefile.json";
+    /**
+     * Directory path of the save file
+     */
+    private String saveDirPath = "./MyShelfieServerData/";
     /**
      * The game instance
      */
@@ -369,7 +374,12 @@ public class GameController {
      **/
     public synchronized void newGameNoReload() {
         // the game is initialized
-        game.initGame();
+        try {
+            game.initGame();
+        } catch (WrongNumberOfPlayersException e) {
+            serverNetworkHandler.broadcastToAll(new AbortedGameMessage("SERVER"));
+            System.exit(1);
+        }
         // the players are shuffled
         orderedPlayersNicks = new ArrayList<>(game.getPlayers().stream().map(Player::getNickname).toList());
         Collections.shuffle(orderedPlayersNicks);
@@ -485,7 +495,7 @@ public class GameController {
         }
 
         // the state is saved after all the points have been assigned
-        SaveFileManager.saveGameState(getGame(), this, saveFilePath);
+        SaveFileManager.saveGameState(getGame(), this, saveDirPath, saveFilePath);
 
         if (completedShelf) {
             Logger.controllerInfo("the player completed the shelf");

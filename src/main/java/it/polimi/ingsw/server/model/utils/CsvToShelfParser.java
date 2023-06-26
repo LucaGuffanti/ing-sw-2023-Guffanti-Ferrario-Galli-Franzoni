@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.player.Shelf;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Optional;
 
@@ -68,7 +69,7 @@ public class CsvToShelfParser {
     public static ObjectTypeEnum[][] simpleConvert(String path) {
         ObjectTypeEnum[][] cells = new ObjectTypeEnum[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
 
-        try(CSVReader reader = new CSVReader(new FileReader(path)))
+        try(CSVReader reader = new CSVReader(new InputStreamReader(CsvToShelfParser.class.getResourceAsStream(path))))
         {
             String [] nextLine;
             int x = 0, y = 0;

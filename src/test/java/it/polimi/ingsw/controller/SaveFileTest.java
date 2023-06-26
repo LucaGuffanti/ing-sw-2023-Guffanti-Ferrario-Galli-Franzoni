@@ -34,7 +34,7 @@ public class SaveFileTest {
         Printer.printBoard(GameObjectConverter.fromShelfToMatrix(gameController.
                 getGame().getPlayerByNick(gameController.getOrderedPlayersNicks().get(gameController.getActivePlayerIndex()))
                 .getShelf()));
-        SaveFileManager.saveGameState(gameController.getGame(), gameController, "src/test/resources/saveTEST/testSave.json");
+        SaveFileManager.saveGameState(gameController.getGame(), gameController, "src/test/resources/saveTEST","src/test/resources/saveTEST/testSave.json");
     }
 
     @Test
@@ -54,7 +54,7 @@ public class SaveFileTest {
         Shelf oldActiveShelf = gameController.
                 getGame().getPlayerByNick(gameController.getOrderedPlayersNicks().get(gameController.getActivePlayerIndex()))
                 .getShelf();
-        SaveFileManager.saveGameState(gameController.getGame(), gameController, testFilePath);
+        SaveFileManager.saveGameState(gameController.getGame(), gameController, "src/test/resources/saveTEST", testFilePath);
 
         // Re-initialize
         gameController = new GameController(fakeServerNetworkHandler, testFilePath);

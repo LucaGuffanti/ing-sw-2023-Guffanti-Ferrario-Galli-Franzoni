@@ -14,8 +14,8 @@ class BoardTest {
 
     @Test
     void refillBoardTest() {
-        String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_2players.csv";
-        String pathToObjectCardFile = "src/test/resources/boardTEST/boardToRefill.csv";
+        String pathToTypeFile = "/boardTEST/expectedCellType_2players.csv";
+        String pathToObjectCardFile = "/boardTEST/boardToRefill.csv";
         Sack s = new Sack();
         Board board = new Board(2, s);
         board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
@@ -36,36 +36,36 @@ class BoardTest {
         System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
         assertEquals(false, board.shouldBeRefilled());
 
-        String pathToTypeFile = "src/test/resources/boardTEST/expectedCellType_2players.csv";
-        String pathToObjectCardFile = "src/test/resources/boardTEST/expectedCellObjectCard_2players.csv";
+        String pathToTypeFile = "/boardTEST/expectedCellType_2players.csv";
+        String pathToObjectCardFile = "/boardTEST/expectedCellObjectCard_2players.csv";
         board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
         System.out.println("New full board imported, refill needed: false");
         MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
         System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
         assertEquals(false, board.shouldBeRefilled());
 
-        pathToObjectCardFile = "src/test/resources/boardTEST/emptyBoard.csv";
+        pathToObjectCardFile = "/boardTEST/emptyBoard.csv";
         board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
         System.out.println("New empty board imported, refill needed: true");
         MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
         System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
         assertEquals(true, board.shouldBeRefilled());
 
-        pathToObjectCardFile = "src/test/resources/boardTEST/boardToRefill.csv";
+        pathToObjectCardFile = "/boardTEST/boardToRefill.csv";
         board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
         System.out.println("New board to refill imported, refill needed: true");
         MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
         System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
         assertEquals(true, board.shouldBeRefilled());
 
-        pathToObjectCardFile = "src/test/resources/boardTEST/notToRefill.csv";
+        pathToObjectCardFile = "/boardTEST/notToRefill.csv";
         board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
         System.out.println("New board to refill imported, refill needed: false");
         MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());
         System.out.println("shouldBeRefilled returns: "+board.shouldBeRefilled()+"\n");
         assertEquals(false, board.shouldBeRefilled());
 
-        pathToObjectCardFile = "src/test/resources/boardTEST/notToRefill2.csv";
+        pathToObjectCardFile = "/boardTEST/notToRefill2.csv";
         board.setCells(CsvToBoardParser.parseBoardObjectCardConfiguration(pathToTypeFile, pathToObjectCardFile, 2));
         System.out.println("New board to refill imported, refill needed: false");
         MatrixUtils.printBoardCardsConfigurationMatrix(board.getCells());

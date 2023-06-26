@@ -231,13 +231,10 @@ public class GameTest {
 
         }
 
-        try{
+        assertThrows(WrongNumberOfPlayersException.class, ()-> {
             game.getGameInfo().setNPlayers(5);
             game.initGame();
-        }catch (Exception ex){
-            assertEquals(new WrongNumberOfPlayersException(5).getMessage(), ex.getMessage());
-        }
-
+        });
     }
 
 

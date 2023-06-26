@@ -21,7 +21,7 @@ import static it.polimi.ingsw.server.model.utils.Constants.BOARD_DIMENSION;
  */
 public class Board {
 
-    private static final String pathToCsvFile = "src/main/assets/board/cellTypeConfiguration.csv";
+    private static final String pathToCsvFile = "/assets/board/cellTypeConfiguration.csv";
     private final int heightInCells;
     private final int lengthInCells;
     private BoardCell[][] cells;

@@ -34,9 +34,9 @@ public class GoalCardsDeckSingleton {
     private GoalCardsDeckSingleton() {
         try {
             // Loading PersonalGoalCards from json file
-            personalGoals = JsonFixedPatternGoalCardsParser.parsePersonalGoalCard("src/main/assets/cards/personalGoalCard.json");
+            personalGoals = JsonFixedPatternGoalCardsParser.parsePersonalGoalCard("/assets/cards/personalGoalCard.json");
             // Loading FixedPatternShapedCards from json file
-            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("src/main/assets/cards/fixedPatternShapedCommonGoalCards.json");
+            commonGoals = CardBuilder.loadCommonGoalCardsFromJson("/assets/cards/fixedPatternShapedCommonGoalCards.json");
             // Loading FreePatternShapedCards
             commonGoals.add(new SnakesCommonGoalCard("4"));
 

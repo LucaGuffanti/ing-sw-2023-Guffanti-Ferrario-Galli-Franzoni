@@ -65,6 +65,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         Logger.pingerInfo("Getting a ping from RMI Client");
     }
 
+    @Override
+    public void onClientDisconnection(String username, RMIClientInterface rmiClientInterface) throws RemoteException {
+        Logger.networkCritical("GOT DISCONNECTION REQUEST FROM " + username);
+        serverNetworkHandler.onDisconnection(serverNetworkHandler.getNickToConnectionMap().get(username));
+    }
+
     /**
      * This method is called when a client wants to log into the server. A login request can yield a positive or negative
      * result, which is sent to the client.

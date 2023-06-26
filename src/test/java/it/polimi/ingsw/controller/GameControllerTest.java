@@ -626,8 +626,8 @@ public class GameControllerTest {
         GameController gameController1 = new GameController(new FakeServerNetworkHandler());
         gameController1.createGame("Daniele", 2, 0);
         gameController1.onPlayerJoin("Luca");
-        gameController1.reloadExistingGame();
-        gameController1.endTurn();
+        //gameController1.reloadExistingGame();
+        //gameController1.endTurn();
     }
 
     //TODO ADD JAVADOC

@@ -7,7 +7,9 @@ import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cells.BoardCell;
 import it.polimi.ingsw.server.model.cells.BoardCellEnum;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -74,7 +76,7 @@ public class CsvToBoardParser {
         BoardCell[][] boardMatrix = new BoardCell[Constants.BOARD_DIMENSION][Constants.BOARD_DIMENSION];
 
         try {
-            Reader r = Files.newBufferedReader(Path.of(path));
+            Reader r = new BufferedReader(new InputStreamReader(CsvToBoardParser.class.getResourceAsStream(path)));
             CSVReader csvReader = new CSVReader(r);
 
             for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {
@@ -112,7 +114,7 @@ public class CsvToBoardParser {
         BoardCell[][] boardMatrix = parseBoardCellTypeConfiguration(pathType, nPlayers);
 
         try {
-            Reader r = Files.newBufferedReader(Path.of(pathObject));
+            Reader r = new BufferedReader(new InputStreamReader(CsvToBoardParser.class.getResourceAsStream(pathObject)));
             CSVReader csvReader = new CSVReader(r);
 
             for (int y = 0; y < Constants.BOARD_DIMENSION; y++) {

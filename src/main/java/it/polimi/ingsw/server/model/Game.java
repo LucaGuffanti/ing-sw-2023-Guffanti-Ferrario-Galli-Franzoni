@@ -134,7 +134,7 @@ public class Game {
         gameInfo.setPersonalGoals(GameObjectConverter.fromIdToPersonalGoal(savedGameInfo.getPersonalGoals()));
         // setting the game board
         board = new Board();
-        board.setCells(GameObjectConverter.fromMatrixToBoard(savedBoard, gameInfo.getNPlayers(), "src/main/assets/board/cellTypeConfiguration.csv"));
+        board.setCells(GameObjectConverter.fromMatrixToBoard(savedBoard, gameInfo.getNPlayers(), "/assets/board/cellTypeConfiguration.csv"));
         // setting every player
         players = GameObjectConverter.fromSimplifiedPlayerToPlayer(savedPlayers);
     }
@@ -155,7 +155,7 @@ public class Game {
      * <br>
      * In this method all the game related stuff is initialized.
      */
-    public void initGame() {
+    public void initGame() throws WrongNumberOfPlayersException {
 
         // firstly, the game related objects are instantiated:
         // the sack gets filled
@@ -179,6 +179,7 @@ public class Game {
             }
         } catch (WrongNumberOfPlayersException e) {
             e.printStackTrace();
+            throw new WrongNumberOfPlayersException(gameInfo.getNPlayers());
         }
         gameInfo.setSelectedCommonGoals(commonGoalCards);
         // then the personalGoalCards are taken from the deck and given to every player
