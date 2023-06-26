@@ -106,3 +106,5 @@ src/test/resources/saveTEST/testSave.json
 config/serverInfo.json
 /MyShelfieClientData/
 /MyShelfieServerData/
+
+dependency-reduced-pom.xml
