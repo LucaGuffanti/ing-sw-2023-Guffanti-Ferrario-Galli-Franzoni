@@ -23,13 +23,6 @@ import java.util.Set;
 public class Pattern {
 
     /**
-     *
-     *  @public invariant
-     *  \forall PatternCell cell; cell.getX() < height && cell.getY < length;
-     *
-     */
-
-    /**
      * The minimum height of the frame to contain the covered cells.
      */
     private int height;
@@ -43,7 +36,6 @@ public class Pattern {
      * to detect in a shelf portion. Their coordinates are set relatively
      * to the frame dimensions. For example: <br>
      *
-
      */
     private Set<PatternCell> coveredCells;
 

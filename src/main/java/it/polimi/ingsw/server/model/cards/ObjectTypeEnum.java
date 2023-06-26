@@ -17,6 +17,9 @@ public enum ObjectTypeEnum implements Serializable {
     TROPHY(Color.CYAN),
     PLANT(Color.MAGENTA);
 
+    /**
+     * The original color of the tile
+     */
     private Color color;
     ObjectTypeEnum(Color color) {
         this.color = color;

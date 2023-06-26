@@ -7,6 +7,9 @@ package it.polimi.ingsw.server.model.cards;
  * @see ObjectTypeEnum
  */
 public class ObjectCard {
+    /**
+     * The type of the object card
+     */
     private final ObjectTypeEnum type;
     public ObjectCard(ObjectTypeEnum type) {
         this.type = type;

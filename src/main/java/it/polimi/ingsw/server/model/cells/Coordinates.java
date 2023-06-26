@@ -2,8 +2,18 @@ package it.polimi.ingsw.server.model.cells;
 
 import java.io.Serializable;
 
+/**
+ * A pair of numbers representing the coordinates of a grid
+ * @author Daniele Ferrario
+ */
 public class Coordinates implements Serializable {
+    /**
+     * x coordinate
+     */
     protected int x;
+    /**
+     * y coordinate
+     */
     protected int y;
 
     public Coordinates(int x, int y) {

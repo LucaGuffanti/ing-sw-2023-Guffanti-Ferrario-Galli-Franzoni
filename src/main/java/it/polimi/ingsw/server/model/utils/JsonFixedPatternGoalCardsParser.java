@@ -29,29 +29,34 @@ import java.util.*;
  */
 public class JsonFixedPatternGoalCardsParser {
 
-    public static ArrayList<CommonGoalCard> parseFixedPatternCommonGoals(String path) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException {
+    /**
+     * This method parses a json file and builds a list of common goal cards
+     * @param path path to the json file
+     * @return the arraylist of common goal cards
+     * @throws IOException thrown if some error occurs during the parsing of the file
+     */
+    public static ArrayList<CommonGoalCard> parseFixedPatternCommonGoals(String path) throws IOException {
 
         // Writing a GSON deserializer ad hoc
         JsonDeserializer<ArrayList<CommonGoalCard>> deserializer = (json, typeOfT, context) -> {
             JsonArray jsonArray= json.getAsJsonArray();
+            // list of common goals
             ArrayList<CommonGoalCard> result = new ArrayList<>();
 
             for (JsonElement ob: jsonArray) {
-
+                // the specific json object from which we extract the id ...
                 JsonObject goalCardObject = ob.getAsJsonObject();
                 String id = goalCardObject.get("id").getAsString();
-
+                // ... and the pattern
                 JsonObject subPatternObject = goalCardObject.get("pattern").getAsJsonObject();
-
                 JsonArray subPatternCellsArray = subPatternObject.get("coveredCells").getAsJsonArray();
 
-
-
+                // the pattern is built by combining pattern cells
                 List<PatternCell> patternCells = subPatternCellsArray.asList().stream().
                         map((coordinatesPairArray) -> coordinatesPairArray.getAsJsonArray().asList())
                         .map((coordinatesPair) -> new PatternCell(coordinatesPair.get(0).getAsInt(), coordinatesPair.get(1).getAsInt(), Optional.empty()))
                         .toList();
-
+                // and additional info is also fetched
                 Pattern pattern = new Pattern(
                         subPatternObject.get("height").getAsInt(),
                         subPatternObject.get("length").getAsInt(),
@@ -75,6 +80,8 @@ public class JsonFixedPatternGoalCardsParser {
 
             return result;
         };
+
+        // after building a custom deserializer, the json file is read
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(JsonFixedPatternGoalCardsParser.class.getResourceAsStream(path)));
         StringBuilder stringBuilder = new StringBuilder();
@@ -103,13 +110,23 @@ public class JsonFixedPatternGoalCardsParser {
             "C", ObjectTypeEnum.TROPHY,
             "M", ObjectTypeEnum.PLANT
     );
-    public static ArrayList<PersonalGoalCard> parsePersonalGoalCard(String path) throws IOException, WrongNumberOfPlayersException, WrongPointCardsValueGivenException {
+
+    /**
+     * This methods builds a list of personal goal cards starting from data contained in a json file
+     * @param path path to the json file
+     * @return a list of personal goal cards obtained from the file
+     * @throws IOException thrown if some error occurs during the parsing of the file
+     */
+    public static ArrayList<PersonalGoalCard> parsePersonalGoalCard(String path) throws IOException {
 
         // Writing a GSON deserializer ad hoc
         JsonDeserializer<ArrayList<PersonalGoalCard> >deserializer = (json, typeOfT, context) -> {
             JsonArray jsonArray = json.getAsJsonArray();
             ArrayList<PersonalGoalCard> result = new ArrayList<>();
-
+            /*
+            For each element in the list of cards, a personal goal card is
+            built with the id and list of tiles that make up the pattern
+             */
             for (JsonElement ob : jsonArray) {
 
                 JsonObject goalCardObject = ob.getAsJsonObject();
@@ -136,7 +153,7 @@ public class JsonFixedPatternGoalCardsParser {
                 Pattern pattern = new Pattern(
                         6,
                         5,
-                        (Set) new HashSet<>(personalGoalPattern),
+                        new HashSet<>(personalGoalPattern),
                         0,0
                 );
                 PersonalGoalCard goalCard = new PersonalGoalCard(
@@ -150,7 +167,7 @@ public class JsonFixedPatternGoalCardsParser {
 
             return result;
         };
-
+        // then the json file is read
         BufferedReader reader = new BufferedReader(new InputStreamReader(JsonFixedPatternGoalCardsParser.class.getResourceAsStream(path)));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
@@ -169,6 +186,4 @@ public class JsonFixedPatternGoalCardsParser {
         reader.close();
         return customGson.fromJson(jsonData, classType);
     }
-
-
 }

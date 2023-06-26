@@ -4,8 +4,18 @@ import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 
 import java.util.Optional;
 
+/**
+ * Object representing the result of checking a portion of a player shelf for a common goal card pattern
+ * @author Daniele Ferrario
+ */
 public class CheckShelfPortionResult {
+    /**
+     * Whether the portion of the shelf present cells arranged in a requested pattern
+     */
     private boolean valid;
+    /**
+     * The type that may need to be shared by cells in the analyzed portion of the shelf
+     */
     private Optional<ObjectTypeEnum> commonType;
 
     private boolean[][] updatedFoundCellsMatrix;

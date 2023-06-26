@@ -14,6 +14,9 @@ import java.util.*;
  */
 public abstract class CommonGoalCard extends GoalCard {
 
+    /**
+     * List of available point cards
+     */
     protected ArrayList<PointCard> pointsCards;
 
 

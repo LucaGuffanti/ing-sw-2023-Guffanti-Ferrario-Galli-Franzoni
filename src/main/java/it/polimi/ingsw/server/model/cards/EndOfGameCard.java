@@ -6,19 +6,17 @@ package it.polimi.ingsw.server.model.cards;
  * @author Luca Guffanti
  */
 public class EndOfGameCard {
+    /**
+     * Whether the card has already been assigned
+     */
     private boolean isAssigned;
+    /**
+     * The number of points that
+     */
     private final int pointsAssigned = 1;
     public EndOfGameCard() {
         isAssigned = false;
     }
-    public boolean isAssigned() {
-        return isAssigned;
-    }
-
-    public int getPointsAssigned() {
-        return pointsAssigned;
-    }
-
     public void setAssigned(boolean assigned) {
         isAssigned = assigned;
     }

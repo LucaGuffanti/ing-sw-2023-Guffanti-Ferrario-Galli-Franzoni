@@ -8,6 +8,9 @@ import java.util.Optional;
  * @see Cell
  */
 public class BoardCell extends Cell {
+    /**
+     * The state of a specific cell
+     */
     BoardCellEnum type;
 
     public BoardCell(Optional cellCard, BoardCellEnum type) {

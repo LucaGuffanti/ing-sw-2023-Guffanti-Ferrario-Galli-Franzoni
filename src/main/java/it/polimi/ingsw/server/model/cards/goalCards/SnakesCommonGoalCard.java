@@ -43,7 +43,11 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
         super(id);
     }
 
-
+    /**
+     * This method checks that the shelf of a player presents the requested pattern
+     * @param player the player whose shelf will be checked
+     * @return 1 if the pattern is present, 0 otherwise
+     */
     @Override
     protected int checkPattern(Player player) {
         ShelfCell[][] shelfMatrix = player.getShelf().getCells();
@@ -81,6 +85,9 @@ public class SnakesCommonGoalCard extends CommonGoalCard implements FreePatternS
         return totalPoints == 4 ? 1 : 0;
     }
 
+    /**
+     * @return a card equal to the one calling the method
+     */
     @Override
     public GoalCard returnEqualCard() {
         return new SnakesCommonGoalCard(this.id);

@@ -202,18 +202,18 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
 
             // LOAD SOUNDS
-            Media sound = new Media(new File("src/main/resources/audio/LocalForecast-Elevator.mp3").toURI().toString());
+            Media sound = new Media(getClass().getResource("/audio/LocalForecast-Elevator.mp3").toURI().toString());
             MediaPlayer mPreGame = new MediaPlayer(sound);
             mPreGame.setOnEndOfMedia(() -> mPreGame.seek(Duration.ZERO));
             phaseToMusicMap.put(ClientPhasesEnum.LOGIN, mPreGame);
 
-            sound = new Media(new File("src/main/resources/audio/KevinMacLeod-CasaBossaNova.mp3").toURI().toString());
+            sound = new Media(getClass().getResource("/audio/KevinMacLeod-CasaBossaNova.mp3").toURI().toString());
             MediaPlayer mGame = new MediaPlayer(sound);
             mGame.setOnEndOfMedia(() -> mGame.seek(Duration.ZERO));
             phaseToMusicMap.put(ClientPhasesEnum.PICK_FORM_BOARD, mGame);
             phaseToMusicMap.put(ClientPhasesEnum.WAITING_FOR_TURN, mGame);
 
-            sound = new Media(new File("src/main/resources/audio/BrazilianJazz.mp3").toURI().toString());
+            sound = new Media(getClass().getResource("/audio/BrazilianJazz.mp3").toURI().toString());
             MediaPlayer mFinalResults = new MediaPlayer(sound);
             mFinalResults.setOnEndOfMedia(() -> mFinalResults.seek(Duration.ZERO));
             phaseToMusicMap.put(ClientPhasesEnum.FINAL_RESULTS_SHOW, mFinalResults);
@@ -291,7 +291,7 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             root = loader.load();
             Scene scene = new Scene(root);
             stage.setTitle("My Shelfie");
-            stage.getIcons().add(new Image("file:src/main/resources/images/Publisher material/Icon 50x50px.png"));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Publisher material/Icon 50x50px.png")));
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> {
                 if (ClientManager.getInstance().getNetworkHandler() instanceof RMIClient) {

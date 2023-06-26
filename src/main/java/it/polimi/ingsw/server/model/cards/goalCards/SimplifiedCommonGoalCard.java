@@ -12,8 +12,17 @@ import java.util.Objects;
  * @author Luca Guffanti
  */
 public class SimplifiedCommonGoalCard implements Serializable {
+    /**
+     * The id of the common goal card
+     */
     private String id;
+    /**
+     * List of point cards that can be awarded
+     */
     private ArrayList<PointCard> pointCards;
+    /**
+     * Map between the name of each player and the achieved points
+     */
     private HashMap<String, PointCard> nickToEarnedPoints;
 
     public SimplifiedCommonGoalCard(String id, ArrayList<PointCard> pointCards, HashMap<String, PointCard> earnedPoints) {

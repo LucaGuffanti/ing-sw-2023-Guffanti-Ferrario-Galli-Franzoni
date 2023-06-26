@@ -64,13 +64,19 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
      * card
      * */
 
-
+    /**
+     * this method calculates the points made by a player who's completing his own personal goal
+     * card
+     * @param player the player whose shelf will be checked
+     * @return the total number of points achieved by the player
+     */
     @Override
     protected int checkPattern(Player player) {
         int numOfMatches = 0;
         Shelf playerShelf = player.getShelf();
         Pattern patternToMatch = this.pattern;
 
+        // retrieving the cells from the pattern that characterizes the personal goal
         Set<PatternCell> cells = patternToMatch.getCoveredCells();
 
         for (PatternCell cell : cells) {
@@ -95,7 +101,7 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
 
 
     /**
-     * @author Luca Guffanti
+     * This method calls the calculation of points acquired by the player who's completing the shelf
      * @param player the player whose shelf will be checked
      * @return the points obtained by (partially or completely) accomplishing the personal goal
      */
@@ -108,6 +114,9 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
         return points;
     }
 
+    /**
+     * @return an equal card
+     */
     @Override
     public GoalCard returnEqualCard(){
         return new PersonalGoalCard(this);

@@ -9,6 +9,9 @@ import it.polimi.ingsw.server.model.player.Player;
  * @author Daniele ferrario
  */
 public abstract class GoalCard {
+    /**
+     * The id of the goal card
+     */
     protected String id;
 
     public GoalCard(String id) {
@@ -33,7 +36,6 @@ public abstract class GoalCard {
     public abstract int calculatePoints(Player player);
 
     /**
-     *
      * @return a copy of the goalCard which is "this"
      */
     public abstract GoalCard returnEqualCard();

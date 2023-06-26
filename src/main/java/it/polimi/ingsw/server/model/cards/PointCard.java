@@ -2,8 +2,17 @@ package it.polimi.ingsw.server.model.cards;
 
 import java.io.Serializable;
 
+/**
+ * The specific point card awarded by a common goal card when completed
+ */
 public class PointCard implements Serializable {
+    /**
+     * The specific type of point card
+     */
     private PointEnumeration type;
+    /**
+     * The number of points awarded by the point card
+     */
     private int pointsGiven;
 
     public PointCard(PointEnumeration type, int pointsGiven){

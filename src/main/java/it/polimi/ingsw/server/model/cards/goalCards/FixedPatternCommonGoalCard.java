@@ -30,18 +30,29 @@ import static it.polimi.ingsw.server.model.utils.Constants.SHELF_LENGTH;
  */
 public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedPatternShapedCard {
 
-    // The fixed pattern to detect
+    /**
+     * The fixed pattern to detect
+     */
     private Pattern pattern;
-    // The fixed pattern rotated 90 degrees anticlockwise
+    /**
+     * The fixed pattern rotated 90 degrees anticlockwise
+     */
     private Pattern rotatedPattern;
-    // The minimum number of occurrences of the pattern in the player's shelf
+    /**
+     * The minimum number of occurrences of the pattern in the player's shelf
+     */
     private int minNumberOfOccurrences;
-    // this indicates that the pattern should also be checked in its rotated version
+    /**
+     * this indicates that the pattern should also be checked in its rotated version
+     */
     private boolean shouldRotate;
-    // This indicates that the patterns can be adjacent
+    /**
+     *  This indicates that the patterns can be adjacent
+     */
     private boolean admitsAdjacency;
-    // This indicates that the patterns should share the same color/type
-    // (implies that the single patterns should contain at max 1 type)
+    /** This indicates that the patterns should share the same color/type
+     (implies that the single patterns should contain at max 1 type)
+     */
     private boolean patternsShareSameColor;
 
     public Pattern getPattern() {
@@ -108,13 +119,11 @@ public class FixedPatternCommonGoalCard extends CommonGoalCard implements FixedP
      * out of pointsCards.
      *
      * @param player        The current player whom shelf has to be analyzed.
-     * @return PointCard    A card representing game points.
+     * @return the points that will be awarded
      */
     @Override
     public int calculatePoints(Player player){
-
-
-
+        // proceed only if there's at least a point card that can be awarded
         if(pointsCards.size() == 0){
             return 0;
         }

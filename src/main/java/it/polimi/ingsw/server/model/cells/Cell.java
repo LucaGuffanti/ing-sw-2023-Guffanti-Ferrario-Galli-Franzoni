@@ -9,6 +9,9 @@ import java.util.Optional;
  * @author Marco Galli
  */
 public abstract class Cell {
+    /**
+     * The tile that may be contained by the cell
+     */
     private Optional<ObjectCard> cellCard;
 
     public Cell(Optional cellCard) {
