@@ -1,0 +1,653 @@
+{
+  "players": [
+    {
+      "name": "TestUser10",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "9"
+    },
+    {
+      "name": "TestUser101",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "7"
+    },
+    {
+      "name": "TestUser102",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "PLANT",
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "10"
+    },
+    {
+      "name": "TestUser103",
+      "shelf": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "achievements": {
+        "completedFirstCommonGoal": false,
+        "completedSecondCommonGoal": false,
+        "pointCardsEarned": {},
+        "firstToFinish": false,
+        "completedShelf": false
+      },
+      "personalGoalId": "1"
+    }
+  ],
+  "board": [
+    [
+      null,
+      null,
+      null,
+      "CAT",
+      "TROPHY",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "TOY",
+      "CAT",
+      "TROPHY",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      "CAT",
+      "TROPHY",
+      "BOOK",
+      "TOY",
+      "TROPHY",
+      null,
+      null
+    ],
+    [
+      null,
+      "TOY",
+      "BOOK",
+      "BOOK",
+      "TOY",
+      "CAT",
+      "TOY",
+      "TOY",
+      "TROPHY"
+    ],
+    [
+      "FRAME",
+      "FRAME",
+      "CAT",
+      "PLANT",
+      "BOOK",
+      "FRAME",
+      "CAT",
+      "FRAME",
+      "PLANT"
+    ],
+    [
+      "TOY",
+      null,
+      "BOOK",
+      "TROPHY",
+      "BOOK",
+      "BOOK",
+      "PLANT",
+      "TROPHY",
+      null
+    ],
+    [
+      null,
+      null,
+      "TROPHY",
+      "BOOK",
+      "TROPHY",
+      "TROPHY",
+      "FRAME",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "PLANT",
+      "TROPHY",
+      "PLANT",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "BOOK",
+      "TROPHY",
+      null,
+      null,
+      null
+    ]
+  ],
+  "gameInfo": {
+    "admin": "TestUser10",
+    "nPlayers": 4,
+    "winner": "NULL",
+    "gameID": 0,
+    "commonGoals": [
+      {
+        "id": "7",
+        "pointCards": [
+          {
+            "type": "TWO_POINTS",
+            "pointsGiven": 2
+          },
+          {
+            "type": "FOUR_POINTS",
+            "pointsGiven": 4
+          },
+          {
+            "type": "SIX_POINTS",
+            "pointsGiven": 6
+          },
+          {
+            "type": "EIGHT_POINTS",
+            "pointsGiven": 8
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "pointCards": [
+          {
+            "type": "TWO_POINTS",
+            "pointsGiven": 2
+          },
+          {
+            "type": "FOUR_POINTS",
+            "pointsGiven": 4
+          },
+          {
+            "type": "SIX_POINTS",
+            "pointsGiven": 6
+          },
+          {
+            "type": "EIGHT_POINTS",
+            "pointsGiven": 8
+          }
+        ]
+      }
+    ],
+    "personalGoals": [
+      "9",
+      "7",
+      "10",
+      "1"
+    ]
+  },
+  "sack": {
+    "cards": [
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TROPHY"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "CAT"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "FRAME"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "BOOK"
+      },
+      {
+        "type": "PLANT"
+      },
+      {
+        "type": "TOY"
+      },
+      {
+        "type": "BOOK"
+      }
+    ]
+  },
+  "orderedPlayers": [
+    "TestUser102",
+    "TestUser10",
+    "TestUser101",
+    "TestUser103"
+  ],
+  "activePlayerIndex": 0
+}
