@@ -5,8 +5,6 @@ import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersExce
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
-import it.polimi.ingsw.network.ClientNetworkHandler;
-import it.polimi.ingsw.network.messages.FoundSavedGameMessage;
 import it.polimi.ingsw.network.messages.FoundSavedGameResponseMessage;
 import it.polimi.ingsw.network.messages.enums.ReloadGameChoice;
 
@@ -20,11 +18,19 @@ import java.util.List;
  */
 public class ReloadGameCommandHandler extends CliCommandHandler {
 
+    /**
+     * Game phases in which the command is available
+     */
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.DECIDING_FOR_RELOAD
     ));
-
+    /**
+     * The label of the command: the string that should be inserted to invoke the command
+     */
     public final static String commandLabel = "/reload";
+    /**
+     * The description of the command
+     */
     public final static String commandDescription = "When asked, reload a saved game\n\n" +
             "Usage:\n"+"" +
             "/reload accept         to reload the game\n"+
@@ -34,6 +40,13 @@ public class ReloadGameCommandHandler extends CliCommandHandler {
         super(cli);
     }
 
+    /**
+     * After the correct checks are made, this method submits the result of a reload request
+     * @param commandInput The user's input
+     * @param state the state of the client
+     * @throws CommandNotAvailableInThisPhaseException thrown if the command is not available in a given phase
+     * @throws BadlyFormattedParametersException thrown if the command presents badly formatted parameters
+     * */
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
         List<String> parameters = super.splitAndTrimInput(commandInput);

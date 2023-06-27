@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.controller.utils;
 
 import java.beans.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Checks for the differences between the attributes of two instances of the same class
@@ -12,6 +11,14 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class PropsChangesNotifier<T> {
 
+    /**
+     * Automatically determines the differences between the values of attributes of two object of the same
+     * type, consequently firing property change to notify the user interfaces
+     * @param oldObj the old object
+     * @param newObj the new object to be checked
+     * @param support the property change support which is used to fire property changes
+     * @throws IntrospectionException
+     */
     public void checkAndNotify(T oldObj, T newObj, PropertyChangeSupport support) throws IntrospectionException {
 
         BeanInfo beanInfo = Introspector.getBeanInfo(oldObj.getClass());

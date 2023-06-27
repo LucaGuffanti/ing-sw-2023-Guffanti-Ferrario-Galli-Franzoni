@@ -113,9 +113,20 @@ public class GameObjectConverter {
         return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), nickToPoints);
     }
 
+    /**
+     * This method partially generates a common goal
+     * @param goal the common goal card
+     * @return a simplified common goal card that does not contain the map between players and points
+     */
     public static SimplifiedCommonGoalCard fromCommonGoalToSimplifiedPartialCommonGoal(CommonGoalCard goal) {
         return new SimplifiedCommonGoalCard(goal.getId(), goal.getPointsCards(), null);
     }
+
+    /**
+     * This method generates an array of simplified players starting from a list of players
+     * @param players the list of players
+     * @return an array of simplified players
+     */
     public static SimplifiedPlayer[] fromPlayersToSimplifiedPlayers(ArrayList<Player> players) {
         return players.stream()
                 .map(p -> new SimplifiedPlayer(
@@ -126,6 +137,11 @@ public class GameObjectConverter {
                 .toList().toArray(new SimplifiedPlayer[0]);
     }
 
+    /**
+     * This method generates a simplified game information starting from the game info
+     * @param gameInfo the game info that will be simplified
+     * @return the simplified game information
+     */
     public static SimplifiedGameInfo fromGameInfoToSimplifiedGameInfo(GameInfo gameInfo) {
 
         List<CommonGoalCard> commonGoalCards = gameInfo.getCommonGoals();
@@ -145,6 +161,11 @@ public class GameObjectConverter {
         );
     }
 
+    /**
+     * This method generates a list of common goal cards starting from a list of common goal cards
+     * @param simplified a list of simplified common goal cards
+     * @return a list of common goal cards
+     */
     public static ArrayList<CommonGoalCard> fromSimplifiedCommonGoalsToCommonGoals(ArrayList<SimplifiedCommonGoalCard> simplified) {
         ArrayList<CommonGoalCard> commonGoals = new ArrayList<>(simplified.stream()
                 .map(s-> GoalCardsDeckSingleton.getInstance().getCommonGoalCardById(s.getId()))
@@ -156,6 +177,11 @@ public class GameObjectConverter {
         return commonGoals;
     }
 
+    /**
+     * This method generates a list of personal goal cards starting from a list of personal card ids
+     * @param personalGoals a list of personal goals card ids
+     * @return a list of personal goal cards
+     */
     public static ArrayList<PersonalGoalCard> fromIdToPersonalGoal(ArrayList<String> personalGoals) {
         return new ArrayList<>(
                 personalGoals.stream().map(p->GoalCardsDeckSingleton.getInstance().getPersonalGoalCardById(p)).toList()
@@ -184,6 +210,11 @@ public class GameObjectConverter {
         return cells;
     }
 
+    /**
+     * This method loads a list of players starting from simplified players
+     * @param savedPlayers the list of saved players
+     * @return the list of players
+     */
     public static ArrayList<Player> fromSimplifiedPlayerToPlayer(SimplifiedPlayer[] savedPlayers) {
         ArrayList<Player> players = new ArrayList<>();
 
@@ -197,6 +228,11 @@ public class GameObjectConverter {
         return players;
     }
 
+    /**
+     * This method generates a shelf starting from a matrix describing a shelf
+     * @param shelf the shelf to be converted
+     * @return shelf generated starting from the shelf matrix
+     */
     public static Shelf fromMatrixToShelf(ObjectTypeEnum[][] shelf) {
         ShelfCell[][] cells = new ShelfCell[Constants.SHELF_HEIGHT][Constants.SHELF_LENGTH];
         for (int i = 0; i < Constants.SHELF_HEIGHT; i++) {

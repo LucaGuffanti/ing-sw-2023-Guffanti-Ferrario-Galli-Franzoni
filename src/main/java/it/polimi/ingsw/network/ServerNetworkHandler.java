@@ -299,6 +299,7 @@ public class ServerNetworkHandler {
                     }
                 }
             } else {
+                Logger.networkWarning("The client was already disconnected!");
                 return;
             }
         }
@@ -313,7 +314,6 @@ public class ServerNetworkHandler {
                         break;
                     }
                 }
-
                 if (shouldStop) {
                     System.exit(0);
                 }
@@ -344,9 +344,27 @@ public class ServerNetworkHandler {
                         NumberOfPlayersSelectionMessage msg = (NumberOfPlayersSelectionMessage) m;
                         controller = new GameController(this);
                         controller.createGame(msg.getSenderUsername(), msg.getNumOfPlayers(),0);
-                        for (String player : waitingForLobby) {
-                            controller.onPlayerJoin(player);
+
+                        if (waitingForLobby.size() != 0) {
+                            int waitingSize = waitingForLobby.size();
+                            Logger.networkInfo("Waiting queue of dimension " + waitingSize);
+                            int addablePlayers = msg.getNumOfPlayers() - 1;
+                            int rejectedPlayers = waitingSize - addablePlayers;
+
+                            synchronized (nickToConnectionMap) {
+                                for (int i = 0; i < rejectedPlayers; i++) {
+                                    sendToPlayer(waitingForLobby.get(waitingSize - i - 1),
+                                            new NotAdmittedMessage(ServerNetworkHandler.HOSTNAME,
+                                                    ResponsesDescriptions.FAILURE_NOT_ADMITTED));
+                                    Logger.networkInfo("Player " + waitingForLobby.get(waitingSize - i - 1) + " is not admitted to the game");
+                                    nickToConnectionMap.get(waitingForLobby.get(waitingSize-i-1)).setConnected(false);
+                                }
+                            }
+                            for (int i = 0; i < addablePlayers; i++) {
+                                controller.onPlayerJoin(waitingForLobby.get(i));
+                            }
                         }
+
                     } else {
                         sendToPlayer(m.getSenderUsername(),
                                 new AccessResultMessage(

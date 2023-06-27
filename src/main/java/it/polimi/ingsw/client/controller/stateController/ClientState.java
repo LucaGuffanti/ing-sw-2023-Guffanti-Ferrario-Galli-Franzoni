@@ -5,11 +5,9 @@ import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.network.messages.ChatMessage;
 import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
-import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A class which represents a state of the client.

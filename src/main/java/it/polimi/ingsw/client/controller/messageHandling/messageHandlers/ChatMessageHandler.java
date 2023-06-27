@@ -17,7 +17,12 @@ import java.util.List;
  * @author Daniele Ferrario
  */
 public class ChatMessageHandler extends Reducer implements Creator {
-
+    /**
+     * This method saves the last chat message payload and adds the message to the chat history
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
 

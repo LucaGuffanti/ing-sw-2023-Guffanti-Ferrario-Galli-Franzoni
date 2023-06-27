@@ -93,5 +93,13 @@ public enum MessageType {
     /**
      * header of a {@link WaitForLobbyMessage} message
      */
-    WAIT_FOR_LOBBY
+    WAIT_FOR_LOBBY,
+    /**
+     * header of a {@link NotAdmittedMessage} message
+     */
+    NOT_ADMITTED,
+    /**
+     * header of a {@link it.polimi.ingsw.network.ClientDisconnectionMessage}
+     */
+    CLIENT_DISCONNECTING
 }

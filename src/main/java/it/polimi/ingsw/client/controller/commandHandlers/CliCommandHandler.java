@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.view.cli.Cli;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,9 +42,9 @@ public abstract class CliCommandHandler {
      * notified with the result related to the command.
      *
      * @param commandInput The user's input
+     * @param state the current state of the client
      * @throws BadlyFormattedParametersException The inserted parameters are not valid for this specific command.
      * @throws CommandNotAvailableInThisPhaseException The command cannot be invoked during the current game phase.
-     * @return
      */
     public abstract void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException;
 
@@ -60,6 +59,12 @@ public abstract class CliCommandHandler {
         return cli;
     }
 
+    /**
+     * Checks if the command is available in the current phase
+     * @param availablePhases the list of available phases
+     * @param state client state containing the currente state
+     * @return whether the command is available
+     */
     protected boolean checkAvailability(HashSet<ClientPhasesEnum> availablePhases, ClientState state){
         return availablePhases.contains(state.getCurrentPhase());
     }

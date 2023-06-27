@@ -17,9 +17,7 @@ import java.io.Serializable;
  * and the other without.
  */
 public abstract class Message implements Serializable {
-    /**
-     * The type of the message
-     */
+
     protected final MessageType type;
     protected final String senderUsername;
     protected String description;

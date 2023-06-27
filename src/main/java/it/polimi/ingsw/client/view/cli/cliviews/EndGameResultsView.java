@@ -9,6 +9,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  */
 public class EndGameResultsView implements CliView {
 
+    /**
+     * Displays the final result of the game
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.printWinner(state.getWinnerUserName());

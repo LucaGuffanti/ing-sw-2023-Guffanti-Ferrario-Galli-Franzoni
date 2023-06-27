@@ -90,15 +90,6 @@ public class Player {
     }
 
     /**
-     * This method verifies if a player is connected to the game.
-     * @return the player status
-     */
-    public boolean verifyActive() {
-        // verify the player's connection
-        return isActive;
-    }
-
-    /**
      * This method adds cards which a player picks on his turn to the player's shelf.
      * @param cards the cards you pick in your turn
      * @param column column where a player wants to insert his object cards into the shelf

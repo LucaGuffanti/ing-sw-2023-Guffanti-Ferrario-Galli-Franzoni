@@ -18,6 +18,9 @@ public class RMIClientConnection extends ClientConnection {
      * A particular client interface on which methods are called
      */
     private RMIClientInterface rmiClientInterface;
+    /**
+     * The server network handler
+     */
     private ServerNetworkHandler networkHandler;
 
     public RMIClientConnection(RMIClientInterface rmiClientInterface, ServerNetworkHandler networkHandler) {

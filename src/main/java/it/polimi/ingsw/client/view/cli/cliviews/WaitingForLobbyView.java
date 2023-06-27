@@ -8,7 +8,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  * @author Luca Guffanti
  */
 public class WaitingForLobbyView implements CliView{
-
+    /**
+     * Displays that the client should wait to be added to a game
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("WAITING FOR THE CREATION OF THE LOBBY");

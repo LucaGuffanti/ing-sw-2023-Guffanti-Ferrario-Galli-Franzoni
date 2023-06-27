@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
-import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.Message;
@@ -21,9 +20,9 @@ public class NewPlayerJoinedMessageHandler extends Reducer  {
 
     /**
      * Add the new joined user at the end of the ordered user lists.
-     * @param oldClientState
-     * @param m
-     * @return
+     * @param oldClientState the old client state
+     * @param m the received message
+     * @return the new client state
      */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){

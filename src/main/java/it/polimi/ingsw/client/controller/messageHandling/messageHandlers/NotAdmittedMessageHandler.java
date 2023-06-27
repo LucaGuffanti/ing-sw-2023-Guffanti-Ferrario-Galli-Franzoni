@@ -4,23 +4,22 @@ import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.NotAdmittedMessage;
 
 /**
- * This handler manages the receiving of a Wait for lobby message by setting the phase of the client to
- * WAITING FOR LOBBY
- * @author Luca Guffanti
+ * This object handles the receiving of a {@link NotAdmittedMessage}
  */
-public class WaitForLobbyMessageHandler extends Reducer {
+public class NotAdmittedMessageHandler extends Reducer {
 
     /**
-     * This method sets the client state to WAITING FOR LOBBY
+     * This method sets the phase to NOT_ADMITTED
      * @param oldState The old state
      * @param m The received message
      * @return the new state of the client
      */
     @Override
     public ClientState reduce(ClientState oldState, Message m) {
-        ClientState state;
+        ClientState state = null;
 
         try {
             state = (ClientState) oldState.clone();
@@ -28,7 +27,7 @@ public class WaitForLobbyMessageHandler extends Reducer {
             throw new RuntimeException(e);
         }
 
-        state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_LOBBY);
+        state.setCurrentPhase(ClientPhasesEnum.NOT_ADMITTED);
         return state;
     }
 }

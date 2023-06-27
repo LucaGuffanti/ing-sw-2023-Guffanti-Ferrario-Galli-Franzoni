@@ -16,8 +16,8 @@ import java.util.ArrayList;
  * Handles the creation and the reception of the messages relative to the
  * login requests and responses.
  *
- * @see LoginRequestMessage // From client to server
- * @see LoginResponseMessage // From server to client
+ * @see LoginRequestMessage
+ * @see LoginResponseMessage
  * @author Daniele Ferrario
  */
 public class LoginMessageHandler extends Reducer implements Creator {
@@ -27,6 +27,12 @@ public class LoginMessageHandler extends Reducer implements Creator {
 
     }
 
+    /**
+     * This method handles the receiving of the result of a login
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state;

@@ -9,12 +9,29 @@ import java.io.Serializable;
  * @see ObjectCard
  */
 public enum ObjectTypeEnum implements Serializable {
-
+    /**
+     * The cat object card
+     */
     CAT(Color.GREEN),
+    /**
+     * The book object card
+     */
     BOOK(Color.WHITE),
+    /**
+     * The toy object card
+     */
     TOY(Color.YELLOW),
+    /**
+     * The frame object card
+     */
     FRAME(Color.BLUE),
+    /**
+     * The trophy object card
+     */
     TROPHY(Color.CYAN),
+    /**
+     * The plant object card
+     */
     PLANT(Color.MAGENTA);
 
     /**

@@ -67,8 +67,6 @@ public class CommandPicker implements Runnable{
      */
     private void evaluateUserInput(String userInput) {
 
-
-
         String[] commandSubStrings = userInput.split(" ");
 
         if (!inputCommandMap.containsKey(commandSubStrings[0])) {
@@ -103,5 +101,6 @@ public class CommandPicker implements Runnable{
         inputCommandMap.put(ChatCommandHandler.commandLabel, new ChatCommandHandler(cli));
         inputCommandMap.put(HelpCommandHandler.commandLabel, new HelpCommandHandler(cli));
         inputCommandMap.put(ReloadGameCommandHandler.commandLabel, new ReloadGameCommandHandler(cli));
+        inputCommandMap.put(QuitCommandHandler.commandLabel, new QuitCommandHandler(cli));
     }
 }

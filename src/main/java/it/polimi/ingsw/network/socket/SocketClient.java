@@ -2,12 +2,9 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
-import it.polimi.ingsw.network.ClientConnection;
 import it.polimi.ingsw.network.ClientNetworkHandler;
 import it.polimi.ingsw.network.messages.ConnectionEstablishedMessage;
-import it.polimi.ingsw.network.messages.LoginRequestMessage;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.utils.ConnectionTypeEnum;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

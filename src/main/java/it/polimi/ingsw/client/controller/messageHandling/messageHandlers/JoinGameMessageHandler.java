@@ -1,12 +1,10 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
-import it.polimi.ingsw.client.controller.ClientManager;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.*;
 
 /**
@@ -24,6 +22,13 @@ public class JoinGameMessageHandler extends Reducer implements Creator {
 
     }
 
+    /**
+     * This method handles the result of a join operation, based on whether the access
+     * was permitted or not
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state;
@@ -40,16 +45,7 @@ public class JoinGameMessageHandler extends Reducer implements Creator {
             state.setCurrentPhase(ClientPhasesEnum.LOBBY);
             state.setOrderedPlayersNames(accessResultMessage.getPlayersUsernames());
         }else{
-            String previousErrorBody = state.getServerErrorMessage();
-            if (previousErrorBody != null && previousErrorBody.equals(accessResultMessage.getDescription())) {
-                if (Gui.instance != null) {
-                    Gui.instance.printErrorMessage(accessResultMessage.getDescription());
-                } else {
-                    ClientManager.getInstance().getUserInterface().printErrorMessage(accessResultMessage.getDescription());
-                }
-            } else {
-                state.setServerErrorMessage(accessResultMessage.getDescription());
-            }
+            state.setCurrentPhase(ClientPhasesEnum.ALREADY_STARTED);
         }
         return state;
     }

@@ -8,6 +8,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  * @author Luca Guffanti
  */
 public class MultipleShelvesView implements CliView{
+    /**
+     * Displays the shelves of all the players
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("ALL THE SHELVES");

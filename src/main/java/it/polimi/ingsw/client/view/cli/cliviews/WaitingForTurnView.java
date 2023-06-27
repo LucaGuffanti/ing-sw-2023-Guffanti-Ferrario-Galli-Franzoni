@@ -9,6 +9,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  * @author Luca Guffanti
  */
 public class WaitingForTurnView implements CliView{
+    /**
+     * Tells the player to wait and try commands while another client is trying the game
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("It's " + state.getActivePlayer() + "'s turn! - Write /help for a list of all the commands");

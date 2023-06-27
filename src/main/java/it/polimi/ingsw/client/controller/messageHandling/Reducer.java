@@ -23,9 +23,8 @@ public abstract class Reducer implements MessagesHandler {
      * specific handler implementation relative to the message type. It's only called after Reducer.reduce(...) wrapper method.
      *
      * @param oldState The old state
-     * @param m The Message containing the payload
+     * @param m The received message
      * @return The next state of the application.
-     *
      */
-    public abstract ClientState reduce(ClientState oldState, Message m);
+    public abstract ClientState reduce(ClientState oldState, Message m) throws CloneNotSupportedException;
 }

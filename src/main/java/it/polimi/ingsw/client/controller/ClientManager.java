@@ -19,9 +19,21 @@ import java.rmi.RemoteException;
  * @author Daniele Ferrario, Luca Guffanti
  */
 public class ClientManager {
+    /**
+     * Client manager is a singleton, this is the instance of the client manager
+     */
     public static ClientManager instance;
+    /**
+     * The state container
+     */
     private StateContainer stateContainer;
+    /**
+     * The client-side network handler
+     */
     private ClientNetworkHandler networkHandler;
+    /**
+     * The user interface, which can either be GUI or CLI
+     */
     private UserInterface userInterface;
 
 
@@ -59,16 +71,25 @@ public class ClientManager {
     }
     // ------------------------------------------------------------------------
 
+    /**
+     * Runs the user interface
+     */
     public void runUI(){
         userInterface.run();
     }
 
-
+    /**
+     * This method handles the disconnection of the client, requiring a display of a message.
+     */
     public void onDisconnection() {
-        if (userInterface instanceof Gui) {
-            Gui.instance.onGameAborted();
-        } else {
-            userInterface.onGameAborted();
+        ClientPhasesEnum phase = stateContainer.getCurrentState().getCurrentPhase();
+        if (!(phase.equals(ClientPhasesEnum.ALREADY_STARTED) || phase.equals(ClientPhasesEnum.NOT_ADMITTED))) {
+            if (userInterface instanceof Gui) {
+                System.out.println("Disconnections during phase " + phase);
+                Gui.instance.onGameAborted();
+            } else {
+                userInterface.onGameAborted();
+            }
         }
     }
 

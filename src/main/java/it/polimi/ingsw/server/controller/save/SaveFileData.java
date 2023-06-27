@@ -40,14 +40,32 @@ public class SaveFileData implements Serializable {
     /*
     ==================FROM THE MODEL==================
      */
+    /**
+     * List of players containing player related data
+     */
     private SimplifiedPlayer[] players;
+    /**
+     * Simplified representation of the board
+     */
     private ObjectTypeEnum[][] board;
+    /**
+     * Game information
+     */
     private SimplifiedGameInfo gameInfo;
+    /**
+     * Sack containing cards
+     */
     private Sack sack;
     /*
     ================FROM THE CONTROLLER================
      */
+    /**
+     * List of ordere nicknames
+     */
     private List<String> orderedPlayers;
+    /**
+     * The index of the player who last played
+     */
     private int activePlayerIndex;
 
     public SaveFileData(SimplifiedPlayer[] players,

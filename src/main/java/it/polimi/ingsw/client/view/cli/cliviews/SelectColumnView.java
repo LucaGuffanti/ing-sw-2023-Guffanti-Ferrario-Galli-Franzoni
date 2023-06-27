@@ -10,6 +10,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  */
 public class SelectColumnView implements CliView {
 
+    /**
+     * Prompts the client to enter a column in which to insert the list picked tiles
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("COLUMN SELECTION PHASE");

@@ -5,6 +5,12 @@ package it.polimi.ingsw.network.messages.enums;
  * @author Luca Guffanti
  */
 public enum ReloadGameChoice {
+    /**
+     * The reload is accepted
+     */
     ACCEPT_RELOAD,
+    /**
+     * The reload is declined
+     */
     DECLINE_RELOAD
 }

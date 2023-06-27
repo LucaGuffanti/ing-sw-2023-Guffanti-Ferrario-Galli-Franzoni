@@ -569,7 +569,7 @@ public class GameController {
      *
      */
     public synchronized void onPlayerDisconnection(String name) {
-        if (!game.getPlayers().contains(name)) {
+        if (!game.getPlayers().stream().map(Player::getNickname).toList().contains(name)) {
             Logger.controllerInfo("Didn't stop the game because " + name + " wasn't playing");
             return;
         }

@@ -21,11 +21,15 @@ public class PlayersNumberSelectionMessageHandler extends Reducer implements Cre
         return new NumberOfPlayersSelectionMessage(username, numOfPlayers);
 
     }
-
+    /**
+     * This method saves the last chat message payload and adds the message to the chat history
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
-        PickNumberOfPlayersMessage pickNumberOfPlayersMessage = (PickNumberOfPlayersMessage) m;
 
         try {
             state = (ClientState) oldClientState.clone();

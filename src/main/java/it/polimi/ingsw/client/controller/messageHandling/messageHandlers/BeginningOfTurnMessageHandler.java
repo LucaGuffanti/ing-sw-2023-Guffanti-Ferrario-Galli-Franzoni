@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.BeginningOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
 
@@ -17,6 +16,12 @@ import it.polimi.ingsw.network.messages.Message;
  */
 public class BeginningOfTurnMessageHandler extends Reducer {
 
+    /**
+     * This method updates the phase to ABORTED
+     * @param oldState The old state
+     * @param m The received message
+     * @return the new client state
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
 

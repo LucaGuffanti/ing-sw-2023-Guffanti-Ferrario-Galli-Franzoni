@@ -16,10 +16,17 @@ import java.util.concurrent.TimeUnit;
  * and from clients.
  */
 public class Pinger extends Thread {
-    public static String name;
+    /**
+     * Map between nicknames and connection data
+     */
     private HashMap<String, ClientConnection> nickToConnection;
+    /**
+     * Server side network handler
+     */
     private final ServerNetworkHandler networkHandler;
-    private Timer timer;
+    /**
+     * The last ping message to be received
+     */
     private Message currentMessage;
     public Pinger(ServerNetworkHandler networkHandler){
         this.networkHandler = networkHandler;
@@ -36,15 +43,14 @@ public class Pinger extends Thread {
             if (nickToConnection.size() != 0) {
                 for (String nick : nickToConnection.keySet()) {
                     if (nickToConnection.get(nick).isConnected() && nickToConnection.get(nick) instanceof RMIClientConnection) {
-                        synchronized (nickToConnection.get(nick)) {
-                            Logger.pingerInfo("Pinging "+nick);
-                            nickToConnection.get(nick).sendMessage(
-                                    new PingRequestMessage(
-                                            ServerNetworkHandler.HOSTNAME,
-                                            nick
-                                    )
-                            );
-                        }
+                        Logger.pingerInfo("Pinging "+nick);
+                        networkHandler.sendToPlayer(
+                                nick,
+                                new PingRequestMessage(
+                                        ServerNetworkHandler.HOSTNAME,
+                                        nick
+                                )
+                        );
                         try {
                             // the thread sleeps waiting for the ping response to arrive
                             TimeUnit.MILLISECONDS.sleep(3000);
@@ -62,13 +68,13 @@ public class Pinger extends Thread {
                 }
 
                 try {
-                    TimeUnit.SECONDS.sleep(10);
+                    TimeUnit.SECONDS.sleep(8);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             } else {
                 try {
-                    Logger.pingerInfo("no players connected");
+                    Logger.pingerInfo("no players to ping");
                     TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

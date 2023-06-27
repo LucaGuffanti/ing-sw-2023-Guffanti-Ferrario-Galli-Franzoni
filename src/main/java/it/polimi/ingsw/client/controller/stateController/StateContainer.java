@@ -59,19 +59,24 @@ public class StateContainer {
 
         // Transform the current state in the next one and add it to the states History
         ClientState oldState = statesHistory.get(statesHistory.size()-1);
-        ClientState newState = handler.reduce(this.getCurrentState(), message);
+        ClientState newState = null;
+        try {
+            newState = handler.reduce(this.getCurrentState(), message);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
         statesHistory.add(newState);
         try {
             notifier.checkAndNotify(oldState, newState, propertyChangeSupport);
         }catch (Exception e){
             e.printStackTrace();
-        };
+        }
     }
 
     /**
      * Add listeners for ClientState updates
-     * @param listener
+     * @param listener the listener to be added
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);

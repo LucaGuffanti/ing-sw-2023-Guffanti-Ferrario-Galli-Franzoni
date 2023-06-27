@@ -58,13 +58,6 @@ public class PersonalGoalCard extends GoalCard implements FixedPatternShapedCard
 
 
     /**
-     * @author Luca Guffanti
-     * @param player the player who owns the shelf that should be controlled
-     * @return the number of matches found between the shelf cells and the pattern that characterizes the personalGoal
-     * card
-     * */
-
-    /**
      * this method calculates the points made by a player who's completing his own personal goal
      * card
      * @param player the player whose shelf will be checked

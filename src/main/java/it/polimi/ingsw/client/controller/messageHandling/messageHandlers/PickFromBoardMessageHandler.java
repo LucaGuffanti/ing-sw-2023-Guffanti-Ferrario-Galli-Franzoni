@@ -27,6 +27,13 @@ public class PickFromBoardMessageHandler extends Reducer implements Creator {
         return new PickFromBoardMessage(username, cardsCoordinates);
     }
 
+    /**
+     * This method sets the phase to SELECT_COLUMN if the pick from the board was successful.
+     * Otherwise, an error message is shown.
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;

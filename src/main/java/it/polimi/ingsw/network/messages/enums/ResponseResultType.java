@@ -5,6 +5,12 @@ package it.polimi.ingsw.network.messages.enums;
  * @author Luca Guffanti
  */
 public enum ResponseResultType {
+    /**
+     * The action was performed with success
+     */
     SUCCESS,
+    /**
+     * The action was denied
+     */
     FAILURE
 }

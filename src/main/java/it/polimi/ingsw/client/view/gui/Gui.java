@@ -202,6 +202,20 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
             sGameAborted = new Scene(pGameAborted, scene.getWidth(), scene.getHeight());
             phaseToControllerMap.put(ClientPhasesEnum.ABORTED_GAME, loader.getController());
 
+            // ALREADY STARTED SCENE
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/sceneAlreadyStarted.fxml"));
+            Parent pAlreadyStarted = loader.load();
+            Scene sAlreadyStarted = new Scene(pAlreadyStarted, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.ALREADY_STARTED, sAlreadyStarted);
+
+            // NOT ADMITTED AFTER QUEUE SCENE
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/sceneNotAdmitted.fxml"));
+            Parent pNotAdmitted = loader.load();
+            Scene sNotAdmitted = new Scene(pNotAdmitted, scene.getWidth(), scene.getHeight());
+            phaseToSceneMap.put(ClientPhasesEnum.NOT_ADMITTED, sNotAdmitted);
+
             // LOAD SOUNDS
             Media sound = new Media(getClass().getResource("/audio/LocalForecast-Elevator.mp3").toURI().toString());
             MediaPlayer mPreGame = new MediaPlayer(sound);
@@ -335,12 +349,13 @@ public class Gui extends Application implements UserInterface, PropertyChangeLis
      */
     @Override
     public void onGameAborted() {
+        ClientPhasesEnum phase = ClientManager.getInstance().getStateContainer().getCurrentState().getCurrentPhase();
         try {
             Platform.runLater(()-> {
                 getStage().setScene(sGameAborted);
-                if (getMediaPlayer() != null) {
-                    phaseToControllerMap.get(ClientPhasesEnum.ABORTED_GAME).setSliderVolume(getMediaPlayer().getVolume());
-                }
+            if (getMediaPlayer() != null) {
+                phaseToControllerMap.get(ClientPhasesEnum.ABORTED_GAME).setSliderVolume(getMediaPlayer().getVolume());
+            }
             });
         } catch (Exception e) {
             e.printStackTrace();

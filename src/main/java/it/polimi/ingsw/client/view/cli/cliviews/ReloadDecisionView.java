@@ -10,6 +10,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  * @author Luca Guffanti
  */
 public class ReloadDecisionView implements CliView{
+    /**
+     * Prompts that a client should decide whether to reload or start a new game
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("FOUND A COMPATIBLE SAVED GAME");

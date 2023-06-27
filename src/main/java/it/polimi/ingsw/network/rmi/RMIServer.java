@@ -25,6 +25,9 @@ import java.util.Map;
  * @author Luca Guffanti
  */
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface{
+    /**
+     * The server network handler
+     */
     ServerNetworkHandler serverNetworkHandler;
     public RMIServer(String RMIServiceName, String ip, int port, ServerNetworkHandler serverNetworkHandler) throws RemoteException {
         super();

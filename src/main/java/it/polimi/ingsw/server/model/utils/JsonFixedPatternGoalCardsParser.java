@@ -107,7 +107,7 @@ public class JsonFixedPatternGoalCardsParser {
     );
 
     /**
-     * This methods builds a list of personal goal cards starting from data contained in a json file
+     * This method builds a list of personal goal cards starting from data contained in a json file
      * @param path path to the json file
      * @return a list of personal goal cards obtained from the file
      * @throws IOException thrown if some error occurs during the parsing of the file

@@ -19,19 +19,20 @@ public class PingMessageHandler extends Reducer implements Creator {
         return new PingRequestMessage(username, ServerNetworkHandler.HOSTNAME);
     }
 
+    /**
+     * This method returns the state when a client is pinged
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;
-        PingRequestMessage pingRequestMessage = (PingRequestMessage) m;
-
         try {
             state = (ClientState) oldClientState.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
-
-        // @TODO: Handle the ping request
-
 
         return state;
     }

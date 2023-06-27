@@ -2,16 +2,11 @@ package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.view.cli.CLIMessages;
-import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.EndOfTurnMessage;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.server.model.cards.ObjectTypeEnum;
-import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,7 +17,12 @@ import java.util.List;
  * @author Daniele Ferrario
  */
 public class EndOfTurnMessageHandler extends Reducer {
-
+    /**
+     * This method updates client side data with information about the newly ended turn
+     * @param oldClientState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){
         ClientState state = null;

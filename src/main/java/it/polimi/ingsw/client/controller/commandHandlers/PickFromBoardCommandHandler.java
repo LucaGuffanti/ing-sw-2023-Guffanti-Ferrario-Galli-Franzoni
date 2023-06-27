@@ -21,12 +21,20 @@ import java.util.*;
  * @author Daniele Ferrario, Luca Guffanti
  */
 public class PickFromBoardCommandHandler extends CliCommandHandler{
+    /**
+     * Game phases in which the command is available
+     */
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.PICK_FORM_BOARD
     ));
 
-
+    /**
+     * The label of the command: the string that should be inserted to invoke the command
+     */
     public final static String commandLabel = "/pb";
+    /**
+     * The description of the command
+     */
     public final static String commandDescription = "Pick Form Board Command\n\n" +
             "Usage: "+commandLabel+" x1 y1 [x2 y2 x3 y3] with xi yi being the coordinates of the cards you want to pick.\n" +
             "Remember that the tiles you pick must be adjacent on either the horizontal or vertical axis, and that you can't pick\n" +
@@ -37,7 +45,13 @@ public class PickFromBoardCommandHandler extends CliCommandHandler{
         super(cli);
     }
 
-
+    /**
+     * After the correct checks are made, this method submits a tiles pick to the server
+     * @param commandInput The user's input
+     * @param state the state of the client
+     * @throws CommandNotAvailableInThisPhaseException thrown if the command is not available in a given phase
+     * @throws BadlyFormattedParametersException thrown if the command presents badly formatted parameters
+     * */
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
         List<String> parameters = super.splitAndTrimInput(commandInput);

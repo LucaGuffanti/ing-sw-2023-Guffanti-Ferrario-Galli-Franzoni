@@ -11,6 +11,12 @@ import it.polimi.ingsw.network.messages.Message;
  * @author Luca Guffanti
  */
 public class FoundSavedGameMessageHandler extends Reducer {
+    /**
+     * This method sets the phase to DECIDING_FOR_RELOAD
+     * @param oldState The old state
+     * @param m The received message
+     * @return the new state of the client
+     */
     @Override
     public ClientState reduce(ClientState oldState, Message m) {
         ClientState state = null;

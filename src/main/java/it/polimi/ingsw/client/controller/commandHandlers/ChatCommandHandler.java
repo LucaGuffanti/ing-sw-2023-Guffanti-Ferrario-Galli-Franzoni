@@ -3,13 +3,9 @@ package it.polimi.ingsw.client.controller.commandHandlers;
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.exceptions.BadlyFormattedParametersException;
 import it.polimi.ingsw.client.controller.exceptions.CommandNotAvailableInThisPhaseException;
-import it.polimi.ingsw.client.controller.messageHandling.messageHandlers.LoginMessageHandler;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
-import it.polimi.ingsw.client.view.cli.Printer;
 import it.polimi.ingsw.network.messages.ChatMessage;
-import it.polimi.ingsw.network.messages.LoginRequestMessage;
-import it.polimi.ingsw.network.utils.Logger;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,6 +19,9 @@ import java.util.List;
  * @author Luca Guffanti
  */
 public class ChatCommandHandler extends CliCommandHandler{
+    /**
+     * Game phases in which the command is available
+     */
     private final HashSet<ClientPhasesEnum> availablePhases = new HashSet<>(Arrays.asList(
             ClientPhasesEnum.LOBBY,
             ClientPhasesEnum.DECIDING_FOR_RELOAD,
@@ -32,8 +31,13 @@ public class ChatCommandHandler extends CliCommandHandler{
             ClientPhasesEnum.FINAL_RESULTS_SHOW
     ));
 
-
+    /**
+     * The label of the command: the string that should be inserted to invoke the command
+     */
     public final static String commandLabel = "/send";
+    /**
+     * The description of the command
+     */
     public final static String commandDescription = "Broadcast a message or send private messages.\n\n" +
             "Usage:\n"+
             "/send message_you_want_to_send                                 to broadcast a message\n" +
@@ -47,7 +51,13 @@ public class ChatCommandHandler extends CliCommandHandler{
         super(cli);
     }
 
-
+    /**
+     * After the correct checks are made, this method generates a chat message and submits it to the server
+     * @param commandInput The user's input
+     * @param state the state of the client
+     * @throws BadlyFormattedParametersException thrown if parameters are badly formatted
+     * @throws CommandNotAvailableInThisPhaseException thrown if the command is not available in a given phase
+     */
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
         this.clientState = state;
@@ -100,11 +110,12 @@ public class ChatCommandHandler extends CliCommandHandler{
      * This method checks whether the parameters for the chat command are correct:
      *  the command must be at least two tokens long (i.e. /send hello) and the recipient must be a logged in
      *  player and must not be the sending player
+     * @param parameters the parameters of the command
      */
     @Override
     protected boolean checkParameters(List<String> parameters) {
         StringBuilder recipient = new StringBuilder();
-        if (parameters.size()<1) {
+        if (parameters.size()<1 || parameters.get(0).equals("")) {
             return false;
         } else {
             if (parameters.contains(receiversTag)) {

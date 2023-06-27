@@ -11,10 +11,21 @@ import java.net.UnknownHostException;
  * @author Luca Guffanti
  */
 public class ServerConfigurationData {
-
+    /**
+     * The ip address of the server
+     */
     private String ipAddress;
+    /**
+     * The socket port
+     */
     private int socketPort;
+    /**
+     * The RMI service name
+     */
     private String RMIRegistryServiceName;
+    /**
+     * The RMI port
+     */
     private int rmiPort;
     public ServerConfigurationData() {
         try {

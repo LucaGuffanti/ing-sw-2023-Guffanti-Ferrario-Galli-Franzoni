@@ -23,6 +23,11 @@ public class PutInShelfPhase extends TurnPhase{
         super(game, controller);
     }
 
+    /**
+     * This method validates a received message
+     * @param message the message to validate
+     * @return whether the message is valid
+     */
     @Override
     public boolean validate(Message message) {
         // the message must be an instance of selectColumnMessage

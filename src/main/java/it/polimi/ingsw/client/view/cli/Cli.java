@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.commandHandlers.CliCommandHandler;
+import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.controller.stateController.StateContainer;
 import it.polimi.ingsw.client.view.UserInterface;
 import it.polimi.ingsw.client.view.cli.cliviews.*;
@@ -64,6 +65,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
 
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.LOGIN, new LoginView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.NOT_JOINED, new NotJoinedView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.ALREADY_STARTED, new AlreadyStartedView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.PICK_PLAYERS, new PickPlayersView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.WAITING_FOR_LOBBY, new WaitingForLobbyView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.LOBBY, new LobbyView());
@@ -73,6 +75,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.SELECT_COLUMN, new SelectColumnView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.ABORTED_GAME, new GameAbortedView());
         defaultViewsPerPhasesMap.put(ClientPhasesEnum.FINAL_RESULTS_SHOW, new EndGameResultsView());
+        defaultViewsPerPhasesMap.put(ClientPhasesEnum.NOT_ADMITTED, new NotAdmittedView());
 
         stateContainer.addPropertyChangeListener(this::propertyChange);
     }
@@ -102,12 +105,19 @@ public class Cli implements UserInterface, PropertyChangeListener {
         Printer.title("YOU CAN NOW WRITE AND SUBMIT COMMANDS");
     }
 
+    /**
+     * This method sets the view to game aborted
+     */
     @Override
     public void onGameAborted() {
         CliView cli = new GameAbortedView();
         cli.render(null);
     }
 
+    /**
+     * This method prints the error message
+     * @param msg the error message
+     */
     @Override
     public void printErrorMessage(String msg) {
         Printer.error(msg);
@@ -201,7 +211,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
      * Dispatch the message to the network handler.
      * Called after a Command handler execution.
      *
-     * @param message
+     * @param message the message that should be dispatched to the network
      * @see CliCommandHandler
      */
     public void dispatchMessageToNetwork(Message message){
@@ -227,7 +237,7 @@ public class Cli implements UserInterface, PropertyChangeListener {
      * Renders the default view associated to the current clientPhase
      * described in ClientState
      *
-     * @see it.polimi.ingsw.client.controller.stateController.ClientState
+     * @see ClientState
      */
     private void renderCurrentPhaseDefaultView(){
         CliView cliView = defaultViewsPerPhasesMap.get(stateContainer.getCurrentState().getCurrentPhase());

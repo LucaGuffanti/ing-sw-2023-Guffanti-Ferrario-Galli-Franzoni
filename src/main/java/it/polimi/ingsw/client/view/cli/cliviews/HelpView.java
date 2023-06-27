@@ -23,8 +23,13 @@ public class HelpView implements CliView {
         inputCommandMapToDescription.put(ChatCommandHandler.commandLabel, ChatCommandHandler.commandDescription);
         inputCommandMapToDescription.put(HelpCommandHandler.commandLabel, HelpCommandHandler.commandDescription);
         inputCommandMapToDescription.put(ReloadGameCommandHandler.commandLabel, ReloadGameCommandHandler.commandDescription);
-
+        inputCommandMapToDescription.put(QuitCommandHandler.commandLabel, QuitCommandHandler.commandDescription);
     }
+
+    /**
+     * Displays the help page and the list of all possible commands
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("HELP PAGE");

@@ -20,30 +20,60 @@ public class Logger {
 
     private static final String UNDERLINED = "\u001B[4m";
     private static final String BOLD = "\033[1m";
+
+    /**
+     * Prints a green coloured message
+     * @param msg the message to be printed
+     */
     public static void networkInfo(String msg) {
         System.out.println(ANSI_GREEN+ ServerNetworkHandler.HOSTNAME +": "+msg+ANSI_RESET);
     }
+    /**
+     * Prints a yellow coloured message
+     * @param msg the message to be printed
+     */
     public static void networkWarning(String msg) {
         System.out.println(ANSI_YELLOW+ ServerNetworkHandler.HOSTNAME+": "+msg+ANSI_RESET);
     }
+    /**
+     * Prints a red coloured message
+     * @param msg the message to be printed
+     */
     public static void networkCritical(String msg) {
         System.out.println(ANSI_RED+ ServerNetworkHandler.HOSTNAME+": "+msg+ANSI_RESET);
     }
-
+    /**
+     * Prints a cyan underlined message
+     * @param msg the message to be printed
+     */
     public static void controllerInfo(String msg) {
         System.out.println(ANSI_CYAN+UNDERLINED+ GameController.NAME +": "+msg+ANSI_RESET);
     }
+    /**
+     * Prints a yellow underlined message
+     * @param msg the message to be printed
+     */
     public static void controllerWarning(String msg) {
         System.out.println(ANSI_YELLOW+UNDERLINED+ GameController.NAME+": "+msg+ANSI_RESET);
     }
+    /**
+     * Prints a red underlined message
+     * @param msg the message to be printed
+     */
     public static void controllerError(String msg) {
         System.out.println(ANSI_RED+UNDERLINED+ GameController.NAME+": "+msg+ANSI_RESET);
     }
-
+    /**
+     * Prints a purple bold message
+     * @param msg the message to be printed
+     */
     public static void externalInjection(String msg) {
         System.out.println(ANSI_PURPLE+BOLD+"EXTERNAL: "+msg+ANSI_RESET);
     }
-
+    /**
+     * Prints a yellow bold message
+     * @param msg the message to be printed
+     */
     public static void pingerInfo(String msg) {
         System.out.println(ANSI_YELLOW+BOLD+"PINGER: "+msg+ANSI_RESET);
     }

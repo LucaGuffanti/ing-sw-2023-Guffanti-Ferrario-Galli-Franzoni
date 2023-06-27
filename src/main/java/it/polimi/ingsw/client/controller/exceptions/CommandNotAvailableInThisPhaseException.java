@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 /**
  * This exception is thrown when the requested command is not available in a particular phase
  * @see ClientPhasesEnum
+ * @author Daniele Ferrario
  */
 public class CommandNotAvailableInThisPhaseException extends CliCommandException{
     public CommandNotAvailableInThisPhaseException() {

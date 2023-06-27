@@ -10,6 +10,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  */
 public class PickPlayersView implements CliView{
 
+    /**
+     * Prompts the client to enter the number of players
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("YOU'RE THE ADMIN OF THE LOBBY");

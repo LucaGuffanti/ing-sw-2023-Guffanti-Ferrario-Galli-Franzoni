@@ -28,6 +28,11 @@ public class PickFromBoardPhase extends TurnPhase{
         super(game, controller);
     }
 
+    /**
+     * This method validates a message
+     * @param message the message to validate
+     * @return whether the message is valid
+     */
     @Override
     public boolean validate(Message message) {
 

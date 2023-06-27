@@ -21,7 +21,6 @@ import java.util.List;
  * It's an abstract class that is extended by {@link RMIClient} and {@link SocketClient}.
  */
 public abstract class ClientNetworkHandler extends UnicastRemoteObject implements Serializable {
-    protected List<Message> messageQueue;
     protected ClientManager manager;
     protected String name;
     protected StateContainer stateContainer;
@@ -29,9 +28,7 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
     public ClientNetworkHandler(StateContainer stateContainer, ClientManager clientManager) throws RemoteException {
         super();
         this.stateContainer = stateContainer;
-        messageQueue = new ArrayList<>();
         this.manager = clientManager;
-        // new MessageRetriever().start();
     }
 
     /**
@@ -52,7 +49,6 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
         //Logger.externalInjection("Managing "+received.getType());
         // It's useless to make the ping message exit the client network handler
         if (received.getType().equals(MessageType.PING_REQUEST)) {
-            //System.out.println("Sending ping request to server");
             this.sendMessage(
                     new PingRequestMessage(
                             name,
@@ -63,21 +59,6 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
             // Reduce current state with message payload
             stateContainer.updateState(received);
         }
-    }
-
-    /**
-     * This method retrieves messages from the messageQueue, an object that contains messages as they are received by
-     * the client.
-     * @return the list of messages held in the network interface
-     */
-    private List<Message> retrieveMessagesFromInterface() {
-        List<Message> list;
-        synchronized (messageQueue) {
-            list = new ArrayList<>(messageQueue);
-            messageQueue.clear();
-        }
-        //System.out.println("retrieved "+ list.size()+ " message");
-        return list;
     }
 
     /**
@@ -114,40 +95,6 @@ public abstract class ClientNetworkHandler extends UnicastRemoteObject implement
         System.exit(1);
     }
 
-
-    public List<Message> getMessageQueue() {
-        return messageQueue;
-    }
-
-
-    /**
-     * The message retriever accesses the message queue and,
-     * for every retrieved message, commands the
-     */
-    class MessageRetriever extends Thread {
-        @Override
-        public void run() {
-            while(!Thread.currentThread().isInterrupted()) {
-                List<Message> queuedMessages;
-                synchronized (messageQueue) {
-                    while (messageQueue.size()==0) {
-                        try {
-                            messageQueue.wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    queuedMessages = retrieveMessagesFromInterface();
-                }
-                for (int i = 0; i < queuedMessages.size(); i++) {
-                    Logger.externalInjection("SUBMITTING "+ queuedMessages.get(0).getType());
-                    handleIncomingMessage(queuedMessages.get(0));
-                    queuedMessages.remove(0);
-                }
-            }
-        }
-    }
     public void setName(String name) {
         this.name = name;
     }

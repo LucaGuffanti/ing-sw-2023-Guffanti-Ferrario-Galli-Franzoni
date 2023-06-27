@@ -9,9 +9,19 @@ import java.io.Serializable;
  * @author Luca Guffanti
  */
 public abstract class ClientConnection implements Serializable {
-
+    /**
+     * Whether the client is connected
+     */
     private boolean isConnected;
+    /**
+     * The username
+     */
     private String name;
+
+    /**
+     * This method sends a message through the network
+     * @param m the message to be sent
+     */
     public abstract void sendMessage(Message m);
 
     public ClientConnection(boolean isConnected) {

@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.client.view.cli.cliviews.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,8 +20,13 @@ import java.util.List;
  * @author Luca Guffanti
  */
 public class ShowViewCommandHandler extends CliCommandHandler{
-
+    /**
+     * The label of the command: the string that should be inserted to invoke the command
+     */
     public final static String commandLabel = "/show";
+    /**
+     * The description of the command
+     */
     public final static String commandDescription = "Change View Command\n\n" +
             "Usage: \n"+
             "/show board   : shows the board\n"+
@@ -59,6 +63,13 @@ public class ShowViewCommandHandler extends CliCommandHandler{
         availablePhases.put("points", List.of(ClientPhasesEnum.WAITING_FOR_TURN, ClientPhasesEnum.PICK_FORM_BOARD, ClientPhasesEnum.SELECT_COLUMN, ClientPhasesEnum.FINAL_RESULTS_SHOW));
 
     }
+    /**
+     * After the correct checks are made, this method calls the display of a particular view
+     * @param commandInput The user's input
+     * @param state the state of the client
+     * @throws CommandNotAvailableInThisPhaseException thrown if the command is not available in a given phase
+     * @throws BadlyFormattedParametersException thrown if the command presents badly formatted parameters
+     * */
     @Override
     public void execute(String commandInput, ClientState state) throws BadlyFormattedParametersException, CommandNotAvailableInThisPhaseException {
         List<String> parameters = super.splitAndTrimInput(commandInput);

@@ -21,7 +21,13 @@ import java.util.Scanner;
  * This object contains methods that save and load a game state to and from disk
  */
 public class SaveFileManager {
-
+    /**
+     * This method saves a game state
+     * @param g the game
+     * @param controller the game controller
+     * @param pathToDir the path to the save file directory
+     * @param pathToFile the path to the save file
+     */
     public static void saveGameState(Game g, GameController controller, String pathToDir, String pathToFile) {
         try {
             Logger.controllerInfo("SAVING GAME STATE");
@@ -60,6 +66,12 @@ public class SaveFileManager {
 
     }
 
+    /**
+     * This method loads a saved game state
+     * @param file the file containing the save
+     * @return the loaded saved data
+     * @throws IOException thrown if something goes wrong during the reading of the file
+     */
     public static SaveFileData loadGameState(File file) throws IOException {
         FileInputStream in = new FileInputStream(file);
         StringBuilder builder = new StringBuilder();

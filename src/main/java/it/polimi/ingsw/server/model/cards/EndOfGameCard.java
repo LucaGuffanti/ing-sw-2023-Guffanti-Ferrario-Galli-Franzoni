@@ -11,7 +11,7 @@ public class EndOfGameCard {
      */
     private boolean isAssigned;
     /**
-     * The number of points that
+     * The number of points that are assigned by the end of game card
      */
     private final int pointsAssigned = 1;
     public EndOfGameCard() {

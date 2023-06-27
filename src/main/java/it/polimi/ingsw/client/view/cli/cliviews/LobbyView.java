@@ -9,6 +9,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  */
 public class LobbyView implements CliView {
 
+    /**
+     * Displays the users of the lobby
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("GAME LOBBY");

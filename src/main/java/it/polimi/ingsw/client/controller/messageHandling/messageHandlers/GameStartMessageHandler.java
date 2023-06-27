@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.controller.messageHandling.messageHandlers;
 
-import it.polimi.ingsw.client.controller.ClientPhasesEnum;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.network.messages.GameStartMessage;
@@ -20,8 +19,8 @@ public class GameStartMessageHandler extends Reducer {
      *  Sets the OrderedPlayers list, the user's Personal Goal Card,
      *  Common Goal Cards and the Board in the beginning of the game.
      *
-     * @param oldClientState
-     * @param m
+     * @param oldClientState the old state of the client
+     * @param m the received message
      * @return The next state of the app.
      */
     @Override
@@ -45,7 +44,6 @@ public class GameStartMessageHandler extends Reducer {
         state.setCommonGoalCards(gameStartMessage.getClientCommonGoalCards());
         state.setBoard(gameStartMessage.getClientBoard());
         state.setShelves(gameStartMessage.getShelves());
-        //state.setCurrentPhase(ClientPhasesEnum.WAITING_FOR_TURN);
         state.setFirstToCompleteShelf(gameStartMessage.getFirstToCompleteTheShelf());
 
         return state;

@@ -9,6 +9,10 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
  * @author Luca Guffanti
  */
 public class PointsView implements CliView{
+    /**
+     * Displays the points achieved by every player
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("POINTS");

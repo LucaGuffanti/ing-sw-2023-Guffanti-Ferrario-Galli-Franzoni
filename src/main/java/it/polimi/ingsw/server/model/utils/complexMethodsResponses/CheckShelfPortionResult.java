@@ -17,7 +17,9 @@ public class CheckShelfPortionResult {
      * The type that may need to be shared by cells in the analyzed portion of the shelf
      */
     private Optional<ObjectTypeEnum> commonType;
-
+    /**
+     * The matrix of cells which match the patters
+     */
     private boolean[][] updatedFoundCellsMatrix;
     public CheckShelfPortionResult(boolean valid, Optional<ObjectTypeEnum> commonType, boolean[][] updatedFoundCellsMatrix) {
         this.valid = valid;

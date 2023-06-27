@@ -10,6 +10,10 @@ import it.polimi.ingsw.client.view.cli.Printer;
  */
 public class GameAbortedView implements CliView{
 
+    /**
+     * Displays the message that the game is aborted
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.title("THE GAME IS ABORTED");

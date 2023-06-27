@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.cli.cliviews;
 
 import it.polimi.ingsw.client.controller.stateController.ClientState;
 import it.polimi.ingsw.client.view.cli.Printer;
-import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 
 /**
  * The pick from board view displays a prompt to the user reminding it to pick a tile from the board.
@@ -12,6 +11,10 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
  */
 public class PickFromBoardView implements CliView {
 
+    /**
+     * Displays the board and prompts the client to choose the tile to pick
+     * @param state the state of the client
+     */
     @Override
     public void render(ClientState state) {
         Printer.printPlayerName("Your Turn, "+state.getActivePlayer());

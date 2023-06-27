@@ -10,7 +10,13 @@ import it.polimi.ingsw.network.messages.Message;
  * it contains methods that are overridden based on the specific phase the turn may be in
  */
 public abstract class TurnPhase {
+    /**
+     * The game
+     */
     protected Game game;
+    /**
+     * The game controller
+     */
     protected GameController controller;
 
     public TurnPhase(Game game, GameController controller) {

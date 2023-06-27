@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.controller.messageHandling.Creator;
 import it.polimi.ingsw.client.controller.messageHandling.Reducer;
 import it.polimi.ingsw.client.controller.messageHandling.MessageHandlersUtils;
 import it.polimi.ingsw.client.controller.stateController.ClientState;
-import it.polimi.ingsw.client.view.cli.Cli;
 import it.polimi.ingsw.client.view.gui.Gui;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SelectColumnMessage;
@@ -30,9 +29,9 @@ public class SelectColumnMessageHandler extends Reducer implements Creator {
 
     /**
      * Check if the column selection request has been validated by the server.
-     * @param oldClientState
-     * @param m
-     * @return
+     * @param oldClientState the old client state
+     * @param m the received message
+     * @return the new client state
      */
     @Override
     public ClientState reduce(ClientState oldClientState, Message m){

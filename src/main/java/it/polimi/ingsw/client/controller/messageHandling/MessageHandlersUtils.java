@@ -9,6 +9,11 @@ import it.polimi.ingsw.network.messages.enums.ResponseResultType;
  */
 public class MessageHandlersUtils {
 
+    /**
+     *
+     * @param m a message to be checked
+     * @return whether the message payload contains a positive result
+     */
     public static boolean isSuccessful(MessageWithResult m) {
         return m.getResultType().equals(ResponseResultType.SUCCESS);
     }
