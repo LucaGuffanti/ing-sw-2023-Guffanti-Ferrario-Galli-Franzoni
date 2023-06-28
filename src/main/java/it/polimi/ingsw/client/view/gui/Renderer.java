@@ -402,10 +402,22 @@ public class Renderer {
 
         for(ChatMessage msg : messageList) {
             Label messageText = new Label(Renderer.printChatMessage(msg, username));
-            messageText.setWrapText(true);
-            messageText.setMaxWidth(300);
-            messageText.setPrefWidth(300);
+            //.setWrapText(true);
+            messageText.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            //messageText.setPrefWidth(300);
             messages.getItems().add(0, messageText);
         }
+    }
+
+    /**
+     * This method renders a new message to the chat
+     * @param chatMessage the chat message
+     * @param name the name of the user
+     * @param messages the list of messages
+     */
+    public static void renderNewMessage(ChatMessage chatMessage, String name, ListView<Label> messages) {
+        Label label = new Label(Renderer.printChatMessage(chatMessage, name));
+        label.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        messages.getItems().add(0, label);
     }
 }

@@ -419,11 +419,7 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
         if (!chatMessage.getSenderUsername().equals(username)) {
-            Label messageText = new Label(Renderer.printChatMessage(chatMessage, username));
-            messageText.setWrapText(true);
-            messageText.setMaxWidth(300);
-            messageText.setPrefWidth(300);
-            messages.getItems().add(0, messageText);
+            Renderer.renderNewMessage(chatMessage, username, messages);
             System.out.println("printing chat message from outside");
         }
     }
@@ -470,13 +466,8 @@ public class Scene4BoardSceneController implements GameSceneController, Initiali
             ClientManager.getInstance().getNetworkHandler().sendMessage(
                     chatMessage
             );
-            Label messageLabel = new Label(Renderer.printChatMessage(chatMessage, name));
-            messageLabel.setWrapText(true);
-            messageLabel.setMaxWidth(300);
-            messageText.setPrefWidth(300);
-
-            messageText.setText("");
-            messages.getItems().add(0, messageLabel);
+            Renderer.renderNewMessage(chatMessage, name, messages);
+            messageText.clear();
             System.out.println("printing chat message from inside");
         }
     }
