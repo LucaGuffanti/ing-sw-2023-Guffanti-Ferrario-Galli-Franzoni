@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -55,7 +56,13 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
      * The list of messages in chat
      */
     @FXML
-    private ListView messages;
+    private VBox messages;
+
+    /**
+     * The scroll pane of the chat
+     */
+    @FXML
+    private ScrollPane scrollChat;
 
     /**
      * The text field in chat where a player writes a message
@@ -164,7 +171,7 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
         if (!chatMessage.getSenderUsername().equals(username)) {
-            Renderer.renderNewMessage(chatMessage, username, messages);
+            Renderer.renderNewMessage(chatMessage, username, messages, scrollChat);
             System.out.println("printing chat message from outside");
         }
     }
@@ -196,7 +203,7 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
             ClientManager.getInstance().getNetworkHandler().sendMessage(
                     chatMessage
             );
-            Renderer.renderNewMessage(chatMessage, name, messages);
+            Renderer.renderNewMessage(chatMessage, name, messages, scrollChat);
             messageText.clear();
             System.out.println("printing chat message from inside");
         }
@@ -265,7 +272,7 @@ public class Scene5FinalResultsController implements GameSceneController, Initia
             recipientMenu.setText("all");
         });
 
-        Renderer.renderMessages(messages, state.getUsername());
+        Renderer.renderMessages(messages, state.getUsername(), scrollChat);
     }
 
     /**

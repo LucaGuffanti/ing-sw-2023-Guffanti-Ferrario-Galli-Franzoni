@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -34,7 +35,13 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
      * The list of messages in chat
      */
     @FXML
-    private ListView messages;
+    private VBox messages;
+
+    /**
+     * The scroll pane of the chat
+     */
+    @FXML
+    private ScrollPane scrollChat;
 
     /**
      * The text field in chat where a player writes a message
@@ -147,7 +154,7 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
     public void updateChat(ChatMessage chatMessage) {
         String username = ClientManager.getInstance().getStateContainer().getCurrentState().getUsername();
         if (!chatMessage.getSenderUsername().equals(username)) {
-            Renderer.renderNewMessage(chatMessage, username, messages);
+            Renderer.renderNewMessage(chatMessage, username, messages, scrollChat);
             System.out.println("printing chat message from outside");
         }
     }
@@ -195,7 +202,7 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
                     chatMessage
             );
 
-            Renderer.renderNewMessage(chatMessage, name, messages);
+            Renderer.renderNewMessage(chatMessage, name, messages, scrollChat);
             messageText.clear();
             System.out.println("printing chat message from inside");
         }
@@ -236,7 +243,7 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
             recipientMenu.setText("all");
         });
 
-        Renderer.renderMessages(messages, state.getUsername());
+        Renderer.renderMessages(messages, state.getUsername(), scrollChat);
     }
 
     /**

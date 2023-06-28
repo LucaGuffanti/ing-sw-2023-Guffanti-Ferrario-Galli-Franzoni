@@ -9,9 +9,11 @@ import it.polimi.ingsw.server.model.cards.goalCards.SimplifiedCommonGoalCard;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -391,21 +393,17 @@ public class Renderer {
      * @param messages chat container
      * @param username username of player
      */
-    public static void renderMessages(ListView<Label> messages, String username) {
+    public static void renderMessages(VBox messages, String username, ScrollPane scrollChat) {
         List<ChatMessage> messageList;
         List<ChatMessage> chat = ClientManager.getInstance().getStateContainer().getCurrentState().getChatHistory();
         synchronized (chat) {
             messageList = new ArrayList<>(chat);
         }
 
-        messages.getItems().clear();
+        messages.getChildren().clear();
 
         for(ChatMessage msg : messageList) {
-            Label messageText = new Label(Renderer.printChatMessage(msg, username));
-            //.setWrapText(true);
-            messageText.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            //messageText.setPrefWidth(300);
-            messages.getItems().add(0, messageText);
+            renderNewMessage(msg, username, messages, scrollChat);
         }
     }
 
@@ -415,9 +413,10 @@ public class Renderer {
      * @param name the name of the user
      * @param messages the list of messages
      */
-    public static void renderNewMessage(ChatMessage chatMessage, String name, ListView<Label> messages) {
-        Label label = new Label(Renderer.printChatMessage(chatMessage, name));
-        label.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        messages.getItems().add(0, label);
+    public static void renderNewMessage(ChatMessage chatMessage, String name, VBox messages, ScrollPane scrollChat) {
+        Text text = new Text(Renderer.printChatMessage(chatMessage, name));
+        text.setWrappingWidth(370);
+        messages.getChildren().add(text);
+        scrollChat.vvalueProperty().bind(messages.heightProperty());
     }
 }
