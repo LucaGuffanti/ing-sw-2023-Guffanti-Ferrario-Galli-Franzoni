@@ -271,7 +271,11 @@ public class Scene3LoadGameController implements GameSceneController, Initializa
      */
     @Override
     public void setTypedMessagePlayer(String message, String player) {
-        messageText.setText(message);
+        if (message.equals("")) {
+            messageText.clear();
+        } else {
+            messageText.setText(message);
+        }
         recipientMenu.setText(player);
         int i = 0;
         boolean found = false;
