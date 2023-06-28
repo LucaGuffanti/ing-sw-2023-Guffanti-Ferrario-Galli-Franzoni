@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.GoalCardsDeckSingleton;
 import it.polimi.ingsw.server.model.cards.PointCard;
 import it.polimi.ingsw.server.model.cards.PointEnumeration;
 import it.polimi.ingsw.server.model.cards.goalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.cards.goalCards.SnakesCommonGoalCard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Shelf;
 import it.polimi.ingsw.server.model.utils.CsvToShelfParser;
@@ -24,6 +25,18 @@ public class CommonGoalCardTest {
 
     final private static GoalCardsDeckSingleton goalCardsDeckSingleton = GoalCardsDeckSingleton.getInstance();
     final String ROOT_SHELF_CSV_PATH = "src/test/resources/shelfTEST/";
+
+    @Test
+    public void emptyCardReturns0PointsTest(){
+        CommonGoalCard c = new SnakesCommonGoalCard("id");
+        c.setPointsCards(new ArrayList<>());
+
+        assertEquals(0, c.calculatePoints(new Player("test")));
+        CommonGoalCard c2 = new SnakesCommonGoalCard((SnakesCommonGoalCard) c);
+
+        assertEquals(0, c2.getPointsCards().size());
+
+    }
 
     // Card 0
     @Test

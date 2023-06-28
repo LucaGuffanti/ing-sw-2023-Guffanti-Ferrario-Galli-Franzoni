@@ -50,7 +50,6 @@ public abstract class CommonGoalCard extends GoalCard {
     public int calculatePoints(Player player){
 
         // If there are no more pointsCards, don't compute the pattern matching algorithm
-        // @TODO: Maybe rise an exception
 
         if(pointsCards.size() == 0){
             return 0;
