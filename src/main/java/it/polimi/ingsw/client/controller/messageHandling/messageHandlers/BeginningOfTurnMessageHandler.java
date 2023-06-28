@@ -18,7 +18,7 @@ public class BeginningOfTurnMessageHandler extends Reducer {
 
     /**
      * This method updates the phase to ABORTED
-     * @param oldState The old state
+     * @param oldClientState The old state
      * @param m The received message
      * @return the new client state
      */

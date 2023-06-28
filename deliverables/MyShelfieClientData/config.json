@@ -1,0 +1,6 @@
+{
+  "serverIP": "127.0.0.1",
+  "serverPort": 5000,
+  "serverRMIRegistry": "",
+  "rmiPort": 1099
+}

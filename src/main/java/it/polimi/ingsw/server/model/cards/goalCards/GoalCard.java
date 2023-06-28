@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.player.Player;
  * A Goal Card contains a pattern which players aim to
  * reproduce in their shelf in order to gain points.
  *
- * @author Daniele ferrario
+ * @author Daniele Ferrario
  */
 public abstract class GoalCard {
     /**
