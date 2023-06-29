@@ -142,9 +142,10 @@ public class RMIClient extends ClientNetworkHandler implements RMIClientInterfac
                     Thread.currentThread().interrupt();
                     break;
                 } catch (InterruptedException e) {
-                    System.out.println("Could not wait");
+                    System.out.println("Pinger Could not wait");
                     Thread.currentThread().interrupt();
-                    throw new RuntimeException(e);
+                    onConnectionLost();
+                    //throw new RuntimeException(e);
                 }
             }
         }
