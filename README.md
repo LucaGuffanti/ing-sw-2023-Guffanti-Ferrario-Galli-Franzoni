@@ -32,12 +32,12 @@ The final version includes:
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
 | Basic rules |✅|
-| Complete rules | ✅
+| Complete rules |✅|
 | Socket |✅|
 | RMI |✅|
-| GUI | ✅
-| CLI | ✅ |
-| Chat| ✅|
+| GUI |✅|
+| CLI |✅|
+| Chat|✅|
 | Persistence |✅|
 | Multiple games | ⛔|
 | Disconnection resilience | ⛔|
@@ -45,20 +45,38 @@ The final version includes:
 #### Legend
 [⛔]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[✅]() Implemented
 
-<!--
+## Usage
+**Running the game on Windows**
+After cloning the repo, start the server app through the relative Jar file. Now run the client app through the relative Jar. Both Jar's are located in`/deliverables/final/jar` folder.  
+
+
+
+```bash
+git clone  https://github.com/LucaGuffanti/ing-sw-2023-Guffanti-Ferrario-Galli-Franzoni
+cd /ing-sw-2023-Guffanti-Ferrario-Galli-Franzoni/deliverables/final/jar
+java -jar PSP17-server.jar
+java -jar PSP17-client.jar
+```
+
+
+
+**Compiling the game using IntelliJ Idea**
+To correctly compile the apps, firstly copy the copyrighted game assets folders into the `src/main/resources/images` folder. Then compile through Maven.
+
+** Notes **
+These Jars are built to run in a windows enviroment, however the game can be compiled and played on both Linux and MacOs systems. The minimum display resolution to correctly run the game on GUI is 1920x1080.
+
 ## Test cases
-All tests in model and controller has a classes' coverage at 100%.
 
 **Coverage criteria: code lines.**
 
 | Package |Tested Class | Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
-| Controller | ActionController | 115/135 (85%)
-| Controller | Controller | 50/54 (92%)
-| Controller | GodSelectionController | 42/47 (89%)
-| Controller | TurnControllerTest | 100/140 (71%)
-| Model | Global Package | 667/710 (93%)
--->
+| Controller | Global server package | 352/406 (86%)
+| Controller | Turn managing package | 73/82 (89%)
+| Model | Global Package | 919/1017 (90%)
+| Model | Game | 129/133 (96%)
+
 
 ## The Team
 * [Luca Guffanti](https://github.com/LucaGuffanti)
@@ -68,7 +86,7 @@ All tests in model and controller has a classes' coverage at 100%.
 
 
 ## Software used
-** ...** - sequence diagrams
+**Diagrams.net** - sequence diagrams
 
 **StarUML** - UML diagrams
 
