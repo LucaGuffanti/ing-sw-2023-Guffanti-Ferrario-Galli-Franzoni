@@ -47,28 +47,43 @@ The final version includes:
 
 ## Usage
 **Running the game on Windows**
-After cloning the repo, start the server app through the relative Jar file. Now run the client app through the relative Jar. Both Jar's are located in`/deliverables/final/jar` folder.  
 
-
-
+Clone the repo using the following command.
 ```bash
 git clone  https://github.com/LucaGuffanti/ing-sw-2023-Guffanti-Ferrario-Galli-Franzoni
+```
+Move into the newly generated folder
+
+```bash
 cd /ing-sw-2023-Guffanti-Ferrario-Galli-Franzoni/deliverables/final/jar
+```
+And, before trying to connect with clients, activate a server instance by writing
+```bash
 java -jar PSP17-server.jar
+```
+and follow the prompt that is presented on the screen.
+
+Once the server is active you can start the client by writing 
+```bash
 java -jar PSP17-client.jar
 ```
+in your terminal.
 
+Before you start playing, especially if it's the first time you open the program, you are required to insert network configuration data.
+Simply follow the prompts presented on the screen.
 
 
 **Compiling the game using IntelliJ Idea**
+
 To correctly compile the apps, firstly copy the copyrighted game assets folders into the `src/main/resources/images` folder. Then compile through Maven.
 
 ** Notes **
+
 These Jars are built to run in a windows enviroment, however the game can be compiled and played on both Linux and MacOs systems. The minimum display resolution to correctly run the game on GUI is 1920x1080.
 
 ## Test cases
 
-**Coverage criteria: code lines.**
+**Coverage criteria: code lines and important classes.**
 
 | Package |Tested Class | Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
