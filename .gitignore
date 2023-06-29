@@ -107,4 +107,6 @@ config/serverInfo.json
 /MyShelfieClientData/
 /MyShelfieServerData/
 
+.swp
+
 dependency-reduced-pom.xml
