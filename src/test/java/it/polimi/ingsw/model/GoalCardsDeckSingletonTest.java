@@ -93,10 +93,4 @@ class GoalCardsDeckSingletonTest {
         Throwable exception = assertThrows(WrongNumberOfPlayersException.class, () -> GoalCardsDeckSingleton.getInstance().pickPersonalGoals(5));
         assertEquals("Got " + 5 + " players. It should be between 2 and 4", exception.getMessage());
     }
-
-    /**
-    @Test
-    void correctCardsLoadingTest(){
-        assertDoesNotThrow(GoalCardsDeckSingleton::getInstance);
-    }*/
 }

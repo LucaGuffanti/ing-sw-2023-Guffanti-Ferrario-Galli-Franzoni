@@ -143,7 +143,6 @@ class ShelfTest {
      * @throws Exception if the read of the shelf from the csv file fails
      */
 
-    /*
     @Test
     void addCardsToColumn_ShouldBeImpossible() throws Exception {
         Shelf shelf = CsvToShelfParser.convert("src/test/resources/shelfTEST/fullShelf.csv");
@@ -152,10 +151,12 @@ class ShelfTest {
         ArrayList<ObjectCard> list = new ArrayList<>();
         for (int col = 0; col < shelf.getLengthInCells(); col++) {
             list.add(new ObjectCard(ObjectTypeEnum.TOY));
-            boolean res = shelf.addCardsToColumn(list, col);
-            assertFalse(res);
+            int finalCol = col;
+            assertThrows(Exception.class, ()->{
+                shelf.addCardsToColumn(list, finalCol);
+            });
         }
 
+
     }
-    */
 }

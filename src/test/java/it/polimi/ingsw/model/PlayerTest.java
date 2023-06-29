@@ -64,5 +64,9 @@ class PlayerTest {
             assertTrue(player.addCardsToShelf(list, col));
         }
         assertTrue(player.getAchievements().isCompletedShelf());
+
+        assertThrows(Exception.class, ()->{
+            Shelf shelf2 = CsvToShelfParser.convert("");
+        });
     }
 }

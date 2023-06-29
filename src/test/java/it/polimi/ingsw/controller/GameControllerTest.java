@@ -611,10 +611,6 @@ public class GameControllerTest {
         assertEquals("TestUser13"+1, gameCheckout.getWinner());
     }
 
-    /**
-     * Here goes the tests which aims to cover every possible event
-     * in the methods in a more specific way
-     */
 
 
     /**
@@ -622,15 +618,12 @@ public class GameControllerTest {
      */
     @Test
     public void endTurnFullMessageCreation() {
-
         GameController gameController1 = new GameController(new FakeServerNetworkHandler());
         gameController1.createGame("Daniele", 2, 0);
         gameController1.onPlayerJoin("Luca");
-        //gameController1.reloadExistingGame();
-        //gameController1.endTurn();
+        Logger.externalInjection("Forcing the Reload of a game");
+        gameController1.reloadExistingGame();
+        Logger.externalInjection("Forcing the end of turn");
+        gameController1.endTurn();
     }
-
-    //TODO ADD JAVADOC
-    //TODO ADD TEST CASE FOR THE END OF THE GAME (GAME FOR 2 PLAYERS, WITH THE SECOND PLAYER WITH SHELF FILLED WITH
-    // ONLY AN EMPTY SPACE)
 }

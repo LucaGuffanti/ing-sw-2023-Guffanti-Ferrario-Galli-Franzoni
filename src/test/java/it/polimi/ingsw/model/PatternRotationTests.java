@@ -132,30 +132,4 @@ public class PatternRotationTests {
 
         assertEquals(rotatedCoveredCells, card.getRotatedPattern().getCoveredCells());
     }
-/*
-    @Test
-    public void rotate1x2Test() {
-        Set<PatternCell> coveredCells = new HashSet<>();
-        coveredCells.add(new PatternCell(0,0, Optional.empty()));
-        coveredCells.add(new PatternCell(0,1, Optional.empty()));
-
-        Pattern pattern = new Pattern(2,1, coveredCells, 1, 1);
-
-        assertNotNull(pattern);
-
-        CommonPatternRules pr = new CommonPatternRules(pattern, 1,true,false,false);
-
-        Set<PatternCell> rotatedCoveredCells = new HashSet<>();
-        rotatedCoveredCells.add(new PatternCell(0,0, Optional.empty()));
-        rotatedCoveredCells.add(new PatternCell(1,0, Optional.empty()));
-
-
-        assertEquals(pr.getSubPattern().getLength(), pr.getRotatedSubPattern().getHeight());
-        assertEquals(pr.getSubPattern().getHeight(), pr.getRotatedSubPattern().getLength());
-        assertEquals(pr.getSubPattern().getMaxDifferentTypes(), pr.getRotatedSubPattern().getMaxDifferentTypes());
-        assertEquals(pr.getSubPattern().getMinDifferentTypes(), pr.getRotatedSubPattern().getMinDifferentTypes());
-
-        assertEquals(rotatedCoveredCells, pr.getRotatedSubPattern().getCoveredCells());
-    }*/
-
 }
