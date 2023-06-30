@@ -67,7 +67,7 @@ Once the server is active you can start the client by writing
 ```bash
 java -jar PSP17-client.jar
 ```
-in your terminal.
+in another terminal.
 
 Before you start playing, especially if it's the first time you open the program, you are required to insert network configuration data.
 Simply follow the prompts presented on the screen.
