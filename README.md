@@ -6,7 +6,7 @@ MyShelfie Board Game is the final test of **"Software Engineering"**, course of 
 
 **Teacher** : San Pietro Pierluigi
 
-**Final Score**: not yet evaluated
+**Final Score**: 30/30
 
 ## Project specification
 The project consists of a Java version of the board game *My Shelfie*, made by Cranio Creations.
